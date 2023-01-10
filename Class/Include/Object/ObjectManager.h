@@ -19,14 +19,26 @@ public: // メンバ関数
 	~ObjectManager();
 
 	// 初期化
-	// 全てのオブジェクトの実態を初期化
+	// 全てのオブジェクトの実態を（Objectで）初期化
 	void Initialize();
 	// 更新
-	// 全てのオブジェクトを更新
+	// 全てのオブジェクトを更新（Updateを呼び出す）
 	void Update();
 	// 描画
-	// 全てのオブジェクトを描画
+	// 全てのオブジェクトを描画（Drawを呼び出す）
 	void Draw();
+
+
+	// 新しいオブジェクトのインスタンスを生成する関数たち
+	// 中の実態がObjectのものを若い数字優先で上書きしていく
+	
+
+	// Block
+	void MakeNewObjectBlock(Point position, Point size);
+
+	// Player
+	void MakeNewObjectPlayer(Point position);
+
 
 
 private: // メンバ定数

@@ -5,7 +5,7 @@
 
 class Block :
 	public Object {
-	public: // メンバ関数
+public: // メンバ関数
 
 	// コンストラクタ
 	Block(Point centerPosition, Point size);
