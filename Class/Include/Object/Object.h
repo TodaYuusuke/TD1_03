@@ -18,10 +18,10 @@ public: // メンバ関数
 	// デストラクタ
 	//~Object();
 
-	// 初期化 ... Objdctに定義されてる変数を初期化
+	// 初期化 ... Objdctに定義されてる定数を初期化
 	// ※コード内に必ずSuccessorInitializeを呼び出すこと
 	virtual void Initialize();
-	// 継承先の初期化 ... 継承先に定義されてる変数を初期化
+	// 継承先の初期化 ... 継承元と継承先に定義されてる変数を初期化
 	virtual void SuccessorInitialize();
 	
 	// 更新 ... 全オブジェクト共通の処理
@@ -45,12 +45,12 @@ public: // メンバ関数
 	bool CheckHitBox(Box hitPosition);
 
 
-private: // メンバ変数
+protected: // メンバ変数
 
 	/* 定数として扱うのでInitialize以外のプログラム中で書き換え禁止！！ */
 
 	// 重力加速度
-	float gravitationalAcceleration;
+	float kGravitationalAcceleration;
 
 	/* 定数ここまで */
 
@@ -62,5 +62,16 @@ private: // メンバ変数
 	float width;
 	float height;
 
+	// 速度
+	Point velocity;
+	
+	// 加速度
+	Point acceleration;
+
+	// 空中にいるかどうか
+	bool isFlying;
+
+	// テクスチャハンドル
+	int texture;
 
 };

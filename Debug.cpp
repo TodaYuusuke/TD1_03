@@ -12,13 +12,13 @@ Debug::~Debug() {
 
 // ‰Šú‰»
 void Debug::Initialize() {
-
+	object.Initialize();
 }
 // XV
 void Debug::Update() {
-
+	object.Update();
 }
 // •`‰æ
 void Debug::Draw() {
-
+	object.Draw();
 }

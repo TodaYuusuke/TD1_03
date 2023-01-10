@@ -11,6 +11,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ライブラリの初期化
 	Novice::Initialize(kWindowTitle, BaseConst::kWindowWidth, BaseConst::kWindowHeight);
 
+	BaseDraw::SetScreenPosition({ 0,1080 });
+
 	// デバッグクラス
 	Debug debug;
 	// デバッグ初期化
