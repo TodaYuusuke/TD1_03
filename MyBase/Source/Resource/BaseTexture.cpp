@@ -13,6 +13,7 @@ void BaseTexture::Initialize() {
 // テクスチャのロードを100分割で行う。全てのロードが完了するまで呼び出させる（今回は％は実装しない、ロードするだけ）
 bool BaseTexture::Loading() {
 
+	kDebugTexture = Novice::LoadTexture("white1x1.png");
 
 	return true;
 }
@@ -33,3 +34,6 @@ int BaseTexture::GetLoadingPercent() {
 
 int BaseTexture::LoadingPercent;
 bool BaseTexture::isLoadingComplete;
+
+
+int BaseTexture::kDebugTexture;

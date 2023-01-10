@@ -17,7 +17,7 @@ void Object::SuccessorInitialize(){
 
 	isFlying = false;
 
-	texture = Novice::LoadTexture("white1x1.png");
+	texture = BaseTexture::kDebugTexture;
 
  }
 

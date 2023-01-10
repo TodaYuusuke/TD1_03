@@ -7,9 +7,11 @@ const char kWindowTitle[] = "チーム開発";
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
-
+	
 	// ライブラリの初期化
 	Novice::Initialize(kWindowTitle, BaseConst::kWindowWidth, BaseConst::kWindowHeight);
+
+	MyBase::Initialize();
 
 	BaseDraw::SetScreenPosition({ 0,1080 });
 
@@ -27,6 +29,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓更新処理ここから
 		///
 
+		// MyBaseをアップデート
+		MyBase::Update();
+
 		// デバッグ更新
 		debug.Update();
 
@@ -40,6 +45,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// デバッグ描画
 		debug.Draw();
+
+		// MyBaseを描画
+		MyBase::Draw();
 
 		///
 		/// ↑描画処理ここまで

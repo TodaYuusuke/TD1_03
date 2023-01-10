@@ -38,4 +38,8 @@ private: // メンバ変数
 
 
 public: // 静的なテクスチャの変数
+
+	// デバッグ用テクスチャ
+	static int kDebugTexture;
+
 };
