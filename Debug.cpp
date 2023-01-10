@@ -9,15 +9,16 @@ Debug::~Debug() {
 
 }
 
+
 // ‰Šú‰»
-void Initialize() {
+void Debug::Initialize() {
 
 }
 // XV
-void Update() {
+void Debug::Update() {
 
 }
 // •`‰æ
-void Draw() {
+void Debug::Draw() {
 
 }

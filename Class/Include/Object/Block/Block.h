@@ -7,8 +7,15 @@ class Block :
 	public Object {
 
 	// コンストラクタ
-	Block();
+	Block(Point centerPosition, Point size);
 	// デストラクタ
+	~Block();
 
+	// 初期化
+	void SuccessorInitialize() override;
+	// 更新
+	void SuccessorUpdate() override;
+	// 描画
+	void Draw() override;
 
 };
