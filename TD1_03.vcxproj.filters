@@ -71,6 +71,12 @@
     <Filter Include="Class\Source\Object\Player">
       <UniqueIdentifier>{b6853ce9-6b44-4bf5-944f-311f9c202fe9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class\Include\Wire">
+      <UniqueIdentifier>{b29090bc-02fb-46fb-8bea-864bc3f46624}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Source\Wire">
+      <UniqueIdentifier>{8742a229-3eac-4545-ad95-4a41d12574b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -128,6 +134,12 @@
     </ClCompile>
     <ClCompile Include="Class\Source\Object\ObjectManager.cpp">
       <Filter>Class\Source\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Source\Wire\Wire.cpp">
+      <Filter>Class\Source\Wire</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Source\Wire\WireManager.cpp">
+      <Filter>Class\Source\Wire</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -254,6 +266,12 @@
     </ClInclude>
     <ClInclude Include="Class\Include\Object\ObjectManager.h">
       <Filter>Class\Include\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Include\Wire\WireManager.h">
+      <Filter>Class\Include\Wire</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Include\Wire\Wire.h">
+      <Filter>Class\Include\Wire</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

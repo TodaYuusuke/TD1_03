@@ -49,6 +49,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// MyBaseを描画
 		MyBase::Draw();
 
+
 		///
 		/// ↑描画処理ここまで
 		///

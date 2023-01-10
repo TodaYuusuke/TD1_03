@@ -23,4 +23,14 @@ public: // メンバ関数
 	// 描画
 	void Draw() override;
 
+
+private: // 関数
+
+	// 移動関連
+	void Move();
+	// ワイヤーを射出する動作
+	void ShotWire();
+
+private: // メンバ変数
+
 };

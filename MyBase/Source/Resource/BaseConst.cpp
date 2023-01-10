@@ -34,5 +34,29 @@ int BaseConst::GetLoadingPercent() {
 int BaseConst::LoadingPercent;
 bool BaseConst::isLoadingComplete;
 
+
+#pragma region 解像度
+
+// ウィンドウ解像度（横方向）
 int BaseConst::kWindowWidth = 1920;
+// ウィンドウ解像度（縦方向）
 int BaseConst::kWindowHeight = 1080;
+
+#pragma endregion
+
+
+#pragma region プレイヤー
+
+// プレイヤーのサイズ
+Point BaseConst::kPlayerSize = { 64,128 };
+
+#pragma endregion
+
+#pragma region ワイヤー
+
+// ワイヤーの最大の長さ
+float BaseConst::kWireMaxLength = 100.0f;
+// ワイヤーの最大存在数
+int BaseConst::kWireMaxAmount = 3;
+
+#pragma endregion

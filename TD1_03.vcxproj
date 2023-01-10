@@ -103,6 +103,8 @@
     <ClCompile Include="Class\Source\Object\Object.cpp" />
     <ClCompile Include="Class\Source\Object\ObjectManager.cpp" />
     <ClCompile Include="Class\Source\Object\Player\Player.cpp" />
+    <ClCompile Include="Class\Source\Wire\Wire.cpp" />
+    <ClCompile Include="Class\Source\Wire\WireManager.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyBase\Source\Effect\BaseEffect.cpp" />
@@ -146,6 +148,8 @@
     <ClInclude Include="Class\Include\Object\Object.h" />
     <ClInclude Include="Class\Include\Object\ObjectManager.h" />
     <ClInclude Include="Class\Include\Object\Player\Player.h" />
+    <ClInclude Include="Class\Include\Wire\Wire.h" />
+    <ClInclude Include="Class\Include\Wire\WireManager.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="MyBase\Include\Define\BaseEnum.h" />
     <ClInclude Include="MyBase\Include\Define\BaseStruct.h" />

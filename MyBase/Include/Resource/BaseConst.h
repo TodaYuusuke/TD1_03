@@ -66,4 +66,20 @@ public: // 静的な定数
 	static int kWindowHeight;
 
 #pragma endregion
+
+#pragma region プレイヤー
+
+	// プレイヤーのサイズ
+	static Point kPlayerSize;
+
+#pragma endregion
+
+#pragma region ワイヤー
+
+	// ワイヤーの最大の長さ
+	static float kWireMaxLength;
+	// ワイヤーの最大存在数
+	static int kWireMaxAmount;
+
+#pragma endregion
 };
