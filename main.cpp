@@ -45,6 +45,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↑描画処理ここまで
 		///
 
+		// プログラム終了
+		if (BaseInput::GetKeyboardState(DIK_ESCAPE, Trigger)) {
+			break;
+		}
+		
 		// フレームの終了
 		Novice::EndFrame();
 	}
