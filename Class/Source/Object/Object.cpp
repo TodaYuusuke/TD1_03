@@ -7,10 +7,10 @@ void Object::Initialize() {
 
 void Object::SuccessorInitialize(){
 
-	centerPosition = { 100,100 };
+	centerPosition = { -10000,-10000 };
 
-	width = 100;
-	height = 100;
+	width = 1;
+	height = 1;
 
 	velocity = { 0,0 };
 	acceleration = { 0,0 };
@@ -18,6 +18,8 @@ void Object::SuccessorInitialize(){
 	isFlying = true;
 
 	texture = BaseTexture::kDebugTexture;
+
+	objecttype = typeObject;
 
  }
 
@@ -94,4 +96,8 @@ bool Object::CheckFieldHitBox() {
 		centerPosition.y += 1080 - (centerPosition.y + height / 2.0f);
 		return true;
 	}
+}
+
+ObjectType Object::GetType() {
+	return objecttype;
 }

@@ -18,5 +18,7 @@ public: // メンバ関数
 	void SuccessorUpdate() override;
 	// 描画
 	void Draw() override;
+	// タイプ取得
+	ObjectType GetType() override;
 
 };
