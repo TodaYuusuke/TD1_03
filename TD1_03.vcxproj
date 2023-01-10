@@ -101,6 +101,7 @@
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
     <ClCompile Include="Class\Source\Object\Block\Block.cpp" />
     <ClCompile Include="Class\Source\Object\Object.cpp" />
+    <ClCompile Include="Class\Source\Object\ObjectManager.cpp" />
     <ClCompile Include="Class\Source\Object\Player\Player.cpp" />
     <ClCompile Include="Debug.cpp" />
     <ClCompile Include="main.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
     <ClInclude Include="Class\Include\Object\Block\Block.h" />
     <ClInclude Include="Class\Include\Object\Object.h" />
+    <ClInclude Include="Class\Include\Object\ObjectManager.h" />
     <ClInclude Include="Class\Include\Object\Player\Player.h" />
     <ClInclude Include="Debug.h" />
     <ClInclude Include="MyBase\Include\Define\BaseEnum.h" />
