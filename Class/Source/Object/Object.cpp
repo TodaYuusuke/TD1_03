@@ -1,7 +1,7 @@
 #include "Class/Include/Object/Object.h"
 
 void Object::Initialize() {
-	kGravitationalAcceleration = 9.8f;
+	kGravitationalAcceleration = 9.8f / 60.0f;
 	SuccessorInitialize();
  }
 
@@ -87,6 +87,7 @@ bool Object::CheckFieldHitBox() {
 	if (centerPosition.y - height / 2.0f < 0) {
 		centerPosition.y -= centerPosition.y - height / 2.0f;
 		isFlying = false;
+		acceleration.y = 0;
 		return true;
 	}
 	else if (1080 < centerPosition.y + height / 2.0f) {
