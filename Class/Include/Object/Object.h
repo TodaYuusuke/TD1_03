@@ -1,5 +1,12 @@
 #include "MyBase/Include/MyBase.h"
 
+enum ObjectType {
+	// ブロック
+	Block,
+	// プレイヤー
+	Player
+};
+
 
 // 全てのオブジェクトに共通する処理を実装する
 
@@ -8,6 +15,8 @@
 ・重力による加速
 
 */
+
+
 
 class Object {
 
