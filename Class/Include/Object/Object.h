@@ -1,3 +1,4 @@
+#pragma once
 #include "MyBase/Include/MyBase.h"
 
 enum ObjectType {
@@ -95,8 +96,5 @@ protected: // メンバ変数
 
 	// テクスチャハンドル
 	int texture;
-
-	// オブジェクトのタイプ
-	ObjectType objecttype;
 
 };
