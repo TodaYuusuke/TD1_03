@@ -18,5 +18,7 @@ class Block :
 	void SuccessorUpdate() override;
 	// •`‰æ
 	void Draw() override;
+	// ƒ^ƒCƒvŽæ“¾
+	ObjectType GetType() override;
 
 };
