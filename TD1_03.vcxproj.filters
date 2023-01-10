@@ -126,6 +126,9 @@
     <ClCompile Include="Class\Source\Object\Block\Block.cpp">
       <Filter>Class\Source\Object\Block</Filter>
     </ClCompile>
+    <ClCompile Include="Class\Source\Object\ObjectManager.cpp">
+      <Filter>Class\Source\Object</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -248,6 +251,9 @@
     </ClInclude>
     <ClInclude Include="Class\Include\Object\Block\Block.h">
       <Filter>Class\Include\Object\Block</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Include\Object\ObjectManager.h">
+      <Filter>Class\Include\Object</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
