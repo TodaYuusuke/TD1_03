@@ -1,16 +1,16 @@
 #include "Class/Include/Object/Object.h"
 
 void Object::Initialize() {
-	kGravitationalAcceleration = 9.8f;
+	kGravitationalAcceleration = 9.8f / 60.0f;
 	SuccessorInitialize();
  }
 
 void Object::SuccessorInitialize(){
 
-	centerPosition = { 100,100 };
+	centerPosition = { -10000,-10000 };
 
-	width = 100;
-	height = 100;
+	width = 1;
+	height = 1;
 
 	velocity = { 0,0 };
 	acceleration = { 0,0 };
@@ -18,6 +18,8 @@ void Object::SuccessorInitialize(){
 	isFlying = true;
 
 	texture = BaseTexture::kDebugTexture;
+
+	objecttype = typeObject;
 
  }
 
@@ -87,10 +89,15 @@ bool Object::CheckFieldHitBox() {
 	if (centerPosition.y - height / 2.0f < 0) {
 		centerPosition.y -= centerPosition.y - height / 2.0f;
 		isFlying = false;
+		acceleration.y = 0;
 		return true;
 	}
 	else if (1080 < centerPosition.y + height / 2.0f) {
 		centerPosition.y += 1080 - (centerPosition.y + height / 2.0f);
 		return true;
 	}
+}
+
+ObjectType Object::GetType() {
+	return objecttype;
 }

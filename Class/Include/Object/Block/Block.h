@@ -5,7 +5,7 @@
 
 class Block :
 	public Object {
-	public: // メンバ関数
+public: // メンバ関数
 
 	// コンストラクタ
 	Block(Point centerPosition, Point size);
@@ -18,5 +18,7 @@ class Block :
 	void SuccessorUpdate() override;
 	// 描画
 	void Draw() override;
+	// タイプ取得
+	ObjectType GetType() override;
 
 };
