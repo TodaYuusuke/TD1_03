@@ -1,10 +1,12 @@
 #include "MyBase/Include/MyBase.h"
 
 enum ObjectType {
+	// オブジェクト
+	typeObject,
 	// ブロック
-	Block,
+	typeBlock,
 	// プレイヤー
-	Player
+	typePlayer
 };
 
 
@@ -59,6 +61,12 @@ public: // メンバ関数
 	/// <returns>フィールド外に出た場合 ... true</returns>
 	bool CheckFieldHitBox();
 
+	/// <summary>
+	/// タイプを取得する関数
+	/// </summary>
+	/// <returns>オブジェクトのタイプ</returns>
+	virtual ObjectType GetType();
+
 protected: // メンバ変数
 
 	/* 定数として扱うのでInitialize以外のプログラム中で書き換え禁止！！ */
@@ -87,5 +95,8 @@ protected: // メンバ変数
 
 	// テクスチャハンドル
 	int texture;
+
+	// オブジェクトのタイプ
+	ObjectType objecttype;
 
 };
