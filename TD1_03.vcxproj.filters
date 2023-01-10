@@ -44,6 +44,15 @@
     <Filter Include="MyBase\Source\Resource">
       <UniqueIdentifier>{30475b4f-4bbb-4d6c-b9f9-f527c804902f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class">
+      <UniqueIdentifier>{fe1b3fe8-3c3d-48f3-8100-41706d4fb98f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Include">
+      <UniqueIdentifier>{cbbeaca1-4db4-4c5b-8c8b-e96bf61f0407}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Source">
+      <UniqueIdentifier>{df7bb48f-6ab8-43d4-8c3d-7c55d9e610b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -89,6 +98,7 @@
     <ClCompile Include="MyBase\Source\MyBase.cpp">
       <Filter>MyBase\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Debug.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -202,5 +212,6 @@
     <ClInclude Include="MyBase\Include\Define\BaseStruct.h">
       <Filter>MyBase\Include\Define</Filter>
     </ClInclude>
+    <ClInclude Include="Debug.h" />
   </ItemGroup>
 </Project>

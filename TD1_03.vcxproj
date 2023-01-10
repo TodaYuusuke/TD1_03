@@ -99,6 +99,7 @@
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\WinApp.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\scene\GameScene.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
+    <ClCompile Include="Debug.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyBase\Source\Effect\BaseEffect.cpp" />
     <ClCompile Include="MyBase\Source\Effect\BaseEffectManager.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\input\Input.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\scene\GameScene.h" />
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
+    <ClInclude Include="Debug.h" />
     <ClInclude Include="MyBase\Include\Define\BaseEnum.h" />
     <ClInclude Include="MyBase\Include\Define\BaseStruct.h" />
     <ClInclude Include="MyBase\Include\Effect\BaseEffect.h" />
