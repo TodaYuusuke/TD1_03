@@ -1,4 +1,4 @@
-#include "Base/Include/Resource/BaseTexture.h"
+#include "MyBase/Include/Resource/BaseTexture.h"
 
 // ‰Šú‰»
 void BaseTexture::Initialize() {

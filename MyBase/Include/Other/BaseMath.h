@@ -1,5 +1,5 @@
 #pragma once
-#include "Base/Include/Define/BaseStruct.h"
+#include "MyBase/Include/Define/BaseStruct.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>
@@ -59,5 +59,13 @@ public:
 	// degree ... 回転角度（degree）
 	// 原点中心の回転しか行えないので注意
 	static Quad TurnBox(Quad box, float degree);
+
+
+	// 当たり判定処理
+
+
+	// 四角同士の当たり判定チェック
+	static bool CheckHitBox(Box hitBox1, Box hitBox2);
+
 };
 

@@ -1,8 +1,8 @@
 #pragma 
-#include "Base/Include/Resource/BaseConst.h"
-#include "Base/Include/Define/BaseEnum.h"
-#include "Base/Include/Define/BaseStruct.h"
-#include "Base/Include/Resource/BaseTexture.h"
+#include "MyBase/Include/Resource/BaseConst.h"
+#include "MyBase/Include/Define/BaseEnum.h"
+#include "MyBase/Include/Define/BaseStruct.h"
+#include "MyBase/Include/Resource/BaseTexture.h"
 
 #include <Novice.h>
 

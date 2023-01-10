@@ -1,16 +1,16 @@
 #pragma once
-#include "Base/Include/Define/BaseEnum.h"
-#include "Base/Include/Define/BaseStruct.h"
+#include "MyBase/Include/Define/BaseEnum.h"
+#include "MyBase/Include/Define/BaseStruct.h"
 
-#include "Base/Include/Effect/BaseEffectManager.h"
+#include "MyBase/Include/Effect/BaseEffectManager.h"
 
-#include "Base/Include/Resource/BaseTexture.h"
-#include "Base/Include/Resource/BaseAudio.h"
-#include "Base/Include/Resource/BaseConst.h"
+#include "MyBase/Include/Resource/BaseTexture.h"
+#include "MyBase/Include/Resource/BaseAudio.h"
+#include "MyBase/Include/Resource/BaseConst.h"
 
-#include "Base/Include/Other/BaseDraw.h"
-#include "Base/Include/Other/BaseInput.h"
-#include "Base/Include/Other/BaseMath.h"
+#include "MyBase/Include/Other/BaseDraw.h"
+#include "MyBase/Include/Other/BaseInput.h"
+#include "MyBase/Include/Other/BaseMath.h"
 
 #include <Novice.h>
 #include <time.h>
@@ -21,15 +21,15 @@
 ////////////////////////////////////
 
 
-class Base
+class MyBase
 {
 
 private: // メンバ関数
 
 	// コンストラクタ（非公開）
-	Base();
+	MyBase();
 	// デストラクタ（非公開）
-	~Base();
+	~MyBase();
 
 public: // メンバ関数
 

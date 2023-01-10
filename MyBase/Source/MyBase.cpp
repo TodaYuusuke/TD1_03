@@ -1,8 +1,8 @@
-#include "Base/Include/Base.h"
+#include "MyBase/Include/MyBase.h"
 
 
 // 初期化
-void Base::Initialize() {
+void MyBase::Initialize() {
 
 	// テクスチャの初期化
 	BaseTexture::Initialize();
@@ -33,7 +33,7 @@ void Base::Initialize() {
 }
 
 // 更新
-void Base::Update() {
+void MyBase::Update() {
 	BaseInput::Update();
 
 	// デバッグ用
@@ -50,7 +50,7 @@ void Base::Update() {
 }
 
 // 描画
-void Base::Draw(){
+void MyBase::Draw(){
 	BaseEffectManager::Draw();
 	BaseInput::Draw();
 }

@@ -1,4 +1,4 @@
-#include "Base/Include/Effect/BaseEffect.h"
+#include "MyBase/Include/Effect/BaseEffect.h"
 
 // ‰Šú‰»
 void BaseEffect::BaseInitialize() {

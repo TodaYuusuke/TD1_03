@@ -1,4 +1,4 @@
-#include "Base/Include/Resource/BaseConst.h"
+#include "MyBase/Include/Resource/BaseConst.h"
 
 // ‰Šú‰»
 void BaseConst::Initialize() {

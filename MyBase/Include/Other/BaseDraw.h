@@ -1,6 +1,6 @@
 #pragma once
-#include "Base/Include/Define/BaseStruct.h"
-#include "Base/Include/Other/BaseMath.h"
+#include "MyBase/Include/Define/BaseStruct.h"
+#include "MyBase/Include/Other/BaseMath.h"
 
 #include <Novice.h>
 

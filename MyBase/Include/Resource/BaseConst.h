@@ -1,13 +1,11 @@
 #pragma once
-#include "Base/Include/Define/BaseStruct.h"
+#include "MyBase/Include/Define/BaseStruct.h"
 
 #include <string>
 #include <fstream>
 #include <sstream>
 #include <vector>
 #include <time.h>
-
-using namespace std;
 
 ///////////////////////////////////////////
 /* - ゲーム内で共通で扱う定数を管理するクラス - */
@@ -38,11 +36,11 @@ public: // メンバ関数
 
 
 	// string分割関数
-	static vector<string> split(string& input, char delimiter)
+	static std::vector<std::string> split(std::string& input, char delimiter)
 	{
-		istringstream stream(input);
-		string field;
-		vector<string> result;
+		std::istringstream stream(input);
+		std::string field;
+		std::vector<std::string> result;
 		while (getline(stream, field, delimiter)) {
 			result.push_back(field);
 		}

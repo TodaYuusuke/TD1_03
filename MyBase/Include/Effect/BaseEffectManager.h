@@ -1,8 +1,8 @@
 #pragma once
-#include "Base/Include/Define/BaseEnum.h"
-#include "Base/Include/Define/BaseStruct.h"
+#include "MyBase/Include/Define/BaseEnum.h"
+#include "MyBase/Include/Define/BaseStruct.h"
 
-#include "Base/Include/Effect/BaseEffect.h"
+#include "MyBase/Include/Effect/BaseEffect.h"
 
 
 class BaseEffectManager
