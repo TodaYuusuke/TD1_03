@@ -32,3 +32,8 @@ void Block::SuccessorUpdate() {
 void Block::Draw() {
 	BaseDraw::DrawQuad(centerPosition, texture, { 100,100 }, 1.0f, 0.0f, WHITE);
 }
+
+// ƒ^ƒCƒv‚ðŽæ“¾
+ObjectType Block::GetType() {
+	return objecttype;
+}
