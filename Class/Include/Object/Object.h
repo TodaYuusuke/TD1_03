@@ -44,6 +44,11 @@ public: // メンバ関数
 	// 引数：チェックするBox
 	bool CheckHitBox(Box hitPosition);
 
+	/// <summary>
+	/// フィールド外への移動をチェックする関数
+	/// </summary>
+	/// <returns>フィールド外に出た場合 ... true</returns>
+	bool CheckFieldHitBox();
 
 protected: // メンバ変数
 
