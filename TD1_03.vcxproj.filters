@@ -53,6 +53,24 @@
     <Filter Include="Class\Source">
       <UniqueIdentifier>{df7bb48f-6ab8-43d4-8c3d-7c55d9e610b2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class\Include\Object">
+      <UniqueIdentifier>{e8494e53-bb05-405a-9bc0-1e0505a1c74e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Include\Object\Player">
+      <UniqueIdentifier>{b9154d56-c7fd-43db-97c5-174107ac1c09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Include\Object\Block">
+      <UniqueIdentifier>{d0570057-5fea-4c7c-b1b3-5741798773d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Source\Object">
+      <UniqueIdentifier>{355dd8ce-12c9-48ec-b000-9f1292b82c58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Source\Object\Block">
+      <UniqueIdentifier>{77cf459e-54da-4453-925e-56fa69d8c27b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Source\Object\Player">
+      <UniqueIdentifier>{b6853ce9-6b44-4bf5-944f-311f9c202fe9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -99,6 +117,15 @@
       <Filter>MyBase\Source</Filter>
     </ClCompile>
     <ClCompile Include="Debug.cpp" />
+    <ClCompile Include="Class\Source\Object\Object.cpp">
+      <Filter>Class\Source\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Source\Object\Player\Player.cpp">
+      <Filter>Class\Source\Object\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Source\Object\Block\Block.cpp">
+      <Filter>Class\Source\Object\Block</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
@@ -213,5 +240,14 @@
       <Filter>MyBase\Include\Define</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h" />
+    <ClInclude Include="Class\Include\Object\Object.h">
+      <Filter>Class\Include\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Include\Object\Player\Player.h">
+      <Filter>Class\Include\Object\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Include\Object\Block\Block.h">
+      <Filter>Class\Include\Object\Block</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
