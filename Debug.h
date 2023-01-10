@@ -1,5 +1,5 @@
 #include "MyBase/Include/MyBase.h"
-
+#include "Class/Include/Object/Object.h"
 
 // 自分で開発する際に、デバッグ用の処理はこちらで用意すること。
 // 開発中のclassのインスタンスなどをここで呼び出し、試したい関数を自分で呼び出すコードを書くこと。
@@ -22,5 +22,7 @@ public: // メンバ関数
 
 
 private: // メンバ変数
+
+	Object object;
 
 };

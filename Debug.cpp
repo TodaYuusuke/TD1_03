@@ -10,14 +10,14 @@ Debug::~Debug() {
 }
 
 // ‰Šú‰»
-void Initialize() {
-
+void Debug::Initialize() {
+	object.Initialize();
 }
 // XV
-void Update() {
-
+void Debug::Update() {
+	object.Update();
 }
 // •`‰æ
-void Draw() {
-
+void Debug::Draw() {
+	object.Draw();
 }
