@@ -19,7 +19,6 @@ void Object::SuccessorInitialize(){
 
 	texture = BaseTexture::kDebugTexture;
 
-	objecttype = typeObject;
 
  }
 
@@ -99,5 +98,5 @@ bool Object::CheckFieldHitBox() {
 }
 
 ObjectType Object::GetType() {
-	return objecttype;
+	return typeObject;
 }

@@ -103,7 +103,4 @@ protected: // メンバ変数
 	// テクスチャハンドル
 	int texture;
 
-	// オブジェクトのタイプ
-	ObjectType objecttype;
-
 };

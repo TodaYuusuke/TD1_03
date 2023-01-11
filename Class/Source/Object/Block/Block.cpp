@@ -35,5 +35,5 @@ void Block::Draw() {
 
 // ƒ^ƒCƒv‚ðŽæ“¾
 ObjectType Block::GetType() {
-	return objecttype;
+	return typeBlock;
 }
