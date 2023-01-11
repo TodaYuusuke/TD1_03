@@ -53,6 +53,14 @@ void Object::Draw() {
 	BaseDraw::DrawQuad(centerPosition, texture, { 100,100 }, 1.0f, 0.0f, WHITE);
 }
 
+// オブジェクトに速度ベクトルを足す関数
+// 返り値：なし
+// 引数：足す速度
+void Object::AddVelocity(Point _addVelocity) {
+	velocity.x += _addVelocity.x;
+	velocity.y += _addVelocity.y;
+}
+
 bool Object::CheckHitBox(Point hitPosition) {
 	// 左右
 	if (centerPosition.x - width / 2.0f < hitPosition.x && hitPosition.x < centerPosition.x + width / 2.0f) {
@@ -95,6 +103,7 @@ bool Object::CheckFieldHitBox() {
 		centerPosition.y += 1080 - (centerPosition.y + height / 2.0f);
 		return true;
 	}
+	return false;
 }
 
 ObjectType Object::GetType() {
