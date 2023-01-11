@@ -54,6 +54,9 @@ Point BaseConst::kPlayerSize = { 64,128 };
 
 #pragma region ワイヤー
 
+// ワイヤーの弾速
+float kWireSpeed = 20;
+
 // ワイヤーの最大の長さ
 float BaseConst::kWireMaxLength = 100.0f;
 // ワイヤーの最大存在数

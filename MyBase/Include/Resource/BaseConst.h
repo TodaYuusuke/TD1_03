@@ -76,6 +76,9 @@ public: // 静的な定数
 
 #pragma region ワイヤー
 
+	// ワイヤーの弾速
+	static float kWireSpeed;
+
 	// ワイヤーの最大の長さ
 	static float kWireMaxLength;
 	// ワイヤーの最大存在数

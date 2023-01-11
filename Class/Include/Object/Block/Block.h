@@ -1,3 +1,4 @@
+#pragma once
 #include "MyBase/Include/MyBase.h"
 #include "Class/Include/Object/Object.h"
 

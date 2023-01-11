@@ -1,3 +1,4 @@
+#pragma once
 #include "MyBase/Include/MyBase.h"
 
 enum ObjectType {
@@ -44,6 +45,12 @@ public: // メンバ関数
 	// 描画
 	virtual void Draw();
 	
+
+	// オブジェクトに速度ベクトルを足す関数
+	// 返り値：なし
+	// 引数：足す速度
+	void AddVelocity(Point _addVelocity);
+
 
 	// 当たり判定をチェックする関数
 	// 返り値：ヒットしていた場合 ... true

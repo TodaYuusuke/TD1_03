@@ -1,3 +1,4 @@
+#pragma once
 #include "MyBase/Include/MyBase.h"
 #include "Class/Include/Object/Object.h"
 
@@ -39,6 +40,21 @@ public: // メンバ関数
 	// Player
 	void MakeNewObjectPlayer(Point position);
 
+	
+	// オブジェクトの当たり判定をチェックする関数
+	// 返り値：そのオブジェクトのポインタ
+	// 引数：チェックするPoint
+	//
+	// ひとつもヒットしていない場合はNULLを返す（この関数を使う場合は必ずNULLチェックをすること！）
+	Object* CheckObjectHitBox(Point hitPosition);
+
+
+	// オブジェクトの当たり判定をチェックする関数
+	// 返り値：そのオブジェクトのポインタ
+	// 引数：チェックするPoint
+	//
+	// ひとつもヒットしていない場合はNULLを返す（この関数を使う場合は必ずNULLチェックをすること！）
+	Object* CheckObjectHitBox(Box hitPosition);
 
 
 private: // メンバ定数
