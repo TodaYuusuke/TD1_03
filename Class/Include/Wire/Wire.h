@@ -14,7 +14,7 @@ public: // メンバ関数
 	// 初期化（最初は存在しないものとして扱うので、変数はデタラメで）
 	void Initialize();
 	// 更新
-	void Update();
+	void Update(ObjectManager objectManager);
 	// 描画
 	void Draw();
 
@@ -24,7 +24,7 @@ public: // メンバ関数
 	// 返り値：ヒットした場合 ... true
 	//
 	// 今回はオブジェクト、もしくは場外に当たった場合にヒット判定
-	bool CheckHitBox();
+	bool CheckHitBox(ObjectManager objectManager);
 
 
 	// ワイヤー射出時に呼び出される関数
@@ -50,10 +50,18 @@ public: // メンバ関数
 
 private: // メンバ変数
 
+	//ワイヤーの状態
+	enum WireState {
+		prev, //射出前
+		middle, //射出中
+		end //射出後
+	};
+	WireState wireState;
+
 	// 1点目の座標
 	Point* firstPosition;
 	// 2点目の座標
-	Point* SecondPosition;
+	Point* secondPosition;
 
 	// 1点目の着地点にあったオブジェクト
 	Object* firstObject;
