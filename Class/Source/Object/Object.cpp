@@ -17,12 +17,11 @@ void Object::SuccessorInitialize(){
 
 	isFlying = true;
 
-	texture = BaseTexture::kDebugTexture;
-
 
  }
 
 void Object::Update() {
+
 
 	// 加速度や速度を継承先で変更
 	SuccessorUpdate();
@@ -50,7 +49,7 @@ void Object::SuccessorUpdate() {
 }
 
 void Object::Draw() {
-	BaseDraw::DrawQuad(centerPosition, texture, { 100,100 }, 1.0f, 0.0f, WHITE);
+	BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { 100,100 }, 1.0f, 0.0f, WHITE);
 }
 
 // オブジェクトに速度ベクトルを足す関数

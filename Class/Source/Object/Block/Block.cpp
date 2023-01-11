@@ -21,7 +21,6 @@ void Block::SuccessorInitialize() {
 
 	isFlying = true;
 
-	texture = BaseTexture::kDebugTexture;
 
 }
 // 更新
@@ -30,7 +29,7 @@ void Block::SuccessorUpdate() {
 }
 // 描画
 void Block::Draw() {
-	BaseDraw::DrawQuad(centerPosition, texture, { 100,100 }, 1.0f, 0.0f, WHITE);
+	BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { 100,100 }, 1.0f, 0.0f, WHITE);
 }
 
 // タイプを取得
