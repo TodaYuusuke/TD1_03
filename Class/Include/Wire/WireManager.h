@@ -12,7 +12,7 @@ public: // ƒƒ“ƒoŠÖ”
 	// ‰Šú‰»
 	void Initialize();
 	// XV
-	void Update();
+	void Update(ObjectManager objectManager);
 	// •`‰æ
 	void Draw();
 

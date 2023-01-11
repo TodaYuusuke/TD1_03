@@ -97,7 +97,7 @@ protected: // メンバ変数
 	// 加速度
 	Point acceleration;
 
-	// 空中にいるかどうか
+	//空中にいるかどうか
 	bool isFlying;
 
 	// テクスチャハンドル
