@@ -54,3 +54,39 @@ void ObjectManager::MakeNewObjectPlayer(Point position) {
 		}
 	}*/
 }
+
+
+// オブジェクトの当たり判定をチェックする関数
+// 返り値：そのオブジェクトのポインタ
+// 引数：チェックするPoint
+//
+// ひとつもヒットしていない場合はNULLを返す（この関数を使う場合は必ずNULLチェックをすること！）
+Object* ObjectManager::CheckObjectHitBox(Point hitPosition) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeObject) {
+			continue;
+		}
+		if (object[i]->CheckHitBox(hitPosition)) {
+			return object[i];
+		}
+	}
+	return NULL;
+}
+
+
+// オブジェクトの当たり判定をチェックする関数
+// 返り値：そのオブジェクトのポインタ
+// 引数：チェックするPoint
+//
+// ひとつもヒットしていない場合はNULLを返す（この関数を使う場合は必ずNULLチェックをすること！）
+Object* ObjectManager::CheckObjectHitBox(Box hitPosition) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeObject) {
+			continue;
+		}
+		if (object[i]->CheckHitBox(hitPosition)) {
+			return object[i];
+		}
+	}
+	return NULL;
+}
