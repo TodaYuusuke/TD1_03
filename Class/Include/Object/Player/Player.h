@@ -1,10 +1,10 @@
+#pragma once
 #include "MyBase/Include/MyBase.h"
 #include "Class/Include/Object/Object.h"
+#include "Class/Include/Wire/WireManager.h"
+
 
 // いうまでもなくプレイヤー
-
-
-// ヤマトへ
 
 
 class Player :
@@ -26,11 +26,16 @@ public: // メンバ関数
 
 private: // 関数
 
+	// どちらもUpdate()で毎フレーム呼び出すこと
+
 	// 移動関連
 	void Move();
 	// ワイヤーを射出する動作
 	void ShotWire();
 
 private: // メンバ変数
+
+	// プレイヤーの座標（中心）
+	Point centerPosition;
 
 };
