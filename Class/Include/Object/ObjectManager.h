@@ -6,7 +6,7 @@
 #include "Class/Include/Object/Player/Player.h"
 
 
-
+class WireManager;
 // プログラム内のオブジェクトを全て管理するクラス
 
 
