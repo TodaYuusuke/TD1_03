@@ -1,7 +1,7 @@
 #pragma once
 #include "MyBase/Include/MyBase.h"
 #include "Class/Include/Object/Object.h"
-#include "Class/Include/Wire/WireManager.h"
+//#include "Class/Include/Wire/WireManager.h"
 
 
 // いうまでもなくプレイヤー
@@ -23,6 +23,7 @@ public: // メンバ関数
 	// 描画
 	void Draw() override;
 
+	ObjectType GetType() override;
 
 private: // 関数
 
@@ -35,7 +36,10 @@ private: // 関数
 
 private: // メンバ変数
 
-	// プレイヤーの座標（中心）
-	Point centerPosition;
+	const static int kPlayerSpeedX = 4;
+	const static int kPlayerSpeedY = 20;
+
+	// マウス座標
+	Point ReticlePosition;
 
 };

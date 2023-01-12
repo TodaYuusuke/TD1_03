@@ -100,7 +100,5 @@ protected: // メンバ変数
 	//空中にいるかどうか
 	bool isFlying;
 
-	// テクスチャハンドル
-	int texture;
 
 };

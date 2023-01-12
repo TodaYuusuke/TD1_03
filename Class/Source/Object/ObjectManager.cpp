@@ -42,17 +42,24 @@ void ObjectManager::MakeNewObjectBlock(Point position, Point size) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() == typeObject) {
 			object[i] = new Block(position, size);
+			object[i]->Initialize();
+			break;
 		}
 	}
 }
 
 // Player
 void ObjectManager::MakeNewObjectPlayer(Point position) {
-	/*for (int i = 0; i < kMaxObjectSize; i++) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typePlayer) {
+			break;
+		}
 		if (object[i]->GetType() == typeObject) {
 			object[i] = new Player(position);
+			object[i]->Initialize();
+			break;
 		}
-	}*/
+	}
 }
 
 
