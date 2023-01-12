@@ -1,7 +1,7 @@
 #pragma once
 #include "MyBase/Include/MyBase.h"
 #include "Class/Include/Object/ObjectManager.h"
-#include "Wire.h"
+#include "Class/Include/Wire/Wire.h"
 
 class ObjectManager;
 
@@ -32,7 +32,7 @@ public: // メンバ関数
 	// shotAngle ... 発射角度（Degree）
 	//
 	// Wireクラスのshotの返り値で正常に射出できたかを判断すること。
-	bool Shot(Point shotPosition, float shotAngle);
+	bool Shot(Point shotPosition, float shotAngle,Player* _player);
 
 	// ワイヤー縮小時に呼び出される関数
 	// 返り値：なし

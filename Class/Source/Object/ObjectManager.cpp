@@ -16,6 +16,7 @@ void ObjectManager::Initialize() {
 		object[i] = new Object();
 		object[i]->Initialize();
 	}
+	wireManager.Initialize();
 }
 // 更新
 // 全てのオブジェクトを更新（Updateを呼び出す）
@@ -23,6 +24,7 @@ void ObjectManager::Update() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		object[i]->Update();
 	}
+	wireManager.Update(*this);
 }
 // 描画
 // 全てのオブジェクトを描画（Drawを呼び出す）
@@ -30,6 +32,7 @@ void ObjectManager::Draw() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		object[i]->Draw();
 	}
+	wireManager.Draw();
 }
 
 
@@ -55,7 +58,7 @@ void ObjectManager::MakeNewObjectPlayer(Point position) {
 			break;
 		}
 		if (object[i]->GetType() == typeObject) {
-			object[i] = new Player(position);
+			object[i] = new Player(position, &wireManager);
 			object[i]->Initialize();
 			break;
 		}

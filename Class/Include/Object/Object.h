@@ -74,6 +74,18 @@ public: // メンバ関数
 	/// <returns>オブジェクトのタイプ</returns>
 	virtual ObjectType GetType();
 
+	/// <summary>
+	/// 座標を取得する関数
+	/// </summary>
+	/// <returns>centerPosition</returns>
+	Point GetCenterPosition();
+
+	/// <summary>
+	/// 速度を取得する関数
+	/// </summary>
+	/// <returns>velocity</returns>
+	Point GetVelocity();
+
 protected: // メンバ変数
 
 	/* 定数として扱うのでInitialize以外のプログラム中で書き換え禁止！！ */

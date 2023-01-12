@@ -12,7 +12,7 @@ class Player :
 public: // メンバ関数
 
 	// コンストラクタ
-	Player(Point centerPosition);
+	Player(Point centerPosition,WireManager* _wireManager);
 	// デストラクタ
 	~Player();
 
@@ -23,7 +23,9 @@ public: // メンバ関数
 	// 描画
 	void Draw() override;
 
+	// タイプ取得
 	ObjectType GetType() override;
+
 
 private: // 関数
 
@@ -37,9 +39,11 @@ private: // 関数
 private: // メンバ変数
 
 	const static int kPlayerSpeedX = 4;
-	const static int kPlayerSpeedY = 20;
+	const static int kPlayerSpeedY = 10;
 
 	// マウス座標
 	Point ReticlePosition;
+
+	WireManager* wireManager;
 
 };

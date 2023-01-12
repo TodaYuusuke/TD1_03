@@ -83,28 +83,44 @@ bool Object::CheckHitBox(Box hitPosition) {
 bool Object::CheckFieldHitBox() {
 	// フィールド外に出た時の処理
 	// 左右
+	bool result = false;
 	if (centerPosition.x - width / 2.0f < 0) {
 		centerPosition.x -= centerPosition.x - width / 2.0f;
-		return true;
+		acceleration.x = 0;
+		velocity.x = 0;
+		result = true;
 	}
-	else if(1920 < centerPosition.x + width / 2.0f) {
-		centerPosition.x += 1920 - (centerPosition.x + width / 2.0f);
-		return true;
+	else if(BaseConst::kWindowWidth < centerPosition.x + width / 2.0f) {
+		centerPosition.x += BaseConst::kWindowWidth - (centerPosition.x + width / 2.0f);
+		acceleration.x = 0;
+		velocity.x = 0;
+		result = true;
 	}
 	// 上下
 	if (centerPosition.y - height / 2.0f < 0) {
 		centerPosition.y -= centerPosition.y - height / 2.0f;
 		isFlying = false;
 		acceleration.y = 0;
-		return true;
+		velocity.y = 0;
+		result = true;
 	}
-	else if (1080 < centerPosition.y + height / 2.0f) {
-		centerPosition.y += 1080 - (centerPosition.y + height / 2.0f);
-		return true;
+	else if (BaseConst::kWindowHeight < centerPosition.y + height / 2.0f) {
+		centerPosition.y += BaseConst::kWindowHeight - (centerPosition.y + height / 2.0f);
+		acceleration.y = 0;
+		velocity.y = 0;
+		result = true;
 	}
 	return false;
 }
 
 ObjectType Object::GetType() {
 	return typeObject;
+}
+
+Point Object::GetCenterPosition() {
+	return centerPosition;
+}
+
+Point Object::GetVelocity() {
+	return velocity;
 }

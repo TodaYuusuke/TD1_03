@@ -5,6 +5,7 @@
 #include "Class/Include/Object/Block/Block.h"
 #include "Class/Include/Object/Player/Player.h"
 
+#include "Class/Include/Wire/WireManager.h";
 
 class WireManager;
 // プログラム内のオブジェクトを全て管理するクラス
@@ -65,5 +66,8 @@ private: // メンバ変数
 
 	// オブジェクトのポインタ達
 	Object* object[kMaxObjectSize];
+
+	// ワイヤーマネージャー
+	WireManager wireManager;
 
 };
