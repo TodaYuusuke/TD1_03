@@ -1,7 +1,7 @@
 #pragma once
 #include "MyBase/Include/MyBase.h"
 #include "Class/Include/Object/Object.h"
-//#include "Class/Include/Wire/WireManager.h"
+#include "Class/Include/Wire/WireManager.h"
 
 
 // いうまでもなくプレイヤー
@@ -12,7 +12,7 @@ class Player :
 public: // メンバ関数
 
 	// コンストラクタ
-	Player(Point centerPosition);
+	Player(Point centerPosition,WireManager* _wireManager);
 	// デストラクタ
 	~Player();
 
@@ -43,5 +43,7 @@ private: // メンバ変数
 
 	// マウス座標
 	Point ReticlePosition;
+
+	WireManager* wireManager;
 
 };

@@ -1,8 +1,9 @@
 #include "Class/Include/Object/Player/Player.h"
 
 // コンストラクタ
-Player::Player(Point centerPosition) {
+Player::Player(Point centerPosition,WireManager* _wireManager) {
 	this->centerPosition = centerPosition;
+	wireManager = _wireManager;
 	ReticlePosition = { -100,-100 };
 }
 // デストラクタ
@@ -24,6 +25,8 @@ void Player::SuccessorInitialize() {
 	isFlying = true;
 	ReticlePosition = { -100,-100 };
 
+	wireManager->Initialize();
+
 }
 // 更新
 void Player::SuccessorUpdate() {
@@ -31,7 +34,8 @@ void Player::SuccessorUpdate() {
 	ReticlePosition = BaseInput::GetMousePosition();
 
 	Move();
-	ShotWire();
+	//wireManager.Update();
+	//ShotWire();
 
 }
 // 描画
@@ -63,7 +67,13 @@ void Player::Move() {
 
 // ワイヤーを射出する動作
 void Player::ShotWire() {
+	if (BaseInput::GetMouseState(LeftClick, Trigger)) {
+		ReticlePosition = BaseInput::GetMousePosition();
+		float angle = atan2(centerPosition.y - ReticlePosition.y, centerPosition.x - ReticlePosition.x);
+		
+		wireManager->Shot(centerPosition, BaseMath::RadiantoDegree(angle), this);
 
+	}
 }
 
 

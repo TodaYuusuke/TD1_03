@@ -37,6 +37,15 @@ void Wire::Update(ObjectManager objectManager) {
 				wireState = NoneShot;
 			}
 		}
+		// ìÒâÒñ⁄ÇÃéÀèoíÜ
+		else if (secondObject != NULL) {
+			secondPosition->x += cosf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
+			secondPosition->y += sinf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
+			// Ç«Ç±Ç©Ç…éhÇ≥Ç¡ÇΩèÍçá
+			if (CheckHitBox(secondPosition, secondObject, objectManager)) {
+				wireState = NoneShot;
+			}
+		}
 	}
 }
 // ï`âÊ
