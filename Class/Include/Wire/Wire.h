@@ -1,3 +1,4 @@
+#pragma once
 #include "MyBase/Include/MyBase.h"
 #include "Class/Include/Object/ObjectManager.h"
 
@@ -10,7 +11,6 @@ public: // メンバ関数
 	Wire();
 	// デストラクタ
 	~Wire();
-
 	// 初期化（最初は存在しないものとして扱うので、変数はデタラメで）
 	void Initialize();
 	// 更新
@@ -24,7 +24,7 @@ public: // メンバ関数
 	// 返り値：ヒットした場合 ... true
 	//
 	// 今回はオブジェクト、もしくは場外に当たった場合にヒット判定
-	bool CheckHitBox(ObjectManager objectManager);
+	bool CheckHitBox(Point* _position, Object*& _object, ObjectManager objectManager);
 
 
 	// ワイヤー射出時に呼び出される関数
@@ -39,7 +39,7 @@ public: // メンバ関数
 	// shotAngle ... 発射角度（Degree）
 	//
 	// この関数が呼び出された後は、Updateにて着弾するまで弾の演算をし続けること。（ワイヤーの速度はBaseConst::kWireSpeed）
-	bool Shot(Point shotPosition, float shotAngle);
+	bool Shot(Point shotPosition, float shotAngle, Player* _player);
 
 	// ワイヤー縮小時に呼び出される関数
 	// 返り値：なし
@@ -52,9 +52,10 @@ private: // メンバ変数
 
 	//ワイヤーの状態
 	enum WireState {
-		prev, //射出前
-		middle, //射出中
-		end //射出後
+		// 射出していない
+		NoneShot,
+		// 射出中
+		DoneShot
 	};
 	WireState wireState;
 
@@ -66,6 +67,9 @@ private: // メンバ変数
 	// 1点目の着地点にあったオブジェクト
 	Object* firstObject;
 	// 2点目の着地点にあったオブジェクト
-	Object* SecondObject;
+	Object* secondObject;
+
+	// 射出角度
+	float ShotAngle;
 
 };
