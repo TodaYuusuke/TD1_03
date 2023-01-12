@@ -1,7 +1,7 @@
 #pragma once
 #include "MyBase/Include/MyBase.h"
 #include "Class/Include/Object/Object.h"
-//#include "Class/Include/Wire/WireManager.h"
+#include "Class/Include/Wire/WireManager.h"
 
 
 // Ç¢Ç§Ç‹Ç≈Ç‡Ç»Ç≠ÉvÉåÉCÉÑÅ[

@@ -49,6 +49,8 @@ bool Wire::CheckHitBox(ObjectManager objectManager) {
 // この関数が呼び出された後は、Updateにて着弾するまで弾の演算をし続けること。（ワイヤーの速度はBaseConst::kWireSpeed）
 bool Wire::Shot(Point shotPosition, float shotAngle) {
 
+
+	return false;
 }
 
 // ワイヤー縮小時に呼び出される関数
