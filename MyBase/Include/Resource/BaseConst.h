@@ -72,6 +72,9 @@ public: // 静的な定数
 	// プレイヤーのサイズ
 	static Point kPlayerSize;
 
+	// プレイヤーの移動値
+	static Point kPlayerSpeed;
+
 #pragma endregion
 
 #pragma region ワイヤー
@@ -82,7 +85,7 @@ public: // 静的な定数
 	// ワイヤーの最大の長さ
 	static float kWireMaxLength;
 	// ワイヤーの最大存在数
-	static int kWireMaxAmount;
+	const static int kWireMaxAmount = 3;
 
 #pragma endregion
 };

@@ -22,6 +22,7 @@ void Object::SuccessorInitialize(){
 
 void Object::Update() {
 
+	acceleration = { 0,0 };
 
 	// 加速度や速度を継承先で変更
 	SuccessorUpdate();
@@ -29,6 +30,19 @@ void Object::Update() {
 	if (isFlying) {
 		// 加速度に重力を追加
 		acceleration.y -= kGravitationalAcceleration;
+	}
+	// とりあえず速度を弱める
+	if (velocity.x < 0) {
+		velocity.x *= 0.87f;
+	}
+	else if (0 < velocity.x) {
+		velocity.x *= 0.87f;
+	}
+	if (0 < velocity.y) {
+		velocity.y *= 0.87f;
+	}
+	if (-0.1f <= velocity.x && velocity.x <= 0.1f) {
+		velocity.x = 0;
 	}
 
 	// 変更した加速度を追加
@@ -38,7 +52,6 @@ void Object::Update() {
 	// 座標に速度分移動させる
 	centerPosition.x += velocity.x;
 	centerPosition.y += velocity.y;
-
 
 	CheckFieldHitBox();
 
@@ -85,27 +98,27 @@ bool Object::CheckFieldHitBox() {
 	// 左右
 	bool result = false;
 	if (centerPosition.x - width / 2.0f < 0) {
-		centerPosition.x -= centerPosition.x - width / 2.0f;
+		centerPosition.x = width / 2.0f;
 		acceleration.x = 0;
 		velocity.x = 0;
 		result = true;
 	}
 	else if(BaseConst::kWindowWidth < centerPosition.x + width / 2.0f) {
-		centerPosition.x += BaseConst::kWindowWidth - (centerPosition.x + width / 2.0f);
+		centerPosition.x = BaseConst::kWindowWidth - (width / 2.0f);
 		acceleration.x = 0;
 		velocity.x = 0;
 		result = true;
 	}
 	// 上下
 	if (centerPosition.y - height / 2.0f < 0) {
-		centerPosition.y -= centerPosition.y - height / 2.0f;
+		centerPosition.y = height / 2.0f;
 		isFlying = false;
 		acceleration.y = 0;
 		velocity.y = 0;
 		result = true;
 	}
 	else if (BaseConst::kWindowHeight < centerPosition.y + height / 2.0f) {
-		centerPosition.y += BaseConst::kWindowHeight - (centerPosition.y + height / 2.0f);
+		centerPosition.y = BaseConst::kWindowHeight - (height / 2.0f);
 		acceleration.y = 0;
 		velocity.y = 0;
 		result = true;

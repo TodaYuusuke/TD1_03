@@ -28,7 +28,7 @@ void Debug::Update() {
 	}
 	// 右クリックでブロックを生成
 	if (BaseInput::GetMouseState(MiddleClick, Trigger)) {
-		wireManager.Attract();
+		//wireManager.Attract();
 	}
 
 	if (BaseInput::GetKeyboardState(DIK_Q, Trigger)) {
@@ -36,7 +36,7 @@ void Debug::Update() {
 	}
 
 	objectManager.Update();
-	wireManager.Update(objectManager);
+	wireManager.Update(&objectManager);
 }
 // 描画
 void Debug::Draw() {
