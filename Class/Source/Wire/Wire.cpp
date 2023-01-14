@@ -11,14 +11,16 @@ Wire::~Wire() {
 
 // 初期化
 void Wire::Initialize() {
+	firstPosition = new Point();
 	*firstPosition = { -10000.0f, -10000.0f };
+	secondPosition = new Point();
 	*secondPosition = { -10000.0f, -10000.0f };
 
 	firstObject = NULL;
 	secondObject = NULL;
 }
 // 更新
-void Wire::Update(ObjectManager objectManager) {
+void Wire::Update(ObjectManager* objectManager) {
 	// オブジェクトに刺さっている、もしくはプレイヤーの場合に座標を入れる
 	// 刺さっておらず、射出されているときは速度を加算する
 	if (firstObject != NULL) {
@@ -58,9 +60,9 @@ void Wire::Draw() {
 // 返り値：ヒットした場合 ... true
 //
 // 今回はオブジェクト、もしくは場外に当たった場合にヒット判定
-bool Wire::CheckHitBox(Point* _position,Object*& _object, ObjectManager objectManager) {
-	_object = objectManager.CheckObjectHitBox(*_position);
-	if (_object != NULL) {
+bool Wire::CheckHitBox(Point* _position,Object*& _object, ObjectManager* objectManager) {
+	_object = objectManager->CheckObjectHitBox(*_position);
+	if (_object != NULL && _object->GetType() != typePlayer) {
 		return true;
 	}
 	// 画面外に出た場合
@@ -70,6 +72,7 @@ bool Wire::CheckHitBox(Point* _position,Object*& _object, ObjectManager objectMa
 	if (_position->y < 0 || BaseConst::kWindowHeight < _position->y) {
 		return true;
 	}
+	_object = NULL;
 	return false;
 }
 

@@ -1,11 +1,12 @@
 #pragma once
 #include "MyBase/Include/MyBase.h"
 #include "Class/Include/Object/Object.h"
+
 #include "Class/Include/Wire/WireManager.h"
 
 
 // いうまでもなくプレイヤー
-
+class WireManager;
 
 class Player :
 	public Object {
@@ -38,8 +39,6 @@ private: // 関数
 
 private: // メンバ変数
 
-	const static int kPlayerSpeedX = 4;
-	const static int kPlayerSpeedY = 10;
 
 	// マウス座標
 	Point ReticlePosition;

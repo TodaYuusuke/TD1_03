@@ -4,12 +4,13 @@
 
 #include "Class/Include/Object/Block/Block.h"
 #include "Class/Include/Object/Player/Player.h"
+#include "Class/Include/Wire/Wire.h"
 
 #include "Class/Include/Wire/WireManager.h";
 
-class WireManager;
 // プログラム内のオブジェクトを全て管理するクラス
 
+class WireManager;
 
 class ObjectManager {
 
@@ -68,6 +69,6 @@ private: // メンバ変数
 	Object* object[kMaxObjectSize];
 
 	// ワイヤーマネージャー
-	WireManager wireManager;
+	WireManager* wireManager;
 
 };

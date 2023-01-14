@@ -50,6 +50,9 @@ int BaseConst::kWindowHeight = 1080;
 // プレイヤーのサイズ
 Point BaseConst::kPlayerSize = { 64,128 };
 
+// プレイヤーの移動値
+Point BaseConst::kPlayerSpeed = { 4.0f,40.0f };
+
 #pragma endregion
 
 #pragma region ワイヤー
@@ -60,6 +63,6 @@ float BaseConst::kWireSpeed = 20;
 // ワイヤーの最大の長さ
 float BaseConst::kWireMaxLength = 100.0f;
 // ワイヤーの最大存在数
-int BaseConst::kWireMaxAmount = 3;
+//int BaseConst::kWireMaxAmount = 3;
 
 #pragma endregion

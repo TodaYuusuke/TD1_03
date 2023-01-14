@@ -14,7 +14,7 @@ Player::~Player() {
 
 // èâä˙âª
 void Player::SuccessorInitialize() {
-	centerPosition = { -1000,-1000 };
+	centerPosition = { -10000,-10000 };
 
 	width = 1;
 	height = 1;
@@ -23,9 +23,9 @@ void Player::SuccessorInitialize() {
 	acceleration = { 0,0 };
 
 	isFlying = true;
-	ReticlePosition = { -100,-100 };
+	ReticlePosition = { -10000,-10000 };
 
-	wireManager->Initialize();
+	//wireManager->Initialize();
 
 }
 // çXêV
@@ -35,7 +35,7 @@ void Player::SuccessorUpdate() {
 
 	Move();
 	//wireManager.Update();
-	//ShotWire();
+	ShotWire();
 
 }
 // ï`âÊ
@@ -53,13 +53,17 @@ void Player::Draw() {
 void Player::Move() {
 	// ç∂Ç÷ÇÃà⁄ìÆ
 	if (BaseInput::GetKeyboardState(DIK_A, Press)) {
-		velocity.x -= kPlayerSpeedX;
+		acceleration.x -= BaseConst::kPlayerSpeed.x;
+		
 	}
 	else if (BaseInput::GetKeyboardState(DIK_D, Press)) {
-		velocity.x += kPlayerSpeedX;
+		acceleration.x += BaseConst::kPlayerSpeed.x;
 	}
-	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger)) {
-		acceleration.y += kPlayerSpeedY;
+	else if (velocity.x + acceleration.x != 0) {
+		velocity.x *= 0.95f;
+	}
+	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger) && !isFlying) {
+		velocity.y += BaseConst::kPlayerSpeed.y;
 		isFlying = true;
 	}
 

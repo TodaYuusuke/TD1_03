@@ -10,27 +10,28 @@ WireManager::~WireManager() {
 
 void WireManager::Initialize() {
 	for (int i = 0; i < BaseConst::kWireMaxAmount; i++) {
-		wires[i].Initialize();
+		wires[i] = new Wire();
+		wires[i]->Initialize();
 	}
 
 }
 
-void WireManager::Update(ObjectManager objectManager) {
+void WireManager::Update(ObjectManager* objectManager) {
 	for (int i = 0; i < BaseConst::kWireMaxAmount; i++) {
-		wires[i].Update(objectManager);
+		wires[i]->Update(objectManager);
 	}
 
 }
 
 void WireManager::Draw() {
 	for (int i = 0; i < BaseConst::kWireMaxAmount; i++) {
-		wires[i].Draw();
+		wires[i]->Draw();
 	}
 }
 
 bool WireManager::Shot(Point shotPosition, float shotAngle,Player* _player) {
 	for (int i = 0; i < BaseConst::kWireMaxAmount; i++) {
-		if (wires[i].Shot(shotPosition, shotAngle, _player)) {
+		if (wires[i]->Shot(shotPosition, shotAngle, _player)) {
 			return true;
 		}
 	}

@@ -4,6 +4,9 @@
 
 // ワイヤーのクラス
 
+class ObjectManager;
+class Player;
+
 class Wire {
 public: // メンバ関数
 
@@ -14,7 +17,7 @@ public: // メンバ関数
 	// 初期化（最初は存在しないものとして扱うので、変数はデタラメで）
 	void Initialize();
 	// 更新
-	void Update(ObjectManager objectManager);
+	void Update(ObjectManager* objectManager);
 	// 描画
 	void Draw();
 
@@ -24,7 +27,7 @@ public: // メンバ関数
 	// 返り値：ヒットした場合 ... true
 	//
 	// 今回はオブジェクト、もしくは場外に当たった場合にヒット判定
-	bool CheckHitBox(Point* _position, Object*& _object, ObjectManager objectManager);
+	bool CheckHitBox(Point* _position, Object*& _object, ObjectManager* objectManager);
 
 
 	// ワイヤー射出時に呼び出される関数

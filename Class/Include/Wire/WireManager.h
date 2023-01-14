@@ -5,6 +5,10 @@
 
 class ObjectManager;
 
+class Player;
+
+class Wire;
+
 class WireManager {
 public: // メンバ関数
 
@@ -16,7 +20,7 @@ public: // メンバ関数
 	// 初期化
 	void Initialize();
 	// 更新
-	void Update(ObjectManager objectManager);
+	void Update(ObjectManager* objectManager);
 	// 描画
 	void Draw();
 
@@ -44,6 +48,6 @@ public: // メンバ関数
 
 private: // メンバ変数
 
-	Wire wires[3];
+	Wire* wires[BaseConst::kWireMaxAmount];
 
 };
