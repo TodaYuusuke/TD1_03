@@ -1,7 +1,7 @@
 #include "Class/Include/Object/Player/Player.h"
 
 // コンストラクタ
-Player::Player(Point centerPosition,WireManager* _wireManager) {
+Player::Player(Point centerPosition, WireManager* _wireManager) {
 	this->centerPosition = centerPosition;
 	wireManager = _wireManager;
 	ReticlePosition = { -100,-100 };
@@ -41,7 +41,7 @@ void Player::SuccessorUpdate() {
 // 描画
 void Player::Draw() {
 	BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { 100,100 }, 1.0f, 0.0f, WHITE);
-	BaseDraw::DrawQuad(BaseDraw::WorldtoScreen(ReticlePosition), BaseTexture::kDebugTexture, {20,20}, 1.0f, 0.0f, WHITE);
+	BaseDraw::DrawQuad(BaseDraw::WorldtoScreen(ReticlePosition), BaseTexture::kDebugTexture, { 20,20 }, 1.0f, 0.0f, WHITE);
 	Novice::ScreenPrintf(10, 10, "Reticle:%.2f %.2f", ReticlePosition.x, ReticlePosition.y);
 	Novice::ScreenPrintf(10, 30, "center:%.2f %.2f", centerPosition.x, centerPosition.y);
 }
@@ -54,7 +54,7 @@ void Player::Move() {
 	// 左への移動
 	if (BaseInput::GetKeyboardState(DIK_A, Press)) {
 		acceleration.x -= BaseConst::kPlayerSpeed.x;
-		
+
 	}
 	else if (BaseInput::GetKeyboardState(DIK_D, Press)) {
 		acceleration.x += BaseConst::kPlayerSpeed.x;
@@ -73,9 +73,12 @@ void Player::Move() {
 void Player::ShotWire() {
 	if (BaseInput::GetMouseState(LeftClick, Trigger)) {
 		ReticlePosition = BaseInput::GetMousePosition();
-		float angle = atan2(centerPosition.y - ReticlePosition.y, centerPosition.x - ReticlePosition.x);
-		
-		wireManager->Shot(centerPosition, BaseMath::RadiantoDegree(angle), this);
+		//float angle = atan2(centerPosition.y - ReticlePosition.y, centerPosition.x - ReticlePosition.x);
+
+		//wireManager->Shot(centerPosition, BaseMath::RadiantoDegree(angle), this);
+		wireManager->Shot(centerPosition, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), ReticlePosition), this);
+
+
 
 	}
 }

@@ -18,6 +18,7 @@ void Wire::Initialize() {
 
 	firstObject = NULL;
 	secondObject = NULL;
+	wireState = NoneShot;
 }
 // 更新
 void Wire::Update(ObjectManager* objectManager) {
@@ -31,7 +32,7 @@ void Wire::Update(ObjectManager* objectManager) {
 	}
 	if (wireState == DoneShot) {
 		// 一回目の射出中
-		if (firstObject != NULL) {
+		if (firstObject == NULL) {
 			firstPosition->x += cosf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
 			firstPosition->y += sinf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
 			// どこかに刺さった場合
@@ -40,7 +41,7 @@ void Wire::Update(ObjectManager* objectManager) {
 			}
 		}
 		// 二回目の射出中
-		else if (secondObject != NULL) {
+		else if (secondObject == NULL) {
 			secondPosition->x += cosf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
 			secondPosition->y += sinf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
 			// どこかに刺さった場合
