@@ -69,7 +69,7 @@ void Player::Move() {
 
 }
 
-// ワイヤーを射出する動作
+// ワイヤー関連
 void Player::ShotWire() {
 	if (BaseInput::GetMouseState(LeftClick, Trigger)) {
 		ReticlePosition = BaseInput::GetMousePosition();
@@ -80,6 +80,9 @@ void Player::ShotWire() {
 
 
 
+	}
+	if (BaseInput::GetMouseState(RightClick, Trigger)) {
+		wireManager->Attract();
 	}
 }
 
