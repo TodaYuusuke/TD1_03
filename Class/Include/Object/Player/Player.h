@@ -34,7 +34,7 @@ private: // 関数
 
 	// 移動関連
 	void Move();
-	// ワイヤーを射出する動作
+	// ワイヤー関連
 	void ShotWire();
 
 private: // メンバ変数

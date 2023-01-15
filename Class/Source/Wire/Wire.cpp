@@ -18,6 +18,7 @@ void Wire::Initialize() {
 
 	firstObject = NULL;
 	secondObject = NULL;
+	wireState = NoneShot;
 }
 // 更新
 void Wire::Update(ObjectManager* objectManager) {
@@ -31,7 +32,7 @@ void Wire::Update(ObjectManager* objectManager) {
 	}
 	if (wireState == DoneShot) {
 		// 一回目の射出中
-		if (firstObject != NULL) {
+		if (firstObject == NULL) {
 			firstPosition->x += cosf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
 			firstPosition->y += sinf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
 			// どこかに刺さった場合
@@ -40,7 +41,7 @@ void Wire::Update(ObjectManager* objectManager) {
 			}
 		}
 		// 二回目の射出中
-		else if (secondObject != NULL) {
+		else if (secondObject == NULL) {
 			secondPosition->x += cosf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
 			secondPosition->y += sinf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
 			// どこかに刺さった場合
@@ -89,10 +90,13 @@ bool Wire::CheckHitBox(Point* _position,Object*& _object, ObjectManager* objectM
 //
 // この関数が呼び出された後は、Updateにて着弾するまで弾の演算をし続けること。（ワイヤーの速度はBaseConst::kWireSpeed）
 bool Wire::Shot(Point shotPosition, float shotAngle, Player* _player) {
+	// 撃っていない時	: 初期化処理をして撃つ
+	// 撃っている時		: 特に何もしない
 	switch (wireState)
 	{
 	case Wire::NoneShot:
-		if (firstObject == NULL) {
+		// 一回目の射出をしていない時、かつ、壁などにくっついていない時
+		if (firstObject == NULL && (firstPosition->x == -10000.0f && firstPosition->y == -10000.0f)) {
 			*firstPosition = shotPosition;
 			secondObject = _player;
 			ShotAngle = shotAngle;
