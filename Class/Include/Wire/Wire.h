@@ -62,6 +62,11 @@ private: // メンバ変数
 	};
 	WireState wireState;
 
+	// ワイヤーが刺さってるか
+	bool firstisStab;
+	bool secondisStab;
+
+
 	// 1点目の座標
 	Point* firstPosition;
 	// 2点目の座標
@@ -74,5 +79,6 @@ private: // メンバ変数
 
 	// 射出角度
 	float ShotAngle;
+
 
 };

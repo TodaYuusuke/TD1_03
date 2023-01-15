@@ -18,6 +18,10 @@ void Wire::Initialize() {
 
 	firstObject = NULL;
 	secondObject = NULL;
+
+	firstisStab = false;
+	secondisStab = false;
+
 	wireState = NoneShot;
 }
 // 更新
@@ -38,6 +42,7 @@ void Wire::Update(ObjectManager* objectManager) {
 			// どこかに刺さった場合
 			if (CheckHitBox(firstPosition, firstObject, objectManager)) {
 				wireState = NoneShot;
+				firstisStab = true;
 			}
 		}
 		// 二回目の射出中
@@ -47,6 +52,7 @@ void Wire::Update(ObjectManager* objectManager) {
 			// どこかに刺さった場合
 			if (CheckHitBox(secondPosition, secondObject, objectManager)) {
 				wireState = NoneShot;
+				secondisStab = true;
 			}
 		}
 	}
@@ -96,9 +102,16 @@ bool Wire::Shot(Point shotPosition, float shotAngle, Player* _player) {
 	{
 	case Wire::NoneShot:
 		// 一回目の射出をしていない時、かつ、壁などにくっついていない時
-		if (firstObject == NULL && (firstPosition->x == -10000.0f && firstPosition->y == -10000.0f)) {
+		if (!firstisStab) {
 			*firstPosition = shotPosition;
 			secondObject = _player;
+			ShotAngle = shotAngle;
+			wireState = DoneShot;
+			return true;
+		}
+		else if (!secondisStab) {
+			*secondPosition = shotPosition;
+			secondObject = NULL;
 			ShotAngle = shotAngle;
 			wireState = DoneShot;
 			return true;
@@ -117,5 +130,24 @@ bool Wire::Shot(Point shotPosition, float shotAngle, Player* _player) {
 // 引数：なし
 // 着弾点のObjectにベクトルを足す
 void Wire::Attract() {
+	// 一回目の射出をしていない時、かつ、壁などにくっついていない時
+	if (firstisStab) {
+		// プレイヤーかオブジェクトかを判別して処理を変える
+		// ブロックを引き寄せる
+		if (firstObject->GetType() == typeBlock) {
+			float degree = BaseMath::GetDegree(*firstPosition, *secondPosition);
+			Point velocity = BaseMath::GetVector(degree, { 20,20 });
+			firstObject->AddVelocity(velocity);
+		}
+		// 
+		else if (secondObject->GetType() == typePlayer) {
+			float degree = BaseMath::GetDegree(*firstPosition, *secondPosition);
+			Point velocity = BaseMath::GetVector(degree, { 20,20 });
+			firstObject->AddVelocity(velocity);
 
+		}
+
+		//secondObject->AddVelocity()
+
+	}
 }

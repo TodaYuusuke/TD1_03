@@ -4,7 +4,7 @@
 Player::Player(Point centerPosition, WireManager* _wireManager) {
 	this->centerPosition = centerPosition;
 	wireManager = _wireManager;
-	ReticlePosition = { -100,-100 };
+	reticlePosition = { -100,-100 };
 }
 // デストラクタ
 Player::~Player() {
@@ -23,7 +23,7 @@ void Player::SuccessorInitialize() {
 	acceleration = { 0,0 };
 
 	isFlying = true;
-	ReticlePosition = { -10000,-10000 };
+	reticlePosition = { -10000,-10000 };
 
 	//wireManager->Initialize();
 
@@ -31,7 +31,7 @@ void Player::SuccessorInitialize() {
 // 更新
 void Player::SuccessorUpdate() {
 
-	ReticlePosition = BaseInput::GetMousePosition();
+	reticlePosition = BaseInput::GetMousePosition();
 
 	Move();
 	//wireManager.Update();
@@ -41,8 +41,8 @@ void Player::SuccessorUpdate() {
 // 描画
 void Player::Draw() {
 	BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { 100,100 }, 1.0f, 0.0f, WHITE);
-	BaseDraw::DrawQuad(BaseDraw::WorldtoScreen(ReticlePosition), BaseTexture::kDebugTexture, { 20,20 }, 1.0f, 0.0f, WHITE);
-	Novice::ScreenPrintf(10, 10, "Reticle:%.2f %.2f", ReticlePosition.x, ReticlePosition.y);
+	BaseDraw::DrawQuad(BaseDraw::WorldtoScreen(reticlePosition), BaseTexture::kDebugTexture, { 20,20 }, 1.0f, 0.0f, WHITE);
+	Novice::ScreenPrintf(10, 10, "Reticle:%.2f %.2f", reticlePosition.x, reticlePosition.y);
 	Novice::ScreenPrintf(10, 30, "center:%.2f %.2f", centerPosition.x, centerPosition.y);
 }
 
@@ -72,12 +72,8 @@ void Player::Move() {
 // ワイヤー関連
 void Player::ShotWire() {
 	if (BaseInput::GetMouseState(LeftClick, Trigger)) {
-		ReticlePosition = BaseInput::GetMousePosition();
-		//float angle = atan2(centerPosition.y - ReticlePosition.y, centerPosition.x - ReticlePosition.x);
-
-		//wireManager->Shot(centerPosition, BaseMath::RadiantoDegree(angle), this);
-		wireManager->Shot(centerPosition, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), ReticlePosition), this);
-
+		reticlePosition = BaseInput::GetMousePosition();
+		wireManager->Shot(centerPosition, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition), this);
 
 
 	}
