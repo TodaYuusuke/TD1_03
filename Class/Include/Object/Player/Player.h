@@ -30,19 +30,40 @@ public: // メンバ関数
 
 private: // 関数
 
+
 	// どちらもUpdate()で毎フレーム呼び出すこと
 
 	// 移動関連
 	void Move();
+	// ジャンプ
+	void Jump();
 	// ワイヤー関連
 	void ShotWire();
 
+
+	// 当たり判定
+
+	// 上下左右の当たり判定の関数
+	void CheckHitBoxRhombus();
+	// 左上、左下、右上、右下の当たり判定の関数
+	void CheckHitBoxQuad();
+
+
+
 private: // メンバ変数
 
+	
 
-	// マウス座標
-	Point ReticlePosition;
+	// 状態フラグ
 
+	// 空中にいるか（地面についてないか）
+	bool isFlying;
+
+	// 照準の座標
+	Point reticlePosition;
+
+
+	// ワイヤー管理クラス
 	WireManager* wireManager;
 
 };

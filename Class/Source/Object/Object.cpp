@@ -1,22 +1,28 @@
 #include "Class/Include/Object/Object.h"
 
 void Object::Initialize() {
-	kGravitationalAcceleration = 9.8f / 60.0f;
+
+	// 中心座標
+	centerPosition = { -10000,-10000 };
+	// 速度
+	velocity = { 0,0 };
+	// 加速度
+	acceleration = { 0,0 };
+
+	// 回転角度（Degree）
+	angle = 0;
+
+	// 当たり判定のサイズ（左上の点からの長さ）
+	width = 0;
+	height = 0;
+
+	//空中にいるかどうか
+	isFlying = true;
+
 	SuccessorInitialize();
  }
 
 void Object::SuccessorInitialize(){
-
-	centerPosition = { -10000,-10000 };
-
-	width = 1;
-	height = 1;
-
-	velocity = { 0,0 };
-	acceleration = { 0,0 };
-
-	isFlying = true;
-
 
  }
 
@@ -29,27 +35,28 @@ void Object::Update() {
 
 	if (isFlying) {
 		// 加速度に重力を追加
-		acceleration.y -= kGravitationalAcceleration;
-	}
-	// とりあえず速度を弱める
-	if (velocity.x < 0) {
-		velocity.x *= 0.87f;
-	}
-	else if (0 < velocity.x) {
-		velocity.x *= 0.87f;
-	}
-	if (0 < velocity.y) {
-		velocity.y *= 0.87f;
-	}
-	if (-0.1f <= velocity.x && velocity.x <= 0.1f) {
-		velocity.x = 0;
+		acceleration.y -= BaseConst::kPlayerGravitationalAcceleration;
 	}
 
-	// 変更した加速度を追加
+	// 加速度を追加
 	velocity.x += acceleration.x;
 	velocity.y += acceleration.y;
 
-	// 座標に速度分移動させる
+	// 速度制限にかかっている場合、減速させる
+	if (velocity.x > BaseConst::kPlayerVelocityLimit) {
+		velocity.x -= 0.02f;
+	}
+	if (velocity.x < -(BaseConst::kPlayerVelocityLimit)) {
+		velocity.x += 0.02f;
+	}
+	if (velocity.y > BaseConst::kPlayerVelocityLimit) {
+		velocity.y -= 0.02f;
+	}
+	if (velocity.y < -(BaseConst::kPlayerVelocityLimit)) {
+		velocity.y += 0.02f;
+	}
+
+	// 速度を追加
 	centerPosition.x += velocity.x;
 	centerPosition.y += velocity.y;
 

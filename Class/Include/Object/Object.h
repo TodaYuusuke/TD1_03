@@ -88,26 +88,19 @@ public: // メンバ関数
 
 protected: // メンバ変数
 
-	/* 定数として扱うのでInitialize以外のプログラム中で書き換え禁止！！ */
-
-	// 重力加速度
-	float kGravitationalAcceleration;
-
-	/* 定数ここまで */
-
-
 	// 中心座標
 	Point centerPosition;
+	// 速度
+	Point velocity;
+	// 加速度
+	Point acceleration;
+
+	// 回転角度（Degree）
+	float angle;
 
 	// 当たり判定のサイズ（左上の点からの長さ）
 	float width;
 	float height;
-
-	// 速度
-	Point velocity;
-	
-	// 加速度
-	Point acceleration;
 
 	//空中にいるかどうか
 	bool isFlying;

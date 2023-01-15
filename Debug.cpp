@@ -1,4 +1,4 @@
-#include "Debug.h"
+ #include "Debug.h"
 
 // コンストラクタ
 Debug::Debug() {
