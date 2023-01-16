@@ -65,6 +65,7 @@ void BaseDraw::ChangeFullScreen() {
 // textureHandle ... テクスチャのハンドル
 // scale ... 描画するスプライトの倍率
 // angle ... 描画するスプライトの回転角（Degree）
+// 　　　　　　左上を中心に回転する
 // color ... 描画するスプライトの色
 // ワールド座標のまま呼び出せる描画関数（DrawSprite）
 void BaseDraw::DrawSprite(Point worldPosition, int textureHandle, Point scale, float angle, unsigned int color) {

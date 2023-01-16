@@ -4,10 +4,13 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#include "MyBase/Include/Other/BaseDraw.h"
+
 ////////////////////////////////////////////////////
 /* - プログラム中に使う全ての数学的関数を管理するクラス - */
 ////////////////////////////////////////////////////
 
+class BaseDraw;
 
 class BaseMath
 {
@@ -63,6 +66,15 @@ public:
 
 	// 当たり判定処理
 
+	// 四角形と点の当たり判定チェック（回転を考慮可能、当たり判定の四角形が自身の中心を原点に回転している前提）
+	// 返り値：ヒット時はtrue、それ以外はfalse
+	// 引数：
+	// hitBoxCenterPosition ... ヒット対象の四角の中心座標
+	// hitBoxWidth ... ヒット対象の横幅
+	// hitBoxHeight ... ヒット対象の縦幅
+	// boxAngle ... ヒット対象の四角の回転角度
+	// hitPoisiton ... ヒットしているか検証する座標
+	static bool CheckHitBox(Point hitBoxCenterPosition, float hitBoxWidth, float hitBoxHeight, float boxAngle, Point hitPosition);
 
 	// 四角同士の当たり判定チェック
 	static bool CheckHitBox(Box hitBox1, Box hitBox2);

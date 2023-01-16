@@ -51,6 +51,10 @@ public: // メンバ関数
 	// 引数：足す速度
 	void AddVelocity(Point _addVelocity);
 
+	// オブジェクトに回転速度を足す関数
+	// 返り値：なし
+	// 引数：足す速度
+	void AddVelocity(float _addVelocity);
 
 	// 当たり判定をチェックする関数
 	// 返り値：ヒットしていた場合 ... true
@@ -97,6 +101,8 @@ protected: // メンバ変数
 
 	// 回転角度（Degree）
 	float angle;
+	// 回転速度（Degree）
+	float angleVelocity;
 
 	// 当たり判定のサイズ（左上の点からの長さ）
 	float width;

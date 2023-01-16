@@ -4,6 +4,8 @@
 
 #include <Novice.h>
 
+class BaseMath;
+
 class BaseDraw {
 
 public:

@@ -2,6 +2,11 @@
 
 void Object::Initialize() {
 
+	SuccessorInitialize();
+ }
+
+void Object::SuccessorInitialize(){
+
 	// 中心座標
 	centerPosition = { -10000,-10000 };
 	// 速度
@@ -11,6 +16,8 @@ void Object::Initialize() {
 
 	// 回転角度（Degree）
 	angle = 0;
+	// 回転速度（Degree）
+	angleVelocity = 0;
 
 	// 当たり判定のサイズ（左上の点からの長さ）
 	width = 0;
@@ -18,12 +25,6 @@ void Object::Initialize() {
 
 	//空中にいるかどうか
 	isFlying = true;
-
-	SuccessorInitialize();
- }
-
-void Object::SuccessorInitialize(){
-
  }
 
 void Object::Update() {
@@ -60,8 +61,11 @@ void Object::Update() {
 	centerPosition.x += velocity.x;
 	centerPosition.y += velocity.y;
 
-	CheckFieldHitBox();
 
+	// 回転速度を追加
+	angle += angleVelocity;
+
+	CheckFieldHitBox();
 }
 
 void Object::SuccessorUpdate() {
@@ -72,6 +76,7 @@ void Object::Draw() {
 	BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { 100,100 }, 1.0f, 0.0f, WHITE);
 }
 
+
 // オブジェクトに速度ベクトルを足す関数
 // 返り値：なし
 // 引数：足す速度
@@ -79,6 +84,14 @@ void Object::AddVelocity(Point _addVelocity) {
 	velocity.x += _addVelocity.x;
 	velocity.y += _addVelocity.y;
 }
+
+// オブジェクトに回転速度を足す関数
+// 返り値：なし
+// 引数：足す速度
+void Object::AddVelocity(float _addVelocity) {
+	angleVelocity += _addVelocity;
+}
+
 
 bool Object::CheckHitBox(Point hitPosition) {
 	// 左右

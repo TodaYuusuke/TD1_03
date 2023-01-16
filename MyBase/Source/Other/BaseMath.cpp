@@ -1,6 +1,6 @@
 #include "MyBase/Include/Other/BaseMath.h"
 
-
+#include <Novice.h>
 
 // 角度関連
 
@@ -91,6 +91,46 @@ Quad BaseMath::TurnBox(Quad box, float degree) {
 
 
 // 当たり判定処理
+
+
+// 四角形と点の当たり判定チェック（回転を考慮する）
+// 返り値：ヒット時はtrue、それ以外はfalse
+// 引数：
+// hitBoxCenterPosition ... ヒット対象の四角の中心座標
+// hitBoxWidth ... ヒット対象の横幅
+// hitBoxHeight ... ヒット対象の縦幅
+// boxAngle ... ヒット対象の四角の回転角度
+// hitPoisiton ... ヒットしているか検証する座標
+bool BaseMath::CheckHitBox(Point hitBoxCenterPosition, float hitBoxWidth, float hitBoxHeight, float boxAngle, Point hitPosition) {
+
+	//hitBoxCenterPosition = BaseDraw::WorldtoScreen(hitBoxCenterPosition);
+	//hitPosition = BaseDraw::WorldtoScreen(hitPosition);
+
+	// hitPositionをヒット対象の四角の中心を原点に回転させて戻す
+	Point pos = { hitPosition.x - hitBoxCenterPosition.x, hitPosition.y - hitBoxCenterPosition.y };
+	hitPosition = BaseMath::TurnPoint(pos, -boxAngle);
+	hitPosition = { hitPosition.x + hitBoxCenterPosition.x, hitPosition.y + hitBoxCenterPosition.y };
+
+	// 点が上辺より下で
+	if (hitPosition.y > hitBoxCenterPosition.y - hitBoxHeight / 2) {
+		Novice::ScreenPrintf(0, 0, "1");
+		// 点が下辺より上で
+		if (hitPosition.y < hitBoxCenterPosition.y + hitBoxHeight / 2) {
+			Novice::ScreenPrintf(0, 20, "2");
+			// 点が左辺より右で
+			if (hitPosition.x > hitBoxCenterPosition.x - hitBoxWidth / 2) {
+				Novice::ScreenPrintf(0, 40, "3");
+				// 点が右辺より左の場合 -> ヒットしている
+				if (hitPosition.x < hitBoxCenterPosition.x + hitBoxWidth / 2) {
+					Novice::ScreenPrintf(0, 60, "4");
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}
 
 
 // 四角同士の当たり判定チェック
