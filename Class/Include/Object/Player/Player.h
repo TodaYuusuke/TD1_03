@@ -52,12 +52,7 @@ private: // 関数
 
 private: // メンバ変数
 
-	
-
 	// 状態フラグ
-
-	// 空中にいるか（地面についてないか）
-	bool isFlying;
 
 	// 照準の座標
 	Point reticlePosition;

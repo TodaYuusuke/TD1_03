@@ -159,3 +159,58 @@ bool BaseMath::CheckHitBox(Box hitBox1, Box hitBox2) {
 
 	return false;
 }
+
+// ベクトル関連
+
+/// <summary>
+/// ベクトルの長さを求める関数
+/// </summary>
+/// <param name="vector">ベクトル</param>
+/// <returns>ベクトルの長さ</returns>
+float BaseMath::GetLength(Point vector) {
+	return sqrtf(vector.x * vector.x + vector.y * vector.y);
+}
+
+
+/// <summary>
+/// ベクトルの正規化をする関数
+/// </summary>
+/// <param name="vector">ベクトル</param>
+/// <returns>正規化されたベクトル</returns>
+Point BaseMath::GetNormalize(Point vector) {
+	Point norm = vector;
+	float length = GetLength(vector);
+	if (length != 0.0f) {
+		norm.x /= length;
+		norm.y /= length;
+	}
+	return norm;
+}
+
+/// <summary>
+/// Degree を受け取ってベクトルを生成する関数
+/// </summary>
+/// <param name="degree">degree</param>
+/// <returns>ベクトル</returns>
+Point BaseMath::GetVector(float degree) {
+	return { cosf(BaseMath::DegreetoRadian(degree)),sinf(BaseMath::DegreetoRadian(degree)) };
+}
+/// <summary>
+/// Degree を受け取ってベクトルを生成する関数
+/// </summary>
+/// <param name="degree">degree</param>
+/// <param name="speed">スピード</param>
+/// <returns>正規化されたベクトルにスピードを掛けたベクトル</returns>
+Point BaseMath::GetVector(float degree, Point speed) {
+	return { cosf(BaseMath::DegreetoRadian(degree)) * speed.x, -sinf(BaseMath::DegreetoRadian(degree)) * speed.y };
+}
+
+/// <summary>
+/// from と to を受け取ってベクトルを生成する関数
+/// </summary>
+/// <param name="from">座標 1</param>
+/// <param name="to">座標 2</param>
+/// <returns>from から to へのベクトル</returns>
+Point BaseMath::GetVector(Point from, Point to) {
+	return { to.x - from.x,to.y - from.y };
+}

@@ -72,7 +72,7 @@ int BaseConst::kPlayerJumpCoolTime = 40;
 #pragma region ワイヤー
 
 // ワイヤーの弾速
-float BaseConst::kWireSpeed = 20;
+float BaseConst::kWireSpeed = 40;
 
 // ワイヤーの最大の長さ
 float BaseConst::kWireMaxLength = 100.0f;

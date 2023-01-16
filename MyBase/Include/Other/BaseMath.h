@@ -44,6 +44,7 @@ public:
 	static float GetDegree(Point from, Point to);
 
 
+
 	// 回転処理
 
 
@@ -78,6 +79,43 @@ public:
 
 	// 四角同士の当たり判定チェック
 	static bool CheckHitBox(Box hitBox1, Box hitBox2);
+
+	// ベクトル関連
+
+	/// <summary>
+	/// ベクトルの長さを求める関数
+	/// </summary>
+	/// <param name="vector">ベクトル</param>
+	/// <returns>ベクトルの長さ</returns>
+	static float GetLength(Point vector);
+
+	/// <summary>
+	/// ベクトルの正規化をする関数
+	/// </summary>
+	/// <param name="vector">ベクトル</param>
+	/// <returns>正規化されたベクトル</returns>
+	static Point GetNormalize(Point vector);
+
+	/// <summary>
+	/// Degree を受け取ってベクトルを生成する関数
+	/// </summary>
+	/// <param name="degree">degree</param>
+	/// <returns>正規化されたベクトル</returns>
+	static Point GetVector(float degree);
+	/// <summary>
+	/// Degree を受け取ってベクトルを生成する関数
+	/// </summary>
+	/// <param name="degree">degree</param>
+	/// <param name="speed">スピード</param>
+	/// <returns>正規化されたベクトルにスピードを掛けたベクトル</returns>
+	static Point GetVector(float degree, Point speed);
+	/// <summary>
+	/// from と to を受け取ってベクトルを生成する関数
+	/// </summary>
+	/// <param name="from">座標 1</param>
+	/// <param name="to">座標 2</param>
+	/// <returns>from から to へのベクトル</returns>
+	static Point GetVector(Point from, Point to);
 
 };
 
