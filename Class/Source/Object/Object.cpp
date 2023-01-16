@@ -9,23 +9,23 @@ void Object::Initialize() {
 
 void Object::SuccessorInitialize(){
 
-	// ’†SÀ•W
+	// ä¸­å¿ƒåº§æ¨™
 	centerPosition = { -10000,-10000 };
-	// ‘¬“x
+	// é€Ÿåº¦
 	velocity = { 0,0 };
-	// ‰Á‘¬“x
+	// åŠ é€Ÿåº¦
 	acceleration = { 0,0 };
 
-	// ‰ñ“]Šp“xiDegreej
+	// å›è»¢è§’åº¦ï¼ˆDegreeï¼‰
 	angle = 0;
-	// ‰ñ“]‘¬“xiDegreej
+	// å›è»¢é€Ÿåº¦ï¼ˆDegreeï¼‰
 	angleVelocity = 0;
 
-	// “–‚½‚è”»’è‚ÌƒTƒCƒYi¶ã‚Ì“_‚©‚ç‚Ì’·‚³j
+	// å½“ãŸã‚Šåˆ¤å®šã®ã‚µã‚¤ã‚ºï¼ˆå·¦ä¸Šã®ç‚¹ã‹ã‚‰ã®é•·ã•ï¼‰
 	width = 0;
 	height = 0;
 
-	//‹ó’†‚É‚¢‚é‚©‚Ç‚¤‚©
+	//ç©ºä¸­ã«ã„ã‚‹ã‹ã©ã†ã‹
 	isFlying = true;
  }
 
@@ -33,26 +33,26 @@ void Object::Update() {
 
 	acceleration = { 0,0 };
 
-	// ‰Á‘¬“x‚â‘¬“x‚ğŒp³æ‚Å•ÏX
+	// åŠ é€Ÿåº¦ã‚„é€Ÿåº¦ã‚’ç¶™æ‰¿å…ˆã§å¤‰æ›´
 	SuccessorUpdate();
 
-	// ‰Á‘¬“x‚Éd—Í‚ğ’Ç‰Á
+	// åŠ é€Ÿåº¦ã«é‡åŠ›ã‚’è¿½åŠ 
 	if (isFlying) {
 
 		if (velocity.y < -(BaseConst::kPlayerVelocityLimit)) {
 		
 		}
-		// ‘¬“x§ŒÀ‚É‚©‚©‚Á‚Ä‚¢‚é‚Æ‚«‚Í’Ç‰Á‚µ‚È‚¢
+		// é€Ÿåº¦åˆ¶é™ã«ã‹ã‹ã£ã¦ã„ã‚‹ã¨ãã¯è¿½åŠ ã—ãªã„
 		else {
 			acceleration.y -= BaseConst::kPlayerGravitationalAcceleration;
 		}
 	}
 
-	// ‰Á‘¬“x‚ğ’Ç‰Á
+	// åŠ é€Ÿåº¦ã‚’è¿½åŠ 
 	velocity.x += acceleration.x;
 	velocity.y += acceleration.y;
 
-	// ‘¬“x§ŒÀ‚É‚©‚©‚Á‚Ä‚¢‚éê‡AŒ¸‘¬‚³‚¹‚é
+	// é€Ÿåº¦åˆ¶é™ã«ã‹ã‹ã£ã¦ã„ã‚‹å ´åˆã€æ¸›é€Ÿã•ã›ã‚‹
 	if (velocity.x > BaseConst::kPlayerVelocityLimit) {
 		velocity.x -= 0.02f;
 	}
@@ -66,12 +66,12 @@ void Object::Update() {
 		velocity.y += 0.02f;
 	}
 
-	// ‘¬“x‚ğ’Ç‰Á
+	// é€Ÿåº¦ã‚’è¿½åŠ 
 	centerPosition.x += velocity.x;
 	centerPosition.y += velocity.y;
 
 
-	// ‰ñ“]‘¬“x‚ğ’Ç‰Á
+	// å›è»¢é€Ÿåº¦ã‚’è¿½åŠ 
 	angle += angleVelocity;
 
 	if (angleVelocity > 0) {
@@ -81,7 +81,7 @@ void Object::Update() {
 		centerPosition.x -= 0.5f * angleVelocity;
 	}
 
-	// ‰ñ“]‘¬“x‚ğŒ¸‘¬‚³‚¹‚Ä‚¢‚­
+	// å›è»¢é€Ÿåº¦ã‚’æ¸›é€Ÿã•ã›ã¦ã„ã
 	if (angleVelocity > BaseConst::kPlayerVelocityLimit) {
 		angleVelocity -= 0.05f;
 		if (angleVelocity < 0) {
@@ -108,40 +108,40 @@ void Object::Draw() {
 }
 
 
-// ƒƒ“ƒo•Ï”‚ÉŠÖ—^‚·‚éŠÖ”
+// ãƒ¡ãƒ³ãƒå¤‰æ•°ã«é–¢ä¸ã™ã‚‹é–¢æ•°
 
-// ƒIƒuƒWƒFƒNƒg‚Ì’†SÀ•W‚ğó‚¯æ‚éŠÖ”
-// •Ô‚è’lF’†SÀ•W
-// ˆø”F‚È‚µ
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä¸­å¿ƒåº§æ¨™ã‚’å—ã‘å–ã‚‹é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šä¸­å¿ƒåº§æ¨™
+// å¼•æ•°ï¼šãªã—
 Point Object::GetCenterPosition() {
 	return centerPosition;
 }
 
-// ƒIƒuƒWƒFƒNƒg‚Ì‘¬“x‚ğó‚¯æ‚éŠÖ”
-// •Ô‚è’lF‘¬“x‚ÌƒxƒNƒgƒ‹
-// ˆø”F‚È‚µ
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®é€Ÿåº¦ã‚’å—ã‘å–ã‚‹é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šé€Ÿåº¦ã®ãƒ™ã‚¯ãƒˆãƒ«
+// å¼•æ•°ï¼šãªã—
 Point Object::GetVelocity() {
 	return velocity;
 }
 
 
-// ƒIƒuƒWƒFƒNƒg‚É‘¬“xƒxƒNƒgƒ‹‚ğ‘«‚·ŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F‘«‚·‘¬“x
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¶³ã™é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼šè¶³ã™é€Ÿåº¦
 void Object::AddVelocity(Point _addVelocity) {
 	velocity.x += _addVelocity.x;
 	velocity.y += _addVelocity.y;
 }
 
-// ƒIƒuƒWƒFƒNƒg‚É‰ñ“]‘¬“x‚ğ‘«‚·ŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F‘«‚·‘¬“x
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å›è»¢é€Ÿåº¦ã‚’è¶³ã™é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼šè¶³ã™é€Ÿåº¦
 void Object::AddVelocity(float _addVelocity) {
 	angleVelocity += _addVelocity;
 }
 
 
-// “–‚½‚è”»’èŠÖ˜A
+// å½“ãŸã‚Šåˆ¤å®šé–¢é€£
 
 bool Object::CheckHitBox(Point hitPosition) {
 	return BaseMath::CheckHitBox(centerPosition, width, height, angle, hitPosition);
@@ -157,40 +157,40 @@ bool Object::CheckHitBox(Box hitPosition) {
 }
 
 
-// ‚»‚Ì‘¼
+// ãã®ä»–
 
 ObjectType Object::GetType() {
 	return typeObject;
 }
 
 
-// ŠÖ”
+// é–¢æ•°
 
-// ƒIƒuƒWƒFƒNƒg©‘Ì‚Ì“–‚½‚è”»’è‚ğƒ`ƒFƒbƒN‚·‚éŠÖ”
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè‡ªä½“ã®å½“ãŸã‚Šåˆ¤å®šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹é–¢æ•°
 void Object::CheckFieldHitBox() {
 
-	// 0 ... ã
-	// 1 ... ‰º
-	// 2 ... ¶
-	// 3 ... ‰E
-	// ‚Ì4“_‚ğ—pˆÓ
+	// 0 ... ä¸Š
+	// 1 ... ä¸‹
+	// 2 ... å·¦
+	// 3 ... å³
+	// ã®4ç‚¹ã‚’ç”¨æ„
 	checkRhombusPoint[0] = BaseMath::TurnPoint({ 0, +height / 2 }, angle);
 	checkRhombusPoint[1] = BaseMath::TurnPoint({ 0, -height / 2 }, angle);
 	checkRhombusPoint[2] = BaseMath::TurnPoint({ -width / 2, 0 }, angle);
 	checkRhombusPoint[3] = BaseMath::TurnPoint({ +width / 2, 0 }, angle);
 
-	// 0 ... ¶ã
-	// 1 ... ‰Eã
-	// 2 ... ¶‰º
-	// 3 ... ‰E‰º
-	// ‚Ì4“_‚ğ—pˆÓ
+	// 0 ... å·¦ä¸Š
+	// 1 ... å³ä¸Š
+	// 2 ... å·¦ä¸‹
+	// 3 ... å³ä¸‹
+	// ã®4ç‚¹ã‚’ç”¨æ„
 	checkQuadPoint[0] = BaseMath::TurnPoint({ -width / 2, +height / 2 }, angle);
 	checkQuadPoint[1] = BaseMath::TurnPoint({ +width / 2, +height / 2 }, angle);
 	checkQuadPoint[2] = BaseMath::TurnPoint({ -width / 2, -height / 2 }, angle);
 	checkQuadPoint[3] = BaseMath::TurnPoint({ +width / 2, -height / 2 }, angle);
 
 
-	// centerPosition‚ğ’Ç‰Á
+	// centerPositionã‚’è¿½åŠ 
 	for (int i = 0; i < 4; i++) {
 		checkRhombusPoint[i].x += centerPosition.x;
 		checkRhombusPoint[i].y += centerPosition.y;
@@ -199,18 +199,18 @@ void Object::CheckFieldHitBox() {
 	}
 
 
-	// N-1‰ñ‘€ì
+	// N-1å›æ“ä½œ
 	for (int i = 0; i < 4 - 1; i++) {
-		// ‰E‚©‚çƒ\[ƒgi¶‚©‚ç‚â‚é‚Æ•Ï”‚ª1‚Â‘‚¦‚éj
+		// å³ã‹ã‚‰ã‚½ãƒ¼ãƒˆï¼ˆå·¦ã‹ã‚‰ã‚„ã‚‹ã¨å¤‰æ•°ãŒ1ã¤å¢—ãˆã‚‹ï¼‰
 		for (int j = 4 - 1; i < j; j--) {
-			if (checkRhombusPoint[j].y < checkRhombusPoint[j - 1].y) { // ¶‚Ì”’l‚ª¬‚³‚¯‚ê‚ÎŒğŠ·
-				// ƒXƒƒbƒv
+			if (checkRhombusPoint[j].y < checkRhombusPoint[j - 1].y) { // å·¦ã®æ•°å€¤ãŒå°ã•ã‘ã‚Œã°äº¤æ›
+				// ã‚¹ãƒ¯ãƒƒãƒ—
 				Point p = checkRhombusPoint[j];
 				checkRhombusPoint[j] = checkRhombusPoint[j - 1];
 				checkRhombusPoint[j - 1] = p;
 			}
-			if (checkQuadPoint[j].y < checkQuadPoint[j - 1].y) { // ¶‚Ì”’l‚ª¬‚³‚¯‚ê‚ÎŒğŠ·
-				// ƒXƒƒbƒv
+			if (checkQuadPoint[j].y < checkQuadPoint[j - 1].y) { // å·¦ã®æ•°å€¤ãŒå°ã•ã‘ã‚Œã°äº¤æ›
+				// ã‚¹ãƒ¯ãƒƒãƒ—
 				Point p = checkQuadPoint[j];
 				checkQuadPoint[j] = checkQuadPoint[j - 1];
 				checkQuadPoint[j - 1] = p;
@@ -218,44 +218,44 @@ void Object::CheckFieldHitBox() {
 		}
 	}
 
-	// XÀ•W‚ª¶‘¤‚Ì•û‚ğ[1]‚ÉA‰E‘¤‚Ì•û‚ğ[2]‚É‘ã“ü
-	if (checkRhombusPoint[1].x < checkRhombusPoint[2].x) { // ¶‚Ì”’l‚ª¬‚³‚¯‚ê‚ÎŒğŠ·
-		// ƒXƒƒbƒv
+	// Xåº§æ¨™ãŒå·¦å´ã®æ–¹ã‚’[1]ã«ã€å³å´ã®æ–¹ã‚’[2]ã«ä»£å…¥
+	if (checkRhombusPoint[1].x < checkRhombusPoint[2].x) { // å·¦ã®æ•°å€¤ãŒå°ã•ã‘ã‚Œã°äº¤æ›
+		// ã‚¹ãƒ¯ãƒƒãƒ—
 		Point p = checkRhombusPoint[1];
 		checkRhombusPoint[1] = checkRhombusPoint[2];
 		checkRhombusPoint[2] = p;
 	}
-	if (checkQuadPoint[1].x < checkQuadPoint[2].x) { // ¶‚Ì”’l‚ª¬‚³‚¯‚ê‚ÎŒğŠ·
-		// ƒXƒƒbƒv
+	if (checkQuadPoint[1].x < checkQuadPoint[2].x) { // å·¦ã®æ•°å€¤ãŒå°ã•ã‘ã‚Œã°äº¤æ›
+		// ã‚¹ãƒ¯ãƒƒãƒ—
 		Point p = checkQuadPoint[1];
 		checkQuadPoint[1] = checkQuadPoint[2];
 		checkQuadPoint[2] = p;
 	}
 
 
-	// ã‰º¶‰E‚Ìƒqƒbƒgƒ{ƒbƒNƒXƒ`ƒFƒbƒN
+	// ä¸Šä¸‹å·¦å³ã®ãƒ’ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹ãƒã‚§ãƒƒã‚¯
 	CheckHitBoxRhombus(checkQuadPoint, checkRhombusPoint);
-	// ¶ãA¶‰ºA‰EãA‰E‰º‚Ìƒqƒbƒgƒ{ƒbƒNƒXƒ`ƒFƒbƒN
+	// å·¦ä¸Šã€å·¦ä¸‹ã€å³ä¸Šã€å³ä¸‹ã®ãƒ’ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹ãƒã‚§ãƒƒã‚¯
 	//CheckHitBoxQuad(checkQuadPoint);
 
 }
 
-// ã‰º¶‰E‚Ì“–‚½‚è”»’è‚ÌŠÖ”
+// ä¸Šä¸‹å·¦å³ã®å½“ãŸã‚Šåˆ¤å®šã®é–¢æ•°
 void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[]) {
 
-	// 4‚ÂŠp‚ÌÀ•W‚ğŒŸØ‚µƒqƒbƒg‚µ‚Ä‚éÀ•W‚ğŠm”F
+	// 4ã¤è§’ã®åº§æ¨™ã‚’æ¤œè¨¼ã—ãƒ’ãƒƒãƒˆã—ã¦ã‚‹åº§æ¨™ã‚’ç¢ºèª
 
-	// “ñ“_‚ªƒqƒbƒg‚µ‚Ä‚¢‚éê‡
+	// äºŒç‚¹ãŒãƒ’ãƒƒãƒˆã—ã¦ã„ã‚‹å ´åˆ
 	if (MapManager::CheckHitBox(checkQuadPoint[0]) && MapManager::CheckHitBox(checkQuadPoint[1]) || MapManager::CheckHitBox(checkQuadPoint[0]) && MapManager::CheckHitBox(checkQuadPoint[2])) {
-		// ‰½‚à‚µ‚È‚¢
+		// ä½•ã‚‚ã—ãªã„
 		velocity.y = 0;
 		isFlying = false;
 
-		// ƒqƒbƒg‚µ‚È‚­‚È‚é‚Ü‚Åã‚Ö•â³‚·‚é
+		// ãƒ’ãƒƒãƒˆã—ãªããªã‚‹ã¾ã§ä¸Šã¸è£œæ­£ã™ã‚‹
 		while (MapManager::CheckHitBox(checkQuadPoint[0])) {
-			// À•W‚ğã‚É
+			// åº§æ¨™ã‚’ä¸Šã«
 			centerPosition.y += 1;
-			// ÄŒvZ
+			// å†è¨ˆç®—
 			for (int i = 0; i < 4; i++) {
 				checkQuadPoint[i].y += 1;
 				checkRhombusPoint[i].y += 1;
@@ -268,14 +268,14 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 			angleVelocity = 0;
 		}
 	}
-	// ‰º‚Ìê‡
+	// ä¸‹ã®å ´åˆ
 	else if (MapManager::CheckHitBox(checkQuadPoint[0])) {
 
-		// ƒqƒbƒg‚µ‚È‚­‚È‚é‚Ü‚Åã‚Ö•â³‚·‚é
+		// ãƒ’ãƒƒãƒˆã—ãªããªã‚‹ã¾ã§ä¸Šã¸è£œæ­£ã™ã‚‹
 		while (MapManager::CheckHitBox(checkQuadPoint[0])) {
-			// À•W‚ğã‚É
+			// åº§æ¨™ã‚’ä¸Šã«
 			centerPosition.y += 1;
-			// ÄŒvZ
+			// å†è¨ˆç®—
 			for (int i = 0; i < 4; i++) {
 				checkQuadPoint[i].y += 1;
 				checkRhombusPoint[i].y += 1;
@@ -286,7 +286,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 		isFlying = false;
 
 
-		// ¶‚Ì“_‚Ì•û‚ªyÀ•W‚ª‰º‚Ìê‡ -> ¶‰ñ“]‚ÌƒxƒNƒgƒ‹‚ğ‘«‚·
+		// å·¦ã®ç‚¹ã®æ–¹ãŒyåº§æ¨™ãŒä¸‹ã®å ´åˆ -> å·¦å›è»¢ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¶³ã™
 		if (checkQuadPoint[1].y < checkQuadPoint[2].y) {
 			if ((int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y > -1 && (int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y < 1) {
 				angle = GetNearestValue(angle);
@@ -296,7 +296,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 				angleVelocity -= 0.3f;
 			}
 		}
-		// ‰E‚Ì“_‚Ì•û‚ªyÀ•W‚ª‰º‚Ìê‡ -> ‰E‰ñ“]‚ÌƒxƒNƒgƒ‹‚ğ‘«‚·
+		// å³ã®ç‚¹ã®æ–¹ãŒyåº§æ¨™ãŒä¸‹ã®å ´åˆ -> å³å›è»¢ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¶³ã™
 		else {
 			if ((int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y > -1 && (int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y < 1) {
 				angle = GetNearestValue(angle);
@@ -307,14 +307,14 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 			}
 		}
 	}
-	// ˆê”Ô‰º‚Ì’†S‚ªG‚ê‚Ä‚¢‚éê‡
+	// ä¸€ç•ªä¸‹ã®ä¸­å¿ƒãŒè§¦ã‚Œã¦ã„ã‚‹å ´åˆ
 	else if (MapManager::CheckHitBox(checkRhombusPoint[0])) {
 
-		// ƒqƒbƒg‚µ‚È‚­‚È‚é‚Ü‚Åã‚Ö•â³‚·‚é
+		// ãƒ’ãƒƒãƒˆã—ãªããªã‚‹ã¾ã§ä¸Šã¸è£œæ­£ã™ã‚‹
 		while (MapManager::CheckHitBox(checkRhombusPoint[0])) {
-			// À•W‚ğã‚É
+			// åº§æ¨™ã‚’ä¸Šã«
 			centerPosition.y += 1;
-			// ÄŒvZ
+			// å†è¨ˆç®—
 			for (int i = 0; i < 4; i++) {
 				checkQuadPoint[i].y += 1;
 				checkRhombusPoint[i].y += 1;
@@ -342,14 +342,14 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 	else {
 		isFlying = true;
 
-		// ¶‚Ìê‡
+		// å·¦ã®å ´åˆ
 		if (MapManager::CheckHitBox(checkQuadPoint[1])) {
 			
-			// ƒqƒbƒg‚µ‚È‚­‚È‚é‚Ü‚Åã‚Ö•â³‚·‚é
+			// ãƒ’ãƒƒãƒˆã—ãªããªã‚‹ã¾ã§ä¸Šã¸è£œæ­£ã™ã‚‹
 			while (MapManager::CheckHitBox(checkQuadPoint[1])) {
-				// À•W‚ğã‚É
+				// åº§æ¨™ã‚’ä¸Šã«
 				centerPosition.y += 1;
-				// ÄŒvZ
+				// å†è¨ˆç®—
 				for (int i = 0; i < 4; i++) {
 					checkQuadPoint[i].y += 1;
 					checkRhombusPoint[i].y += 1;
@@ -357,14 +357,14 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 			}
 			angleVelocity += 0.3f;
 		}
-		// ‰E‚Ìê‡
+		// å³ã®å ´åˆ
 		else if (MapManager::CheckHitBox(checkQuadPoint[2])) {
 			
-			// ƒqƒbƒg‚µ‚È‚­‚È‚é‚Ü‚Åã‚Ö•â³‚·‚é
+			// ãƒ’ãƒƒãƒˆã—ãªããªã‚‹ã¾ã§ä¸Šã¸è£œæ­£ã™ã‚‹
 			while (MapManager::CheckHitBox(checkQuadPoint[2])) {
-				// À•W‚ğã‚É
+				// åº§æ¨™ã‚’ä¸Šã«
 				centerPosition.y += 1;
-				// ÄŒvZ
+				// å†è¨ˆç®—
 				for (int i = 0; i < 4; i++) {
 					checkQuadPoint[i].y += 1;
 					checkRhombusPoint[i].y += 1;
@@ -372,7 +372,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 			}
 			angleVelocity -= 0.3f;
 		}
-		// ã‚Ìê‡
+		// ä¸Šã®å ´åˆ
 		else if (MapManager::CheckHitBox(checkQuadPoint[3])) {
 
 		}
@@ -383,73 +383,73 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 
 	/*
 
-	// “–‚½‚è”»’è‚ğƒ`ƒFƒbƒN‚·‚éÀ•W
+	// å½“ãŸã‚Šåˆ¤å®šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹åº§æ¨™
 	Point checkPoint;
 
-	// ‰º‚Ì“_iˆê”Ô‰º‚Ì“_j
+	// ä¸‹ã®ç‚¹ï¼ˆä¸€ç•ªä¸‹ã®ç‚¹ï¼‰
 	checkPoint = checkPosition[0];
-	// ‰º‚ªƒqƒbƒg‚µ‚½‚Æ‚«
+	// ä¸‹ãŒãƒ’ãƒƒãƒˆã—ãŸã¨ã
 	if (MapManager::CheckHitBox(checkPoint)) {
-		// ‘¬“x‚Í0‚É
+		// é€Ÿåº¦ã¯0ã«
 		velocity.y = 0;
-		// ”ò‚ñ‚Å‚¢‚È‚¢‚Ì‚Åƒtƒ‰ƒO‚ğ–ß‚·
+		// é£›ã‚“ã§ã„ãªã„ã®ã§ãƒ•ãƒ©ã‚°ã‚’æˆ»ã™
 		isFlying = false;
 
-		// ƒqƒbƒg‚µ‚È‚­‚È‚é‚Ü‚Åã‚Ö•â³‚·‚é
+		// ãƒ’ãƒƒãƒˆã—ãªããªã‚‹ã¾ã§ä¸Šã¸è£œæ­£ã™ã‚‹
 		while (MapManager::CheckHitBox(checkPoint)) {
-			// À•W‚ğã‚É
+			// åº§æ¨™ã‚’ä¸Šã«
 			//centerPosition.y += 1;
-			// ÄŒvZ
+			// å†è¨ˆç®—
 			checkPoint.y += 1;
 		}
 	}
-	// ˆêŒÂ‰º‚Ìƒ}ƒX‚ªƒqƒbƒg‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í‹ó’†‚Æ‚¢‚¤‚±‚Æ‚È‚Ì‚Åƒtƒ‰ƒO‚ğtrue‚É
+	// ä¸€å€‹ä¸‹ã®ãƒã‚¹ãŒãƒ’ãƒƒãƒˆã—ã¦ã„ãªã„ã¨ãã¯ç©ºä¸­ã¨ã„ã†ã“ã¨ãªã®ã§ãƒ•ãƒ©ã‚°ã‚’trueã«
 	else if (!MapManager::CheckHitBox({ checkPoint.x ,checkPoint.y - 1 })) {
 		isFlying = true;
 	}
 
-	// ¶‚ªƒqƒbƒg‚µ‚½‚Æ‚«
+	// å·¦ãŒãƒ’ãƒƒãƒˆã—ãŸã¨ã
 	if (MapManager::CheckHitBox(checkPosition[1])) {
-		// ‘¬“x‚Í0‚É
+		// é€Ÿåº¦ã¯0ã«
 		velocity.x = 0;
 
-		// ƒqƒbƒg‚µ‚È‚­‚È‚é‚Ü‚Å‰E‚Ö•â³‚·‚é
+		// ãƒ’ãƒƒãƒˆã—ãªããªã‚‹ã¾ã§å³ã¸è£œæ­£ã™ã‚‹
 		while (MapManager::CheckHitBox(checkPosition[1])) {
-			// À•W‚ğ‰E‚É
+			// åº§æ¨™ã‚’å³ã«
 			//centerPosition.x += 1;
-			// ÄŒvZ
+			// å†è¨ˆç®—
 			checkPosition[1].x += 1;
 		}
 	}
 
-	// ‰E‚Ì“_
+	// å³ã®ç‚¹
 	checkPoint = checkPosition[2];
-	// ‰E‚ªƒqƒbƒg‚µ‚½‚Æ‚«
+	// å³ãŒãƒ’ãƒƒãƒˆã—ãŸã¨ã
 	if (MapManager::CheckHitBox(checkPoint)) {
-		// ‘¬“x‚Í0‚É
+		// é€Ÿåº¦ã¯0ã«
 		velocity.x = 0;
 
-		// ƒqƒbƒg‚µ‚È‚­‚È‚é‚Ü‚Å¶‚Ö•â³‚·‚é
+		// ãƒ’ãƒƒãƒˆã—ãªããªã‚‹ã¾ã§å·¦ã¸è£œæ­£ã™ã‚‹
 		while (MapManager::CheckHitBox(checkPoint)) {
-			// À•W‚ğ¶‚É
+			// åº§æ¨™ã‚’å·¦ã«
 			//centerPosition.x -= 1;
-			// ÄŒvZ
+			// å†è¨ˆç®—
 			checkPoint.x -= 1;
 		}
 	}
 
-	// ã‚Ì“_iˆê”Ôã‚Ì“_j
+	// ä¸Šã®ç‚¹ï¼ˆä¸€ç•ªä¸Šã®ç‚¹ï¼‰
 	checkPoint = checkPosition[3];
-	// ã‚ªƒqƒbƒg‚µ‚½‚Æ‚«
+	// ä¸ŠãŒãƒ’ãƒƒãƒˆã—ãŸã¨ã
 	if (MapManager::CheckHitBox(checkPoint)) {
-		// ‘¬“x‚Í0‚É
+		// é€Ÿåº¦ã¯0ã«
 		velocity.y = 0;
 
-		// ƒqƒbƒg‚µ‚È‚­‚È‚é‚Ü‚Å‰º‚Ö•â³‚·‚é
+		// ãƒ’ãƒƒãƒˆã—ãªããªã‚‹ã¾ã§ä¸‹ã¸è£œæ­£ã™ã‚‹
 		while (MapManager::CheckHitBox(checkPoint)) {
-			// À•W‚ğ‰º‚É
+			// åº§æ¨™ã‚’ä¸‹ã«
 			//centerPosition.y -= 1;
-			// ÄŒvZ
+			// å†è¨ˆç®—
 			checkPoint.y -= 1;
 		}
 	}
@@ -460,21 +460,21 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 
 }
 
-// ¶ãA¶‰ºA‰EãA‰E‰º‚Ì“–‚½‚è”»’è‚ÌŠÖ”
+// å·¦ä¸Šã€å·¦ä¸‹ã€å³ä¸Šã€å³ä¸‹ã®å½“ãŸã‚Šåˆ¤å®šã®é–¢æ•°
 void Object::CheckHitBoxQuad(Point checkPosition[]) {
 
-	// “–‚½‚è”»’è‚ğƒ`ƒFƒbƒN‚·‚éÀ•W
+	// å½“ãŸã‚Šåˆ¤å®šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹åº§æ¨™
 	Point checkPoint;
 
 
-	// ã‚Ì“_iˆê”Ôã‚Ì“_j
+	// ä¸Šã®ç‚¹ï¼ˆä¸€ç•ªä¸Šã®ç‚¹ï¼‰
 	checkPoint = checkPosition[3];
-	// ¶ã‚ªƒqƒbƒg‚µ‚½‚Æ‚« -> •â³‚·‚é
+	// å·¦ä¸ŠãŒãƒ’ãƒƒãƒˆã—ãŸã¨ã -> è£œæ­£ã™ã‚‹
 	if (MapManager::CheckHitBox(checkPoint)) {
-		// •â³•ª‚ÌÀ•W
+		// è£œæ­£åˆ†ã®åº§æ¨™
 		Point correctionPos = { 0,0 };
 
-		// ‰E‰º‚É•â³‚·‚é
+		// å³ä¸‹ã«è£œæ­£ã™ã‚‹
 		while (MapManager::CheckHitBox(checkPoint)) {
 			correctionPos.x += 1;
 			correctionPos.y -= 1;
@@ -482,40 +482,40 @@ void Object::CheckHitBoxQuad(Point checkPosition[]) {
 			checkPoint.y -= 1;
 		}
 
-		// •â³I—¹ŒãA‚æ‚è‹——£‚ª’Z‚¢‚Ù‚¤‚Ì‚İ‚ğ“K‰‚µA’·‚¢‚Ù‚¤‚Í”jŠü‚·‚é
+		// è£œæ­£çµ‚äº†å¾Œã€ã‚ˆã‚Šè·é›¢ãŒçŸ­ã„ã»ã†ã®ã¿ã‚’é©å¿œã—ã€é•·ã„ã»ã†ã¯ç ´æ£„ã™ã‚‹
 
-		// y‚Ì‚Ù‚¤‚ªx‚æ‚è’Z‚¢or“¯‚¶‚Ìê‡ -> y‚ğ“K‰‚µAx‚Í”jŠü
+		// yã®ã»ã†ãŒxã‚ˆã‚ŠçŸ­ã„oråŒã˜ã®å ´åˆ -> yã‚’é©å¿œã—ã€xã¯ç ´æ£„
 		if (-correctionPos.y <= correctionPos.x) {
-			// ‘¬“x‚ªƒvƒ‰ƒX‚Ì‚Æ‚«‚Ì‚İ0‚É
+			// é€Ÿåº¦ãŒãƒ—ãƒ©ã‚¹ã®ã¨ãã®ã¿0ã«
 			if (velocity.y > 0) {
 				velocity.y = 0;
 			}
 
-			// •â³‚ğÀs
+			// è£œæ­£ã‚’å®Ÿè¡Œ
 			centerPosition.y += correctionPos.y;
 		}
-		// x‚Ì‚Ù‚¤‚ªy‚æ‚è’Z‚¢ê‡ -> x‚ğ“K‰‚µAy‚Í”jŠü
+		// xã®ã»ã†ãŒyã‚ˆã‚ŠçŸ­ã„å ´åˆ -> xã‚’é©å¿œã—ã€yã¯ç ´æ£„
 		else {
-			// ‘¬“x‚ªƒ}ƒCƒiƒX‚Ì‚Æ‚«‚Ì‚İ0‚É
+			// é€Ÿåº¦ãŒãƒã‚¤ãƒŠã‚¹ã®ã¨ãã®ã¿0ã«
 			if (velocity.x < 0) {
 				velocity.x = 0;
 			}
 
-			// •â³‚ğÀs
+			// è£œæ­£ã‚’å®Ÿè¡Œ
 			centerPosition.x += correctionPos.x;
 		}
 	}
 
 
 
-	// ã‚Ì“_iˆê”Ô‰º‚Ì“_j
+	// ä¸Šã®ç‚¹ï¼ˆä¸€ç•ªä¸‹ã®ç‚¹ï¼‰
 	checkPoint = checkPosition[0];
-	// ¶‰º‚ªƒqƒbƒg‚µ‚½‚Æ‚« -> •â³‚·‚é
+	// å·¦ä¸‹ãŒãƒ’ãƒƒãƒˆã—ãŸã¨ã -> è£œæ­£ã™ã‚‹
 	if (MapManager::CheckHitBox(checkPoint)) {
-		// •â³•ª‚ÌÀ•W
+		// è£œæ­£åˆ†ã®åº§æ¨™
 		Point correctionPos = { 0,0 };
 
-		// ‰Eã‚É•â³‚·‚é
+		// å³ä¸Šã«è£œæ­£ã™ã‚‹
 		while (MapManager::CheckHitBox(checkPoint)) {
 			correctionPos.x += 1;
 			correctionPos.y += 1;
@@ -523,50 +523,50 @@ void Object::CheckHitBoxQuad(Point checkPosition[]) {
 			checkPoint.y += 1;
 		}
 
-		// •â³I—¹ŒãA‚æ‚è‹——£‚ª’Z‚¢‚Ù‚¤‚Ì‚İ‚ğ“K‰‚µA’·‚¢‚Ù‚¤‚Í”jŠü‚·‚é
+		// è£œæ­£çµ‚äº†å¾Œã€ã‚ˆã‚Šè·é›¢ãŒçŸ­ã„ã»ã†ã®ã¿ã‚’é©å¿œã—ã€é•·ã„ã»ã†ã¯ç ´æ£„ã™ã‚‹
 
-		// y‚Ì‚Ù‚¤‚ªx‚æ‚è’Z‚¢or“¯‚¶‚Ìê‡ -> y‚ğ“K‰‚µAx‚Í”jŠü
+		// yã®ã»ã†ãŒxã‚ˆã‚ŠçŸ­ã„oråŒã˜ã®å ´åˆ -> yã‚’é©å¿œã—ã€xã¯ç ´æ£„
 		if (correctionPos.y <= correctionPos.x) {
-			// ‘¬“x‚ªƒ}ƒCƒiƒX‚Ì‚Æ‚«‚Ì‚İ0‚É
+			// é€Ÿåº¦ãŒãƒã‚¤ãƒŠã‚¹ã®ã¨ãã®ã¿0ã«
 			if (velocity.y < 0) {
 				velocity.y = 0;
 			}
-			// ”ò‚ñ‚Å‚¢‚È‚¢‚Ì‚Åƒtƒ‰ƒO‚ğ–ß‚·
+			// é£›ã‚“ã§ã„ãªã„ã®ã§ãƒ•ãƒ©ã‚°ã‚’æˆ»ã™
 			isFlying = false;
 
-			// •â³‚ğÀs
+			// è£œæ­£ã‚’å®Ÿè¡Œ
 			centerPosition.y += correctionPos.y;
 		}
-		// x‚Ì‚Ù‚¤‚ªy‚æ‚è’Z‚¢ê‡ -> x‚ğ“K‰‚µAy‚Í”jŠü
+		// xã®ã»ã†ãŒyã‚ˆã‚ŠçŸ­ã„å ´åˆ -> xã‚’é©å¿œã—ã€yã¯ç ´æ£„
 		else {
-			// ‘¬“x‚ªƒ}ƒCƒiƒX‚Ì‚Æ‚«‚Ì‚İ0‚É
+			// é€Ÿåº¦ãŒãƒã‚¤ãƒŠã‚¹ã®ã¨ãã®ã¿0ã«
 			if (velocity.x < 0) {
 				velocity.x = 0;
 			}
 
-			// •â³‚ğÀs
+			// è£œæ­£ã‚’å®Ÿè¡Œ
 			centerPosition.x += correctionPos.x;
 		}
 	}
-	// ‚à‚µ‹ó’†”»’è‚³‚ê‚½Œã‚Ìê‡
+	// ã‚‚ã—ç©ºä¸­åˆ¤å®šã•ã‚ŒãŸå¾Œã®å ´åˆ
 	else if (isFlying) {
-		// ˆêŒÂ‰º‚Ìƒ}ƒX‚ªƒqƒbƒg‚µ‚Ä‚¢‚é‚Æ‚«‚Í‹ó’†‚Å‚Í‚È‚¢‚Æ‚¢‚¤‚±‚Æ‚È‚Ì‚Åƒtƒ‰ƒO‚ğfalse‚É
+		// ä¸€å€‹ä¸‹ã®ãƒã‚¹ãŒãƒ’ãƒƒãƒˆã—ã¦ã„ã‚‹ã¨ãã¯ç©ºä¸­ã§ã¯ãªã„ã¨ã„ã†ã“ã¨ãªã®ã§ãƒ•ãƒ©ã‚°ã‚’falseã«
 		if (MapManager::CheckHitBox({ checkPoint.x,checkPoint.y - 1 })) {
-			// ƒqƒbƒg‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í‹ó’†‚Æ‚¢‚¤‚±‚Æ‚È‚Ì‚Åƒtƒ‰ƒO‚ğtrue‚É
+			// ãƒ’ãƒƒãƒˆã—ã¦ã„ãªã„ã¨ãã¯ç©ºä¸­ã¨ã„ã†ã“ã¨ãªã®ã§ãƒ•ãƒ©ã‚°ã‚’trueã«
 			isFlying = false;
 		}
 	}
 
 
 
-	// ƒvƒŒƒCƒ„[‚©‚ç‰Eã‚Ì“_
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰å³ä¸Šã®ç‚¹
 	checkPoint = { centerPosition.x + width / 2,centerPosition.y + height / 2 };
-	// ‰Eã‚ªƒqƒbƒg‚µ‚½‚Æ‚« -> •â³‚·‚é
+	// å³ä¸ŠãŒãƒ’ãƒƒãƒˆã—ãŸã¨ã -> è£œæ­£ã™ã‚‹
 	if (MapManager::CheckHitBox(checkPoint)) {
-		// •â³•ª‚ÌÀ•W
+		// è£œæ­£åˆ†ã®åº§æ¨™
 		Point correctionPos = { 0,0 };
 
-		// ¶‰º‚É•â³‚·‚é
+		// å·¦ä¸‹ã«è£œæ­£ã™ã‚‹
 		while (MapManager::CheckHitBox(checkPoint)) {
 			correctionPos.x -= 1;
 			correctionPos.y -= 1;
@@ -574,40 +574,40 @@ void Object::CheckHitBoxQuad(Point checkPosition[]) {
 			checkPoint.y -= 1;
 		}
 
-		// •â³I—¹ŒãA‚æ‚è‹——£‚ª’Z‚¢‚Ù‚¤‚Ì‚İ‚ğ“K‰‚µA’·‚¢‚Ù‚¤‚Í”jŠü‚·‚é
+		// è£œæ­£çµ‚äº†å¾Œã€ã‚ˆã‚Šè·é›¢ãŒçŸ­ã„ã»ã†ã®ã¿ã‚’é©å¿œã—ã€é•·ã„ã»ã†ã¯ç ´æ£„ã™ã‚‹
 
-		// y‚Ì‚Ù‚¤‚ªx‚æ‚è’Z‚¢or“¯‚¶‚Ìê‡ -> y‚ğ“K‰‚µAx‚Í”jŠü
+		// yã®ã»ã†ãŒxã‚ˆã‚ŠçŸ­ã„oråŒã˜ã®å ´åˆ -> yã‚’é©å¿œã—ã€xã¯ç ´æ£„
 		if (-correctionPos.y >= -correctionPos.x) {
-			// ‘¬“x‚ªƒvƒ‰ƒX‚Ì‚Æ‚«‚Ì‚İ0‚É
+			// é€Ÿåº¦ãŒãƒ—ãƒ©ã‚¹ã®ã¨ãã®ã¿0ã«
 			if (velocity.y > 0) {
 				velocity.y = 0;
 			}
 
-			// •â³‚ğÀs
+			// è£œæ­£ã‚’å®Ÿè¡Œ
 			centerPosition.y += correctionPos.y;
 		}
-		// x‚Ì‚Ù‚¤‚ªy‚æ‚è’Z‚¢ê‡ -> x‚ğ“K‰‚µAy‚Í”jŠü
+		// xã®ã»ã†ãŒyã‚ˆã‚ŠçŸ­ã„å ´åˆ -> xã‚’é©å¿œã—ã€yã¯ç ´æ£„
 		else {
-			// ‘¬“x‚ªƒvƒ‰ƒX‚Ì‚Æ‚«‚Ì‚İ0‚É
+			// é€Ÿåº¦ãŒãƒ—ãƒ©ã‚¹ã®ã¨ãã®ã¿0ã«
 			if (velocity.x > 0) {
 				velocity.x = 0;
 			}
 
-			// •â³‚ğÀs
+			// è£œæ­£ã‚’å®Ÿè¡Œ
 			centerPosition.x += correctionPos.x;
 		}
 	}
 
 
 
-	// ƒvƒŒƒCƒ„[‚©‚ç‰E‰º‚Ì“_
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰å³ä¸‹ã®ç‚¹
 	checkPoint = { centerPosition.x + width / 2,centerPosition.y - height / 2 };
-	// ‰E‰º‚ªƒqƒbƒg‚µ‚½‚Æ‚« -> •â³‚·‚é
+	// å³ä¸‹ãŒãƒ’ãƒƒãƒˆã—ãŸã¨ã -> è£œæ­£ã™ã‚‹
 	if (MapManager::CheckHitBox(checkPoint)) {
-		// •â³•ª‚ÌÀ•W
+		// è£œæ­£åˆ†ã®åº§æ¨™
 		Point correctionPos = { 0,0 };
 
-		// ¶ã‚É•â³‚·‚é
+		// å·¦ä¸Šã«è£œæ­£ã™ã‚‹
 		while (MapManager::CheckHitBox(checkPoint)) {
 			correctionPos.x -= 1;
 			correctionPos.y += 1;
@@ -615,38 +615,47 @@ void Object::CheckHitBoxQuad(Point checkPosition[]) {
 			checkPoint.y += 1;
 		}
 
-		// •â³I—¹ŒãA‚æ‚è‹——£‚ª’Z‚¢‚Ù‚¤‚Ì‚İ‚ğ“K‰‚µA’·‚¢‚Ù‚¤‚Í”jŠü‚·‚é
+		// è£œæ­£çµ‚äº†å¾Œã€ã‚ˆã‚Šè·é›¢ãŒçŸ­ã„ã»ã†ã®ã¿ã‚’é©å¿œã—ã€é•·ã„ã»ã†ã¯ç ´æ£„ã™ã‚‹
 
-		// y‚Ì‚Ù‚¤‚ªx‚æ‚è’Z‚¢or“¯‚¶‚Ìê‡ -> y‚ğ“K‰‚µAx‚Í”jŠü
+		// yã®ã»ã†ãŒxã‚ˆã‚ŠçŸ­ã„oråŒã˜ã®å ´åˆ -> yã‚’é©å¿œã—ã€xã¯ç ´æ£„
 		if (correctionPos.y <= -correctionPos.x) {
-			// ‘¬“x‚ªƒ}ƒCƒiƒX‚Ì‚Æ‚«‚Ì‚İ0‚É
+			// é€Ÿåº¦ãŒãƒã‚¤ãƒŠã‚¹ã®ã¨ãã®ã¿0ã«
 			if (velocity.y < 0) {
 				velocity.y = 0;
 			}
-			// ”ò‚ñ‚Å‚¢‚È‚¢‚Ì‚Åƒtƒ‰ƒO‚ğ–ß‚·
+			// é£›ã‚“ã§ã„ãªã„ã®ã§ãƒ•ãƒ©ã‚°ã‚’æˆ»ã™
 			isFlying = false;
 
-			// •â³‚ğÀs
+			// è£œæ­£ã‚’å®Ÿè¡Œ
 			centerPosition.y += correctionPos.y;
 		}
-		// x‚Ì‚Ù‚¤‚ªy‚æ‚è’Z‚¢ê‡ -> x‚ğ“K‰‚µAy‚Í”jŠü
+		// xã®ã»ã†ãŒyã‚ˆã‚ŠçŸ­ã„å ´åˆ -> xã‚’é©å¿œã—ã€yã¯ç ´æ£„
 		else {
-			// ‘¬“x‚ªƒvƒ‰ƒX‚Ì‚Æ‚«‚Ì‚İ0‚É
+			// é€Ÿåº¦ãŒãƒ—ãƒ©ã‚¹ã®ã¨ãã®ã¿0ã«
 			if (velocity.x > 0) {
 				velocity.x = 0;
 			}
 
-			// •â³‚ğÀs
+			// è£œæ­£ã‚’å®Ÿè¡Œ
 			centerPosition.x += correctionPos.x;
 		}
 	}
-	// ‚à‚µ‹ó’†”»’è‚³‚ê‚½Œã‚Ìê‡
+	// ã‚‚ã—ç©ºä¸­åˆ¤å®šã•ã‚ŒãŸå¾Œã®å ´åˆ
 	else if (isFlying) {
-		// ˆêŒÂ‰º‚Ìƒ}ƒX‚ªƒqƒbƒg‚µ‚Ä‚¢‚é‚Æ‚«‚Í‹ó’†‚Å‚Í‚È‚¢‚Æ‚¢‚¤‚±‚Æ‚È‚Ì‚Åƒtƒ‰ƒO‚ğfalse‚É
+		// ä¸€å€‹ä¸‹ã®ãƒã‚¹ãŒãƒ’ãƒƒãƒˆã—ã¦ã„ã‚‹ã¨ãã¯ç©ºä¸­ã§ã¯ãªã„ã¨ã„ã†ã“ã¨ãªã®ã§ãƒ•ãƒ©ã‚°ã‚’falseã«
 		if (MapManager::CheckHitBox({ checkPoint.x,checkPoint.y - 1 })) {
-			// ƒqƒbƒg‚µ‚Ä‚¢‚È‚¢‚Æ‚«‚Í‹ó’†‚Æ‚¢‚¤‚±‚Æ‚È‚Ì‚Åƒtƒ‰ƒO‚ğtrue‚É
+			// ãƒ’ãƒƒãƒˆã—ã¦ã„ãªã„ã¨ãã¯ç©ºä¸­ã¨ã„ã†ã“ã¨ãªã®ã§ãƒ•ãƒ©ã‚°ã‚’trueã«
 			isFlying = false;
 		}
 	}
 }
 
+Quad Object::GetQuad() {
+	Point halfsize = { width / 2.0f,height / 2.0f };
+	Quad result;
+	result.q1 = { centerPosition.x - halfsize.x,centerPosition.y + halfsize.y };
+	result.q2 = { centerPosition.x + halfsize.x,centerPosition.y + halfsize.y };
+	result.q3 = { centerPosition.x - halfsize.x,centerPosition.y - halfsize.y };
+	result.q4 = { centerPosition.x + halfsize.x,centerPosition.y - halfsize.y };
+	return BaseMath::TurnBox(result, angle);
+}
