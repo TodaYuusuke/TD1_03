@@ -73,9 +73,9 @@ public:
 	// hitBoxCenterPosition ... ヒット対象の四角の中心座標
 	// hitBoxWidth ... ヒット対象の横幅
 	// hitBoxHeight ... ヒット対象の縦幅
-	// boxAngle ... ヒット対象の四角の回転角度
+	// hitboxAngle ... ヒット対象の四角の回転角度
 	// hitPoisiton ... ヒットしているか検証する座標
-	static bool CheckHitBox(Point hitBoxCenterPosition, float hitBoxWidth, float hitBoxHeight, float boxAngle, Point hitPosition);
+	static bool CheckHitBox(Point hitBoxCenterPosition, float hitBoxWidth, float hitBoxHeight, float hitboxAngle, Point hitPosition);
 
 	// 四角同士の当たり判定チェック
 	static bool CheckHitBox(Box hitBox1, Box hitBox2);

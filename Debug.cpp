@@ -15,6 +15,7 @@ void Debug::Initialize() {
 
 	hitBox = { {100,300},50,50 };
 
+	MapManager::Initialize();
 	objectManager.Initialize();
 	wireManager.Initialize();
 }
@@ -29,15 +30,30 @@ void Debug::Update() {
 	if (BaseInput::GetMouseState(LeftClick, Trigger)) {
 		//wireManager.Shot({ 100,100 }, BaseMath::GetDegree({ 100,100 }, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition())),);
 	}
-	// 右クリックでブロックを生成
-	if (BaseInput::GetMouseState(MiddleClick, Trigger)) {
-		//wireManager.Attract();
-	}
 
 	if (BaseInput::GetKeyboardState(DIK_Q, Trigger)) {
 		objectManager.MakeNewObjectPlayer({ 200,200 });
 	}
 
+	// スクリーン座標の移動量
+	Point screenPosMove = BaseDraw::GetScreenPosition();
+	if (BaseInput::GetKeyboardState(DIK_UP, Press)) {
+		screenPosMove.y += 5;
+	}
+	if (BaseInput::GetKeyboardState(DIK_DOWN, Press)) {
+		screenPosMove.y -= 5;
+	}
+	if (BaseInput::GetKeyboardState(DIK_RIGHT, Press)) {
+		screenPosMove.x += 5;
+	}
+	if (BaseInput::GetKeyboardState(DIK_LEFT, Press)) {
+		screenPosMove.x -= 5;
+	}
+	BaseDraw::SetScreenPosition(screenPosMove);
+
+
+
+	MapManager::Update();
 	objectManager.Update();
 	wireManager.Update(&objectManager);
 }
@@ -45,7 +61,9 @@ void Debug::Update() {
 void Debug::Draw() {
 
 	Novice::ScreenPrintf(0, 0, "%f %f", BaseDraw::WorldtoScreen(BaseInput::GetMousePosition()).x, BaseDraw::WorldtoScreen(BaseInput::GetMousePosition()).y);
+	Novice::ScreenPrintf(0, 20, "%f %f", BaseDraw::GetScreenPosition().x, BaseDraw::GetScreenPosition().y);
 
+	MapManager::Draw();
 	objectManager.Draw();
 	wireManager.Draw();
 }

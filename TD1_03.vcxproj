@@ -99,6 +99,8 @@
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\WinApp.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\scene\GameScene.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
+    <ClCompile Include="Class\Source\Map\Map.cpp" />
+    <ClCompile Include="Class\Source\Map\MapManager.cpp" />
     <ClCompile Include="Class\Source\Object\Block\Block.cpp" />
     <ClCompile Include="Class\Source\Object\Object.cpp" />
     <ClCompile Include="Class\Source\Object\ObjectManager.cpp" />
@@ -144,6 +146,8 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\input\Input.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\scene\GameScene.h" />
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
+    <ClInclude Include="Class\Include\Map\Map.h" />
+    <ClInclude Include="Class\Include\Map\MapManager.h" />
     <ClInclude Include="Class\Include\Object\Block\Block.h" />
     <ClInclude Include="Class\Include\Object\Object.h" />
     <ClInclude Include="Class\Include\Object\ObjectManager.h" />

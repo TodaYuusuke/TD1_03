@@ -102,4 +102,20 @@ public: // 静的な定数
 	const static int kWireMaxAmount = 3;
 
 #pragma endregion
+
+#pragma region マップ
+
+	// マップの大きさ
+	const static int kMapSizeWidth = 50;
+	const static int kMapSizeHeight = 50;
+
+	// マップチップのサイズ
+	static int kMapChipSizeWidth;
+	static int kMapChipSizeHeight;
+
+	// マップデータ
+	static int kMapData[kMapSizeHeight][kMapSizeWidth];
+
+#pragma endregion
+
 };
