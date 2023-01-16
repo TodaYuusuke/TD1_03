@@ -97,8 +97,6 @@ protected: // 関数
 	virtual void CheckFieldHitBox();
 	// 上下左右の当たり判定の関数
 	virtual void CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[]);
-	// 左上、左下、右上、右下の当たり判定の関数
-	virtual void CheckHitBoxQuad(Point checkPosition[]);
 
 	// 最も近い値を格納した配列の添え字を求める
 	int GetNearestValue(int v) {

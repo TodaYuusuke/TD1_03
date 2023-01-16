@@ -82,7 +82,7 @@ void Object::Update() {
 	}
 
 	// 回転速度を減速させていく
-	if (angleVelocity > BaseConst::kPlayerVelocityLimit) {
+	/*if (angleVelocity > BaseConst::kPlayerVelocityLimit) {
 		angleVelocity -= 0.05f;
 		if (angleVelocity < 0) {
 			angleVelocity = 0;
@@ -93,7 +93,7 @@ void Object::Update() {
 		if (angleVelocity > 0) {
 			angleVelocity = 0;
 		}
-	}
+	}*/
 
 
 	CheckFieldHitBox();
@@ -121,7 +121,7 @@ Point Object::GetCenterPosition() {
 // 返り値：速度のベクトル
 // 引数：なし
 Point Object::GetVelocity() {
-	return velocity;
+	return { velocity.x - 0.5f * angleVelocity, velocity.y };
 }
 
 
@@ -245,6 +245,8 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 
 	// 4つ角の座標を検証しヒットしてる座標を確認
 
+	float kAddAngleVelocity = 0.3f;
+
 	// 二点がヒットしている場合
 	if (MapManager::CheckHitBox(checkQuadPoint[0]) && MapManager::CheckHitBox(checkQuadPoint[1]) || MapManager::CheckHitBox(checkQuadPoint[0]) && MapManager::CheckHitBox(checkQuadPoint[2])) {
 		// 何もしない
@@ -282,10 +284,6 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 			}
 		}
 
-		velocity.y = 0;
-		isFlying = false;
-
-
 		// 左の点の方がy座標が下の場合 -> 左回転のベクトルを足す
 		if (checkQuadPoint[1].y < checkQuadPoint[2].y) {
 			if ((int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y > -1 && (int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y < 1) {
@@ -293,7 +291,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 				angleVelocity = 0;
 			}
 			else {
-				angleVelocity -= 0.3f;
+				angleVelocity -= kAddAngleVelocity;
 			}
 		}
 		// 右の点の方がy座標が下の場合 -> 右回転のベクトルを足す
@@ -303,9 +301,12 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 				angleVelocity = 0;
 			}
 			else {
-				angleVelocity += 0.3f;
+				angleVelocity += kAddAngleVelocity;
 			}
 		}
+
+		velocity.y = 0;
+		isFlying = false;
 	}
 	// 一番下の中心が触れている場合
 	else if (MapManager::CheckHitBox(checkRhombusPoint[0])) {
@@ -322,17 +323,17 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 		}
 
 		if (angleVelocity > 0) {
-			angleVelocity += 0.3f;
+			angleVelocity += kAddAngleVelocity;
 		}
 		else if (angleVelocity < 0) {
-			angleVelocity -= 0.3f;
+			angleVelocity -= kAddAngleVelocity;
 		}
 		else {
 			if (checkQuadPoint[0].x < checkRhombusPoint[0].x) {
-				angleVelocity += 0.3f;
+				angleVelocity += kAddAngleVelocity;
 			}
 			else {
-				angleVelocity -= 0.3f;
+				angleVelocity -= kAddAngleVelocity;
 			}
 		}
 
@@ -344,9 +345,11 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 
 		// 左の場合
 		if (MapManager::CheckHitBox(checkQuadPoint[1])) {
-			
+			// 移動量
+			int move = 0;
 			// ヒットしなくなるまで上へ補正する
 			while (MapManager::CheckHitBox(checkQuadPoint[1])) {
+				move += 1;
 				// 座標を上に
 				centerPosition.y += 1;
 				// 再計算
@@ -354,14 +357,42 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 					checkQuadPoint[i].y += 1;
 					checkRhombusPoint[i].y += 1;
 				}
+
+				// もしある程度上まで補正しないとダメな場合、補正を修正し右方向に補正
+				if (move > BaseConst::kMapChipSizeHeight) {
+					// 座標を下に
+					centerPosition.y -= move;
+					// 再計算
+					for (int i = 0; i < 4; i++) {
+						checkQuadPoint[i].y -= move;
+						checkRhombusPoint[i].y -= move;
+					}
+
+					while (MapManager::CheckHitBox(checkQuadPoint[1])) {
+						// 座標を右に
+						centerPosition.x -= 1;
+						// 再計算
+						for (int i = 0; i < 4; i++) {
+							checkQuadPoint[i].x -= 1;
+							checkRhombusPoint[i].x -= 1;
+						}
+					}
+
+					angleVelocity *= -0.9f;
+
+					break;
+				}
 			}
-			angleVelocity += 0.3f;
+			angleVelocity += kAddAngleVelocity;
 		}
 		// 右の場合
 		else if (MapManager::CheckHitBox(checkQuadPoint[2])) {
-			
+
+			// 移動量
+			int move = 0;
 			// ヒットしなくなるまで上へ補正する
 			while (MapManager::CheckHitBox(checkQuadPoint[2])) {
+				move += 1;
 				// 座標を上に
 				centerPosition.y += 1;
 				// 再計算
@@ -369,8 +400,33 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 					checkQuadPoint[i].y += 1;
 					checkRhombusPoint[i].y += 1;
 				}
+
+				// もしある程度上まで補正しないとダメな場合、補正を修正し右方向に補正
+				if (move > BaseConst::kMapChipSizeHeight) {
+					// 座標を下に
+					centerPosition.y -= move;
+					// 再計算
+					for (int i = 0; i < 4; i++) {
+						checkQuadPoint[i].y -= move;
+						checkRhombusPoint[i].y -= move;
+					}
+
+					while (MapManager::CheckHitBox(checkQuadPoint[2])) {
+						// 座標を右に
+						centerPosition.x += 1;
+						// 再計算
+						for (int i = 0; i < 4; i++) {
+							checkQuadPoint[i].x += 1;
+							checkRhombusPoint[i].x += 1;
+						}
+					}
+
+					angleVelocity *= -0.9f;
+
+					break;
+				}
 			}
-			angleVelocity -= 0.3f;
+			angleVelocity -= kAddAngleVelocity;
 		}
 		// 上の場合
 		else if (MapManager::CheckHitBox(checkQuadPoint[3])) {
@@ -459,194 +515,3 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 	*/
 
 }
-
-// 左上、左下、右上、右下の当たり判定の関数
-void Object::CheckHitBoxQuad(Point checkPosition[]) {
-
-	// 当たり判定をチェックする座標
-	Point checkPoint;
-
-
-	// 上の点（一番上の点）
-	checkPoint = checkPosition[3];
-	// 左上がヒットしたとき -> 補正する
-	if (MapManager::CheckHitBox(checkPoint)) {
-		// 補正分の座標
-		Point correctionPos = { 0,0 };
-
-		// 右下に補正する
-		while (MapManager::CheckHitBox(checkPoint)) {
-			correctionPos.x += 1;
-			correctionPos.y -= 1;
-			checkPoint.x += 1;
-			checkPoint.y -= 1;
-		}
-
-		// 補正終了後、より距離が短いほうのみを適応し、長いほうは破棄する
-
-		// yのほうがxより短いor同じの場合 -> yを適応し、xは破棄
-		if (-correctionPos.y <= correctionPos.x) {
-			// 速度がプラスのときのみ0に
-			if (velocity.y > 0) {
-				velocity.y = 0;
-			}
-
-			// 補正を実行
-			centerPosition.y += correctionPos.y;
-		}
-		// xのほうがyより短い場合 -> xを適応し、yは破棄
-		else {
-			// 速度がマイナスのときのみ0に
-			if (velocity.x < 0) {
-				velocity.x = 0;
-			}
-
-			// 補正を実行
-			centerPosition.x += correctionPos.x;
-		}
-	}
-
-
-
-	// 上の点（一番下の点）
-	checkPoint = checkPosition[0];
-	// 左下がヒットしたとき -> 補正する
-	if (MapManager::CheckHitBox(checkPoint)) {
-		// 補正分の座標
-		Point correctionPos = { 0,0 };
-
-		// 右上に補正する
-		while (MapManager::CheckHitBox(checkPoint)) {
-			correctionPos.x += 1;
-			correctionPos.y += 1;
-			checkPoint.x += 1;
-			checkPoint.y += 1;
-		}
-
-		// 補正終了後、より距離が短いほうのみを適応し、長いほうは破棄する
-
-		// yのほうがxより短いor同じの場合 -> yを適応し、xは破棄
-		if (correctionPos.y <= correctionPos.x) {
-			// 速度がマイナスのときのみ0に
-			if (velocity.y < 0) {
-				velocity.y = 0;
-			}
-			// 飛んでいないのでフラグを戻す
-			isFlying = false;
-
-			// 補正を実行
-			centerPosition.y += correctionPos.y;
-		}
-		// xのほうがyより短い場合 -> xを適応し、yは破棄
-		else {
-			// 速度がマイナスのときのみ0に
-			if (velocity.x < 0) {
-				velocity.x = 0;
-			}
-
-			// 補正を実行
-			centerPosition.x += correctionPos.x;
-		}
-	}
-	// もし空中判定された後の場合
-	else if (isFlying) {
-		// 一個下のマスがヒットしているときは空中ではないということなのでフラグをfalseに
-		if (MapManager::CheckHitBox({ checkPoint.x,checkPoint.y - 1 })) {
-			// ヒットしていないときは空中ということなのでフラグをtrueに
-			isFlying = false;
-		}
-	}
-
-
-
-	// プレイヤーから右上の点
-	checkPoint = { centerPosition.x + width / 2,centerPosition.y + height / 2 };
-	// 右上がヒットしたとき -> 補正する
-	if (MapManager::CheckHitBox(checkPoint)) {
-		// 補正分の座標
-		Point correctionPos = { 0,0 };
-
-		// 左下に補正する
-		while (MapManager::CheckHitBox(checkPoint)) {
-			correctionPos.x -= 1;
-			correctionPos.y -= 1;
-			checkPoint.x -= 1;
-			checkPoint.y -= 1;
-		}
-
-		// 補正終了後、より距離が短いほうのみを適応し、長いほうは破棄する
-
-		// yのほうがxより短いor同じの場合 -> yを適応し、xは破棄
-		if (-correctionPos.y >= -correctionPos.x) {
-			// 速度がプラスのときのみ0に
-			if (velocity.y > 0) {
-				velocity.y = 0;
-			}
-
-			// 補正を実行
-			centerPosition.y += correctionPos.y;
-		}
-		// xのほうがyより短い場合 -> xを適応し、yは破棄
-		else {
-			// 速度がプラスのときのみ0に
-			if (velocity.x > 0) {
-				velocity.x = 0;
-			}
-
-			// 補正を実行
-			centerPosition.x += correctionPos.x;
-		}
-	}
-
-
-
-	// プレイヤーから右下の点
-	checkPoint = { centerPosition.x + width / 2,centerPosition.y - height / 2 };
-	// 右下がヒットしたとき -> 補正する
-	if (MapManager::CheckHitBox(checkPoint)) {
-		// 補正分の座標
-		Point correctionPos = { 0,0 };
-
-		// 左上に補正する
-		while (MapManager::CheckHitBox(checkPoint)) {
-			correctionPos.x -= 1;
-			correctionPos.y += 1;
-			checkPoint.x -= 1;
-			checkPoint.y += 1;
-		}
-
-		// 補正終了後、より距離が短いほうのみを適応し、長いほうは破棄する
-
-		// yのほうがxより短いor同じの場合 -> yを適応し、xは破棄
-		if (correctionPos.y <= -correctionPos.x) {
-			// 速度がマイナスのときのみ0に
-			if (velocity.y < 0) {
-				velocity.y = 0;
-			}
-			// 飛んでいないのでフラグを戻す
-			isFlying = false;
-
-			// 補正を実行
-			centerPosition.y += correctionPos.y;
-		}
-		// xのほうがyより短い場合 -> xを適応し、yは破棄
-		else {
-			// 速度がプラスのときのみ0に
-			if (velocity.x > 0) {
-				velocity.x = 0;
-			}
-
-			// 補正を実行
-			centerPosition.x += correctionPos.x;
-		}
-	}
-	// もし空中判定された後の場合
-	else if (isFlying) {
-		// 一個下のマスがヒットしているときは空中ではないということなのでフラグをfalseに
-		if (MapManager::CheckHitBox({ checkPoint.x,checkPoint.y - 1 })) {
-			// ヒットしていないときは空中ということなのでフラグをtrueに
-			isFlying = false;
-		}
-	}
-}
-
