@@ -51,6 +51,10 @@ public: // メンバ関数
 	// 引数：足す速度
 	void AddVelocity(Point _addVelocity);
 
+	// オブジェクトに回転速度を足す関数
+	// 返り値：なし
+	// 引数：足す速度
+	void AddVelocity(float _addVelocity);
 
 	// 当たり判定をチェックする関数
 	// 返り値：ヒットしていた場合 ... true
@@ -88,26 +92,21 @@ public: // メンバ関数
 
 protected: // メンバ変数
 
-	/* 定数として扱うのでInitialize以外のプログラム中で書き換え禁止！！ */
-
-	// 重力加速度
-	float kGravitationalAcceleration;
-
-	/* 定数ここまで */
-
-
 	// 中心座標
 	Point centerPosition;
+	// 速度
+	Point velocity;
+	// 加速度
+	Point acceleration;
+
+	// 回転角度（Degree）
+	float angle;
+	// 回転速度（Degree）
+	float angleVelocity;
 
 	// 当たり判定のサイズ（左上の点からの長さ）
 	float width;
 	float height;
-
-	// 速度
-	Point velocity;
-	
-	// 加速度
-	Point acceleration;
 
 	//空中にいるかどうか
 	bool isFlying;

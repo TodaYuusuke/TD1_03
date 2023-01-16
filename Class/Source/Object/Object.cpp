@@ -1,23 +1,30 @@
 #include "Class/Include/Object/Object.h"
 
 void Object::Initialize() {
-	kGravitationalAcceleration = 9.8f / 60.0f;
+
 	SuccessorInitialize();
  }
 
 void Object::SuccessorInitialize(){
 
+	// 中心座標
 	centerPosition = { -10000,-10000 };
-
-	width = 1;
-	height = 1;
-
+	// 速度
 	velocity = { 0,0 };
+	// 加速度
 	acceleration = { 0,0 };
 
+	// 回転角度（Degree）
+	angle = 0;
+	// 回転速度（Degree）
+	angleVelocity = 0;
+
+	// 当たり判定のサイズ（左上の点からの長さ）
+	width = 0;
+	height = 0;
+
+	//空中にいるかどうか
 	isFlying = true;
-
-
  }
 
 void Object::Update() {
@@ -29,32 +36,36 @@ void Object::Update() {
 
 	if (isFlying) {
 		// 加速度に重力を追加
-		acceleration.y -= kGravitationalAcceleration;
-	}
-	// とりあえず速度を弱める
-	if (velocity.x < 0) {
-		velocity.x *= 0.87f;
-	}
-	else if (0 < velocity.x) {
-		velocity.x *= 0.87f;
-	}
-	if (0 < velocity.y) {
-		velocity.y *= 0.87f;
-	}
-	if (-0.1f <= velocity.x && velocity.x <= 0.1f) {
-		velocity.x = 0;
+		acceleration.y -= BaseConst::kPlayerGravitationalAcceleration;
 	}
 
-	// 変更した加速度を追加
+	// 加速度を追加
 	velocity.x += acceleration.x;
 	velocity.y += acceleration.y;
 
-	// 座標に速度分移動させる
+	// 速度制限にかかっている場合、減速させる
+	if (velocity.x > BaseConst::kPlayerVelocityLimit) {
+		velocity.x -= 0.02f;
+	}
+	if (velocity.x < -(BaseConst::kPlayerVelocityLimit)) {
+		velocity.x += 0.02f;
+	}
+	if (velocity.y > BaseConst::kPlayerVelocityLimit) {
+		velocity.y -= 0.02f;
+	}
+	if (velocity.y < -(BaseConst::kPlayerVelocityLimit)) {
+		velocity.y += 0.02f;
+	}
+
+	// 速度を追加
 	centerPosition.x += velocity.x;
 	centerPosition.y += velocity.y;
 
-	CheckFieldHitBox();
 
+	// 回転速度を追加
+	angle += angleVelocity;
+
+	CheckFieldHitBox();
 }
 
 void Object::SuccessorUpdate() {
@@ -65,6 +76,7 @@ void Object::Draw() {
 	BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { 100,100 }, 1.0f, 0.0f, WHITE);
 }
 
+
 // オブジェクトに速度ベクトルを足す関数
 // 返り値：なし
 // 引数：足す速度
@@ -72,6 +84,14 @@ void Object::AddVelocity(Point _addVelocity) {
 	velocity.x += _addVelocity.x;
 	velocity.y += _addVelocity.y;
 }
+
+// オブジェクトに回転速度を足す関数
+// 返り値：なし
+// 引数：足す速度
+void Object::AddVelocity(float _addVelocity) {
+	angleVelocity += _addVelocity;
+}
+
 
 bool Object::CheckHitBox(Point hitPosition) {
 	// 左右

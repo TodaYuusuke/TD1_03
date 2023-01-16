@@ -50,8 +50,22 @@ int BaseConst::kWindowHeight = 1080;
 // プレイヤーのサイズ
 Point BaseConst::kPlayerSize = { 64,128 };
 
-// プレイヤーの移動値
-Point BaseConst::kPlayerSpeed = { 4.0f,40.0f };
+// 重力加速度
+float BaseConst::kPlayerGravitationalAcceleration = 9.8f / 30.0f;
+// 全体の速度制限
+float BaseConst::kPlayerVelocityLimit = 10.0f;
+
+// 移動 //
+
+// 平行移動の限界速度
+float BaseConst::kPlayerWalkVelocityLimit = 3.0f;
+
+// ジャンプ //
+
+// ジャンプの速度
+Point BaseConst::kPlayerJumpVelocity = { 0,9.8f };
+// ジャンプのクールタイム
+int BaseConst::kPlayerJumpCoolTime = 40;
 
 #pragma endregion
 

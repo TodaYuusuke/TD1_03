@@ -35,6 +35,10 @@ namespace BaseStruct {
 	};
 
 	// éläp
+	// q1 ... ç∂è„
+	// q2 ... âEè„
+	// q3 ... ç∂â∫
+	// q4 ... âEâ∫
 	struct Quad
 	{
 		// ç∂è„

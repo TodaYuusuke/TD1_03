@@ -72,8 +72,22 @@ public: // 静的な定数
 	// プレイヤーのサイズ
 	static Point kPlayerSize;
 
-	// プレイヤーの移動値
-	static Point kPlayerSpeed;
+	// 重力加速度
+	static float kPlayerGravitationalAcceleration;
+	// 全体の速度制限
+	static float kPlayerVelocityLimit;
+
+	// 移動 //
+
+	// 平行移動の限界速度
+	static float kPlayerWalkVelocityLimit;
+
+	// ジャンプ //
+
+	// ジャンプの速度
+	static Point kPlayerJumpVelocity;
+	// ジャンプのクールタイム
+	static int kPlayerJumpCoolTime;
 
 #pragma endregion
 

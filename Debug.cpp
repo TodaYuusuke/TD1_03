@@ -1,4 +1,4 @@
-#include "Debug.h"
+ #include "Debug.h"
 
 // コンストラクタ
 Debug::Debug() {
@@ -12,6 +12,9 @@ Debug::~Debug() {
 
 // 初期化
 void Debug::Initialize() {
+
+	hitBox = { {100,300},50,50 };
+
 	objectManager.Initialize();
 	wireManager.Initialize();
 }
@@ -40,6 +43,9 @@ void Debug::Update() {
 }
 // 描画
 void Debug::Draw() {
+
+	Novice::ScreenPrintf(0, 0, "%f %f", BaseDraw::WorldtoScreen(BaseInput::GetMousePosition()).x, BaseDraw::WorldtoScreen(BaseInput::GetMousePosition()).y);
+
 	objectManager.Draw();
 	wireManager.Draw();
 }
