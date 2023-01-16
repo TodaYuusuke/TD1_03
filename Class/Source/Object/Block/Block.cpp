@@ -23,7 +23,7 @@ void Block::SuccessorInitialize() {
 	acceleration = { 0,0 };
 
 	// 回転角度（Degree）
-	angle = 15;
+	angle = rand() % 360;
 	// 回転速度（Degree）
 	angleVelocity = 0;
 

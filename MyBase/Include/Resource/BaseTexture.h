@@ -42,4 +42,18 @@ public: // 静的なテクスチャの変数
 	// デバッグ用テクスチャ
 	static int kDebugTexture;
 
+
+#pragma region マップ
+
+	// マップチップサンプル
+	// 0 ... 枠なし
+	// 1,2,3,4 ... 上,右,下,左
+	// 5,6,7,8 ... 右上,右下,左下,左上
+	// 9,10,11,12 ... 下以外,左以外,上以外,右以外
+	// 13 ... 全部
+	static int kTextureMapChipSample[];
+	static const int kTextureMapChipSampleSize = 14;
+
+#pragma endregion
+
 };

@@ -13,6 +13,22 @@ void BaseConst::Initialize() {
 // 定数のロードを100分割で行う。全てのロードが完了するまで呼び出させる（今回は％は実装しない、ロードするだけ）
 bool BaseConst::Loading() {
 
+	std::vector<std::string> map;
+	std::ifstream mapifs("./Resources/Const/mapSample.csv");
+	std::string line;
+
+	int y = 0;
+
+	while (getline(mapifs, line)) {
+
+		std::vector<std::string> strvec = split(line, ',');
+
+		for (int x = 0; x < strvec.size(); x++) {
+			kMapData[y][x] = stoi(strvec.at(x));
+		}
+
+		y++;
+	}
 
 	return true;
 }
@@ -78,5 +94,16 @@ float BaseConst::kWireSpeed = 40;
 float BaseConst::kWireMaxLength = 100.0f;
 // ワイヤーの最大存在数
 //int BaseConst::kWireMaxAmount = 3;
+
+#pragma endregion
+
+#pragma region マップ
+
+// マップチップのサイズ
+int BaseConst::kMapChipSizeWidth = 32;
+int BaseConst::kMapChipSizeHeight = 32;
+
+// マップデータ
+int BaseConst::kMapData[kMapSizeHeight][kMapSizeWidth];
 
 #pragma endregion

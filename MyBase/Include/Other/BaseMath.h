@@ -7,7 +7,7 @@
 #include "MyBase/Include/Other/BaseDraw.h"
 
 ////////////////////////////////////////////////////
-/* - �v���O�������Ɏg���S�Ă̐��w�I�֐����Ǘ�����N���X - */
+/* - プログラム中に使う全ての数学的関数を管理するクラス - */
 ////////////////////////////////////////////////////
 
 class BaseDraw;
@@ -18,158 +18,157 @@ class BaseMath
 public:
 
 
-	// �p�x�֘A
+	// 角度関連
 
 
-	// radian����degree�ɕϊ�����֐�
-	// �Ԃ�l�Fdegree
-	// �����F
-	// radian ... radian�̊p�x
-	// radian�̊p�x��degree�̊p�x�ɕϊ�����֐��B�����ŗv�������̂͊�{Degree�Ȃ̂ł��܂�g��Ȃ��B
+	// radianからdegreeに変換する関数
+	// 返り値：degree
+	// 引数：
+	// radian ... radianの角度
+	// radianの角度をdegreeの角度に変換する関数。引数で要求されるのは基本Degreeなのであまり使わない。
 	static float RadiantoDegree(float radian);
 
-	// degree����radian�ɕϊ�����֐�
-	// �Ԃ�l�Fradian
-	// �����F
-	// degree ... degree�̊p�x
-	// degree�̊p�x��radian�̊p�x�ɕϊ�����֐��B�����ŗv�������̂͊�{Degree�Ȃ̂Ŋ֐����ł͎g����B
+	// degreeからradianに変換する関数
+	// 返り値：radian
+	// 引数：
+	// degree ... degreeの角度
+	// degreeの角度をradianの角度に変換する関数。引数で要求されるのは基本Degreeなので関数内では使われる。
 	static float DegreetoRadian(float degree);
 
-	// 2�_�Ԃ̊p�x�idegree�j�����߂�֐�
-	// �Ԃ�l�F2�_�̊p�x�idegree�j
-	// �����F
-	// from ... ���W�P
-	// to ... ���W�Q
-	// 2�_�̊p�x��Degree�Ŏ󂯎��֐��B
+	// 2点間の角度（degree）を求める関数
+	// 返り値：2点の角度（degree）
+	// 引数：
+	// from ... 座標１
+	// to ... 座標２
+	// 2点の角度をDegreeで受け取る関数。
 	static float GetDegree(Point from, Point to);
 
 
 
-	// ��]����
+	// 回転処理
 
 
-	// Point�̉�]�v�Z�֐�
-	// �Ԃ�l�F��]���Point
-	// �����F
-	// point ... �v�Z����Points
-	// degree ... ��]�p�x�idegree�j
-	// ���_���S�̉�]�����s���Ȃ��̂Œ���
+	// Pointの回転計算関数
+	// 返り値：回転後のPoint
+	// 引数：
+	// point ... 計算するPoints
+	// degree ... 回転角度（degree）
+	// 原点中心の回転しか行えないので注意
 	static Point TurnPoint(Point point, float degree);
 	
-	// Box�̉�]�v�Z�֐�
-	// �Ԃ�l�F��]���Box
-	// �����F
-	// box ... �v�Z����Points
-	// degree ... ��]�p�x�idegree�j
-	// ���_���S�̉�]�����s���Ȃ��̂Œ���
+	// Boxの回転計算関数
+	// 返り値：回転後のBox
+	// 引数：
+	// box ... 計算するPoints
+	// degree ... 回転角度（degree）
+	// 原点中心の回転しか行えないので注意
 	static Quad TurnBox(Quad box, float degree);
 
 
-	// �����蔻�菈��
+	// 当たり判定処理
 
-	/// <summary>
-	/// �l�p�`�Ɠ_�̓����蔻��`�F�b�N�i��]���l���\�A�����蔻��̎l�p�`�����g�̒��S�����_�ɉ�]���Ă���O��j
-	/// </summary>
-	/// <param name="hitBoxCenterPosition">�q�b�g�Ώۂ̎l�p�̒��S���W</param>
-	/// <param name="hitBoxWidth">�q�b�g�Ώۂ̉���</param>
-	/// <param name="hitBoxHeight">�q�b�g�Ώۂ̏c��</param>
-	/// <param name="boxAngle">�q�b�g�Ώۂ̎l�p�̉�]�p�x</param>
-	/// <param name="hitPosition">�q�b�g���Ă��邩���؂�����W</param>
-	/// <returns>�q�b�g����true�A����ȊO��false</returns>
-	static bool CheckHitBox(Point hitBoxCenterPosition, float hitBoxWidth, float hitBoxHeight, float boxAngle, Point hitPosition);
+	// 四角形と点の当たり判定チェック（回転を考慮可能、当たり判定の四角形が自身の中心を原点に回転している前提）
+	// 返り値：ヒット時はtrue、それ以外はfalse
+	// 引数：
+	// hitBoxCenterPosition ... ヒット対象の四角の中心座標
+	// hitBoxWidth ... ヒット対象の横幅
+	// hitBoxHeight ... ヒット対象の縦幅
+	// hitboxAngle ... ヒット対象の四角の回転角度
+	// hitPoisiton ... ヒットしているか検証する座標
+	static bool CheckHitBox(Point hitBoxCenterPosition, float hitBoxWidth, float hitBoxHeight, float hitboxAngle, Point hitPosition);
 
-	// �l�p���m�̓����蔻��`�F�b�N
+	// 四角同士の当たり判定チェック
 	static bool CheckHitBox(Box hitBox1, Box hitBox2);
 
 
 
-	// �x�N�g���֘A
+	// ベクトル関連
 
 	/// <summary>
-	/// �x�N�g���̒��������߂�֐�
+	/// ベクトルの長さを求める関数
 	/// </summary>
-	/// <param name="vector">�x�N�g��</param>
-	/// <returns>�x�N�g���̒���</returns>
+	/// <param name="vector">ベクトル</param>
+	/// <returns>ベクトルの長さ</returns>
 	static float GetLength(Point vector);
 
 	/// <summary>
-	/// �x�N�g���̐��K��������֐�
+	/// ベクトルの正規化をする関数
 	/// </summary>
-	/// <param name="vector">�x�N�g��</param>
-	/// <returns>���K�����ꂽ�x�N�g��</returns>
+	/// <param name="vector">ベクトル</param>
+	/// <returns>正規化されたベクトル</returns>
 	static Point GetNormalize(Point vector);
 
 	/// <summary>
-	/// Degree ���󂯎���ăx�N�g���𐶐�����֐�
+	/// Degree を受け取ってベクトルを生成する関数
 	/// </summary>
 	/// <param name="degree">degree</param>
-	/// <returns>���K�����ꂽ�x�N�g��</returns>
+	/// <returns>正規化されたベクトル</returns>
 	static Point GetVector(float degree);
 	/// <summary>
-	/// Degree ���󂯎���ăx�N�g���𐶐�����֐�
+	/// Degree を受け取ってベクトルを生成する関数
 	/// </summary>
 	/// <param name="degree">degree</param>
-	/// <param name="speed">�X�s�[�h</param>
-	/// <returns>���K�����ꂽ�x�N�g���ɃX�s�[�h���|�����x�N�g��</returns>
+	/// <param name="speed">スピード</param>
+	/// <returns>正規化されたベクトルにスピードを掛けたベクトル</returns>
 	static Point GetVector(float degree, Point speed);
 	/// <summary>
-	/// from �� to ���󂯎���ăx�N�g���𐶐�����֐�
+	/// from と to を受け取ってベクトルを生成する関数
 	/// </summary>
-	/// <param name="from">���W 1</param>
-	/// <param name="to">���W 2</param>
-	/// <returns>from ���� to �ւ̃x�N�g��</returns>
+	/// <param name="from">座標 1</param>
+	/// <param name="to">座標 2</param>
+	/// <returns>from から to へのベクトル</returns>
 	static Point GetVector(Point from, Point to);
 
 	/// <summary>
-	/// ���ς����߂�֐�
+	/// 内積を求める関数
 	/// </summary>
-	/// <param name="a">�x�N�g�� 1</param>
-	/// <param name="b">�x�N�g�� 2</param>
-	/// <returns>����</returns>
+	/// <param name="a">ベクトル 1</param>
+	/// <param name="b">ベクトル 2</param>
+	/// <returns>内積</returns>
 	static float GetDot(Point a, Point b);
 
 	static float GetCross(Point a, Point b);
 
-	// ����
+	// 線分
 
 	/// <summary>
-	/// �_�ƃJ�v�Z���̈�ԋ߂��_���J�v�Z���̐������狁�߂�֐�
+	/// 点とカプセルの一番近い点をカプセルの線分から求める関数
 	/// </summary>
-	/// <param name="hitCenterPosition">�Ώۂ̒��S���W</param>
-	/// <param name="hitPosition">�J�v�Z���̎n�_���W</param>
-	/// <param name="hitVelocity">�J�v�Z���̒���</param>
-	/// <param name="hitRadius">�J�v�Z���̒��̉~�̔��a</param>
-	/// <param name="hitAngle">�J�v�Z���̒��̉~�̉�]�p</param>
-	/// <returns>�_�ƃJ�v�Z���̍ŋߖT�_</returns>
+	/// <param name="hitCenterPosition">対象の中心座標</param>
+	/// <param name="hitPosition">カプセルの始点座標</param>
+	/// <param name="hitVelocity">カプセルの長さ</param>
+	/// <param name="hitRadius">カプセルの中の円の半径</param>
+	/// <param name="hitAngle">カプセルの中の円の回転角</param>
+	/// <returns>点とカプセルの最近傍点</returns>
 	//static Point GetCapsuleNearestPosition(Point hitCenterPosition, Point hitPosition, Point hitVelocity, Point hitRadius, float hitAngle);
 
 	/// <summary>
-	/// �_�Ɛ����̈�ԋ߂��_��������狁�߂�֐�
+	/// 点と線分の一番近い点を線分から求める関数
 	/// </summary>
-	/// <param name="hitCenterPosition">�Ώۂ̒��S���W</param>
-	/// <param name="hitPosition">�����̎n�_���W</param>
-	/// <param name="hitVelocity">�����̒���</param>
-	/// <returns>�_�Ɛ����̍ŋߖT�_</returns>
+	/// <param name="hitCenterPosition">対象の中心座標</param>
+	/// <param name="hitPosition">線分の始点座標</param>
+	/// <param name="hitVelocity">線分の長さ</param>
+	/// <returns>点と線分の最近傍点</returns>
 	static Point GetNearestPosition(Point hitCenterPosition, Point hitPosition, Point hitVelocity);
 
 	/// <summary>
-	/// �_�Ɛ����̈�ԋ߂��_��������狁�߂�֐�
+	/// 点と線分の一番近い点を線分から求める関数
 	/// </summary>
-	/// <param name="hitQuad">�Ώۂ̋�`</param>
-	/// <param name="hitPosition">�����̎n�_���W</param>
-	/// <param name="hitVelocity">�����̒���</param>
-	/// <returns>�_�Ɛ����̍ŋߖT�_</returns>
+	/// <param name="hitQuad">対象の矩形</param>
+	/// <param name="hitPosition">線分の始点座標</param>
+	/// <param name="hitVelocity">線分の長さ</param>
+	/// <returns>点と線分の最近傍点</returns>
 	static Point GetNearestPosition(Quad hitQuad, Point hitPosition, Point hitVelocity);
 
-	// ���̑�
+	// その他
 
 	/// <summary>
-	/// �l�� min ���� max �̒l�Ɏ��߂�֐�
+	/// 値を min から max の値に収める関数
 	/// </summary>
-	/// <param name="a">���߂�l</param>
-	/// <param name="min">�ŏ��l</param>
-	/// <param name="max">�ő�l</param>
-	/// <returns>�͈͓��̒l</returns>
+	/// <param name="a">収める値</param>
+	/// <param name="min">最小値</param>
+	/// <param name="max">最大値</param>
+	/// <returns>範囲内の値</returns>
 	static float Clamp(float a, float min, float max);
 
 
