@@ -29,7 +29,7 @@ void Block::SuccessorUpdate() {
 }
 // •`‰æ
 void Block::Draw() {
-	BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { 100,100 }, 1.0f, 0.0f, WHITE);
+	BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, 0.0f, WHITE);
 }
 
 // ƒ^ƒCƒv‚ðŽæ“¾
