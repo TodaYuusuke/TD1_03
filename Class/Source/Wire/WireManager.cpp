@@ -39,5 +39,7 @@ bool WireManager::Shot(Point shotPosition, float shotAngle,Player* _player) {
 }
 
 void WireManager::Attract() {
-
+	for (int i = 0; i < BaseConst::kWireMaxAmount; i++) {
+		wires[i]->Attract();
+	}
 }

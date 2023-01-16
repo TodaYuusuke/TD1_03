@@ -41,7 +41,7 @@ private: // メンバ変数
 
 
 	// マウス座標
-	Point ReticlePosition;
+	Point reticlePosition;
 
 	WireManager* wireManager;
 
