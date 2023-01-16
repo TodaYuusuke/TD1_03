@@ -7,7 +7,7 @@
 #include "MyBase/Include/Other/BaseDraw.h"
 
 ////////////////////////////////////////////////////
-/* - ƒvƒƒOƒ‰ƒ€’†‚Ég‚¤‘S‚Ä‚Ì”Šw“IŠÖ”‚ğŠÇ—‚·‚éƒNƒ‰ƒX - */
+/* - ãƒ—ãƒ­ã‚°ãƒ©ãƒ ä¸­ã«ä½¿ã†å…¨ã¦ã®æ•°å­¦çš„é–¢æ•°ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹ - */
 ////////////////////////////////////////////////////
 
 class BaseDraw;
@@ -18,104 +18,159 @@ class BaseMath
 public:
 
 
-	// Šp“xŠÖ˜A
+	// è§’åº¦é–¢é€£
 
 
-	// radian‚©‚çdegree‚É•ÏŠ·‚·‚éŠÖ”
-	// •Ô‚è’lFdegree
-	// ˆø”F
-	// radian ... radian‚ÌŠp“x
-	// radian‚ÌŠp“x‚ğdegree‚ÌŠp“x‚É•ÏŠ·‚·‚éŠÖ”Bˆø”‚Å—v‹‚³‚ê‚é‚Ì‚ÍŠî–{Degree‚È‚Ì‚Å‚ ‚Ü‚èg‚í‚È‚¢B
+	// radianã‹ã‚‰degreeã«å¤‰æ›ã™ã‚‹é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šdegree
+	// å¼•æ•°ï¼š
+	// radian ... radianã®è§’åº¦
+	// radianã®è§’åº¦ã‚’degreeã®è§’åº¦ã«å¤‰æ›ã™ã‚‹é–¢æ•°ã€‚å¼•æ•°ã§è¦æ±‚ã•ã‚Œã‚‹ã®ã¯åŸºæœ¬Degreeãªã®ã§ã‚ã¾ã‚Šä½¿ã‚ãªã„ã€‚
 	static float RadiantoDegree(float radian);
 
-	// degree‚©‚çradian‚É•ÏŠ·‚·‚éŠÖ”
-	// •Ô‚è’lFradian
-	// ˆø”F
-	// degree ... degree‚ÌŠp“x
-	// degree‚ÌŠp“x‚ğradian‚ÌŠp“x‚É•ÏŠ·‚·‚éŠÖ”Bˆø”‚Å—v‹‚³‚ê‚é‚Ì‚ÍŠî–{Degree‚È‚Ì‚ÅŠÖ”“à‚Å‚Íg‚í‚ê‚éB
+	// degreeã‹ã‚‰radianã«å¤‰æ›ã™ã‚‹é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šradian
+	// å¼•æ•°ï¼š
+	// degree ... degreeã®è§’åº¦
+	// degreeã®è§’åº¦ã‚’radianã®è§’åº¦ã«å¤‰æ›ã™ã‚‹é–¢æ•°ã€‚å¼•æ•°ã§è¦æ±‚ã•ã‚Œã‚‹ã®ã¯åŸºæœ¬Degreeãªã®ã§é–¢æ•°å†…ã§ã¯ä½¿ã‚ã‚Œã‚‹ã€‚
 	static float DegreetoRadian(float degree);
 
-	// 2“_ŠÔ‚ÌŠp“xidegreej‚ğ‹‚ß‚éŠÖ”
-	// •Ô‚è’lF2“_‚ÌŠp“xidegreej
-	// ˆø”F
-	// from ... À•W‚P
-	// to ... À•W‚Q
-	// 2“_‚ÌŠp“x‚ğDegree‚Åó‚¯æ‚éŠÖ”B
+	// 2ç‚¹é–“ã®è§’åº¦ï¼ˆdegreeï¼‰ã‚’æ±‚ã‚ã‚‹é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼š2ç‚¹ã®è§’åº¦ï¼ˆdegreeï¼‰
+	// å¼•æ•°ï¼š
+	// from ... åº§æ¨™ï¼‘
+	// to ... åº§æ¨™ï¼’
+	// 2ç‚¹ã®è§’åº¦ã‚’Degreeã§å—ã‘å–ã‚‹é–¢æ•°ã€‚
 	static float GetDegree(Point from, Point to);
 
 
 
-	// ‰ñ“]ˆ—
+	// å›è»¢å‡¦ç†
 
 
-	// Point‚Ì‰ñ“]ŒvZŠÖ”
-	// •Ô‚è’lF‰ñ“]Œã‚ÌPoint
-	// ˆø”F
-	// point ... ŒvZ‚·‚éPoints
-	// degree ... ‰ñ“]Šp“xidegreej
-	// Œ´“_’†S‚Ì‰ñ“]‚µ‚©s‚¦‚È‚¢‚Ì‚Å’ˆÓ
+	// Pointã®å›è»¢è¨ˆç®—é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šå›è»¢å¾Œã®Point
+	// å¼•æ•°ï¼š
+	// point ... è¨ˆç®—ã™ã‚‹Points
+	// degree ... å›è»¢è§’åº¦ï¼ˆdegreeï¼‰
+	// åŸç‚¹ä¸­å¿ƒã®å›è»¢ã—ã‹è¡Œãˆãªã„ã®ã§æ³¨æ„
 	static Point TurnPoint(Point point, float degree);
 	
-	// Box‚Ì‰ñ“]ŒvZŠÖ”
-	// •Ô‚è’lF‰ñ“]Œã‚ÌBox
-	// ˆø”F
-	// box ... ŒvZ‚·‚éPoints
-	// degree ... ‰ñ“]Šp“xidegreej
-	// Œ´“_’†S‚Ì‰ñ“]‚µ‚©s‚¦‚È‚¢‚Ì‚Å’ˆÓ
+	// Boxã®å›è»¢è¨ˆç®—é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šå›è»¢å¾Œã®Box
+	// å¼•æ•°ï¼š
+	// box ... è¨ˆç®—ã™ã‚‹Points
+	// degree ... å›è»¢è§’åº¦ï¼ˆdegreeï¼‰
+	// åŸç‚¹ä¸­å¿ƒã®å›è»¢ã—ã‹è¡Œãˆãªã„ã®ã§æ³¨æ„
 	static Quad TurnBox(Quad box, float degree);
 
 
-	// “–‚½‚è”»’èˆ—
+	// å½“ãŸã‚Šåˆ¤å®šå‡¦ç†
 
-	// lŠpŒ`‚Æ“_‚Ì“–‚½‚è”»’èƒ`ƒFƒbƒNi‰ñ“]‚ğl—¶‰Â”\A“–‚½‚è”»’è‚ÌlŠpŒ`‚ª©g‚Ì’†S‚ğŒ´“_‚É‰ñ“]‚µ‚Ä‚¢‚é‘O’ñj
-	// •Ô‚è’lFƒqƒbƒg‚ÍtrueA‚»‚êˆÈŠO‚Ífalse
-	// ˆø”F
-	// hitBoxCenterPosition ... ƒqƒbƒg‘ÎÛ‚ÌlŠp‚Ì’†SÀ•W
-	// hitBoxWidth ... ƒqƒbƒg‘ÎÛ‚Ì‰¡•
-	// hitBoxHeight ... ƒqƒbƒg‘ÎÛ‚Ìc•
-	// hitboxAngle ... ƒqƒbƒg‘ÎÛ‚ÌlŠp‚Ì‰ñ“]Šp“x
-	// hitPoisiton ... ƒqƒbƒg‚µ‚Ä‚¢‚é‚©ŒŸØ‚·‚éÀ•W
+	// å››è§’å½¢ã¨ç‚¹ã®å½“ãŸã‚Šåˆ¤å®šãƒã‚§ãƒƒã‚¯ï¼ˆå›è»¢ã‚’è€ƒæ…®å¯èƒ½ã€å½“ãŸã‚Šåˆ¤å®šã®å››è§’å½¢ãŒè‡ªèº«ã®ä¸­å¿ƒã‚’åŸç‚¹ã«å›è»¢ã—ã¦ã„ã‚‹å‰æï¼‰
+	// è¿”ã‚Šå€¤ï¼šãƒ’ãƒƒãƒˆæ™‚ã¯trueã€ãã‚Œä»¥å¤–ã¯false
+	// å¼•æ•°ï¼š
+	// hitBoxCenterPosition ... ãƒ’ãƒƒãƒˆå¯¾è±¡ã®å››è§’ã®ä¸­å¿ƒåº§æ¨™
+	// hitBoxWidth ... ãƒ’ãƒƒãƒˆå¯¾è±¡ã®æ¨ªå¹…
+	// hitBoxHeight ... ãƒ’ãƒƒãƒˆå¯¾è±¡ã®ç¸¦å¹…
+	// hitboxAngle ... ãƒ’ãƒƒãƒˆå¯¾è±¡ã®å››è§’ã®å›è»¢è§’åº¦
+	// hitPoisiton ... ãƒ’ãƒƒãƒˆã—ã¦ã„ã‚‹ã‹æ¤œè¨¼ã™ã‚‹åº§æ¨™
 	static bool CheckHitBox(Point hitBoxCenterPosition, float hitBoxWidth, float hitBoxHeight, float hitboxAngle, Point hitPosition);
 
-	// lŠp“¯m‚Ì“–‚½‚è”»’èƒ`ƒFƒbƒN
+	// å››è§’åŒå£«ã®å½“ãŸã‚Šåˆ¤å®šãƒã‚§ãƒƒã‚¯
 	static bool CheckHitBox(Box hitBox1, Box hitBox2);
 
-	// ƒxƒNƒgƒ‹ŠÖ˜A
+
+
+	// ãƒ™ã‚¯ãƒˆãƒ«é–¢é€£
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚Ì’·‚³‚ğ‹‚ß‚éŠÖ”
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•ã‚’æ±‚ã‚ã‚‹é–¢æ•°
 	/// </summary>
-	/// <param name="vector">ƒxƒNƒgƒ‹</param>
-	/// <returns>ƒxƒNƒgƒ‹‚Ì’·‚³</returns>
+	/// <param name="vector">ãƒ™ã‚¯ãƒˆãƒ«</param>
+	/// <returns>ãƒ™ã‚¯ãƒˆãƒ«ã®é•·ã•</returns>
 	static float GetLength(Point vector);
 
 	/// <summary>
-	/// ƒxƒNƒgƒ‹‚Ì³‹K‰»‚ğ‚·‚éŠÖ”
+	/// ãƒ™ã‚¯ãƒˆãƒ«ã®æ­£è¦åŒ–ã‚’ã™ã‚‹é–¢æ•°
 	/// </summary>
-	/// <param name="vector">ƒxƒNƒgƒ‹</param>
-	/// <returns>³‹K‰»‚³‚ê‚½ƒxƒNƒgƒ‹</returns>
+	/// <param name="vector">ãƒ™ã‚¯ãƒˆãƒ«</param>
+	/// <returns>æ­£è¦åŒ–ã•ã‚ŒãŸãƒ™ã‚¯ãƒˆãƒ«</returns>
 	static Point GetNormalize(Point vector);
 
 	/// <summary>
-	/// Degree ‚ğó‚¯æ‚Á‚ÄƒxƒNƒgƒ‹‚ğ¶¬‚·‚éŠÖ”
+	/// Degree ã‚’å—ã‘å–ã£ã¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’ç”Ÿæˆã™ã‚‹é–¢æ•°
 	/// </summary>
 	/// <param name="degree">degree</param>
-	/// <returns>³‹K‰»‚³‚ê‚½ƒxƒNƒgƒ‹</returns>
+	/// <returns>æ­£è¦åŒ–ã•ã‚ŒãŸãƒ™ã‚¯ãƒˆãƒ«</returns>
 	static Point GetVector(float degree);
 	/// <summary>
-	/// Degree ‚ğó‚¯æ‚Á‚ÄƒxƒNƒgƒ‹‚ğ¶¬‚·‚éŠÖ”
+	/// Degree ã‚’å—ã‘å–ã£ã¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’ç”Ÿæˆã™ã‚‹é–¢æ•°
 	/// </summary>
 	/// <param name="degree">degree</param>
-	/// <param name="speed">ƒXƒs[ƒh</param>
-	/// <returns>³‹K‰»‚³‚ê‚½ƒxƒNƒgƒ‹‚ÉƒXƒs[ƒh‚ğŠ|‚¯‚½ƒxƒNƒgƒ‹</returns>
+	/// <param name="speed">ã‚¹ãƒ”ãƒ¼ãƒ‰</param>
+	/// <returns>æ­£è¦åŒ–ã•ã‚ŒãŸãƒ™ã‚¯ãƒˆãƒ«ã«ã‚¹ãƒ”ãƒ¼ãƒ‰ã‚’æ›ã‘ãŸãƒ™ã‚¯ãƒˆãƒ«</returns>
 	static Point GetVector(float degree, Point speed);
 	/// <summary>
-	/// from ‚Æ to ‚ğó‚¯æ‚Á‚ÄƒxƒNƒgƒ‹‚ğ¶¬‚·‚éŠÖ”
+	/// from ã¨ to ã‚’å—ã‘å–ã£ã¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’ç”Ÿæˆã™ã‚‹é–¢æ•°
 	/// </summary>
-	/// <param name="from">À•W 1</param>
-	/// <param name="to">À•W 2</param>
-	/// <returns>from ‚©‚ç to ‚Ö‚ÌƒxƒNƒgƒ‹</returns>
+	/// <param name="from">åº§æ¨™ 1</param>
+	/// <param name="to">åº§æ¨™ 2</param>
+	/// <returns>from ã‹ã‚‰ to ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«</returns>
 	static Point GetVector(Point from, Point to);
+
+	/// <summary>
+	/// å†…ç©ã‚’æ±‚ã‚ã‚‹é–¢æ•°
+	/// </summary>
+	/// <param name="a">ãƒ™ã‚¯ãƒˆãƒ« 1</param>
+	/// <param name="b">ãƒ™ã‚¯ãƒˆãƒ« 2</param>
+	/// <returns>å†…ç©</returns>
+	static float GetDot(Point a, Point b);
+
+	static float GetCross(Point a, Point b);
+
+	// ç·šåˆ†
+
+	/// <summary>
+	/// ç‚¹ã¨ã‚«ãƒ—ã‚»ãƒ«ã®ä¸€ç•ªè¿‘ã„ç‚¹ã‚’ã‚«ãƒ—ã‚»ãƒ«ã®ç·šåˆ†ã‹ã‚‰æ±‚ã‚ã‚‹é–¢æ•°
+	/// </summary>
+	/// <param name="hitCenterPosition">å¯¾è±¡ã®ä¸­å¿ƒåº§æ¨™</param>
+	/// <param name="hitPosition">ã‚«ãƒ—ã‚»ãƒ«ã®å§‹ç‚¹åº§æ¨™</param>
+	/// <param name="hitVelocity">ã‚«ãƒ—ã‚»ãƒ«ã®é•·ã•</param>
+	/// <param name="hitRadius">ã‚«ãƒ—ã‚»ãƒ«ã®ä¸­ã®å††ã®åŠå¾„</param>
+	/// <param name="hitAngle">ã‚«ãƒ—ã‚»ãƒ«ã®ä¸­ã®å††ã®å›è»¢è§’</param>
+	/// <returns>ç‚¹ã¨ã‚«ãƒ—ã‚»ãƒ«ã®æœ€è¿‘å‚ç‚¹</returns>
+	//static Point GetCapsuleNearestPosition(Point hitCenterPosition, Point hitPosition, Point hitVelocity, Point hitRadius, float hitAngle);
+
+	/// <summary>
+	/// ç‚¹ã¨ç·šåˆ†ã®ä¸€ç•ªè¿‘ã„ç‚¹ã‚’ç·šåˆ†ã‹ã‚‰æ±‚ã‚ã‚‹é–¢æ•°
+	/// </summary>
+	/// <param name="hitCenterPosition">å¯¾è±¡ã®ä¸­å¿ƒåº§æ¨™</param>
+	/// <param name="hitPosition">ç·šåˆ†ã®å§‹ç‚¹åº§æ¨™</param>
+	/// <param name="hitVelocity">ç·šåˆ†ã®é•·ã•</param>
+	/// <returns>ç‚¹ã¨ç·šåˆ†ã®æœ€è¿‘å‚ç‚¹</returns>
+	static Point GetNearestPosition(Point hitCenterPosition, Point hitPosition, Point hitVelocity);
+
+	/// <summary>
+	/// ç‚¹ã¨ç·šåˆ†ã®ä¸€ç•ªè¿‘ã„ç‚¹ã‚’ç·šåˆ†ã‹ã‚‰æ±‚ã‚ã‚‹é–¢æ•°
+	/// </summary>
+	/// <param name="hitQuad">å¯¾è±¡ã®çŸ©å½¢</param>
+	/// <param name="hitPosition">ç·šåˆ†ã®å§‹ç‚¹åº§æ¨™</param>
+	/// <param name="hitVelocity">ç·šåˆ†ã®é•·ã•</param>
+	/// <returns>ç‚¹ã¨ç·šåˆ†ã®æœ€è¿‘å‚ç‚¹</returns>
+	static Point GetNearestPosition(Quad hitQuad, Point hitPosition, Point hitVelocity);
+
+	// ãã®ä»–
+
+	/// <summary>
+	/// å€¤ã‚’ min ã‹ã‚‰ max ã®å€¤ã«åã‚ã‚‹é–¢æ•°
+	/// </summary>
+	/// <param name="a">åã‚ã‚‹å€¤</param>
+	/// <param name="min">æœ€å°å€¤</param>
+	/// <param name="max">æœ€å¤§å€¤</param>
+	/// <returns>ç¯„å›²å†…ã®å€¤</returns>
+	static float Clamp(float a, float min, float max);
+
 
 };
 

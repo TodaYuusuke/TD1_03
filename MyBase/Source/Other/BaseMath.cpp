@@ -210,3 +210,195 @@ Point BaseMath::GetVector(float degree, Point speed) {
 Point BaseMath::GetVector(Point from, Point to) {
 	return { to.x - from.x,to.y - from.y };
 }
+
+/// <summary>
+/// 内積を求める関数
+/// </summary>
+/// <param name="a">ベクトル 1</param>
+/// <param name="b">ベクトル 2</param>
+/// <returns>内積</returns>
+float BaseMath::GetDot(Point a, Point b) {
+	return a.x * b.x + a.y * b.y;
+}
+
+/// <summary>
+/// 外積を求める関数
+/// </summary>
+/// <param name="a">ベクトル 1</param>
+/// <param name="b">ベクトル 2</param>
+/// <returns>外積</returns>
+float BaseMath::GetCross(Point a, Point b) {
+	return a.x * b.y - a.y * b.y;
+}
+
+// カプセル
+
+/// <summary>
+/// 点と線分の一番近い点を線分から求める関数
+/// </summary>
+/// <param name="hitCenterPosition">対象の中心座標</param>
+/// <param name="hitPosition">線分の始点座標</param>
+/// <param name="hitVelocity">線分の長さ</param>
+/// <returns>点と線分の最近傍点</returns>
+Point BaseMath::GetNearestPosition(Point hitCenterPosition, Point hitPosition, Point hitVelocity) {
+	// 線分を正規化
+	Point e = GetNormalize(hitVelocity);
+	// 線分の始点から点までのベクトル
+	Point a = { hitCenterPosition.x - hitPosition.x,hitCenterPosition.y - hitPosition.y };
+	if (GetDot(e, a) < 0) {
+		return hitPosition;
+	}
+	// 線分の終点から点までのベクトル
+	Point b = { hitCenterPosition.x - (hitPosition.x + hitVelocity.x),hitCenterPosition.y - (hitPosition.y + hitVelocity.y) };
+	if (0 < GetDot(e, b)) {
+		return { hitPosition.x + hitVelocity.x, hitPosition.y + hitVelocity.y };
+	}
+	// 線分の最近傍点を求める
+	float t = GetDot(a, e) / GetLength(hitVelocity);
+	//float t = GetDot(a, e);
+	return { hitPosition.x + (hitVelocity.x * t),hitPosition.y + (hitVelocity.y * t) };
+	//return { (1.0f - t) * hitPosition.x + t * (hitPosition.x + hitVelocity.x),(1.0f - t) * hitPosition.y + t * (hitPosition.y + hitVelocity.y) };
+}
+
+/// <summary>
+/// 点と線分の一番近い点を線分から求める関数
+/// </summary>
+/// <param name="hitQuad">対象の矩形</param>
+/// <param name="hitPosition">線分の始点座標</param>
+/// <param name="hitVelocity">線分の長さ</param>
+/// <returns>点と線分の最近傍点</returns>
+Point BaseMath::GetNearestPosition(Quad hitQuad, Point hitPosition, Point hitVelocity) {
+	float t = 10000;
+	float length = GetLength(hitVelocity);
+	// 線分を正規化
+	Point e = GetNormalize(hitVelocity);
+
+	// q1
+
+	// 線分の始点から点までのベクトル
+	Point a = { hitQuad.q1.x - hitPosition.x,hitQuad.q1.y - hitPosition.y };
+	// 始点より前だったら
+	if (GetDot(e, a) < 0) {
+		t = 0;
+	}
+	// 線分の終点から点までのベクトル
+	Point b = { hitQuad.q1.x - (hitPosition.x + hitVelocity.x),hitQuad.q1.y - (hitPosition.y + hitVelocity.y) };
+	// 終点より後だったら
+	if (0 < GetDot(e, b)) {
+		if (GetLength(hitVelocity) < t) {
+			t = GetLength(hitVelocity);
+		}
+	}
+	// 線分の最近傍点を求める
+	if (GetDot(a, e) / GetLength(hitVelocity) < t) {
+		t = GetDot(a, e) / GetLength(hitVelocity);
+	}
+
+	// q2
+
+	// 線分の始点から点までのベクトル
+	a = { hitQuad.q2.x - hitPosition.x,hitQuad.q2.y - hitPosition.y };
+	// 始点より前だったら
+	if (GetDot(e, a) < 0) {
+		t = 0;
+	}
+	// 線分の終点から点までのベクトル
+	b = { hitQuad.q2.x - (hitPosition.x + hitVelocity.x),hitQuad.q2.y - (hitPosition.y + hitVelocity.y) };
+	// 終点より後だったら
+	if (0 < GetDot(e, b)) {
+		if (GetLength(hitVelocity) < t) {
+			t = GetLength(hitVelocity);
+		}
+	}
+	// 線分の最近傍点を求める
+	if (GetDot(a, e) / GetLength(hitVelocity) < t) {
+		t = GetDot(a, e) / GetLength(hitVelocity);
+	}
+
+	// q3
+
+	// 線分の始点から点までのベクトル
+	a = { hitQuad.q3.x - hitPosition.x,hitQuad.q3.y - hitPosition.y };
+	// 始点より前だったら
+	if (GetDot(e, a) < 0) {
+		t = 0;
+	}
+
+	// 線分の終点から点までのベクトル
+	b = { hitQuad.q3.x - (hitPosition.x + hitVelocity.x),hitQuad.q3.y - (hitPosition.y + hitVelocity.y) };
+	// 終点より後だったら
+	if (0 < GetDot(e, b)) {
+		if (GetLength(hitVelocity) < t) {
+			t = GetLength(hitVelocity);
+		}
+	}
+	// 線分の最近傍点を求める
+	if (GetDot(a, e) / GetLength(hitVelocity) < t) {
+		t = GetDot(a, e) / GetLength(hitVelocity);
+	}
+
+	// q4
+
+	// 線分の始点から点までのベクトル
+	a = { hitQuad.q4.x - hitPosition.x,hitQuad.q4.y - hitPosition.y };
+	// 始点より前だったら
+	if (GetDot(e, a) < 0) {
+		t = 0;
+	}
+	// 線分の終点から点までのベクトル
+	b = { hitQuad.q4.x - (hitPosition.x + hitVelocity.x),hitQuad.q4.y - (hitPosition.y + hitVelocity.y) };
+	// 終点より後だったら
+	if (0 < GetDot(e, b)) {
+		if (GetLength(hitVelocity) < t) {
+			t = GetLength(hitVelocity);
+		}
+	}
+	// 線分の最近傍点を求める
+	if (GetDot(a, e) / GetLength(hitVelocity) < t) {
+		t = GetDot(a, e) / GetLength(hitVelocity);
+	}
+	//float t = GetDot(a, e);
+	return { hitPosition.x + (hitVelocity.x * t),hitPosition.y + (hitVelocity.y * t) };
+	//return { (1.0f - t) * hitPosition.x + t * (hitPosition.x + hitVelocity.x),(1.0f - t) * hitPosition.y + t * (hitPosition.y + hitVelocity.y) };
+}
+
+// その他
+
+/// <summary>
+/// 値を min から max の値に収める関数
+/// </summary>
+/// <param name="a">収める値</param>
+/// <param name="min">最小値</param>
+/// <param name="max">最大値</param>
+/// <returns>範囲内の値</returns>
+float BaseMath::Clamp(float a, float min, float max) {
+	if (a < min) {
+		return min;
+	}
+	else if (max < a) {
+		return max;
+	}
+	return a;
+}
+
+
+// 最も近い値を格納した配列の添え字を求める
+static int getNearestValue(int v) {
+	// 変数の宣言
+	v = BaseMath::Clamp(v, 0, 360);
+	if (v < 45) {
+		return 0;
+	}
+	else if (v < 90 + 45) {
+		return 90;
+	}
+	else if (v < 180 + 45) {
+		return 180;
+	}
+	else if (v < 270 + 45) {
+		return 270;
+	}
+	else {
+		return 0;
+	}
+}
