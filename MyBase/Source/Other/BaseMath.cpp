@@ -214,3 +214,52 @@ Point BaseMath::GetVector(float degree, Point speed) {
 Point BaseMath::GetVector(Point from, Point to) {
 	return { to.x - from.x,to.y - from.y };
 }
+
+/// <summary>
+/// 内積を求める関数
+/// </summary>
+/// <param name="a">ベクトル 1</param>
+/// <param name="b">ベクトル 2</param>
+/// <returns>内積</returns>
+float BaseMath::GetDot(Point a, Point b) {
+	return a.x * b.x + a.y * b.y;
+}
+
+// カプセル
+
+/// <summary>
+/// 点と線分の一番近い点を線分から求める関数
+/// </summary>
+/// <param name="hitCenterPosition">対象の中心座標</param>
+/// <param name="hitPosition">線分の始点座標</param>
+/// <param name="hitVelocity">線分の長さ</param>
+/// <returns>点と線分の最近傍点</returns>
+Point BaseMath::GetNearestPosition(Point hitCenterPosition, Point hitPosition, Point hitVelocity) {
+	// 線分の始点から点までのベクトル
+	Point a = { hitCenterPosition.x - hitPosition.x,hitCenterPosition.y - hitPosition.y };
+	// 線分を正規化
+	Point e = GetNormalize(hitVelocity);
+	// 線分の最近傍点を求める
+	float t = GetDot(a, e);
+	t = BaseMath::Clamp(t, 0, 1);
+	return { hitPosition.x + (hitVelocity.x * t),hitPosition.y + (hitVelocity.y * t) };
+}
+
+// その他
+
+/// <summary>
+/// 値を min から max の値に収める関数
+/// </summary>
+/// <param name="a">収める値</param>
+/// <param name="min">最小値</param>
+/// <param name="max">最大値</param>
+/// <returns>範囲内の値</returns>
+float BaseMath::Clamp(float a, float min, float max) {
+	if (a < min) {
+		return min;
+	}
+	else if (max < a) {
+		return max;
+	}
+	return a;
+}

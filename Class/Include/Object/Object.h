@@ -90,6 +90,12 @@ public: // メンバ関数
 	/// <returns>velocity</returns>
 	Point GetVelocity();
 
+	/// <summary>
+	/// 回転角度を取得する関数
+	/// </summary>
+	/// <returns>angle</returns>
+	float GetAngle();
+
 protected: // メンバ変数
 
 	// 中心座標

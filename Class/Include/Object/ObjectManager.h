@@ -34,7 +34,7 @@ public: // メンバ関数
 
 	// 新しいオブジェクトのインスタンスを生成する関数たち
 	// 中の実態がObjectのものを若い数字優先で上書きしていく
-	
+
 
 	// Block
 	void MakeNewObjectBlock(Point position, Point size);
@@ -42,13 +42,21 @@ public: // メンバ関数
 	// Player
 	void MakeNewObjectPlayer(Point position);
 
-	
+
 	// オブジェクトの当たり判定をチェックする関数
 	// 返り値：そのオブジェクトのポインタ
 	// 引数：チェックするPoint
 	//
 	// ひとつもヒットしていない場合はNULLを返す（この関数を使う場合は必ずNULLチェックをすること！）
 	Object* CheckObjectHitBox(Point hitPosition);
+	// 線分を受け取って判定
+	/// <summary>
+	/// オブジェクトの当たり判定をチェックする関数
+	/// </summary>
+	/// <param name="hitPosition">チェックするPoint</param>
+	/// <param name="hitVelocity">線分のベクトル</param>
+	/// <returns>そのオブジェクトのポインタ</returns>
+	Object* CheckObjectHitBox(Point hitPosition, Point hitVelocity);
 
 
 	// オブジェクトの当たり判定をチェックする関数

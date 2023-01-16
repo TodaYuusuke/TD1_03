@@ -89,6 +89,24 @@ Object* ObjectManager::CheckObjectHitBox(Point hitPosition) {
 	return NULL;
 }
 
+/// <summary>
+/// オブジェクトの当たり判定をチェックする関数
+/// </summary>
+/// <param name="hitPosition">チェックするPoint</param>
+/// <param name="hitVelocity">線分のベクトル</param>
+/// <returns>そのオブジェクトのポインタ</returns>
+Object* ObjectManager::CheckObjectHitBox(Point hitPosition, Point hitVelocity) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeObject) {
+			continue;
+		}
+		if (object[i]->CheckHitBox(BaseMath::GetNearestPosition(object[i]->GetCenterPosition(),hitPosition,hitVelocity))) {
+			return object[i];
+		}
+	}
+	return NULL;
+}
+
 
 // オブジェクトの当たり判定をチェックする関数
 // 返り値：そのオブジェクトのポインタ

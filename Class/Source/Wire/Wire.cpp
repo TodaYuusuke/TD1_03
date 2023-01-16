@@ -27,13 +27,18 @@ void Wire::Initialize() {
 // 更新
 void Wire::Update(ObjectManager* objectManager) {
 	// オブジェクトに刺さっている、もしくはプレイヤーの場合に座標を入れる
-	// 刺さっておらず、射出されているときは速度を加算する
 	if (firstObject != NULL) {
-		*firstPosition = firstObject->GetCenterPosition();
+		firstPosition->x += firstObject->GetVelocity().x;
+		firstPosition->y += firstObject->GetVelocity().y;
 	}
 	if (secondObject != NULL) {
-		*secondPosition = secondObject->GetCenterPosition();
+		if (secondObject->GetType() == typePlayer) {
+			*secondPosition = secondObject->GetCenterPosition();
+		}
+		secondPosition->x += secondObject->GetVelocity().x;
+		secondPosition->y += secondObject->GetVelocity().y;
 	}
+	// 刺さっておらず、射出されているときは速度を加算する
 	if (wireState == DoneShot) {
 		// 一回目の射出中
 		if (!firstisStab) {
@@ -59,7 +64,10 @@ void Wire::Update(ObjectManager* objectManager) {
 }
 // 描画
 void Wire::Draw() {
+
 	Novice::DrawLine(firstPosition->x, BaseDraw::WorldtoScreen(*firstPosition).y, secondPosition->x, BaseDraw::WorldtoScreen(*secondPosition).y, BLACK);
+	Novice::ScreenPrintf(10, 50, "change");
+
 }
 
 // ワイヤーの当たり判定チェック用関数
@@ -68,10 +76,28 @@ void Wire::Draw() {
 //
 // 今回はオブジェクト、もしくは場外に当たった場合にヒット判定
 bool Wire::CheckHitBox(Point* _position, Object*& _object, ObjectManager* objectManager) {
-	_object = objectManager->CheckObjectHitBox(*_position);
-	if (_object != NULL && _object->GetType() != typePlayer) {
-		return true;
+	// 方向を取得
+	Point velocity = { cosf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed,sinf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed };
+	// 前フレームの位置を取得
+	Point before = { _position->x - velocity.x,_position->y - velocity.y };
+	_object = objectManager->CheckObjectHitBox(before, velocity);
+	if (_object != NULL) {
+		if (_object->GetType() != typePlayer) {
+			return true;
+		}
 	}
+	/*
+	float variation = 0.01f;
+	for (float i = 0; i < BaseConst::kWireSpeed; i += variation) {
+		_object = objectManager->CheckObjectHitBox(before);
+		if (_object != NULL && _object->GetType() != typePlayer) {
+			return true;
+		}
+		before.x += e.x * variation;
+		before.y += e.y * variation;
+	}
+	*/
+
 	// 画面外に出た場合
 	if (_position->x < 0 || BaseConst::kWindowWidth < _position->x) {
 		return true;
@@ -105,6 +131,7 @@ bool Wire::Shot(Point shotPosition, float shotAngle, Player* _player) {
 		if (!firstisStab) {
 			*firstPosition = shotPosition;
 			secondObject = _player;
+			*secondPosition = secondObject->GetCenterPosition();
 			ShotAngle = shotAngle;
 			wireState = DoneShot;
 			return true;

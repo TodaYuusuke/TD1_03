@@ -94,12 +94,15 @@ void Object::AddVelocity(float _addVelocity) {
 
 
 bool Object::CheckHitBox(Point hitPosition) {
-	// ç∂âE
-	if (centerPosition.x - width / 2.0f < hitPosition.x && hitPosition.x < centerPosition.x + width / 2.0f) {
-		// è„â∫
-		if (centerPosition.y - height / 2.0f < hitPosition.y && hitPosition.y < centerPosition.y + height / 2.0f) {
-			return true;
-		}
+	//// ç∂âE
+	//if (centerPosition.x - width / 2.0f < hitPosition.x && hitPosition.x < centerPosition.x + width / 2.0f) {
+	//	// è„â∫
+	//	if (centerPosition.y - height / 2.0f < hitPosition.y && hitPosition.y < centerPosition.y + height / 2.0f) {
+	//		return true;
+	//	}
+	//}
+	if (BaseMath::CheckHitBox(centerPosition, width, height, angle, hitPosition)) {
+		return true;
 	}
 	return false;
 }
@@ -156,4 +159,8 @@ Point Object::GetCenterPosition() {
 
 Point Object::GetVelocity() {
 	return velocity;
+}
+
+float Object::GetAngle() {
+	return angle;
 }

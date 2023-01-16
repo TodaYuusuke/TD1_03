@@ -67,18 +67,21 @@ public:
 
 	// 当たり判定処理
 
-	// 四角形と点の当たり判定チェック（回転を考慮可能、当たり判定の四角形が自身の中心を原点に回転している前提）
-	// 返り値：ヒット時はtrue、それ以外はfalse
-	// 引数：
-	// hitBoxCenterPosition ... ヒット対象の四角の中心座標
-	// hitBoxWidth ... ヒット対象の横幅
-	// hitBoxHeight ... ヒット対象の縦幅
-	// boxAngle ... ヒット対象の四角の回転角度
-	// hitPoisiton ... ヒットしているか検証する座標
+	/// <summary>
+	/// 四角形と点の当たり判定チェック（回転を考慮可能、当たり判定の四角形が自身の中心を原点に回転している前提）
+	/// </summary>
+	/// <param name="hitBoxCenterPosition">ヒット対象の四角の中心座標</param>
+	/// <param name="hitBoxWidth">ヒット対象の横幅</param>
+	/// <param name="hitBoxHeight">ヒット対象の縦幅</param>
+	/// <param name="boxAngle">ヒット対象の四角の回転角度</param>
+	/// <param name="hitPosition">ヒットしているか検証する座標</param>
+	/// <returns>ヒット時はtrue、それ以外はfalse</returns>
 	static bool CheckHitBox(Point hitBoxCenterPosition, float hitBoxWidth, float hitBoxHeight, float boxAngle, Point hitPosition);
 
 	// 四角同士の当たり判定チェック
 	static bool CheckHitBox(Box hitBox1, Box hitBox2);
+
+
 
 	// ベクトル関連
 
@@ -116,6 +119,49 @@ public:
 	/// <param name="to">座標 2</param>
 	/// <returns>from から to へのベクトル</returns>
 	static Point GetVector(Point from, Point to);
+
+	/// <summary>
+	/// 内積を求める関数
+	/// </summary>
+	/// <param name="a">ベクトル 1</param>
+	/// <param name="b">ベクトル 2</param>
+	/// <returns>内積</returns>
+	static float GetDot(Point a, Point b);
+
+	// カプセル
+
+	/// <summary>
+	/// 点とカプセルの一番近い点をカプセルの線分から求める関数
+	/// </summary>
+	/// <param name="hitCenterPosition">対象の中心座標</param>
+	/// <param name="hitPosition">カプセルの始点座標</param>
+	/// <param name="hitVelocity">カプセルの長さ</param>
+	/// <param name="hitRadius">カプセルの中の円の半径</param>
+	/// <param name="hitAngle">カプセルの中の円の回転角</param>
+	/// <returns>点とカプセルの最近傍点</returns>
+	//static Point GetCapsuleNearestPosition(Point hitCenterPosition, Point hitPosition, Point hitVelocity, Point hitRadius, float hitAngle);
+
+	/// <summary>
+	/// 点と線分の一番近い点を線分から求める関数
+	/// </summary>
+	/// <param name="hitCenterPosition">対象の中心座標</param>
+	/// <param name="hitPosition">線分の始点座標</param>
+	/// <param name="hitVelocity">線分の長さ</param>
+	/// <returns>点と線分の最近傍点</returns>
+	static Point GetNearestPosition(Point hitCenterPosition, Point hitPosition, Point hitVelocity);
+
+
+	// その他
+
+	/// <summary>
+	/// 値を min から max の値に収める関数
+	/// </summary>
+	/// <param name="a">収める値</param>
+	/// <param name="min">最小値</param>
+	/// <param name="max">最大値</param>
+	/// <returns>範囲内の値</returns>
+	static float Clamp(float a, float min, float max);
+
 
 };
 
