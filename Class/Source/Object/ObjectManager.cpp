@@ -100,7 +100,14 @@ Object* ObjectManager::CheckObjectHitBox(Point hitPosition, Point hitVelocity) {
 		if (object[i]->GetType() == typeObject) {
 			continue;
 		}
-		if (object[i]->CheckHitBox(BaseMath::GetNearestPosition(object[i]->GetCenterPosition(),hitPosition,hitVelocity))) {
+		// ４点を用いた当たり判定
+		// 普通に処理が間違ってるので動作しない
+		/*if (object[i]->CheckHitBox(BaseMath::GetNearestPosition(object[i]->GetQuad(), hitPosition, hitVelocity))) {
+			return object[i];
+		}*/
+		// 中心点を用いた当たり判定
+		// 円みたいになっちゃう
+		if (object[i]->CheckHitBox(BaseMath::GetNearestPosition(object[i]->GetCenterPosition(), hitPosition, hitVelocity))) {
 			return object[i];
 		}
 	}

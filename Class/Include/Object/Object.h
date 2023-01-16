@@ -96,6 +96,12 @@ public: // メンバ関数
 	/// <returns>angle</returns>
 	float GetAngle();
 
+	/// <summary>
+	/// 矩形の４点を取得する関数
+	/// </summary>
+	/// <returns>Quad</returns>
+	Quad GetQuad();
+
 protected: // メンバ変数
 
 	// 中心座標

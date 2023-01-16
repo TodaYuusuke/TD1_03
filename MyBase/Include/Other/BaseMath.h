@@ -128,7 +128,9 @@ public:
 	/// <returns>内積</returns>
 	static float GetDot(Point a, Point b);
 
-	// カプセル
+	static float GetCross(Point a, Point b);
+
+	// 線分
 
 	/// <summary>
 	/// 点とカプセルの一番近い点をカプセルの線分から求める関数
@@ -150,6 +152,14 @@ public:
 	/// <returns>点と線分の最近傍点</returns>
 	static Point GetNearestPosition(Point hitCenterPosition, Point hitPosition, Point hitVelocity);
 
+	/// <summary>
+	/// 点と線分の一番近い点を線分から求める関数
+	/// </summary>
+	/// <param name="hitQuad">対象の矩形</param>
+	/// <param name="hitPosition">線分の始点座標</param>
+	/// <param name="hitVelocity">線分の長さ</param>
+	/// <returns>点と線分の最近傍点</returns>
+	static Point GetNearestPosition(Quad hitQuad, Point hitPosition, Point hitVelocity);
 
 	// その他
 

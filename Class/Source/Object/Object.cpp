@@ -164,3 +164,13 @@ Point Object::GetVelocity() {
 float Object::GetAngle() {
 	return angle;
 }
+
+Quad Object::GetQuad() {
+	Point halfsize = { width / 2.0f,height / 2.0f };
+	Quad result;
+	result.q1 = { centerPosition.x - halfsize.x,centerPosition.y + halfsize.y };
+	result.q2 = { centerPosition.x + halfsize.x,centerPosition.y + halfsize.y };
+	result.q3 = { centerPosition.x - halfsize.x,centerPosition.y - halfsize.y };
+	result.q4 = { centerPosition.x + halfsize.x,centerPosition.y - halfsize.y };
+	return BaseMath::TurnBox(result, angle);
+}
