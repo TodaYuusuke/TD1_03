@@ -162,5 +162,15 @@ Point BaseMath::GetVector(float degree) {
 /// <param name="speed">スピード</param>
 /// <returns>正規化されたベクトルにスピードを掛けたベクトル</returns>
 Point BaseMath::GetVector(float degree, Point speed) {
-	return { cosf(BaseMath::DegreetoRadian(degree)) * speed.x,sinf(BaseMath::DegreetoRadian(degree)) * speed.y };
+	return { cosf(BaseMath::DegreetoRadian(degree)) * speed.x, -sinf(BaseMath::DegreetoRadian(degree)) * speed.y };
+}
+
+/// <summary>
+/// from と to を受け取ってベクトルを生成する関数
+/// </summary>
+/// <param name="from">座標 1</param>
+/// <param name="to">座標 2</param>
+/// <returns>from から to へのベクトル</returns>
+Point BaseMath::GetVector(Point from, Point to) {
+	return { to.x - from.x,to.y - from.y };
 }

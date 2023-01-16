@@ -16,8 +16,8 @@ Player::~Player() {
 void Player::SuccessorInitialize() {
 	centerPosition = { -10000,-10000 };
 
-	width = 1;
-	height = 1;
+	width = 100;
+	height = 100;
 
 	velocity = { 0,0 };
 	acceleration = { 0,0 };
@@ -34,7 +34,6 @@ void Player::SuccessorUpdate() {
 	reticlePosition = BaseInput::GetMousePosition();
 
 	Move();
-	//wireManager.Update();
 	ShotWire();
 
 }

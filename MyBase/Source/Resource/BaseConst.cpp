@@ -58,7 +58,7 @@ Point BaseConst::kPlayerSpeed = { 4.0f,40.0f };
 #pragma region ワイヤー
 
 // ワイヤーの弾速
-float BaseConst::kWireSpeed = 20;
+float BaseConst::kWireSpeed = 40;
 
 // ワイヤーの最大の長さ
 float BaseConst::kWireMaxLength = 100.0f;

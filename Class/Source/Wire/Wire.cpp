@@ -3,6 +3,8 @@
 // コンストラクタ
 Wire::Wire() {
 
+	firstPosition = new Point();
+	secondPosition = new Point();
 }
 // デストラクタ
 Wire::~Wire() {
@@ -11,9 +13,7 @@ Wire::~Wire() {
 
 // 初期化
 void Wire::Initialize() {
-	firstPosition = new Point();
 	*firstPosition = { -10000.0f, -10000.0f };
-	secondPosition = new Point();
 	*secondPosition = { -10000.0f, -10000.0f };
 
 	firstObject = NULL;
@@ -36,7 +36,7 @@ void Wire::Update(ObjectManager* objectManager) {
 	}
 	if (wireState == DoneShot) {
 		// 一回目の射出中
-		if (firstObject == NULL) {
+		if (!firstisStab) {
 			firstPosition->x += cosf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
 			firstPosition->y += sinf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
 			// どこかに刺さった場合
@@ -46,7 +46,7 @@ void Wire::Update(ObjectManager* objectManager) {
 			}
 		}
 		// 二回目の射出中
-		else if (secondObject == NULL) {
+		else if (!secondisStab) {
 			secondPosition->x += cosf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
 			secondPosition->y += sinf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed;
 			// どこかに刺さった場合
@@ -67,7 +67,7 @@ void Wire::Draw() {
 // 返り値：ヒットした場合 ... true
 //
 // 今回はオブジェクト、もしくは場外に当たった場合にヒット判定
-bool Wire::CheckHitBox(Point* _position,Object*& _object, ObjectManager* objectManager) {
+bool Wire::CheckHitBox(Point* _position, Object*& _object, ObjectManager* objectManager) {
 	_object = objectManager->CheckObjectHitBox(*_position);
 	if (_object != NULL && _object->GetType() != typePlayer) {
 		return true;
@@ -109,6 +109,7 @@ bool Wire::Shot(Point shotPosition, float shotAngle, Player* _player) {
 			wireState = DoneShot;
 			return true;
 		}
+		// 一個目が刺さっている時
 		else if (!secondisStab) {
 			*secondPosition = shotPosition;
 			secondObject = NULL;
@@ -130,24 +131,77 @@ bool Wire::Shot(Point shotPosition, float shotAngle, Player* _player) {
 // 引数：なし
 // 着弾点のObjectにベクトルを足す
 void Wire::Attract() {
-	// 一回目の射出をしていない時、かつ、壁などにくっついていない時
-	if (firstisStab) {
-		// プレイヤーかオブジェクトかを判別して処理を変える
-		// ブロックを引き寄せる
-		if (firstObject->GetType() == typeBlock) {
-			float degree = BaseMath::GetDegree(*firstPosition, *secondPosition);
-			Point velocity = BaseMath::GetVector(degree, { 20,20 });
-			firstObject->AddVelocity(velocity);
+	// 一個目が刺さっていない、または、ワイヤーを射出中の時
+	if (!firstisStab || wireState == DoneShot) {
+		// ここで終わる
+		return;
+	}
+	// 一個目が刺さっている時
+	else {
+		// 二個目も刺さっている時
+		if (secondisStab) {
+			// プレイヤーかブロックかを判別して処理を変える
+			// ブロックに刺さっておらず、範囲外に刺さっているとき
+			if (firstObject == NULL) {
+				// 壁と壁に刺さっているとき
+				if (secondObject == NULL) {
+					// 壁同士、動かないもの同士の時は何もしない
+					Initialize();
+
+				}
+				// 一個目が壁で二個目が壁以外の時
+				else {
+					// ブロック側を引き寄せる
+					if (secondObject->GetType() == typeBlock) {
+						Point velocity = BaseMath::GetVector(*secondPosition, *firstPosition);
+						secondObject->AddVelocity(velocity);
+						Initialize();
+					}
+				}
+			}
+			// 一個目が動くものに刺さっている時
+			else {
+				// 二個目が壁に刺さっている時
+				if (secondObject == NULL) {
+					// ブロック側を引き寄せる
+					if (firstObject->GetType() == typeBlock) {
+						Point velocity = BaseMath::GetVector(*firstPosition, *secondPosition);
+						firstObject->AddVelocity(velocity);
+						Initialize();
+					}
+				}
+				// どちらも動くものに刺さっている時
+				else {
+					// ブロック側を引き寄せる
+					if (firstObject->GetType() == typeBlock) {
+						if (secondObject->GetType() == typeBlock) {
+							Point velocity = BaseMath::GetVector(*firstPosition, *secondPosition);
+							firstObject->AddVelocity(velocity);
+							velocity = BaseMath::GetVector(*secondPosition, *firstPosition);
+							secondObject->AddVelocity(velocity);
+							Initialize();
+						}
+					}
+				}
+			}
 		}
-		// 
-		else if (secondObject->GetType() == typePlayer) {
-			float degree = BaseMath::GetDegree(*firstPosition, *secondPosition);
-			Point velocity = BaseMath::GetVector(degree, { 20,20 });
-			firstObject->AddVelocity(velocity);
-
+		// 一個目が壁に刺さっている時
+		else if (firstObject == NULL) {
+			// プレイヤー側を引き寄せる
+			if (secondObject->GetType() == typePlayer) {
+				Point velocity = BaseMath::GetVector(*secondPosition, *firstPosition);
+				secondObject->AddVelocity(velocity);
+				Initialize();
+			}
 		}
-
-		//secondObject->AddVelocity()
-
+		// 一個目が動くものに刺さっている時
+		else {
+			// ブロック側を引き寄せる
+			if (firstObject->GetType() == typeBlock) {
+				Point velocity = BaseMath::GetVector(*firstPosition, *secondPosition);
+				firstObject->AddVelocity(velocity);
+				Initialize();
+			}
+		}
 	}
 }

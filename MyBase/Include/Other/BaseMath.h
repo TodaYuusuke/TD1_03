@@ -96,7 +96,14 @@ public:
 	/// <param name="degree">degree</param>
 	/// <param name="speed">スピード</param>
 	/// <returns>正規化されたベクトルにスピードを掛けたベクトル</returns>
-	static Point GetVector(float degree,Point speed);
+	static Point GetVector(float degree, Point speed);
+	/// <summary>
+	/// from と to を受け取ってベクトルを生成する関数
+	/// </summary>
+	/// <param name="from">座標 1</param>
+	/// <param name="to">座標 2</param>
+	/// <returns>from から to へのベクトル</returns>
+	static Point GetVector(Point from, Point to);
 
 };
 
