@@ -54,10 +54,7 @@ void MapManager::Draw() {
 /// <returns>ヒットしていた場合 ... true、ヒットしていなかった場合 ... false</returns>
 bool MapManager::CheckHitBox(Point hitPosition) {
 
-    // スクリーン座標へ変換
-    hitPosition = BaseDraw::WorldtoScreen(hitPosition);
-
-    int y = hitPosition.y / BaseConst::kMapChipSizeHeight;
+    int y = BaseConst::kMapSizeHeight - (hitPosition.y / BaseConst::kMapChipSizeHeight);
     int x = hitPosition.x / BaseConst::kMapChipSizeWidth;
 
     return map[y][x].CheckHitBox(hitPosition);

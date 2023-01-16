@@ -106,7 +106,7 @@ public: // 静的な定数
 #pragma region マップ
 
 	// マップの大きさ
-	const static int kMapSizeWidth = 50;
+	const static int kMapSizeWidth = 100;
 	const static int kMapSizeHeight = 50;
 
 	// マップチップのサイズ

@@ -1,6 +1,8 @@
 #pragma once
 #include "MyBase/Include/MyBase.h"
 
+#include "Class/Include/Map/MapManager.h"
+
 enum ObjectType {
 	// オブジェクト
 	typeObject,
@@ -22,7 +24,6 @@ enum ObjectType {
 
 
 class Object {
-
 public: // メンバ関数
 
 	// コンストラクタ
@@ -46,9 +47,21 @@ public: // メンバ関数
 	virtual void Draw();
 	
 
+	// メンバ変数に作用する関数
+
+	// オブジェクトの中心座標を受け取る関数
+	// 返り値：中心座標
+	// 引数：なし
+	Point GetCenterPosition();
+
+	// オブジェクトの速度を受け取る関数
+	// 返り値：速度のベクトル
+	// 引数：なし
+	Point GetVelocity();
+
 	// オブジェクトに速度ベクトルを足す関数
 	// 返り値：なし
-	// 引数：足す速度
+	// 引数：足す速度のベクトル
 	void AddVelocity(Point _addVelocity);
 
 	// オブジェクトに回転速度を足す関数
@@ -56,39 +69,57 @@ public: // メンバ関数
 	// 引数：足す速度
 	void AddVelocity(float _addVelocity);
 
-	// 当たり判定をチェックする関数
+	
+	// 当たり判定関連
+
+	// オブジェクトに対する当たり判定をチェックする関数
 	// 返り値：ヒットしていた場合 ... true
 	// 引数：チェックするPoint
 	bool CheckHitBox(Point hitPosition);
 
 	// 当たり判定をチェックする関数
+	// ※　現在angleを考慮した処理になっていないので、使用禁止　※
 	// 返り値：ヒットしていた場合 ... true
 	// 引数：チェックするBox
 	bool CheckHitBox(Box hitPosition);
 
-	/// <summary>
-	/// フィールド外への移動をチェックする関数
-	/// </summary>
-	/// <returns>フィールド外に出た場合 ... true</returns>
-	bool CheckFieldHitBox();
 
-	/// <summary>
-	/// タイプを取得する関数
-	/// </summary>
-	/// <returns>オブジェクトのタイプ</returns>
+	// その他
+
+	// タイプを取得する関数
+	// 返り値：自身のObjectType
+	// 引数：なし
 	virtual ObjectType GetType();
 
-	/// <summary>
-	/// 座標を取得する関数
-	/// </summary>
-	/// <returns>centerPosition</returns>
-	Point GetCenterPosition();
+protected: // 関数
 
-	/// <summary>
-	/// 速度を取得する関数
-	/// </summary>
-	/// <returns>velocity</returns>
-	Point GetVelocity();
+	// オブジェクト自体の当たり判定をチェックする関数
+	virtual void CheckFieldHitBox();
+	// 上下左右の当たり判定の関数
+	virtual void CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[]);
+	// 左上、左下、右上、右下の当たり判定の関数
+	virtual void CheckHitBoxQuad(Point checkPosition[]);
+
+	// 最も近い値を格納した配列の添え字を求める
+	int GetNearestValue(int v) {
+		// 変数の宣言
+		//v = BaseMath::Clamp(v, 0, 360);
+		if (v < 45) {
+			return 0;
+		}
+		else if (v < 90 + 45) {
+			return 90;
+		}
+		else if (v < 180 + 45) {
+			return 180;
+		}
+		else if (v < 270 + 45) {
+			return 270;
+		}
+		else {
+			return 0;
+		}
+	}
 
 protected: // メンバ変数
 
@@ -111,5 +142,17 @@ protected: // メンバ変数
 	//空中にいるかどうか
 	bool isFlying;
 
+	// 0 ... 上
+	// 1 ... 下
+	// 2 ... 左
+	// 3 ... 右
+	// の4点を用意
+	Point checkRhombusPoint[4];
 
+	// 0 ... 左上
+	// 1 ... 右上
+	// 2 ... 左下
+	// 3 ... 右下
+	// の4点を用意
+	Point checkQuadPoint[4];
 };

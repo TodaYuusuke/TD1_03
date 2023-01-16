@@ -26,7 +26,6 @@ public: // ƒƒ“ƒoŠÖ”
 
 private: // ƒƒ“ƒo•Ï”
 
-	Box hitBox;
 
 	ObjectManager objectManager;
 	WireManager wireManager;

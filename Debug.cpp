@@ -12,9 +12,6 @@ Debug::~Debug() {
 
 // 初期化
 void Debug::Initialize() {
-
-	hitBox = { {100,300},50,50 };
-
 	MapManager::Initialize();
 	objectManager.Initialize();
 	wireManager.Initialize();
@@ -34,6 +31,15 @@ void Debug::Update() {
 	if (BaseInput::GetKeyboardState(DIK_Q, Trigger)) {
 		objectManager.MakeNewObjectPlayer({ 200,200 });
 	}
+
+	// Rキーでリセット
+	if (BaseInput::GetKeyboardState(DIK_R, Trigger)) {
+		MapManager::Initialize();
+		objectManager.Initialize();
+		wireManager.Initialize();
+	}
+
+
 
 	// スクリーン座標の移動量
 	Point screenPosMove = BaseDraw::GetScreenPosition();
@@ -59,9 +65,6 @@ void Debug::Update() {
 }
 // 描画
 void Debug::Draw() {
-
-	Novice::ScreenPrintf(0, 0, "%f %f", BaseDraw::WorldtoScreen(BaseInput::GetMousePosition()).x, BaseDraw::WorldtoScreen(BaseInput::GetMousePosition()).y);
-	Novice::ScreenPrintf(0, 20, "%f %f", BaseDraw::GetScreenPosition().x, BaseDraw::GetScreenPosition().y);
 
 	MapManager::Draw();
 	objectManager.Draw();

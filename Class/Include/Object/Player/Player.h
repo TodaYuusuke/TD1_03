@@ -41,15 +41,6 @@ private: // 関数
 	void ShotWire();
 
 
-	// 当たり判定
-
-	// 上下左右の当たり判定の関数
-	void CheckHitBoxRhombus();
-	// 左上、左下、右上、右下の当たり判定の関数
-	void CheckHitBoxQuad();
-
-
-
 private: // メンバ変数
 
 	// 状態フラグ
