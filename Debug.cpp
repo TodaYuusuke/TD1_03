@@ -15,6 +15,7 @@ void Debug::Initialize() {
 	MapManager::Initialize();
 	objectManager.Initialize();
 	wireManager.Initialize();
+	objectManager.MakeNewObjectPlayer({ 100,200 });
 }
 // 更新
 void Debug::Update() {
@@ -23,20 +24,13 @@ void Debug::Update() {
 	if (BaseInput::GetMouseState(MiddleClick, Trigger)) {
 		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
 	}
-	// 左クリックでワイヤーを射出（射出地点は100,100で固定）
-	if (BaseInput::GetMouseState(LeftClick, Trigger)) {
-		//wireManager.Shot({ 100,100 }, BaseMath::GetDegree({ 100,100 }, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition())),);
-	}
-
-	if (BaseInput::GetKeyboardState(DIK_Q, Trigger)) {
-		objectManager.MakeNewObjectPlayer({ 200,200 });
-	}
 
 	// Rキーでリセット
 	if (BaseInput::GetKeyboardState(DIK_R, Trigger)) {
 		MapManager::Initialize();
 		objectManager.Initialize();
 		wireManager.Initialize();
+		objectManager.MakeNewObjectPlayer({ 100,200 });
 	}
 
 

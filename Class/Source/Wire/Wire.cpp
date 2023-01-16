@@ -27,16 +27,24 @@ void Wire::Initialize() {
 // 更新
 void Wire::Update(ObjectManager* objectManager) {
 	// オブジェクトに刺さっている、もしくはプレイヤーの場合に座標を入れる
+	// ※　ワイヤーがじわじわ落下しちゃうバグ有り　※
 	if (firstObject != NULL) {
 		firstPosition->x += firstObject->GetVelocity().x;
-		firstPosition->y += firstObject->GetVelocity().y;
+		if (firstObject->GetisFlying()) {
+			firstPosition->y += firstObject->GetVelocity().y;
+		}
+
 	}
 	if (secondObject != NULL) {
 		if (secondObject->GetType() == typePlayer) {
 			*secondPosition = secondObject->GetCenterPosition();
 		}
+		
 		secondPosition->x += secondObject->GetVelocity().x;
-		secondPosition->y += secondObject->GetVelocity().y;
+		if (secondObject->GetisFlying()) {
+			secondPosition->y += secondObject->GetVelocity().y;
+		}
+
 	}
 	// 刺さっておらず、射出されているときは速度を加算する
 	if (wireState == DoneShot) {
@@ -74,7 +82,7 @@ void Wire::Draw() {
 // 引数：なし
 // 返り値：ヒットした場合 ... true
 //
-// 今回はオブジェクト、もしくは場外に当たった場合にヒット判定
+// 今回はオブジェクト、もしくはマップチップに当たった場合にヒット判定
 bool Wire::CheckHitBox(Point* _position, Object*& _object, ObjectManager* objectManager) {
 	// 方向を取得
 	Point velocity = { cosf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed,sinf(BaseMath::DegreetoRadian(ShotAngle)) * BaseConst::kWireSpeed };
@@ -85,6 +93,10 @@ bool Wire::CheckHitBox(Point* _position, Object*& _object, ObjectManager* object
 		if (_object->GetType() != typePlayer) {
 			return true;
 		}
+	}
+
+	if (_object == NULL && MapManager::CheckHitBox(before)) {
+		return true;
 	}
 	/*
 	float variation = 0.01f;
@@ -98,13 +110,7 @@ bool Wire::CheckHitBox(Point* _position, Object*& _object, ObjectManager* object
 	}
 	*/
 
-	// 画面外に出た場合
-	if (_position->x < 0 || BaseConst::kWindowWidth < _position->x) {
-		return true;
-	}
-	if (_position->y < 0 || BaseConst::kWindowHeight < _position->y) {
-		return true;
-	}
+
 	_object = NULL;
 	return false;
 }
@@ -126,29 +132,29 @@ bool Wire::Shot(Point shotPosition, float shotAngle, Player* _player) {
 	// 撃っている時		: 特に何もしない
 	switch (wireState)
 	{
-	case Wire::NoneShot:
-		// 一回目の射出をしていない時、かつ、壁などにくっついていない時
-		if (!firstisStab) {
-			*firstPosition = shotPosition;
-			secondObject = _player;
-			*secondPosition = secondObject->GetCenterPosition();
-			ShotAngle = shotAngle;
-			wireState = DoneShot;
-			return true;
-		}
-		// 一個目が刺さっている時
-		else if (!secondisStab) {
-			*secondPosition = shotPosition;
-			secondObject = NULL;
-			ShotAngle = shotAngle;
-			wireState = DoneShot;
-			return true;
-		}
-		break;
-	case Wire::DoneShot:
-		break;
-	default:
-		break;
+		case Wire::NoneShot:
+			// 一回目の射出をしていない時、かつ、壁などにくっついていない時
+			if (!firstisStab) {
+				*firstPosition = shotPosition;
+				secondObject = _player;
+				*secondPosition = secondObject->GetCenterPosition();
+				ShotAngle = shotAngle;
+				wireState = DoneShot;
+				return true;
+			}
+			// 一個目が刺さっている時
+			else if (!secondisStab) {
+				*secondPosition = shotPosition;
+				secondObject = NULL;
+				ShotAngle = shotAngle;
+				wireState = DoneShot;
+				return true;
+			}
+			break;
+		case Wire::DoneShot:
+			break;
+		default:
+			break;
 	}
 	return false;
 }
@@ -158,6 +164,44 @@ bool Wire::Shot(Point shotPosition, float shotAngle, Player* _player) {
 // 引数：なし
 // 着弾点のObjectにベクトルを足す
 void Wire::Attract() {
+
+	// 一個目が刺さっていない、または、ワイヤーを射出中の時
+	if (!firstisStab || wireState == DoneShot) {
+		// ここで終わる
+		return;
+	}
+
+	// 一つ目の着弾点にベクトルを足す
+	if (firstObject != NULL) {
+		// 引き寄せる向きと強さを決定
+		Point p = { 20,0 };
+
+		if (firstObject->GetType() == typePlayer) {
+			p = { 15,0 };
+		}
+
+		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(*firstPosition, *secondPosition));
+
+		firstObject->AddVelocity(p);
+	}
+
+	// 二つめの着弾点にベクトルを足す
+	if (secondObject != NULL) {
+		// 引き寄せる向きと強さを決定
+		Point p = { 20,0 };
+		
+		if (secondObject->GetType() == typePlayer) {
+			p = { 15,0 };
+		}
+
+		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(*secondPosition, *firstPosition));
+
+		secondObject->AddVelocity(p);
+	}
+
+	Initialize();
+
+	/*
 	// 一個目が刺さっていない、または、ワイヤーを射出中の時
 	if (!firstisStab || wireState == DoneShot) {
 		// ここで終わる
@@ -180,8 +224,13 @@ void Wire::Attract() {
 				else {
 					// ブロック側を引き寄せる
 					if (secondObject->GetType() == typeBlock) {
-						Point velocity = BaseMath::GetVector(*secondPosition, *firstPosition);
-						secondObject->AddVelocity(velocity);
+						//Point velocity = BaseMath::GetVector(*secondPosition, *firstPosition);
+
+						// 引き寄せる向きと強さを決定
+						Point p = { 10,0 };
+						p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(*secondPosition, *firstPosition));
+
+						secondObject->AddVelocity(p);
 						Initialize();
 					}
 				}
@@ -231,4 +280,5 @@ void Wire::Attract() {
 			}
 		}
 	}
+	*/
 }

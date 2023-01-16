@@ -52,23 +52,37 @@ void Object::Update() {
 	velocity.x += acceleration.x;
 	velocity.y += acceleration.y;
 
-	// 速度制限にかかっている場合、減速させる
-	if (velocity.x > BaseConst::kPlayerVelocityLimit) {
-		velocity.x -= 0.02f;
-	}
-	if (velocity.x < -(BaseConst::kPlayerVelocityLimit)) {
-		velocity.x += 0.02f;
-	}
-	if (velocity.y > BaseConst::kPlayerVelocityLimit) {
-		velocity.y -= 0.02f;
-	}
-	if (velocity.y < -(BaseConst::kPlayerVelocityLimit)) {
-		velocity.y += 0.02f;
-	}
-
 	// 速度を追加
 	centerPosition.x += velocity.x;
 	centerPosition.y += velocity.y;
+
+
+	// 速度を少しずつ減速させる
+	if (velocity.x > 0) {
+		velocity.x -= 0.02f;
+		if (velocity.x < 0) {
+			velocity.x = 0;
+		}
+	}
+	else if (velocity.x < 0) {
+		velocity.x += 0.02f;
+		if (velocity.x > 0) {
+			velocity.x = 0;
+		}
+	}
+
+	if (velocity.y > 0) {
+		velocity.y -= 0.02f;
+		if (velocity.y < 0) {
+			velocity.y = 0;
+		}
+	}
+	else if (velocity.y < 0) {
+		velocity.y += 0.02f;
+		if (velocity.y > 0) {
+			velocity.y = 0;
+		}
+	}
 
 
 	// 回転速度を追加
@@ -124,6 +138,12 @@ Point Object::GetVelocity() {
 	return { velocity.x - 0.5f * angleVelocity, velocity.y };
 }
 
+// オブジェクトが空中かどうかを受け取る関数
+// 返り値：空中ならばtrue
+// 引数：なし
+bool Object::GetisFlying() {
+	return isFlying;
+}
 
 // オブジェクトに速度ベクトルを足す関数
 // 返り値：なし
@@ -244,6 +264,15 @@ void Object::CheckFieldHitBox() {
 void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[]) {
 
 	// 4つ角の座標を検証しヒットしてる座標を確認
+	
+	//Novice::ScreenPrintf(BaseDraw::WorldtoScreen(checkQuadPoint[0]).x, BaseDraw::WorldtoScreen(checkQuadPoint[0]).y, "0");
+	//Novice::ScreenPrintf(BaseDraw::WorldtoScreen(checkQuadPoint[1]).x, BaseDraw::WorldtoScreen(checkQuadPoint[1]).y, "1");
+	//Novice::ScreenPrintf(BaseDraw::WorldtoScreen(checkQuadPoint[2]).x, BaseDraw::WorldtoScreen(checkQuadPoint[2]).y, "2");
+	//Novice::ScreenPrintf(BaseDraw::WorldtoScreen(checkQuadPoint[3]).x, BaseDraw::WorldtoScreen(checkQuadPoint[3]).y, "3");
+	//Novice::ScreenPrintf(BaseDraw::WorldtoScreen(checkRhombusPoint[0]).x, BaseDraw::WorldtoScreen(checkRhombusPoint[0]).y, "0");
+	//Novice::ScreenPrintf(BaseDraw::WorldtoScreen(checkRhombusPoint[1]).x, BaseDraw::WorldtoScreen(checkRhombusPoint[1]).y, "1");
+	//Novice::ScreenPrintf(BaseDraw::WorldtoScreen(checkRhombusPoint[2]).x, BaseDraw::WorldtoScreen(checkRhombusPoint[2]).y, "2");
+	//Novice::ScreenPrintf(BaseDraw::WorldtoScreen(checkRhombusPoint[3]).x, BaseDraw::WorldtoScreen(checkRhombusPoint[3]).y, "3");
 
 	float kAddAngleVelocity = 0.3f;
 
@@ -251,10 +280,14 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 	if (MapManager::CheckHitBox(checkQuadPoint[0]) && MapManager::CheckHitBox(checkQuadPoint[1]) || MapManager::CheckHitBox(checkQuadPoint[0]) && MapManager::CheckHitBox(checkQuadPoint[2])) {
 		// 何もしない
 		velocity.y = 0;
+		// 速度を少しずつ減速させる
+		velocity.x *= 0.9f;
 		isFlying = false;
 
+		int move = 0;
 		// ヒットしなくなるまで上へ補正する
 		while (MapManager::CheckHitBox(checkQuadPoint[0])) {
+			move += 1;
 			// 座標を上に
 			centerPosition.y += 1;
 			// 再計算
@@ -262,6 +295,53 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 				checkQuadPoint[i].y += 1;
 				checkRhombusPoint[i].y += 1;
 			}
+
+			/*
+			// もしある程度上まで補正しないとダメな場合、補正を修正し右方向に補正
+			if (move > BaseConst::kMapChipSizeHeight) {
+				// 座標を下に
+				centerPosition.y -= move;
+				// 再計算
+				for (int i = 0; i < 4; i++) {
+					checkQuadPoint[i].y -= move;
+					checkRhombusPoint[i].y -= move;
+				}
+
+				int leftMove = 0;
+				int rightMove = 0;
+				// 右と左、どちらのほうが近いかを検証
+				while (true) {
+					// 座標を右に
+					leftMove -= 1;
+					rightMove += 1;
+
+					if (!MapManager::CheckHitBox({checkQuadPoint[2].x + leftMove,checkQuadPoint[2].y})) {
+						velocity.x *= -0.9f;
+						centerPosition.x += leftMove;
+						// 再計算
+						for (int i = 0; i < 4; i++) {
+							checkQuadPoint[i].x += leftMove;
+							checkRhombusPoint[i].x += leftMove;
+						}
+						break;
+					}
+					if (!MapManager::CheckHitBox({ checkQuadPoint[1].x + rightMove,checkQuadPoint[1].y })) {
+						velocity.x *= -0.9f;
+						centerPosition.x += rightMove;
+						// 再計算
+						for (int i = 0; i < 4; i++) {
+							checkQuadPoint[i].x += rightMove;
+							checkRhombusPoint[i].x += rightMove;
+						}
+						break;
+					}
+				}
+
+				angleVelocity *= -0.9f;
+
+				break;
+			}
+			*/
 		}
 
 		if (((int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y > -1 && (int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y < 1) ||
@@ -272,6 +352,9 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 	}
 	// 下の場合
 	else if (MapManager::CheckHitBox(checkQuadPoint[0])) {
+
+		// 速度を少しずつ減速させる
+		velocity.x *= 0.9f;
 
 		// ヒットしなくなるまで上へ補正する
 		while (MapManager::CheckHitBox(checkQuadPoint[0])) {
@@ -340,6 +423,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 		velocity.y = 0;
 		isFlying = false;
 	}
+	// それ以外
 	else {
 		isFlying = true;
 
