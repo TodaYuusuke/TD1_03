@@ -61,7 +61,7 @@ void Debug::Update() {
 void Debug::Draw() {
 
 	MapManager::Draw();
+	boss.Draw();
 	objectManager.Draw();
 	wireManager.Draw();
-	boss.Draw();
 }

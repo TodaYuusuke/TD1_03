@@ -95,6 +95,12 @@ private:
 
 	/******** サイズ関連 **********/
 	///ボス関連
+
+	//テクスチャサイズ
+	Point textureSize;
+	//核のテクスチャサイズ
+	Point kernelTextureSize;
+
 	//サイズ
 	Point size;
 	//核のサイズ

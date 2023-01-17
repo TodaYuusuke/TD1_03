@@ -88,13 +88,13 @@ void BaseDraw::DrawQuad(Point worldPosition, int textureHandle, Point textureSiz
 	// élÇ¬äpÇãÅÇﬂÇÈ
 	Quad quad = {
 		-textureSize.x / 2.0f * scale,
-		-textureSize.y / 2.0f * scale,
-		+textureSize.x / 2.0f * scale,
-		-textureSize.y / 2.0f * scale,
-		-textureSize.x / 2.0f * scale,
 		+textureSize.y / 2.0f * scale,
 		+textureSize.x / 2.0f * scale,
-		+textureSize.y / 2.0f * scale
+		+textureSize.y / 2.0f * scale,
+		-textureSize.x / 2.0f * scale,
+		-textureSize.y / 2.0f * scale,
+		+textureSize.x / 2.0f * scale,
+		-textureSize.y / 2.0f * scale
 	};
 
 	// âÒì]
