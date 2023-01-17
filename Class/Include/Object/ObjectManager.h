@@ -67,6 +67,10 @@ public: // メンバ関数
 	Object* CheckObjectHitBox(Box hitPosition);
 
 
+
+	// プレイヤーの中心座標を受け取る関数
+	Point GetPlayerPosition();
+
 private: // メンバ定数
 
 	const static int kMaxObjectSize = 256;

@@ -57,6 +57,13 @@ bool MapManager::CheckHitBox(Point hitPosition) {
     int y = BaseConst::kMapSizeHeight - (hitPosition.y / BaseConst::kMapChipSizeHeight);
     int x = hitPosition.x / BaseConst::kMapChipSizeWidth;
 
+    if (y < 0 || y >= BaseConst::kMapSizeHeight) {
+        return false;
+    }
+    if (x < 0 || x >= BaseConst::kMapSizeWidth) {
+        return false;
+    }
+
     return map[y][x].CheckHitBox(hitPosition);
 }
 

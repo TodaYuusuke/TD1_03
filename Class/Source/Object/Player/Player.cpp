@@ -53,11 +53,17 @@ void Player::Move() {
 			velocity.x -= 0.5f;
 		}
 	}
+	else if(velocity.x < 0) {
+		velocity.x += 0.5f;
+	}
 	// ‰EˆÚ“®
 	if (BaseInput::GetKeyboardState(DIK_D, Press)) {
 		if (velocity.x < BaseConst::kPlayerVelocityLimit) {
 			velocity.x += 0.5f;
 		}
+	}
+	else if (velocity.x > 0) {
+		velocity.x -= 0.5f;
 	}
 }
 
