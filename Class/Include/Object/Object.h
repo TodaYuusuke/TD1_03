@@ -9,7 +9,9 @@ enum ObjectType {
 	// ブロック
 	typeBlock,
 	// プレイヤー
-	typePlayer
+	typePlayer,
+	// フック
+	typeHook
 };
 
 

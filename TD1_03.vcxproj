@@ -102,6 +102,7 @@
     <ClCompile Include="Class\Source\Map\Map.cpp" />
     <ClCompile Include="Class\Source\Map\MapManager.cpp" />
     <ClCompile Include="Class\Source\Object\Block\Block.cpp" />
+    <ClCompile Include="Class\Source\Object\Hook\Hook.cpp" />
     <ClCompile Include="Class\Source\Object\Object.cpp" />
     <ClCompile Include="Class\Source\Object\ObjectManager.cpp" />
     <ClCompile Include="Class\Source\Object\Player\Player.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="Class\Include\Map\Map.h" />
     <ClInclude Include="Class\Include\Map\MapManager.h" />
     <ClInclude Include="Class\Include\Object\Block\Block.h" />
+    <ClInclude Include="Class\Include\Object\Hook\Hook.h" />
     <ClInclude Include="Class\Include\Object\Object.h" />
     <ClInclude Include="Class\Include\Object\ObjectManager.h" />
     <ClInclude Include="Class\Include\Object\Player\Player.h" />
