@@ -57,7 +57,7 @@ void Debug::Update() {
 	MapManager::Update();
 	objectManager.Update();
 	wireManager.Update(&objectManager);
-	
+	boss.Update(objectManager.GetPlayerPosition());
 }
 // •`‰æ
 void Debug::Draw() {
@@ -65,4 +65,5 @@ void Debug::Draw() {
 	MapManager::Draw();
 	objectManager.Draw();
 	wireManager.Draw();
+	boss.Draw();
 }

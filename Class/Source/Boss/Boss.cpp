@@ -14,14 +14,17 @@ Boss::~Boss() {
 
 }
 
+//‰Šú‰»ˆ—
 void Boss::Initialize() {
 
 }
 
+//XVˆ—
 void Boss::Update(Point playerPosition) {
 
 }
 
+//•`‰æˆ—
 void Boss::Draw() {
 	
 }
