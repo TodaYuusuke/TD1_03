@@ -52,8 +52,6 @@ void Debug::Update() {
 	}
 	BaseDraw::SetScreenPosition(screenPosMove);
 
-
-
 	MapManager::Update();
 	objectManager.Update();
 	wireManager.Update(&objectManager);
