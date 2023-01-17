@@ -35,6 +35,17 @@ bool BaseTexture::Loading() {
 
 #pragma endregion
 
+#pragma region ボス
+
+	// ボスの核
+	kBossKernel = Novice::LoadTexture("./Resources/Texture/Boss/Kernel.png");
+
+	// ボスのカバー
+	kBossRCover = Novice::LoadTexture("./Resources/Texture/Boss/RCover.png");
+	kBossLCover = Novice::LoadTexture("./Resources/Texture/Boss/LCover.png");
+
+#pragma endregion
+
 	return true;
 }
 
@@ -61,5 +72,17 @@ int BaseTexture::kDebugTexture;
 #pragma region マップ
 
 int BaseTexture::kTextureMapChipSample[kTextureMapChipSampleSize];
+
+#pragma endregion
+
+
+#pragma region ボス
+
+// ボスの核
+int BaseTexture::kBossKernel;
+
+// ボスのカバー
+int BaseTexture::kBossRCover;
+int BaseTexture::kBossLCover;
 
 #pragma endregion
