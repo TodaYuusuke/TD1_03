@@ -16,6 +16,7 @@ void Debug::Initialize() {
 	objectManager.Initialize();
 	wireManager.Initialize();
 	objectManager.MakeNewObjectPlayer({ 100,200 });
+	boss.Initialize();
 }
 // XV
 void Debug::Update() {
@@ -56,6 +57,7 @@ void Debug::Update() {
 	MapManager::Update();
 	objectManager.Update();
 	wireManager.Update(&objectManager);
+	
 }
 // •`‰æ
 void Debug::Draw() {
