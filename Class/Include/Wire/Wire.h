@@ -2,6 +2,8 @@
 #include "MyBase/Include/MyBase.h"
 #include "Class/Include/Object/ObjectManager.h"
 
+#include "Class/Include/Map/MapManager.h"
+
 // ワイヤーのクラス
 
 class ObjectManager;

@@ -59,6 +59,11 @@ public: // メンバ関数
 	// 引数：なし
 	Point GetVelocity();
 
+	// オブジェクトが空中かどうかを受け取る関数
+	// 返り値：空中ならばtrue
+	// 引数：なし
+	bool GetisFlying();
+
 	// オブジェクトに速度ベクトルを足す関数
 	// 返り値：なし
 	// 引数：足す速度のベクトル
@@ -97,8 +102,6 @@ protected: // 関数
 	virtual void CheckFieldHitBox();
 	// 上下左右の当たり判定の関数
 	virtual void CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[]);
-	// 左上、左下、右上、右下の当たり判定の関数
-	virtual void CheckHitBoxQuad(Point checkPosition[]);
 
 	// 最も近い値を格納した配列の添え字を求める
 	int GetNearestValue(int v) {

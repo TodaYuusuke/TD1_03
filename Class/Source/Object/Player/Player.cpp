@@ -4,7 +4,8 @@
 Player::Player(Point centerPosition, WireManager* _wireManager) {
 	this->centerPosition = centerPosition;
 	wireManager = _wireManager;
-	reticlePosition = { -100,-100 };
+
+	Initialize();
 }
 // デストラクタ
 Player::~Player() {
@@ -14,9 +15,8 @@ Player::~Player() {
 
 // 初期化
 void Player::SuccessorInitialize() {
-	centerPosition = { -10000,-10000 };
 
-	width = 100;
+	width = 50;
 	height = 100;
 
 	velocity = { 0,0 };
@@ -37,10 +37,7 @@ void Player::SuccessorUpdate() {
 }
 // 描画
 void Player::Draw() {
-	BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { 100,100 }, 1.0f, 0.0f, WHITE);
-	BaseDraw::DrawQuad(BaseDraw::WorldtoScreen(reticlePosition), BaseTexture::kDebugTexture, { 20,20 }, 1.0f, 0.0f, WHITE);
-	Novice::ScreenPrintf(10, 10, "Reticle:%.2f %.2f", reticlePosition.x, reticlePosition.y);
-	Novice::ScreenPrintf(10, 30, "center:%.2f %.2f", centerPosition.x, centerPosition.y);
+	BaseDraw::DrawSprite({ centerPosition.x + width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
 }
 
 
@@ -52,11 +49,15 @@ void Player::Move() {
 
 	// 左移動
 	if (BaseInput::GetKeyboardState(DIK_A, Press)) {
-		velocity.x -= 0.2f;
+		if (velocity.x > -BaseConst::kPlayerVelocityLimit) {
+			velocity.x -= 0.5f;
+		}
 	}
 	// 右移動
 	if (BaseInput::GetKeyboardState(DIK_D, Press)) {
-		velocity.x += 0.2f;
+		if (velocity.x < BaseConst::kPlayerVelocityLimit) {
+			velocity.x += 0.5f;
+		}
 	}
 }
 
@@ -68,8 +69,6 @@ void Player::ShotWire() {
 
 		//wireManager->Shot(centerPosition, BaseMath::RadiantoDegree(angle), this);
 		wireManager->Shot(centerPosition, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition), this);
-
-
 
 	}
 	if (BaseInput::GetMouseState(RightClick, Trigger)) {
