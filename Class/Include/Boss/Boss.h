@@ -38,10 +38,11 @@ private:
 	Point GetRCoverPosition(Point centerPosition);
 
 	/******** デバッグ関数 **********/
+	void Debug();
 
 	/******** 攻撃行動関数 **********/
 	// 行動なし（行動間の待機時間）
-	void None();
+	void None(int waitTime);
 	//回転
 	void Rotate();
 	// 突進
@@ -73,6 +74,10 @@ private:
 		メンバ変数
 	*********************************/
 
+	/******** デバッグに用いる変数 **********/
+	//現在デバッグ状態か
+	bool inDebug = false;
+
 	/******** 行動パターン(Enum) **********/
 	enum Attackpattern
 	{
@@ -86,6 +91,17 @@ private:
 	// 攻撃パターンを格納するint型変数
 	int attackPattern = NONE;
 
+	/******** 行動中間地点（Enum） **********/
+	// 攻撃やスタン等の中間地点到達の際に切り替え
+	enum ActionWayPoint 
+	{
+		WAYPOINT1, // 行動中間地点～
+		WAYPOINT2,
+		WAYPOINT3,
+		WAYPOINT4,
+		WAYPOINT5
+	};
+
 	/******** 座標関連 **********/
 	/// ボス関連
 	// 中心座標
@@ -97,7 +113,9 @@ private:
 	int degree;
 
 	// 核の中心座標（移動させる可能性があるため）
-	Point kernelCenterPosition;
+	Point coreCenterPosition;
+	// 核の回転角（degree°）
+	int coreDegree;
 
 	// ワイヤーが引っかかる中心座標
 	Point wireHangPosition[kmaxWireHang];
@@ -113,7 +131,7 @@ private:
 	// サイズ
 	Point size;
 	// 核のサイズ
-	Point kernelSize;
+	Point coreSize;
 	
 	/******** 行動関連 **********/
 	/// 攻撃関連
@@ -133,6 +151,10 @@ private:
 	bool inDamage;
 
 	// 核が分離しているか
-	bool kernelSeparated;
+	bool coreSeparated;
+
+	/******** イージング関連 **********/
+	// イージング用t
+	float t = 0.0f;
 
 };
