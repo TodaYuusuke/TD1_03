@@ -10,19 +10,19 @@
 class Boss {
 public:
 
-	//コンストラクタ
+	// コンストラクタ
 	Boss();
 
-	//デストラクタ
+	// デストラクタ
 	~Boss();
 
-	//初期化
+	// 初期化
 	void Initialize();
 
-	//更新処理
+	// 更新処理
 	void Update(Point playerPosition);
 
-	//描画処理
+	// 描画処理
 	void Draw();
 
 private:
@@ -31,18 +31,26 @@ private:
 		メンバ関数
 	*********************************/
 
+	/******** 変換関数 **********/
+	// ボス左画像の座標を求める
+	Point GetLCoverPosition(Point centerPosition);
+	// ボス右画像の座標を求める
+	Point GetRCoverPosition(Point centerPosition);
+
+	/******** デバッグ関数 **********/
+
 	/******** 攻撃行動関数 **********/
-	//行動なし（行動間の待機時間）
+	// 行動なし（行動間の待機時間）
 	void None();
 	//回転
 	void Rotate();
-	//突進
+	// 突進
 	void Rush();
-	//斬撃
+	// 斬撃
 	void Slash();
-	//射撃
+	// 射撃
 	void Shot();
-	//落下
+	// 落下
 	void Fall();
 
 	/******** スタン関数 **********/
@@ -68,59 +76,63 @@ private:
 	/******** 行動パターン(Enum) **********/
 	enum Attackpattern
 	{
-		NONE, //行動なし
-		ROTATE, //回転
-		RUSH, //突進
-		SLASH, //斬撃
-		SHOT, //射撃
+		NONE, // 行動なし
+		ROTATE, // 回転
+		RUSH, // 突進
+		SLASH, // 斬撃
+		SHOT, // 射撃
 		FALL
 	};
-	//攻撃パターンを格納するint型変数
+	// 攻撃パターンを格納するint型変数
 	int attackPattern = NONE;
 
 	/******** 座標関連 **********/
-	///ボス関連
-	//中心座標
+	/// ボス関連
+	// 中心座標
 	Point centerPosition;
-	//ボスが左右にどれだけ開くか
+	
+	// ボスが左右にどれだけ開くか
 	float offset;
-	//ボスの回転角（degree°）
+	// ボスの回転角（degree°）
 	int degree;
 
-	//核の中心座標（移動させる可能性があるため）
+	// 核の中心座標（移動させる可能性があるため）
 	Point kernelCenterPosition;
 
-	//ワイヤーが引っかかる中心座標
+	// ワイヤーが引っかかる中心座標
 	Point wireHangPosition[kmaxWireHang];
 
 	/******** サイズ関連 **********/
-	///ボス関連
+	/// ボス関連
 
-	//テクスチャサイズ
+	// テクスチャサイズ
 	Point textureSize;
-	//核のテクスチャサイズ
+	// 核のテクスチャサイズ
 	Point kernelTextureSize;
 
-	//サイズ
+	// サイズ
 	Point size;
-	//核のサイズ
+	// 核のサイズ
 	Point kernelSize;
 	
 	/******** 行動関連 **********/
-	///攻撃関連
-	//攻撃中か
+	/// 攻撃関連
+	// 攻撃中か
 	bool inAction;
-	//攻撃が終了しているか
+	// 攻撃が終了しているか
 	bool endAction;
 
-	///スタン関連
-	//スタン中か
+	/// スタン関連
+	// スタン中か
 	bool inStun;
-	//スタンする時間
+	// スタンする時間
 	int stunTime;
 
-	///ダメージ関連
-	//ダメージを受けているのか
+	/// ダメージ関連
+	// ダメージを受けているのか
 	bool inDamage;
+
+	// 核が分離しているか
+	bool kernelSeparated;
 
 };
