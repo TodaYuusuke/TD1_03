@@ -131,3 +131,15 @@ Object* ObjectManager::CheckObjectHitBox(Box hitPosition) {
 	}
 	return NULL;
 }
+
+
+// プレイヤーの中心座標を受け取る関数
+Point ObjectManager::GetPlayerPosition() {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typePlayer) {
+			return object[i]->GetCenterPosition();
+		}
+	}
+
+	return { -10000,-10000 };
+}

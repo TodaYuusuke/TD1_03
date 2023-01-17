@@ -296,7 +296,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 				checkRhombusPoint[i].y += 1;
 			}
 
-			/*
+			
 			// もしある程度上まで補正しないとダメな場合、補正を修正し右方向に補正
 			if (move > BaseConst::kMapChipSizeHeight) {
 				// 座標を下に
@@ -341,7 +341,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 
 				break;
 			}
-			*/
+			
 		}
 
 		if (((int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y > -1 && (int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y < 1) ||
