@@ -37,7 +37,10 @@ void Player::SuccessorUpdate() {
 }
 // •`‰æ
 void Player::Draw() {
-	BaseDraw::DrawSprite({ centerPosition.x + width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
+
+	Novice::ScreenPrintf(0, 0, "playerPosX %f playerPosY %f",centerPosition.x, centerPosition.y);
+
+	BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y - height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
 }
 
 
