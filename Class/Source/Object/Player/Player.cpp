@@ -37,7 +37,10 @@ void Player::SuccessorUpdate() {
 }
 // •`‰æ
 void Player::Draw() {
-	BaseDraw::DrawSprite({ centerPosition.x + width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
+
+	Novice::ScreenPrintf(0, 0, "playerPosX %f playerPosY %f",centerPosition.x, centerPosition.y);
+
+	BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y - height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
 }
 
 
@@ -53,11 +56,17 @@ void Player::Move() {
 			velocity.x -= 0.5f;
 		}
 	}
+	else if(velocity.x < 0) {
+		velocity.x += 0.5f;
+	}
 	// ‰EˆÚ“®
 	if (BaseInput::GetKeyboardState(DIK_D, Press)) {
 		if (velocity.x < BaseConst::kPlayerVelocityLimit) {
 			velocity.x += 0.5f;
 		}
+	}
+	else if (velocity.x > 0) {
+		velocity.x -= 0.5f;
 	}
 }
 
