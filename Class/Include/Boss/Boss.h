@@ -52,8 +52,8 @@ private:
 	// 返り値：なし
 	// 引数：
 	// shakeStrength ... シェイクする際の強さ
-	// ボスをシェイクの強さを少しずつ弱くしながら関数
-	void ShakeEaseOut(int shakeStrength);
+	// ボスをシェイクの強さを少しずつ弱くしながら動かす関数
+	void ShakeEaseOut(int shakeStrength, int shakeTime);
 
 	/******** 攻撃行動関数 **********/
 	// 行動なし関数
@@ -74,11 +74,13 @@ private:
 	// 突進関数
 	// 返り値：なし
 	// 引数：
-	// startPosition ... 開始時位置
-	// playerPosition ... プレイヤーの位置(Point)
-	// playerDirection ... プレイヤーへのベクトル
+	// playerPosition ... プレイヤーの座標
+	// readyTime ... 突進の準備にかかる秒数
+	// rushTime ... 突進にかかる秒数
+	// backTime ... 戻る時にかかる秒数
 	// ボスをプレイヤーの向きに突進させる関数
-	void Rush(Point startPosition,Point playerPosition, float playerDirection);
+	void Rush(Point playerPosition, int readyTime ,int rushTime, int backTime);
+
 	// 斬撃
 	void Slash();
 	// 射撃
@@ -127,6 +129,7 @@ private:
 	// 攻撃やスタン等の中間地点到達の際に切り替え
 	enum ActionWayPoint 
 	{
+		WAYPOINT0, // 初期化
 		WAYPOINT1, // 行動中間地点～
 		WAYPOINT2,
 		WAYPOINT3,
@@ -134,7 +137,7 @@ private:
 		WAYPOINT5
 	};
 	//行動がどこまで進んでいるかを格納する変数
-	int actionWayPoint = WAYPOINT1;
+	int actionWayPoint = WAYPOINT0;
 
 	/******** 座標関連 **********/
 	/// ボス関連
@@ -142,6 +145,8 @@ private:
 	Point centerPosition;
 	// シェイクするときの座標の変化量
 	Point shakeVariation;
+	// シェイクする範囲
+	int shakeRange;
 	
 	// ボスが左右にどれだけ開くか
 	float offset;
@@ -155,6 +160,18 @@ private:
 
 	// ワイヤーが引っかかる中心座標
 	Point wireHangPosition[kmaxWireHang];
+
+	// 行動前座標
+	Point prevCenterPosition;
+
+	// 行動後座標
+	Point nextCenterPosition;
+
+	// 参照するプレイヤー座標
+	Point prePlayerPosition;
+
+	// プレイヤーへの方向
+	float playerDirection;
 
 	/******** サイズ関連 **********/
 	/// ボス関連
@@ -170,7 +187,6 @@ private:
 	Point coreSize;
 	
 	/******** 行動関連 **********/
-
 	/// 初期化
 	// 初期化されているか
 	bool init;
