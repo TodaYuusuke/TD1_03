@@ -72,6 +72,18 @@ void ObjectManager::MakeNewObjectPlayer(Point position) {
 }
 
 
+// Enemy
+void ObjectManager::MakeNewObjectEnemy(Point position,Point size) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeObject) {
+			object[i] = new Enemy(position, { 50,50 }, GetSelectObject(typePlayer));
+			object[i]->Initialize();
+			break;
+		}
+	}
+}
+
+
 // オブジェクトの当たり判定をチェックする関数
 // 返り値：そのオブジェクトのポインタ
 // 引数：チェックするPoint
@@ -126,6 +138,20 @@ Object* ObjectManager::CheckObjectHitBox(Box hitPosition) {
 			continue;
 		}
 		if (object[i]->CheckHitBox(hitPosition)) {
+			return object[i];
+		}
+	}
+	return NULL;
+}
+
+/// <summary>
+/// 指定したオブジェクトを取得する関数
+/// </summary>
+/// <param name="objecttype">オブジェクトタイプ</param>
+/// <returns>Object</returns>
+Object* ObjectManager::GetSelectObject(ObjectType objecttype) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == objecttype) {
 			return object[i];
 		}
 	}

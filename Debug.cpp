@@ -33,6 +33,10 @@ void Debug::Update() {
 		objectManager.MakeNewObjectPlayer({ 100,200 });
 	}
 
+	// エネミー生成
+	if (BaseInput::GetKeyboardState(DIK_E, Trigger)) {
+		objectManager.MakeNewObjectEnemy(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
+	}
 
 
 	// スクリーン座標の移動量

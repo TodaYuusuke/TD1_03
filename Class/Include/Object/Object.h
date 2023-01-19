@@ -11,7 +11,9 @@ enum ObjectType {
 	// プレイヤー
 	typePlayer,
 	// フック
-	typeHook
+	typeHook,
+	// 敵
+	typeEnemy
 };
 
 

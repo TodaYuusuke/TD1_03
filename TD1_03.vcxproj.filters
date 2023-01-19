@@ -89,6 +89,12 @@
     <Filter Include="Class\Source\Object\Hook">
       <UniqueIdentifier>{62ae3da5-d2dd-4b90-809e-dad43473ab8e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class\Include\Object\Enemy">
+      <UniqueIdentifier>{20c3c6c4-71e8-4114-a3cf-7d2311586a90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Source\Object\Enemy">
+      <UniqueIdentifier>{e5e7bfd8-9379-4f6d-9974-3811d30ed6bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -161,6 +167,9 @@
     </ClCompile>
     <ClCompile Include="Class\Source\Object\Hook\Hook.cpp">
       <Filter>Class\Source\Object\Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Source\Object\Enemy\Enemy.cpp">
+      <Filter>Class\Source\Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -302,6 +311,9 @@
     </ClInclude>
     <ClInclude Include="Class\Include\Object\Hook\Hook.h">
       <Filter>Class\Include\Object\Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Include\Object\Enemy\Enemy.h">
+      <Filter>Class\Include\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
