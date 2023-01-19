@@ -40,13 +40,45 @@ private:
 	/******** デバッグ関数 **********/
 	void Debug();
 
+	/******** その他行動関数 **********/
+	// シェイク関数
+	// 返り値：なし
+	// 引数：
+	// shakeStrength ... シェイクする際の強さ
+	// ボスをシェイクさせる関数
+	void Shake(int shakeStrength);
+
+	// シェイクイーズアウト関数
+	// 返り値：なし
+	// 引数：
+	// shakeStrength ... シェイクする際の強さ
+	// ボスをシェイクの強さを少しずつ弱くしながら関数
+	void ShakeEaseOut(int shakeStrength);
+
 	/******** 攻撃行動関数 **********/
-	// 行動なし（行動間の待機時間）
-	void None(int waitTime);
-	//回転
-	void Rotate();
-	// 突進
-	void Rush();
+	// 行動なし関数
+	// 返り値：なし
+	// 引数：
+	// waitTime ... 待機する時間
+	// 行動の合間に挟む関数。waitFrameは秒数ではなくフレーム単位
+	void None(int waitFrame);
+
+	// 回転関数
+	// 返り値：なし
+	// 引数：
+	// endDegree ... 終了時の角度
+	// rotateTime ... 回転する時間。これは秒数
+	// ボスを回転させる関数
+	void Rotate(float endDegree, int RotateTime);
+
+	// 突進関数
+	// 返り値：なし
+	// 引数：
+	// startPosition ... 開始時位置
+	// playerPosition ... プレイヤーの位置(Point)
+	// playerDirection ... プレイヤーへのベクトル
+	// ボスをプレイヤーの向きに突進させる関数
+	void Rush(Point startPosition,Point playerPosition, float playerDirection);
 	// 斬撃
 	void Slash();
 	// 射撃
@@ -71,7 +103,7 @@ private:
 	const static int kmaxBullet = 50;
 
 	/*********************************
-		メンバ変数
+		メンバ変数　	
 	*********************************/
 
 	/******** デバッグに用いる変数 **********/
@@ -101,11 +133,15 @@ private:
 		WAYPOINT4,
 		WAYPOINT5
 	};
+	//行動がどこまで進んでいるかを格納する変数
+	int actionWayPoint = WAYPOINT1;
 
 	/******** 座標関連 **********/
 	/// ボス関連
 	// 中心座標
 	Point centerPosition;
+	// シェイクするときの座標の変化量
+	Point shakeVariation;
 	
 	// ボスが左右にどれだけ開くか
 	float offset;
@@ -134,6 +170,11 @@ private:
 	Point coreSize;
 	
 	/******** 行動関連 **********/
+
+	/// 初期化
+	// 初期化されているか
+	bool init;
+
 	/// 攻撃関連
 	// 攻撃中か
 	bool inAction;
