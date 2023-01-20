@@ -52,7 +52,7 @@ void Boss::Update(Point playerPosition) {
 	}
 
 	if (inAction == true) {
-		Rush(playerPosition, 1, 2, 1);
+		Rush(playerPosition, 1, 1, 1);
 	}
 
 	// デバッグ関数の実行
@@ -73,6 +73,15 @@ void Boss::Draw() {
 
 	Point viewPosition = { centerPosition.x + shakeVariation.x,centerPosition.y + shakeVariation.y };
 
+	// ボス武器画像 現在は仮テクスチャ
+	BaseDraw::DesignationDrawQuad(
+		viewPosition,
+		weaponSize,
+		BaseTexture::kDebugTexture,
+		kernelTextureSize,
+		degree,
+		0xFFFFFFFF
+	);
 	// ボス核画像
 	BaseDraw::DrawQuad(
 		viewPosition,
@@ -156,6 +165,23 @@ void Boss::Debug() {
 
 	else if (BaseInput::GetKeyboardState(DIK_J, Press))
 		degree--;
+
+	// 武器のサイズを変更
+	// x
+	if (BaseInput::GetKeyboardState(DIK_O, Press)) {
+		weaponSize.x -= 1.0f;
+	}
+	else if(BaseInput::GetKeyboardState(DIK_P, Press)) {
+		weaponSize.x += 1.0f;
+	}
+	// y
+	if (BaseInput::GetKeyboardState(DIK_N, Press)) {
+		weaponSize.y -= 1.0f;
+	}
+	else if (BaseInput::GetKeyboardState(DIK_M, Press)) {
+		weaponSize.y += 1.0f;
+	}
+
 }
 
 // シェイク関数
@@ -321,7 +347,111 @@ void Boss::Rush(Point playerPosition, int readyTime, int rushTime, int backTime)
 	}
 }
 
+// 斬撃関数
+// 返り値：なし
+// 引数：
+// playerPosition ... プレイヤーの座標
+// readyTime ... 斬撃の準備にかかる秒数
+// deployTime ... ブレードの展開にかかる秒数
+// slashTime ... 斬撃にかかる秒数
+// backTime ... 戻る時にかかる秒数
+// ボスが斬撃を行う関数
+void Boss::Slash(Point playerPosition, int readyTime, int deployTime, int slashTime, int backTime) {
+	switch (actionWayPoint)
+	{
+		// 初期化
+	case Boss::WAYPOINT0:
+		// 中心座標取得
+		prevCenterPosition = centerPosition;
+		prePlayerPosition = playerPosition;
+		prevOffset = offset;
+		nextOffset = 20;
+		t = 0.0f;
+		//次の段階へ
+		actionWayPoint++;
+		break;
+		// 事前動作(震える)
+	case Boss::WAYPOINT1:
+		if (t <= readyTime) {
+			// 指定された秒数振動する
+			ShakeEaseOut(60, readyTime);
+			offset = BaseDraw::Ease_In(t, prevOffset, nextOffset - prevOffset, readyTime);
+			t += 1.0f / 60.0f;
+		}
+		else {
+			// tをリセット
+			t = 0.0f;
 
+			// プレイヤーがいる方向を求める
+			playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
+
+			// プレイヤーとの距離を求める
+			float playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
+
+			if (playerDistance < 200.0f) {
+				playerDistance = 0.0f;
+			}
+
+			// 突進する座標を求める
+			nextCenterPosition = {
+				centerPosition.x + (cosf(playerDirection) * playerDistance),
+				centerPosition.y + (sinf(playerDirection) * playerDistance)
+			};
+
+			//次へ
+			actionWayPoint++;
+		}
+		break;
+		// 攻撃準備
+	case Boss::WAYPOINT2:
+		if (t <= deployTime) {
+			degree = BaseDraw::Ease_Out(t, prevDegree, nextDegree - prevDegree, deployTime);
+		}
+		else {
+			t = 0.0f;
+			actionWayPoint++;
+			centerPosition = nextCenterPosition;
+		}
+
+		break;
+		// 斬撃
+	case Boss::WAYPOINT3:
+		if (t <= backTime) {
+			centerPosition.x = BaseDraw::Ease_Out(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, slashTime);
+			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, slashTime);
+			t += 1.0f / 60.0f;
+		}
+		else {
+			centerPosition = prevCenterPosition;
+			t = 0.0f;
+			init = false;
+			endAction = true;
+			inAction = false;
+			actionWayPoint = WAYPOINT0;
+		}
+		break;
+		// 元の場所に戻る
+	case Boss::WAYPOINT4:
+		if (t <= backTime) {
+			centerPosition.x = BaseDraw::Ease_InOut(t, nextCenterPosition.x, prevCenterPosition.x - nextCenterPosition.x, backTime);
+			centerPosition.y = BaseDraw::Ease_InOut(t, nextCenterPosition.y, prevCenterPosition.y - nextCenterPosition.y, backTime);
+			t += 1.0f / 60.0f;
+		}
+		else {
+			centerPosition = prevCenterPosition;
+			t = 0.0f;
+			init = false;
+			endAction = true;
+			inAction = false;
+			actionWayPoint = WAYPOINT0;
+		}
+		break;
+	case Boss::WAYPOINT5:
+		break;
+	default:
+		break;
+	}
+}
 #pragma region コピペ用
 //// 初期化処理
 //if (init = false) {

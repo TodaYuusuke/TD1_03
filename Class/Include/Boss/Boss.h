@@ -81,8 +81,16 @@ private:
 	// ボスをプレイヤーの向きに突進させる関数
 	void Rush(Point playerPosition, int readyTime ,int rushTime, int backTime);
 
-	// 斬撃
-	void Slash();
+	// 斬撃関数
+	// 返り値：なし
+	// 引数：
+	// playerPosition ... プレイヤーの座標
+	// readyTime ... 斬撃の準備にかかる秒数
+	// deployTime ... ブレードの展開にかかる秒数
+	// rushTime ... 突進にかかる秒数
+	// backTime ... 戻る時にかかる秒数
+	// ボスが斬撃を行う関数
+	void Slash(Point playerPosition, int readyTime, int deployTime, int slashTime, int backTime);
 	// 射撃
 	void Shot();
 	// 落下
@@ -139,6 +147,16 @@ private:
 	//行動がどこまで進んでいるかを格納する変数
 	int actionWayPoint = WAYPOINT0;
 
+	/******** 行動分岐(Enum) **********/
+	// 行動をランダムに分岐させる。初期値はPattern1
+	enum ActionBranch {
+		Pattern1, //行動分岐 1~
+		Pattern2,
+		Pattern3
+	};
+	// どの行動に分岐させるかを格納する変数
+	int actionBranch = Pattern1;
+
 	/******** 座標関連 **********/
 	/// ボス関連
 	// 中心座標
@@ -163,9 +181,18 @@ private:
 
 	// 行動前座標
 	Point prevCenterPosition;
-
 	// 行動後座標
 	Point nextCenterPosition;
+
+	// 行動前角度
+	int prevDegree;
+	// 行動後角度
+	int nextDegree;
+
+	// 行動前オフセット
+	int prevOffset;
+	// 行動後オフセット
+	int nextOffset;
 
 	// 参照するプレイヤー座標
 	Point prePlayerPosition;
@@ -185,6 +212,9 @@ private:
 	Point size;
 	// 核のサイズ
 	Point coreSize;
+
+	// 武器のサイズ
+	Point weaponSize;
 	
 	/******** 行動関連 **********/
 	/// 初期化
