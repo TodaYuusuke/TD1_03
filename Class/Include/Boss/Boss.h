@@ -40,6 +40,18 @@ private:
 	// 武器画像の相対座標を求める
 	Point GetWeaponPosition(Point centerPosition);
 
+	/******** 初期化関数 **********/
+	// 選択初期化関数
+	// 返り値：なし
+	// 引数：
+	// cenerPosition ... 座標を初期化するか
+	// degree ... 角度を初期化するか
+	// offset ... オフセットを初期化するか
+	// t ... tを初期化するか
+	// weapon ... 武器関係の変数を初期化するか
+	// 引数でTrueにしたものだけ初期化する関数
+	void SelectionInitialize(bool centerPosition, bool degree, bool offset, bool t, bool weapon);
+
 	/******** デバッグ関数 **********/
 	void Debug();
 
@@ -218,6 +230,8 @@ private:
 	Point textureSize;
 	// 核のテクスチャサイズ
 	Point kernelTextureSize;
+	// 武器のテクスチャサイズ
+	Point weaponTextureSize;
 
 	// サイズ
 	Point size;

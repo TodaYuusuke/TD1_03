@@ -22,14 +22,28 @@ void Boss::Initialize() {
 	this->centerPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
 	// ボスの画像サイズを設定
 	this->textureSize = { 225.0f, 450.0f };
+	// ボスのオフセットを初期化
+	this->offset = 0.0f;
+
+	this->degree = 0.0f;
+
+	//シェイクしていない状態に戻す
+	this->shakeVariation = { 0.0f, 0.0f };
 
 	// 行動終了状態にする
+	this->t = 0.0f;
 	this->endAction = true;
+	this->inAction = false;
+	this->actionWayPoint = 0;
 
 	// 核の位置を設定
 	coreCenterPosition = centerPosition;
 	// 核の画像サイズを設定
 	kernelTextureSize = { 256.0f, 256.0f };
+
+	// 武器の画像サイズを指定（仮テクスチャのため、今後変える）
+	weaponSize = { 0.0f, 0.0f };
+	weaponTextureSize = { 1.0f, 1.0f };
 }
 
 // 更新処理
@@ -44,15 +58,26 @@ void Boss::Update(Point playerPosition) {
 			inDebug = false;
 	}
 
-	if (endAction == true) {
-		if(BaseInput::GetKeyboardState(DIK_F, Trigger)) {
-			inAction = true;
-			endAction = false;
+	if (inAction == true && inStun == false && inDamage == false) {
+		switch (attackPattern)
+		{
+		case Boss::NONE:
+			None(1.0f);
+			break;
+		case Boss::ROTATE:
+			Rotate(720, 2.0f);
+			break;
+		case Boss::RUSH:
+			Rush(playerPosition, 0.5f, 1.5f, 1.0f);
+			break;
+		case Boss::SLASH:
+			Slash(playerPosition, 0.35f, 0.2f, 1.0f, 0.75f, 1.0f);
+			break;
+		case Boss::SHOT:
+			break;
+		case Boss::FALL:
+			break;
 		}
-	}
-
-	if (inAction == true) {
-		Slash(playerPosition, 0.5f, 0.25f, 1.0f, 0.75f, 1.0f);
 	}
 
 	// デバッグ関数の実行
@@ -122,6 +147,35 @@ void Boss::Draw() {
 
 }
 
+/******** 初期化関数 **********/
+// 選択初期化関数
+// 返り値：なし
+// 引数：
+// cenerPosition ... 座標を初期化するか
+// degree ... 角度を初期化するか
+// offset ... オフセットを初期化するか
+// t ... tを初期化するか
+// weapon ... 武器関係の変数を初期化するか
+// 引数でTrueにしたものだけ初期化する関数
+void Boss::SelectionInitialize(bool initCenterPosition, bool initDegree, bool initOffset, bool initT, bool initWeapon) {
+	if (initCenterPosition == true) {
+		// ボスの位置を画面中央に持っていく
+		centerPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
+	}
+	if (initDegree == true) {
+		degree = 0;
+	}
+	if (initOffset == true) {
+		offset = 0.0f;
+	}
+	if (initT == true) {
+		t = 0.0f;
+	}
+	if (initWeapon == true) {
+		weaponSize = { 0.0f };
+	}
+}
+
 // ボス左画像の相対座標を求める
 Point Boss::GetLCoverPosition(Point centerPosition) { 
 	// 回転中心からの差異ベクトル作成
@@ -155,8 +209,31 @@ Point Boss::GetWeaponPosition(Point centerPosition) {
 void Boss::Debug() {
 	// すべてをリセットする
 	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger)) {
-		offset = 0.0f;
-		degree = 0;
+		Boss::Initialize();
+	}
+
+	if (endAction == true) {
+
+		// 行動を開始させる
+		if (BaseInput::GetKeyboardState(DIK_F, Trigger)) {
+			inAction = true;
+			endAction = false;
+		}
+
+		//行動パターン切り替え
+		if (BaseInput::GetKeyboardState(DIK_1, Trigger)) {
+			attackPattern = NONE;
+		}
+		else if (BaseInput::GetKeyboardState(DIK_2, Trigger)) {
+			attackPattern = ROTATE;
+		}
+		else if (BaseInput::GetKeyboardState(DIK_3, Trigger)) {
+			attackPattern = RUSH;
+		}
+		else if (BaseInput::GetKeyboardState(DIK_4, Trigger)) {
+			attackPattern = SLASH;
+		}
+
 	}
 
 	// ボスを左右に開かせる
@@ -411,7 +488,7 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 		// 武器をどれだけ大きくするかを決める
 		weaponSize = { 40, 0 };
 		prevWeaponSize = weaponSize;
-		nextWeaponSize = { weaponSize.x, 350.0f };
+		nextWeaponSize = { weaponSize.x, 450.0f };
 		
 		// t初期化
 		t = 0.0f;
@@ -539,8 +616,8 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 
 			// 突進する座標を求める
 			nextCenterPosition = {
-				centerPosition.x + (cosf(playerDirection) * playerDistance / 2),
-				centerPosition.y + (sinf(playerDirection) * playerDistance / 2)
+				centerPosition.x + (cosf(playerDirection) * playerDistance / 1.25f),
+				centerPosition.y + (sinf(playerDirection) * playerDistance / 1.25f)
 			};
 
 			// 次へ
