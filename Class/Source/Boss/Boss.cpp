@@ -147,7 +147,6 @@ void Boss::Draw() {
 
 }
 
-/******** 初期化関数 **********/
 // 選択初期化関数
 // 返り値：なし
 // 引数：
@@ -535,7 +534,7 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			prevDegree = degree;
 
 			//次の行動をランダムに設定して分岐
-			actionBranch = BaseMath::Random(0, 2);
+			actionBranch = 0;
 			switch (actionBranch)
 			{
 				// 右回転
@@ -616,8 +615,8 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 
 			// 突進する座標を求める
 			nextCenterPosition = {
-				centerPosition.x + (cosf(playerDirection) * playerDistance / 1.25f),
-				centerPosition.y + (sinf(playerDirection) * playerDistance / 1.25f)
+				centerPosition.x + (cosf(playerDirection) * playerDistance / 1.45f),
+				centerPosition.y + (sinf(playerDirection) * playerDistance / 1.45f)
 			};
 
 			// 次へ
@@ -636,8 +635,8 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, slashTime);
 
 			// 分岐：回転斬り以外の場合はtにプラスする値を少しだけ多くする
-			if (actionBranch < 2) {
-				t += 1.25f / 60.0f;
+			if (actionBranch == 3) {
+				t += 0.5f / 60.0f;
 			}
 			else {
 				t += 1.0f / 60.0f;
@@ -687,6 +686,222 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 		break;
 	}
 }
+
+void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime) {
+	switch (actionWayPoint)
+	{
+		// 初期化
+	case Boss::WAYPOINT0:
+		// 中心座標取得
+		prevCenterPosition = centerPosition;
+
+		//ボスがどれだけ開くかを決める
+		prevOffset = offset;
+		nextOffset = 20;
+
+		// 武器をどれだけ大きくするかを決める
+		weaponSize = { 40, 0 };
+		prevWeaponSize = weaponSize;
+		nextWeaponSize = { weaponSize.x, 350.0f };
+
+		// t初期化
+		t = 0.0f;
+
+		//次の段階へ
+		actionWayPoint++;
+		break;
+		// 事前動作(震えてボスが開く)
+	case Boss::WAYPOINT1:
+		if (t <= readyTime) {
+			// 指定された秒数振動する
+			ShakeEaseOut(60, readyTime);
+
+			// ボスが少しづつ開く
+			offset = BaseDraw::Ease_InOut(t, prevOffset, nextOffset - prevOffset, readyTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+			// tをリセット
+			t = 0.0f;
+
+			//次へ
+			actionWayPoint++;
+		}
+		break;
+		// ブレード展開
+	case Boss::WAYPOINT2:
+		if (t <= deployTime) {
+
+			// ブレードが伸びる
+			weaponSize.y = BaseDraw::Ease_InOut(t, prevWeaponSize.y, nextWeaponSize.y - prevWeaponSize.y, deployTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// tを初期化
+			t = 0.0f;
+
+			// 初期角度を設定
+			prevDegree = degree;
+
+			//次の行動をランダムに設定して分岐
+			actionBranch = BaseMath::Random(0, 2);
+			switch (actionBranch)
+			{
+				// 右回転
+			case Boss::Pattern1:
+				// 左向きに動かす
+				nextDegree = prevDegree - 30;
+				break;
+				// 左回転
+			case Boss::Pattern2:
+				// 右向きに動かす
+
+				nextDegree = prevDegree + 30;
+				break;
+				// 回転切り
+			case Boss::Pattern3:
+				break;
+			default:
+				break;
+			}
+
+			// 次の段階
+			actionWayPoint++;
+		}
+
+		break;
+		// 斬撃準備
+	case Boss::WAYPOINT3:
+		if (t <= preparationTime) {
+			//ボスを回転させる
+			degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, preparationTime);
+
+			// 分岐：回転斬りの場合は振動させる
+			if (actionBranch == Pattern3)
+				ShakeEaseInOut(30, preparationTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+			// tを初期化
+			t = 0.0f;
+
+			// 初期角度を設定
+			prevDegree = degree;
+
+			// 行動分岐に基づいて回転角の設定
+			switch (actionBranch)
+			{
+				// 右回転
+			case Boss::Pattern1:
+				nextDegree = prevDegree + 360;
+				break;
+				// 左回転
+			case Boss::Pattern2:
+				nextDegree = prevDegree - 360;
+				break;
+				// 回転切り
+			case Boss::Pattern3:
+				nextDegree = prevDegree + 720;
+				break;
+			default:
+				break;
+			}
+
+			//プレイヤー座標取得
+			prePlayerPosition = playerPosition;
+
+			// プレイヤーがいる方向を求める
+			playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
+
+			// プレイヤーとの距離を求める
+			float playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
+
+			// プレイヤーとの距離が一定以下ならその場で斬撃を行う
+			if (playerDistance < 200.0f) {
+				playerDistance = 0.0f;
+			}
+
+			// 突進する座標を求める
+			nextCenterPosition = {
+				centerPosition.x + (cosf(playerDirection) * playerDistance / 1.45f),
+				centerPosition.y + (sinf(playerDirection) * playerDistance / 1.45f)
+			};
+
+			// 次へ
+			actionWayPoint++;
+		}
+		break;
+		// 斬撃
+	case Boss::WAYPOINT4:
+		if (t <= shotTime) {
+
+			// ボスを回転させる
+			degree = BaseDraw::Ease_Out(t, prevDegree, nextDegree - prevDegree, shotTime);
+
+			// ボスを取得した角度を元に突進させる
+			centerPosition.x = BaseDraw::Ease_Out(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, shotTime);
+			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, shotTime);
+
+			// 分岐：回転斬り以外の場合はtにプラスする値を少しだけ多くする
+			if (actionBranch < 2) {
+				t += 1.25f / 60.0f;
+			}
+			else {
+				t += 1.0f / 60.0f;
+			}
+		}
+		else {
+			// tを初期化
+			t = 0.0f;
+			// 次へ
+			actionWayPoint++;
+		}
+		break;
+		// 元の場所に戻る
+	case Boss::WAYPOINT5:
+		if (t <= backTime) {
+			// 位置や角度、武器のサイズを元に戻す
+			centerPosition.x = BaseDraw::Ease_InOut(t, nextCenterPosition.x, prevCenterPosition.x - nextCenterPosition.x, backTime);
+			centerPosition.y = BaseDraw::Ease_InOut(t, nextCenterPosition.y, prevCenterPosition.y - nextCenterPosition.y, backTime);
+			degree = BaseDraw::Ease_InOut(t, nextDegree, -nextDegree, backTime);
+			weaponSize.y = BaseDraw::Ease_InOut(t, nextWeaponSize.y, -nextWeaponSize.y, backTime);
+			offset = BaseDraw::Ease_InOut(t, nextOffset, -nextOffset, backTime);
+			t += 1.0f / 60.0f;
+		}
+		else {
+			// ボス座標を初期化（一応）
+			centerPosition = prevCenterPosition;
+
+			// オフセット初期化
+			offset = 0;
+
+			// 角度初期化
+			degree = 0;
+			prevDegree = 0;
+			nextDegree = 0;
+
+			// t初期化
+			t = 0.0f;
+
+			// 行動終了
+			init = false;
+			endAction = true;
+			inAction = false;
+			actionWayPoint = WAYPOINT0;
+		}
+		break;
+	default:
+		break;
+	}
+}
+
 #pragma region コピペ用
 //// 初期化処理
 //if (init = false) {

@@ -114,8 +114,18 @@ private:
 	// backTime ... 戻る時にかかる秒数
 	// ボスが斬撃を行う関数
 	void Slash(Point playerPosition, float readyTime, float deployTime, float preparationTime, float slashTime, float backTime);
-	// 射撃
-	void Shot();
+	
+	// 射撃関数
+	// 返り値：なし
+	// 引数：
+	// playerPosition ... プレイヤーの座標
+	// readyTime ... ボスが開くまでにかかる秒数
+	// deployTime ... 銃の展開にかかる秒数
+	// preparationTime　... 攻撃までの待機時間
+	// shotTime ... 射撃秒数
+	// backTime ... 戻る時にかかる秒数
+	// ボスが射撃を行う関数
+	void Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime);
 	// 落下
 	void Fall();
 
@@ -199,6 +209,11 @@ private:
 	// 核の回転角（degree°）
 	int coreDegree;
 
+	// 弾の発射地点
+	Point shotPoint;
+	// 弾の中心座標
+	Point bulletCenterPosition[kmaxBullet];
+
 	// ワイヤーが引っかかる中心座標
 	Point wireHangPosition[kmaxWireHang];
 
@@ -233,6 +248,9 @@ private:
 	// 武器のテクスチャサイズ
 	Point weaponTextureSize;
 
+	// 弾のテクスチャサイズ
+	Point bulletTextureSize;
+
 	// サイズ
 	Point size;
 	// 核のサイズ
@@ -241,6 +259,9 @@ private:
 	// 武器のサイズ
 	Point weaponSize;
 	
+	// 弾のサイズ
+	Point bulletSize;
+
 	// 行動前武器サイズ
 	Point prevWeaponSize;
 	// 行動後武器サイズ
