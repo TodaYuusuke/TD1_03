@@ -119,16 +119,16 @@ void BaseDraw::DrawQuad(Point worldPosition, int textureHandle, Point textureSiz
 }
 
 // x, yそれぞれの座標が指定可能なワールド座標からスプライトを描画する関数（DrawQuad）
-	// 返り値：無し
-	// 引数：
-	// worldPosition ... 描画するスプライトの中心座標
-	// size ... 描画するスプライトのサイズ
-	// textureHandle ... テクスチャのハンドル
-	// textureSize ... テクスチャのサイズ
-	// scale ... 描画するスプライトの倍率
-	// angle ... 描画するスプライトの回転角（Degree）
-	// color ... 描画するスプライトの色
-	// ワールド座標のまま呼び出せる描画関数（DrawQuad）
+// 返り値：無し
+// 引数：
+// worldPosition ... 描画するスプライトの中心座標
+// size ... 描画するスプライトのサイズ
+// textureHandle ... テクスチャのハンドル
+// textureSize ... テクスチャのサイズ
+// scale ... 描画するスプライトの倍率
+// angle ... 描画するスプライトの回転角（Degree）
+// color ... 描画するスプライトの色
+// ワールド座標のまま呼び出せる描画関数（DrawQuad）
 void BaseDraw::DesignationDrawQuad(Point worldPosition, Point size, int textureHandle, Point textureSize, float angle, unsigned int color) {
 	// 四つ角を求める
 	Quad quad = {

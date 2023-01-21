@@ -37,6 +37,9 @@ private:
 	// ボス右画像の座標を求める
 	Point GetRCoverPosition(Point centerPosition);
 
+	// 武器画像の相対座標を求める
+	Point GetWeaponPosition(Point centerPosition);
+
 	/******** デバッグ関数 **********/
 	void Debug();
 
@@ -53,15 +56,22 @@ private:
 	// 引数：
 	// shakeStrength ... シェイクする際の強さ
 	// ボスをシェイクの強さを少しずつ弱くしながら動かす関数
-	void ShakeEaseOut(int shakeStrength, int shakeTime);
+	void ShakeEaseOut(int shakeStrength, float shakeTime);
+
+	// シェイクイーズインアウト関数
+	// 返り値：なし
+	// 引数：
+	// shakeStrength ... シェイクする際の強さ
+	// ボスをシェイクの強さを少しずつ弱くしながら動かす関数
+	void ShakeEaseInOut(int shakeStrength, float shakeTime);
 
 	/******** 攻撃行動関数 **********/
 	// 行動なし関数
 	// 返り値：なし
 	// 引数：
-	// waitTime ... 待機する時間
-	// 行動の合間に挟む関数。waitFrameは秒数ではなくフレーム単位
-	void None(int waitFrame);
+	// waitTime ... 待機する秒数
+	// 行動の合間に挟む関数。
+	void None(float waitFrame);
 
 	// 回転関数
 	// 返り値：なし
@@ -69,7 +79,7 @@ private:
 	// endDegree ... 終了時の角度
 	// rotateTime ... 回転する時間。これは秒数
 	// ボスを回転させる関数
-	void Rotate(float endDegree, int RotateTime);
+	void Rotate(float endDegree, float RotateTime);
 
 	// 突進関数
 	// 返り値：なし
@@ -79,18 +89,19 @@ private:
 	// rushTime ... 突進にかかる秒数
 	// backTime ... 戻る時にかかる秒数
 	// ボスをプレイヤーの向きに突進させる関数
-	void Rush(Point playerPosition, int readyTime ,int rushTime, int backTime);
+	void Rush(Point playerPosition, float readyTime , float rushTime, float backTime);
 
 	// 斬撃関数
 	// 返り値：なし
 	// 引数：
 	// playerPosition ... プレイヤーの座標
-	// readyTime ... 斬撃の準備にかかる秒数
+	// readyTime ... ボスが開くまでにかかる秒数
 	// deployTime ... ブレードの展開にかかる秒数
+	// preparationTime　... 攻撃までの待機時間
 	// rushTime ... 突進にかかる秒数
 	// backTime ... 戻る時にかかる秒数
 	// ボスが斬撃を行う関数
-	void Slash(Point playerPosition, int readyTime, int deployTime, int slashTime, int backTime);
+	void Slash(Point playerPosition, float readyTime, float deployTime, float preparationTime, float slashTime, float backTime);
 	// 射撃
 	void Shot();
 	// 落下
@@ -216,6 +227,11 @@ private:
 	// 武器のサイズ
 	Point weaponSize;
 	
+	// 行動前武器サイズ
+	Point prevWeaponSize;
+	// 行動後武器サイズ
+	Point nextWeaponSize;
+
 	/******** 行動関連 **********/
 	/// 初期化
 	// 初期化されているか
