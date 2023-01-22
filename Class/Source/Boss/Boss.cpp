@@ -45,7 +45,7 @@ void Boss::Initialize() {
 	weaponSize = { 0.0f, 0.0f };
 	weaponTextureSize = { 1.0f, 1.0f };
 
-	// 弾の関係初期化
+	/// 弾の関係初期化
 	for (int i = 0; i < kmaxBullet; i++) {
 		// 弾の座標
 		bulletCenterPosition[i] = { 0.0f, 0.0f };
@@ -67,10 +67,21 @@ void Boss::Initialize() {
 
 	// 弾の発射スピードを指定
 	bulletSpeed = 10.0f;
+
+	/// オブジェクト関連
+	// オブジェクトを生成するかどうか
+	bool canGeneratedBlock = false;
+
+	// オブジェクト生成個数
+	int generatedBlockValue = 0;
+
+	// オブジェクト生成間隔
+	float generatedBlockInterval = 0.0f;
+
 }
 
 // 更新処理
-void Boss::Update(Point playerPosition) {
+void Boss::Update(Point playerPosition, ObjectManager* objectManager) {
 	/******** デバック処理 **********/
 	// デバッグ状態の切り替え
 	if (BaseInput::GetKeyboardState(DIK_0, Trigger)) {
@@ -101,6 +112,7 @@ void Boss::Update(Point playerPosition) {
 			Shot(playerPosition, 0.35f, 0.75f, 1.0f, 5.0f, 1.0f, 0.1f);
 			break;
 		case Boss::FALL:
+			Fall(0.35f, 1.0f, 0.15f, 0.75f, 1.0f);
 			break;
 		}
 	}
@@ -139,6 +151,28 @@ void Boss::Update(Point playerPosition) {
 		}
 		else {
 			isShot[i] = false;
+		}
+	}
+
+	/// オブジェクト関係の更新処理
+
+	// オブジェクト生成する
+	if (canGeneratedBlock == true) {
+
+		// 生成間隔が0になると生成
+		if (generatedBlockInterval < 0) {
+			if (generatedBlockValue > 0) {
+				// ランダムな位置に、ランダムな大きさのブロックを生成
+				objectManager->MakeNewObjectBlock({ BaseMath::RandomF(20.0f, 1900.0f, 1), (float)BaseConst::kWindowHeight }, { BaseMath::RandomF(20.0f, 60.0f, 0), BaseMath::RandomF(20.0f, 60.0f, 0) });
+				generatedBlockValue--;
+			}
+			else {
+				canGeneratedBlock = false;
+			}
+			generatedBlockInterval = BaseMath::RandomF(0.1f, 0.4f, 2);
+		}
+		else {
+			generatedBlockInterval -= 1.0f / 60.0f;
 		}
 	}
 
@@ -311,6 +345,9 @@ void Boss::Debug() {
 		}
 		else if (BaseInput::GetKeyboardState(DIK_5, Trigger)) {
 			attackPattern = SHOT;
+		}
+		else if (BaseInput::GetKeyboardState(DIK_6, Trigger)) {
+			attackPattern = FALL;
 		}
 
 	}
@@ -786,8 +823,6 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 	// ボスの発射レートを管理する変数
 	static float fireRateCount;
 
-	Novice::ScreenPrintf(0, 170, "nextDegree : %4.2f", fireRateCount);
-
 	switch (actionWayPoint)
 	{
 		// 初期化
@@ -1071,6 +1106,161 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 	}
 }
 
+// オブジェクト落下関数
+// 返り値：なし
+// 引数：
+// readyTime ... ボスの座標を中心に戻す秒数
+// deployTime ... 攻撃準備にかかる秒数
+// rushTime　... 天井に突進するまでにかかる秒数
+// standByTime ... 待機秒数
+// backTime ... 戻る時にかかる秒数
+// ボスが天井にぶつかり、破片を落下させて攻撃を行う関数
+void Boss::Fall(float readyTime, float deployTime, float rushTime, float standByTime, float backTime) {
+	switch (actionWayPoint)
+	{
+		// 初期化
+	case Boss::WAYPOINT0:
+		// 中心座標取得
+		prevCenterPosition = centerPosition;
+		nextCenterPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
+
+		// t初期化
+		t = 0.0f;
+
+		//次の段階へ
+		actionWayPoint++;
+		break;
+		// ボスを中心座標に戻す
+	case Boss::WAYPOINT1:
+		if (t <= readyTime) {
+
+			// 画面中央へ戻す
+			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, readyTime);
+			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, readyTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+			// tをリセット
+			t = 0.0f;
+
+			// 座標設定
+			prevCenterPosition = centerPosition;
+			nextCenterPosition = { centerPosition.x, centerPosition.y - 200 };
+
+			//次へ
+			actionWayPoint++;
+		}
+		break;
+		// 溜め
+	case Boss::WAYPOINT2:
+		if (t <= deployTime) {
+
+			// 若干下に下がる
+			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, deployTime);
+			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, deployTime);
+
+			ShakeEaseOut(50, deployTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// tを初期化
+			t = 0.0f;
+
+			// 座標設定
+			prevCenterPosition = centerPosition;
+			nextCenterPosition = { centerPosition.x, (float)BaseConst::kWindowHeight};
+
+			// 次の段階
+			actionWayPoint++;
+		}
+
+		break;
+		// 天井に突進
+	case Boss::WAYPOINT3:
+		if (t <= rushTime) {
+
+			// 突進
+			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, rushTime);
+			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, rushTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+			// tを初期化
+			t = 0.0f;
+
+			canGeneratedBlock = true;
+			generatedBlockValue = BaseMath::Random(3, 5);
+
+			// 次へ
+			actionWayPoint++;
+		}
+		break;
+		// 待機
+	case Boss::WAYPOINT4:
+		if (t <= standByTime) {
+
+			// 激突時シェイク
+			ShakeEaseOut(50, standByTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+
+		}
+		else {
+
+			// 現在の座標を記録する
+			prevCenterPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
+			nextCenterPosition = centerPosition;
+
+			// tを初期化
+			t = 0.0f;
+			// 次へ
+			actionWayPoint++;
+		}
+		break;
+		// 元の場所に戻る
+	case Boss::WAYPOINT5:
+		if (t <= backTime) {
+			// 位置や角度、武器のサイズを元に戻す
+			centerPosition.x = BaseDraw::Ease_InOut(t, nextCenterPosition.x, prevCenterPosition.x - nextCenterPosition.x, backTime);
+			centerPosition.y = BaseDraw::Ease_InOut(t, nextCenterPosition.y, prevCenterPosition.y - nextCenterPosition.y, backTime);
+			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, backTime);
+			shakeVariation.y = BaseDraw::Ease_InOut(t, shakeVariation.y, -shakeVariation.y, backTime);
+			t += 1.0f / 60.0f;
+		}
+		else {
+			// ボス座標を初期化（一応）
+			centerPosition = prevCenterPosition;
+
+			// オフセット初期化
+			offset = 0;
+
+			// 角度初期化
+			degree = 0;
+			prevDegree = 0;
+			nextDegree = 0;
+
+			// t初期化
+			t = 0.0f;
+
+			// 行動終了
+			init = false;
+			endAction = true;
+			inAction = false;
+			actionWayPoint = WAYPOINT0;
+		}
+		break;
+	default:
+		break;
+	}
+}
 #pragma region コピペ用
 //// 初期化処理
 //if (init = false) {

@@ -1,5 +1,6 @@
 #pragma once
 #include "MyBase/Include/MyBase.h"
+#include "Class/Include/Object/ObjectManager.h"
 
 /*********************************************
  * ボスクラス
@@ -20,7 +21,7 @@ public:
 	void Initialize();
 
 	// 更新処理
-	void Update(Point playerPosition);
+	void Update(Point playerPosition, ObjectManager* objectManager);
 
 	// 描画処理
 	void Draw();
@@ -138,8 +139,16 @@ private:
 	// ボスが射撃を行う関数
 	void Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime, float fireRate);
 
-	// 落下
-	void Fall();
+	// オブジェクト落下関数
+	// 返り値：なし
+	// 引数：
+	// readyTime ... ボスの座標を中心に戻す秒数
+	// deployTime ... 攻撃準備にかかる秒数
+	// rushTime　... 天井に突進するまでにかかる秒数
+	// standByTime ... 待機秒数
+	// backTime ... 戻る時にかかる秒数
+	// ボスが天井にぶつかり、破片を落下させて攻撃を行う関数
+	void Fall(float readyTime, float deployTime, float rushTime, float standByTime, float backTime);
 
 	/******** スタン関数 **********/
 	void Stun();
@@ -317,6 +326,17 @@ private:
 
 	// 弾の生存時間
 	float bulletAliveTime[kmaxBullet];
+
+	/// オブジェクト関連
+
+	// オブジェクトを生成するかどうか
+	bool canGeneratedBlock = false;
+
+	// オブジェクト生成個数
+	int generatedBlockValue = 0;
+
+	// オブジェクト生成間隔
+	float generatedBlockInterval = 0.0f;
 
 	/******** イージング関連 **********/
 	// イージング用t
