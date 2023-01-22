@@ -173,6 +173,13 @@ public:
 	/// <returns>範囲内の値</returns>
 	static float Clamp(float a, float min, float max);
 
+	/// <summary>
+	/// 絶対値を求める関数
+	/// </summary>
+	/// <param name="value">絶対値を求める値</param>
+	/// <returns>絶対値</returns>
+	static float GetAbsolute(float value);
+
 	// ランダム関連
 
 	// ランダム関数（int型）

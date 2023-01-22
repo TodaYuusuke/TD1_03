@@ -41,9 +41,32 @@ void Boss::Initialize() {
 	// 核の画像サイズを設定
 	kernelTextureSize = { 256.0f, 256.0f };
 
-	// 武器の画像サイズを指定（仮テクスチャのため、今後変える）
+	// 武器のサイズを指定（仮テクスチャのため、今後変える）
 	weaponSize = { 0.0f, 0.0f };
 	weaponTextureSize = { 1.0f, 1.0f };
+
+	// 弾の関係初期化
+	for (int i = 0; i < kmaxBullet; i++) {
+		// 弾の座標
+		bulletCenterPosition[i] = { 0.0f, 0.0f };
+
+		// 発射していない状態にする
+		isShot[i] = false;
+
+		// 弾の発射方向をリセットする
+		bulletDirection[i] = 0.0f;
+
+		// 弾の生存時間をリセットする
+		bulletAliveTime[i] = 0.0f;
+	}
+
+	// 弾のサイズを指定
+	bulletSize = { 20.0f, 20.0f };
+	// 弾の画像サイズを指定（仮テクスチャのため、今後変える)
+	bulletTextureSize = { 1.0f, 1.0f };
+
+	// 弾の発射スピードを指定
+	bulletSpeed = 10.0f;
 }
 
 // 更新処理
@@ -58,6 +81,7 @@ void Boss::Update(Point playerPosition) {
 			inDebug = false;
 	}
 
+	// 行動の実行処理
 	if (inAction == true && inStun == false && inDamage == false) {
 		switch (attackPattern)
 		{
@@ -74,11 +98,14 @@ void Boss::Update(Point playerPosition) {
 			Slash(playerPosition, 0.35f, 0.2f, 1.0f, 0.75f, 1.0f);
 			break;
 		case Boss::SHOT:
+			Shot(playerPosition, 0.35f, 0.75f, 1.0f, 5.0f, 1.0f, 0.1f);
 			break;
 		case Boss::FALL:
 			break;
 		}
 	}
+
+	degree %= 360;
 
 	// デバッグ関数の実行
 	if (inDebug == true) {
@@ -90,6 +117,30 @@ void Boss::Update(Point playerPosition) {
 		coreCenterPosition = centerPosition;
 		coreDegree = degree;
 	}	
+
+	/// 弾関係の更新処理
+
+	// 発射地点の更新
+	shotPoint = GetShotPosition(centerPosition);
+
+	// 弾が発射されている時の処理
+	for (int i = 0; i < kmaxBullet; i++) {
+		if (isShot[i] == true && bulletAliveTime[i] > 0.0f) {
+
+			// 場外判定を入れる　現状はわからないので割愛
+			/*if () {
+
+			}*/
+
+			bulletCenterPosition[i].x += -cosf(bulletDirection[i]) * bulletSpeed;
+			bulletCenterPosition[i].y += -sinf(bulletDirection[i]) * bulletSpeed;
+
+			bulletAliveTime[i] -= 1.0f / 60.0f;
+		}
+		else {
+			isShot[i] = false;
+		}
+	}
 
 }
 
@@ -103,10 +154,24 @@ void Boss::Draw() {
 		Boss::GetWeaponPosition(viewPosition),
 		weaponSize,
 		BaseTexture::kDebugTexture,
-		kernelTextureSize,
+		weaponTextureSize,
 		degree,
 		0xFFFFFFFF
 	);
+
+	for (int i = 0; i < kmaxBullet; i++) {
+		if (isShot[i] == true) {
+			// 弾画像 現在は仮テクスチャ
+			BaseDraw::DesignationDrawQuad(
+				bulletCenterPosition[i],
+				bulletSize,
+				BaseTexture::kDebugTexture,
+				bulletTextureSize,
+				degree,
+				0x000000FF
+			);
+		}
+	}
 
 	// ボス核画像
 	BaseDraw::DrawQuad(
@@ -144,6 +209,8 @@ void Boss::Draw() {
 	Novice::ScreenPrintf(0, 90, "endAction : %d", endAction);
 	Novice::ScreenPrintf(0, 110, "actionWayPoint : %d", actionWayPoint);
 	Novice::ScreenPrintf(0, 130, "actionBranch : %d", actionBranch);
+	Novice::ScreenPrintf(0, 150, "isShot : %d", isShot[0]);
+	Novice::ScreenPrintf(0, 190, "bulletPos * x : %4.2f y : %4.2f", bulletCenterPosition[0].x, bulletCenterPosition[0].y);
 
 }
 
@@ -204,6 +271,16 @@ Point Boss::GetWeaponPosition(Point centerPosition) {
 	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
 }
 
+// 発射地点の相対座標を求める
+Point Boss::GetShotPosition(Point centerPosition) {
+	// 回転中心からの差異ベクトル作成
+	Point p = { 0, weaponSize.y };
+	// ベクトル計算
+	p = BaseMath::TurnPoint(p, degree);
+	// 計算した値を返す
+	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
+}
+
 // デバッグ用関数
 void Boss::Debug() {
 	// すべてをリセットする
@@ -231,6 +308,9 @@ void Boss::Debug() {
 		}
 		else if (BaseInput::GetKeyboardState(DIK_4, Trigger)) {
 			attackPattern = SLASH;
+		}
+		else if (BaseInput::GetKeyboardState(DIK_5, Trigger)) {
+			attackPattern = SHOT;
 		}
 
 	}
@@ -480,14 +560,14 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 		// 中心座標取得
 		prevCenterPosition = centerPosition;
 
-		//ボスがどれだけ開くかを決める
+		// ボスがどれだけ開くかを決める
 		prevOffset = offset;
 		nextOffset = 20;
 
 		// 武器をどれだけ大きくするかを決める
 		weaponSize = { 40, 0 };
 		prevWeaponSize = weaponSize;
-		nextWeaponSize = { weaponSize.x, 450.0f };
+		nextWeaponSize = { weaponSize.x, 350.0f };
 		
 		// t初期化
 		t = 0.0f;
@@ -534,7 +614,7 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			prevDegree = degree;
 
 			//次の行動をランダムに設定して分岐
-			actionBranch = 0;
+			actionBranch = BaseMath::Random(0, 2);
 			switch (actionBranch)
 			{
 				// 右回転
@@ -577,6 +657,26 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			// tを初期化
 			t = 0.0f;
 
+			//プレイヤー座標取得
+			prePlayerPosition = playerPosition;
+
+			// プレイヤーがいる方向を求める
+			playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
+
+			// プレイヤーとの距離を求める
+			float playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
+
+			// プレイヤーとの距離が一定以下ならその場で斬撃を行う
+			if (playerDistance < 200.0f) {
+				playerDistance = 0.0f;
+			}
+
+			// 突進する座標を求める
+			nextCenterPosition = {
+				centerPosition.x + (cosf(playerDirection) * playerDistance / 1.25f),
+				centerPosition.y + (sinf(playerDirection) * playerDistance / 1.25f)
+			};
+
 			// 初期角度を設定
 			prevDegree = degree;
 
@@ -599,26 +699,6 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 				break;
 			}
 
-			//プレイヤー座標取得
-			prePlayerPosition = playerPosition;
-
-			// プレイヤーがいる方向を求める
-			playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
-
-			// プレイヤーとの距離を求める
-			float playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
-
-			// プレイヤーとの距離が一定以下ならその場で斬撃を行う
-			if (playerDistance < 200.0f) {
-				playerDistance = 0.0f;
-			}
-
-			// 突進する座標を求める
-			nextCenterPosition = {
-				centerPosition.x + (cosf(playerDirection) * playerDistance / 1.45f),
-				centerPosition.y + (sinf(playerDirection) * playerDistance / 1.45f)
-			};
-
 			// 次へ
 			actionWayPoint++;
 		}
@@ -628,15 +708,15 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 		if (t <= slashTime) {
 
 			// ボスを回転させる
-			degree = BaseDraw::Ease_Out(t, prevDegree, nextDegree - prevDegree, slashTime);
+			degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, slashTime);
 			
 			// ボスを取得した角度を元に突進させる
 			centerPosition.x = BaseDraw::Ease_Out(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, slashTime);
 			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, slashTime);
 
 			// 分岐：回転斬り以外の場合はtにプラスする値を少しだけ多くする
-			if (actionBranch == 3) {
-				t += 0.5f / 60.0f;
+			if (actionBranch == 2) {
+				t += 0.75f / 60.0f;
 			}
 			else {
 				t += 1.0f / 60.0f;
@@ -687,25 +767,50 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 	}
 }
 
-void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime) {
+// 射撃関数
+// 返り値：なし
+// 引数：
+// playerPosition ... プレイヤーの座標
+// readyTime ... ボスが開くまでにかかる秒数
+// deployTime ... 銃の展開にかかる秒数
+// preparationTime　... 攻撃までの待機時間
+// shotTime ... 射撃秒数
+// backTime ... 戻る時にかかる秒数
+// fireRate ... 何秒おきに射撃するか
+// ボスが射撃を行う関数
+void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime, float fireRate) {
+
+	// ボスがプレイヤーに追従して回転する時に用いるカウント変数
+	static int count;
+
+	// ボスの発射レートを管理する変数
+	static float fireRateCount;
+
+	Novice::ScreenPrintf(0, 170, "nextDegree : %4.2f", fireRateCount);
+
 	switch (actionWayPoint)
 	{
 		// 初期化
 	case Boss::WAYPOINT0:
 		// 中心座標取得
 		prevCenterPosition = centerPosition;
+		nextCenterPosition = centerPosition;
 
-		//ボスがどれだけ開くかを決める
+		// ボスがどれだけ開くかを決める
 		prevOffset = offset;
 		nextOffset = 20;
 
 		// 武器をどれだけ大きくするかを決める
 		weaponSize = { 40, 0 };
 		prevWeaponSize = weaponSize;
-		nextWeaponSize = { weaponSize.x, 350.0f };
+		nextWeaponSize = { weaponSize.x, 250.0f };
 
 		// t初期化
 		t = 0.0f;
+
+		// カウンター系初期化
+		count = 0;
+		fireRateCount = 0;
 
 		//次の段階へ
 		actionWayPoint++;
@@ -730,11 +835,11 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 			actionWayPoint++;
 		}
 		break;
-		// ブレード展開
+		// 銃展開
 	case Boss::WAYPOINT2:
 		if (t <= deployTime) {
 
-			// ブレードが伸びる
+			// 銃が伸びる
 			weaponSize.y = BaseDraw::Ease_InOut(t, prevWeaponSize.y, nextWeaponSize.y - prevWeaponSize.y, deployTime);
 
 			// tをプラスする
@@ -760,10 +865,9 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 				// 左回転
 			case Boss::Pattern2:
 				// 右向きに動かす
-
 				nextDegree = prevDegree + 30;
 				break;
-				// 回転切り
+				// 追従射撃
 			case Boss::Pattern3:
 				break;
 			default:
@@ -775,11 +879,29 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 		}
 
 		break;
-		// 斬撃準備
+		// 射撃準備
 	case Boss::WAYPOINT3:
 		if (t <= preparationTime) {
-			//ボスを回転させる
-			degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, preparationTime);
+
+			if (actionBranch == Pattern3) {
+
+				// プレイヤー座標取得
+				prePlayerPosition = playerPosition;
+
+				// プレイヤーがいる方向を求める
+				playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
+
+				// プレイヤーのいる角度を取得
+				nextDegree = BaseMath::RadiantoDegree(playerDirection) - 90;
+
+				float absDegree = nextDegree - degree;
+
+				degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, preparationTime);
+			}
+			else {
+				// ボスを回転させる
+				degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, preparationTime);
+			}
 
 			// 分岐：回転斬りの場合は振動させる
 			if (actionBranch == Pattern3)
@@ -800,64 +922,109 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 			{
 				// 右回転
 			case Boss::Pattern1:
-				nextDegree = prevDegree + 360;
+				nextDegree = prevDegree + 720;
 				break;
 				// 左回転
 			case Boss::Pattern2:
-				nextDegree = prevDegree - 360;
+				nextDegree = prevDegree - 720;
 				break;
-				// 回転切り
+				// 追従射撃
 			case Boss::Pattern3:
-				nextDegree = prevDegree + 720;
+				
 				break;
 			default:
 				break;
 			}
 
-			//プレイヤー座標取得
+			// プレイヤー座標取得
 			prePlayerPosition = playerPosition;
 
 			// プレイヤーがいる方向を求める
 			playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
 
-			// プレイヤーとの距離を求める
-			float playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
-
-			// プレイヤーとの距離が一定以下ならその場で斬撃を行う
-			if (playerDistance < 200.0f) {
-				playerDistance = 0.0f;
-			}
-
-			// 突進する座標を求める
-			nextCenterPosition = {
-				centerPosition.x + (cosf(playerDirection) * playerDistance / 1.45f),
-				centerPosition.y + (sinf(playerDirection) * playerDistance / 1.45f)
-			};
-
 			// 次へ
 			actionWayPoint++;
 		}
 		break;
-		// 斬撃
+		// 射撃
 	case Boss::WAYPOINT4:
 		if (t <= shotTime) {
 
-			// ボスを回転させる
-			degree = BaseDraw::Ease_Out(t, prevDegree, nextDegree - prevDegree, shotTime);
+			if (actionBranch == Pattern3) {
 
-			// ボスを取得した角度を元に突進させる
-			centerPosition.x = BaseDraw::Ease_Out(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, shotTime);
-			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, shotTime);
+				// プレイヤー座標取得
+				prePlayerPosition = playerPosition;
 
-			// 分岐：回転斬り以外の場合はtにプラスする値を少しだけ多くする
-			if (actionBranch < 2) {
-				t += 1.25f / 60.0f;
+				// プレイヤーがいる方向を求める
+				playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
+
+				// 初期角度を設定
+				/*prevDegree = degree;*/
+
+				// プレイヤーのいる角度を取得
+				nextDegree = BaseMath::RadiantoDegree(playerDirection) - 90;
+
+				float absDegree = nextDegree - degree;
+
+				if (count == 0) {
+					// ボスを回転させる
+					if (absDegree < 0) {
+						degree -= 1;
+					}
+					else if (absDegree > 0) {
+						degree += 1;
+					}
+					count = 0;
+				}
+				else {
+					count++;
+				}
 			}
 			else {
-				t += 1.0f / 60.0f;
+				// ボスを回転させる
+				degree = BaseDraw::Linear(t, prevDegree, nextDegree - prevDegree, shotTime);
 			}
+
+			// 射撃時に振動させる
+			Shake(10);
+
+			if (fireRateCount <= fireRate) {
+				fireRateCount += 1.0 / 60.0f;
+			}
+			else {
+				for (int i = 0; i < kmaxBullet; i++) {
+					if (isShot[i] == false) {
+						// 座標を発射地点まで移す
+						bulletCenterPosition[i] = shotPoint;
+						// 弾の発射向きを変更する
+						bulletDirection[i] = BaseMath::DegreetoRadian(degree - 90);
+
+						// 弾の生存時間を決める
+						bulletAliveTime[i] = 5.0f;
+
+						// 弾を発射した状態にする
+						isShot[i] = true;
+
+						// カウンター初期化
+						fireRateCount = 0.0f;
+						// 処理を抜ける
+						break;
+					}
+				}
+			}
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+
 		}
 		else {
+
+			// 現在の座標を記録する
+			nextCenterPosition = centerPosition;
+
+			// 現在の角度を決める
+			nextDegree = degree;
+
 			// tを初期化
 			t = 0.0f;
 			// 次へ
@@ -870,6 +1037,8 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 			// 位置や角度、武器のサイズを元に戻す
 			centerPosition.x = BaseDraw::Ease_InOut(t, nextCenterPosition.x, prevCenterPosition.x - nextCenterPosition.x, backTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, nextCenterPosition.y, prevCenterPosition.y - nextCenterPosition.y, backTime);
+			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, backTime);
+			shakeVariation.y = BaseDraw::Ease_InOut(t, shakeVariation.y, -shakeVariation.y, backTime);
 			degree = BaseDraw::Ease_InOut(t, nextDegree, -nextDegree, backTime);
 			weaponSize.y = BaseDraw::Ease_InOut(t, nextWeaponSize.y, -nextWeaponSize.y, backTime);
 			offset = BaseDraw::Ease_InOut(t, nextOffset, -nextOffset, backTime);

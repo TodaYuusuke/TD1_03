@@ -40,6 +40,9 @@ private:
 	// 武器画像の相対座標を求める
 	Point GetWeaponPosition(Point centerPosition);
 
+	// 発射地点の相対座標を求める
+	Point GetShotPosition(Point centerPosition);
+
 	/******** 初期化関数 **********/
 	// 選択初期化関数
 	// 返り値：なし
@@ -56,6 +59,13 @@ private:
 	void Debug();
 
 	/******** その他行動関数 **********/
+
+	//イーズアウト（Int型）
+	 int IntEaseOut(float t, long int b, long int c) {
+		float easeT = 1.0f - powf(1.0f - t, 3.0f);
+		return (1.0f - easeT) * b + easeT * c;
+	}
+
 	// シェイク関数
 	// 返り値：なし
 	// 引数：
@@ -124,8 +134,10 @@ private:
 	// preparationTime　... 攻撃までの待機時間
 	// shotTime ... 射撃秒数
 	// backTime ... 戻る時にかかる秒数
+	// fireRate ... 何秒おきに射撃するか
 	// ボスが射撃を行う関数
-	void Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime);
+	void Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime, float fireRate);
+
 	// 落下
 	void Fall();
 
@@ -211,8 +223,6 @@ private:
 
 	// 弾の発射地点
 	Point shotPoint;
-	// 弾の中心座標
-	Point bulletCenterPosition[kmaxBullet];
 
 	// ワイヤーが引っかかる中心座標
 	Point wireHangPosition[kmaxWireHang];
@@ -238,6 +248,16 @@ private:
 	// プレイヤーへの方向
 	float playerDirection;
 
+	/// 弾関連
+	// 弾の中心座標
+	Point bulletCenterPosition[kmaxBullet];
+
+	// 弾が発射される向き
+	float bulletDirection[kmaxBullet];
+
+	// 弾の発射スピード
+	float bulletSpeed;
+
 	/******** サイズ関連 **********/
 	/// ボス関連
 
@@ -245,51 +265,58 @@ private:
 	Point textureSize;
 	// 核のテクスチャサイズ
 	Point kernelTextureSize;
-	// 武器のテクスチャサイズ
-	Point weaponTextureSize;
-
-	// 弾のテクスチャサイズ
-	Point bulletTextureSize;
 
 	// サイズ
 	Point size;
 	// 核のサイズ
 	Point coreSize;
 
+	/// 武器関連
 	// 武器のサイズ
 	Point weaponSize;
-	
-	// 弾のサイズ
-	Point bulletSize;
+
+	// 武器のテクスチャサイズ
+	Point weaponTextureSize;
 
 	// 行動前武器サイズ
 	Point prevWeaponSize;
 	// 行動後武器サイズ
 	Point nextWeaponSize;
 
+	/// 弾関連
+	// 弾のテクスチャサイズ
+	Point bulletTextureSize;
+
+	// 弾のサイズ
+	Point bulletSize;
+
 	/******** 行動関連 **********/
-	/// 初期化
+	/// ボス関連
 	// 初期化されているか
 	bool init;
 
-	/// 攻撃関連
 	// 攻撃中か
 	bool inAction;
 	// 攻撃が終了しているか
 	bool endAction;
 
-	/// スタン関連
 	// スタン中か
 	bool inStun;
 	// スタンする時間
 	int stunTime;
 
-	/// ダメージ関連
 	// ダメージを受けているのか
 	bool inDamage;
 
 	// 核が分離しているか
 	bool coreSeparated;
+
+	// 弾関連
+	// 弾が撃たれているか
+	bool isShot[kmaxBullet];
+
+	// 弾の生存時間
+	float bulletAliveTime[kmaxBullet];
 
 	/******** イージング関連 **********/
 	// イージング用t
