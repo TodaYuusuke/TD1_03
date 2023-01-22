@@ -151,7 +151,15 @@ private:
 	void Fall(float readyTime, float deployTime, float rushTime, float standByTime, float backTime);
 
 	/******** スタン関数 **********/
-	void Stun();
+	// スタン関数
+	// 返り値：なし
+	// 引数：
+	// readyTime ... スタンし始めモーション秒数
+	// deployTime ... スタンし始めモーション秒数
+	// stanTime　... スタン秒数
+	// backTime ... 戻る時にかかる秒数
+	// 指定された秒数ボスがスタンする関数
+	void Stun(float readyTime, float deployTime, float stanTime, float backTime);
 
 	/******** ダメージ **********/
 	void Damage();

@@ -37,46 +37,46 @@ void Boss::Initialize() {
 	this->actionWayPoint = 0;
 
 	// 核の位置を設定
-	coreCenterPosition = centerPosition;
+	this->coreCenterPosition = centerPosition;
 	// 核の画像サイズを設定
-	kernelTextureSize = { 256.0f, 256.0f };
+	this->kernelTextureSize = { 256.0f, 256.0f };
 
 	// 武器のサイズを指定（仮テクスチャのため、今後変える）
-	weaponSize = { 0.0f, 0.0f };
-	weaponTextureSize = { 1.0f, 1.0f };
+	this->weaponSize = { 0.0f, 0.0f };
+	this->weaponTextureSize = { 1.0f, 1.0f };
 
 	/// 弾の関係初期化
 	for (int i = 0; i < kmaxBullet; i++) {
 		// 弾の座標
-		bulletCenterPosition[i] = { 0.0f, 0.0f };
+		this->bulletCenterPosition[i] = { 0.0f, 0.0f };
 
 		// 発射していない状態にする
-		isShot[i] = false;
+		this->isShot[i] = false;
 
 		// 弾の発射方向をリセットする
-		bulletDirection[i] = 0.0f;
+		this->bulletDirection[i] = 0.0f;
 
 		// 弾の生存時間をリセットする
-		bulletAliveTime[i] = 0.0f;
+		this->bulletAliveTime[i] = 0.0f;
 	}
 
 	// 弾のサイズを指定
-	bulletSize = { 20.0f, 20.0f };
+	this->bulletSize = { 20.0f, 20.0f };
 	// 弾の画像サイズを指定（仮テクスチャのため、今後変える)
-	bulletTextureSize = { 1.0f, 1.0f };
+	this->bulletTextureSize = { 1.0f, 1.0f };
 
 	// 弾の発射スピードを指定
-	bulletSpeed = 10.0f;
+	this->bulletSpeed = 10.0f;
 
 	/// オブジェクト関連
 	// オブジェクトを生成するかどうか
-	bool canGeneratedBlock = false;
+	this->canGeneratedBlock = false;
 
 	// オブジェクト生成個数
-	int generatedBlockValue = 0;
+	this->generatedBlockValue = 0;
 
 	// オブジェクト生成間隔
-	float generatedBlockInterval = 0.0f;
+	this->generatedBlockInterval = 0.0f;
 
 }
 
@@ -115,6 +115,11 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager) {
 			Fall(0.35f, 1.0f, 0.15f, 0.75f, 1.0f);
 			break;
 		}
+	}
+
+	// スタン処理
+	if (inStun == true) {
+		Stun(1.0f, 1.0f, 3.0f, 1.0f);
 	}
 
 	degree %= 360;
@@ -349,7 +354,11 @@ void Boss::Debug() {
 		else if (BaseInput::GetKeyboardState(DIK_6, Trigger)) {
 			attackPattern = FALL;
 		}
+	}
 
+	 // ボスをスタンさせる
+	if (BaseInput::GetKeyboardState(DIK_7, Trigger)) {
+		inStun = true;
 	}
 
 	// ボスを左右に開かせる
@@ -1256,6 +1265,123 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 			inAction = false;
 			actionWayPoint = WAYPOINT0;
 		}
+		break;
+	default:
+		break;
+	}
+}
+
+// スタン関数
+// 返り値：なし
+// 引数：
+// readyTime ... スタンし始めモーション秒数
+// deployTime ... スタンし始めモーション秒数
+// stanTime　... スタン秒数
+// backTime ... 戻る時にかかる秒数
+// 指定された秒数ボスがスタンする関数
+void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTime) {
+	switch (actionWayPoint)
+	{
+	case Boss::WAYPOINT0:
+
+		endAction = true;
+		inAction = false;
+
+		// 武器サイズ初期化
+		weaponSize = { 0.0f, 0.0f };
+
+		// 座標取得
+		prevCenterPosition = centerPosition;
+		nextCenterPosition = { centerPosition.x, centerPosition.y + 150.0f };
+
+		// 角度取得
+		prevDegree = degree;
+		nextDegree = degree + 20;
+
+		prevOffset = offset;
+		nextOffset = 0;
+
+		// 次の行動へ
+		actionWayPoint++;
+		break;
+	case Boss::WAYPOINT1:
+		if (t <= readyTime) {
+			// 座標関連をイージング
+			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, readyTime);
+			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, readyTime);
+
+			// 角度関連をイージング
+			degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, readyTime);
+
+			// オフセットを0に
+			offset = BaseDraw::Ease_InOut(t, prevOffset, -prevOffset, readyTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// 座標取得
+			prevCenterPosition = centerPosition;
+			nextCenterPosition = { centerPosition.x, centerPosition.y - 200.0f };
+
+			// 角度取得
+			prevDegree = degree;
+			nextDegree = degree - 40;
+
+			// tを初期化する
+			t = 0.0f;
+			// 次の行動へ
+			actionWayPoint++;
+		}
+		break;
+	case Boss::WAYPOINT2:
+		if (t <= deployTime) {
+			// 座標関連をイージング
+			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, deployTime);
+			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, deployTime);
+
+			// 角度関連をイージング
+			degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, deployTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// tを初期化する
+			t = 0.0f;
+			// 次の行動へ
+			actionWayPoint++;
+		}
+		break;
+	case Boss::WAYPOINT3:
+		if (t <= stanTime) {
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// tを初期化する
+			t = 0.0f;
+			// 次の行動へ
+			actionWayPoint++;
+		}
+		break;
+	case Boss::WAYPOINT4:
+		if (t <= backTime) {
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// tを初期化する
+			t = 0.0f;
+			// 次の行動へ
+			actionWayPoint++;
+		}
+		break;
+	case Boss::WAYPOINT5:
 		break;
 	default:
 		break;
