@@ -1340,6 +1340,18 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 	{
 	case Boss::WAYPOINT0:
 
+		// 念のため一度初期化
+		// 座標取得
+		prevCenterPosition = {0.0f, 0.0f};
+		nextCenterPosition = { 0.0f, 0.0f };
+
+		// 角度取得
+		prevDegree = 0;
+		nextDegree = 0;
+
+		prevOffset = 0;
+		nextOffset = 0;
+
 		t = 0.0f;
 		endAction = true;
 		inAction = false;
@@ -1431,6 +1443,8 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 
 			prevDegree = degree;
 
+			vibInit = false;
+
 			// tを初期化する
 			t = 0.0f;
 			// 次の行動へ
@@ -1480,9 +1494,22 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 // closeTime ... 閉じるまでにかかる時間
 // ボスに対してダメージが与えられる状態にする関数
 void Boss::Damage(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime) {
+
 	switch (actionWayPoint)
 	{
 	case Boss::WAYPOINT0:
+
+		// 念のため一度初期化
+		// 座標取得
+		prevCenterPosition = { 0.0f, 0.0f };
+		nextCenterPosition = { 0.0f, 0.0f };
+
+		// 角度取得
+		prevDegree = 0;
+		nextDegree = 0;
+
+		prevOffset = 0;
+		nextOffset = 0;
 
 		t = 0.0f;
 		endAction = true;
@@ -1561,12 +1588,14 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 	case Boss::WAYPOINT4:
 		if (t <= stanTime) {
 
-			vibration(15, stanTime, stanTime, 3);
+			vibration(15, stanTime, stanTime, 4);
 
 			// tをプラスする
 			t += 1.0f / 60.0f;
 		}
 		else {
+
+			vibInit = false;
 
 			prevCenterPosition = centerPosition;
 			nextCenterPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
