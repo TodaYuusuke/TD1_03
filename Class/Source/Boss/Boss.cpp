@@ -125,6 +125,10 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager) {
 		Stun(1.25f, 1.5f, 3.0f, 0.75f);
 	}
 
+	if (inDamage == true) {
+		Damage(0.15f, 1.5f, 0.1f, 5.0f, 0.75f, 0.25f);
+	}
+
 	degree %= 360;
 
 	// デバッグ関数の実行
@@ -363,6 +367,12 @@ void Boss::Debug() {
 	if (BaseInput::GetKeyboardState(DIK_7, Trigger)) {
 		actionWayPoint = WAYPOINT0;
 		inStun = true;
+	}
+
+	// ボスをスタンさせる
+	if (BaseInput::GetKeyboardState(DIK_8, Trigger)) {
+		actionWayPoint = WAYPOINT0;
+		inDamage = true;
 	}
 
 	// ボスを左右に開かせる
@@ -1433,6 +1443,8 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 			// 座標関連をイージング
 			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, backTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, backTime);
+			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, backTime);
+			shakeVariation.y = BaseDraw::Ease_InOut(t, shakeVariation.y, -shakeVariation.y, backTime);
 
 			// 角度関連をイージング
 			degree = BaseDraw::Ease_InOut(t, prevDegree, -prevDegree, backTime);
@@ -1450,6 +1462,165 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 		}
 		break;
 	case Boss::WAYPOINT5:
+		break;
+	default:
+		break;
+	}
+}
+
+/******** ダメージ **********/
+// ダメージ関数
+// 返り値：なし
+// 引数：
+// readyTime ... スタンし始めモーション秒数
+// deployTime ... スタンし始めモーション秒数
+// openTime ... 開くまでにかかる時間
+// stanTime　... スタン秒数
+// backTime ... 戻る時にかかる秒数
+// closeTime ... 閉じるまでにかかる時間
+// ボスに対してダメージが与えられる状態にする関数
+void Boss::Damage(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime) {
+	switch (actionWayPoint)
+	{
+	case Boss::WAYPOINT0:
+
+		t = 0.0f;
+		endAction = true;
+		inAction = false;
+		inStun = false;
+
+		// 武器サイズ初期化
+		weaponSize = { 0.0f, 0.0f };
+
+		// 座標取得
+		prevCenterPosition = centerPosition;
+		nextCenterPosition = centerPosition;
+
+		prevOffset = offset;
+		nextOffset = 5;
+
+		// 次の行動へ
+		actionWayPoint++;
+		break;
+		// 
+	case Boss::WAYPOINT1:
+		if (t <= readyTime) {
+			// オフセットを0に
+			offset = BaseDraw::Ease_InOut(t, prevOffset, nextOffset - prevOffset, readyTime);
+
+			ShakeEaseOut(30, readyTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// tを初期化する
+			t = 0.0f;
+			// 次の行動へ
+			actionWayPoint++;
+		}
+		break;
+	case Boss::WAYPOINT2:
+		if (t <= deployTime) {
+			// 座標関連をイージング
+			Shake(10);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			prevOffset = offset;
+			nextOffset = 100;
+
+			// tを初期化する
+			t = 0.0f;
+			// 次の行動へ
+			actionWayPoint++;
+		}
+		break;
+	case Boss::WAYPOINT3:
+		if (t <= openTime) {
+
+			offset = BaseDraw::Ease_InOut(t, prevOffset, nextOffset - prevOffset, openTime);
+
+			ShakeEaseInOut(20, openTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// tを初期化する
+			t = 0.0f;
+			// 次の行動へ
+			actionWayPoint++;
+		}
+		break;
+	case Boss::WAYPOINT4:
+		if (t <= stanTime) {
+
+			vibration(15, stanTime, stanTime, 3);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			prevCenterPosition = centerPosition;
+			nextCenterPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
+
+			prevDegree = degree;
+			// tを初期化する
+			t = 0.0f;
+			// 次の行動へ
+			actionWayPoint++;
+		}
+		break;
+	case Boss::WAYPOINT5:
+		if (t <= backTime) {
+
+			// 座標関連をイージング
+			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, backTime);
+			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, backTime);
+			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, backTime);
+			shakeVariation.y = BaseDraw::Ease_InOut(t, shakeVariation.y, -shakeVariation.y, backTime);
+
+			// 角度関連をイージング
+			degree = BaseDraw::Ease_InOut(t, prevDegree, -prevDegree, backTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			prevOffset = offset;
+
+			// tを初期化する
+			t = 0.0f;
+			// 次の行動へ
+			actionWayPoint++;
+		}
+		break;
+	case WAYPOINT6:
+
+		if (t <= closeTime) {
+
+			offset = BaseDraw::Ease_InOut(t, prevOffset, -prevOffset, closeTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// tを初期化する
+			t = 0.0f;
+			// 行動終了
+			inDamage = false;
+			actionWayPoint = WAYPOINT0;
+		}
+
 		break;
 	default:
 		break;

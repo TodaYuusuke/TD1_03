@@ -172,7 +172,15 @@ private:
 	void Stun(float readyTime, float deployTime, float stanTime, float backTime);
 
 	/******** ダメージ **********/
-	void Damage();
+	// ダメージ関数
+	// 返り値：なし
+	// 引数：
+	// readyTime ... スタンし始めモーション秒数
+	// deployTime ... スタンし始めモーション秒数
+	// stanTime　... スタン秒数
+	// backTime ... 戻る時にかかる秒数
+	// ボスに対してダメージが与えられる状態にする関数
+	void Damage(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime);
 
 	/*********************************
 		メンバ定数
@@ -214,7 +222,8 @@ private:
 		WAYPOINT2,
 		WAYPOINT3,
 		WAYPOINT4,
-		WAYPOINT5
+		WAYPOINT5,
+		WAYPOINT6
 	};
 	//行動がどこまで進んでいるかを格納する変数
 	int actionWayPoint = WAYPOINT0;
