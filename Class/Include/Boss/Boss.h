@@ -88,6 +88,16 @@ private:
 	// ボスをシェイクの強さを少しずつ弱くしながら動かす関数
 	void ShakeEaseInOut(int shakeStrength, float shakeTime);
 
+	// バイブレーション関数
+	// 返り値：なし
+	// 引数：
+	// shakeStrength ... シェイクする際の強さ
+	// vibTime ... 振動する秒数
+	// vibRate ... 振動する間隔
+	// vibValue ... 振動させたい回数
+	// 一定間隔で、一定秒数振動させる関数
+	void vibration(int shakeStrength, float vibTime, float vibRate, int vibValue);
+
 	/******** 攻撃行動関数 **********/
 	// 行動なし関数
 	// 返り値：なし
@@ -311,6 +321,8 @@ private:
 	/// ボス関連
 	// 初期化されているか
 	bool init;
+	// バイブレーション初期化の際に用いられる変数
+	bool vibInit;
 
 	// 攻撃中か
 	bool inAction;

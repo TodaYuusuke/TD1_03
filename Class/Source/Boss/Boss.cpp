@@ -30,6 +30,9 @@ void Boss::Initialize() {
 	//シェイクしていない状態に戻す
 	this->shakeVariation = { 0.0f, 0.0f };
 
+	// バイブレーション初期化
+	vibInit = false;
+
 	// 行動終了状態にする
 	this->t = 0.0f;
 	this->endAction = true;
@@ -119,7 +122,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager) {
 
 	// スタン処理
 	if (inStun == true) {
-		Stun(1.0f, 1.0f, 3.0f, 1.0f);
+		Stun(1.25f, 1.5f, 3.0f, 0.75f);
 	}
 
 	degree %= 360;
@@ -358,6 +361,7 @@ void Boss::Debug() {
 
 	 // ボスをスタンさせる
 	if (BaseInput::GetKeyboardState(DIK_7, Trigger)) {
+		actionWayPoint = WAYPOINT0;
 		inStun = true;
 	}
 
@@ -432,6 +436,48 @@ void Boss::ShakeEaseInOut(int shakeStrength, float shakeTime) {
 
 	shakeVariation.x = BaseMath::RandomF(-shakeRange / 2, shakeRange / 2, 0);
 	shakeVariation.y = BaseMath::RandomF(-shakeRange / 2, shakeRange / 2, 0);
+}
+
+// バイブレーション関数
+// 返り値：なし
+// 引数：
+// shakeStrength ... シェイクする際の強さ
+// vibTime ... 振動する秒数
+// vibRate ... 振動する間隔
+// vibValue ... 振動させたい回数
+// 一定間隔で、一定秒数振動させる関数
+void Boss::vibration(int shakeStrength, float vibTime, float vibRate, int vibValue) {
+
+	static float _vibTime;
+	static float _vibRate;
+	static bool vibrating;
+
+	// 初期化
+	if (vibInit == false) {
+		_vibTime = (vibTime / vibValue) / 2;
+		_vibRate = 0;
+		vibInit = true;
+	}
+
+	if (_vibRate < 0) {
+		vibrating = true;
+	}
+	else {
+		_vibRate -= 1.0f / 60.0f;
+	}
+
+	if (vibrating == true) {
+		if (_vibTime > 0) {
+			Shake(shakeStrength);
+			_vibTime -= 1.0f / 60.0f;
+		}
+		else {
+			_vibTime = (vibTime / vibValue) / 2;
+			_vibRate = (vibTime / vibValue) / 2;
+			vibrating = false;
+		}
+	}
+	
 }
 
 // 行動なし関数
@@ -1284,6 +1330,7 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 	{
 	case Boss::WAYPOINT0:
 
+		t = 0.0f;
 		endAction = true;
 		inAction = false;
 
@@ -1292,7 +1339,7 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 
 		// 座標取得
 		prevCenterPosition = centerPosition;
-		nextCenterPosition = { centerPosition.x, centerPosition.y + 150.0f };
+		nextCenterPosition = { centerPosition.x, centerPosition.y + 100.0f };
 
 		// 角度取得
 		prevDegree = degree;
@@ -1304,6 +1351,7 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 		// 次の行動へ
 		actionWayPoint++;
 		break;
+		// 
 	case Boss::WAYPOINT1:
 		if (t <= readyTime) {
 			// 座標関連をイージング
@@ -1311,10 +1359,12 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, readyTime);
 
 			// 角度関連をイージング
-			degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, readyTime);
+			degree = BaseDraw::Ease_Out(t, prevDegree, nextDegree - prevDegree, readyTime);
 
 			// オフセットを0に
 			offset = BaseDraw::Ease_InOut(t, prevOffset, -prevOffset, readyTime);
+
+			ShakeEaseOut(30, readyTime);
 
 			// tをプラスする
 			t += 1.0f / 60.0f;
@@ -1323,7 +1373,7 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 
 			// 座標取得
 			prevCenterPosition = centerPosition;
-			nextCenterPosition = { centerPosition.x, centerPosition.y - 200.0f };
+			nextCenterPosition = { centerPosition.x, centerPosition.y - 150.0f };
 
 			// 角度取得
 			prevDegree = degree;
@@ -1338,8 +1388,8 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 	case Boss::WAYPOINT2:
 		if (t <= deployTime) {
 			// 座標関連をイージング
-			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, deployTime);
-			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, deployTime);
+			centerPosition.x = BaseDraw::Ease_Out(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, deployTime);
+			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, deployTime);
 
 			// 角度関連をイージング
 			degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, deployTime);
@@ -1357,10 +1407,19 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 		break;
 	case Boss::WAYPOINT3:
 		if (t <= stanTime) {
+
+			// 一定秒数振動
+			vibration(10, stanTime, stanTime, 3);
+
 			// tをプラスする
 			t += 1.0f / 60.0f;
 		}
 		else {
+
+			prevCenterPosition = centerPosition;
+			nextCenterPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
+
+			prevDegree = degree;
 
 			// tを初期化する
 			t = 0.0f;
@@ -1370,6 +1429,14 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 		break;
 	case Boss::WAYPOINT4:
 		if (t <= backTime) {
+
+			// 座標関連をイージング
+			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, backTime);
+			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, backTime);
+
+			// 角度関連をイージング
+			degree = BaseDraw::Ease_InOut(t, prevDegree, -prevDegree, backTime);
+
 			// tをプラスする
 			t += 1.0f / 60.0f;
 		}
@@ -1377,8 +1444,9 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 
 			// tを初期化する
 			t = 0.0f;
-			// 次の行動へ
-			actionWayPoint++;
+			// 行動終了
+			inStun = false;
+			actionWayPoint = WAYPOINT0;
 		}
 		break;
 	case Boss::WAYPOINT5:
