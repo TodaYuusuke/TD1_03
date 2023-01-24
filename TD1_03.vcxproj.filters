@@ -1,96 +1,58 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="KamataEngine">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="KamataEngine\Source">
-      <UniqueIdentifier>{d966e9f8-e880-44ae-8586-a08515e4cffc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="KamataEngine\Include">
-      <UniqueIdentifier>{4aae4e40-94f7-4d32-9a91-c0c37a2edf0d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="KamataEngine\Adapter">
-      <UniqueIdentifier>{c6468eb4-788b-4a83-b207-a5f4804e56c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyBase">
-      <UniqueIdentifier>{02468ab4-31ec-4651-905f-1de6df3c16d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyBase\Include">
-      <UniqueIdentifier>{db958ba0-6f61-49c9-8d09-81fe7a38c854}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyBase\Source">
-      <UniqueIdentifier>{9f683ba8-3e4d-4442-93d5-9edc7184e0f6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyBase\Include\Define">
-      <UniqueIdentifier>{d894263e-b759-4920-8735-8a41e3479aed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyBase\Include\Effect">
-      <UniqueIdentifier>{ff30a1ff-0233-4be5-8844-1f42e4a900f4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyBase\Include\Other">
-      <UniqueIdentifier>{2f57dd1a-5dce-4b82-a295-283844b1f6c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyBase\Include\Resource">
-      <UniqueIdentifier>{2cf52fa2-f964-42db-adae-37b4e3aa5e3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyBase\Source\Effect">
-      <UniqueIdentifier>{745263f4-2852-4c34-a270-698eb4ec42f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyBase\Source\Other">
-      <UniqueIdentifier>{fecbb39b-cd64-41de-8bfc-49d9ab97266d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MyBase\Source\Resource">
-      <UniqueIdentifier>{30475b4f-4bbb-4d6c-b9f9-f527c804902f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class">
-      <UniqueIdentifier>{fe1b3fe8-3c3d-48f3-8100-41706d4fb98f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Include">
-      <UniqueIdentifier>{cbbeaca1-4db4-4c5b-8c8b-e96bf61f0407}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Source">
-      <UniqueIdentifier>{df7bb48f-6ab8-43d4-8c3d-7c55d9e610b2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Include\Object">
-      <UniqueIdentifier>{e8494e53-bb05-405a-9bc0-1e0505a1c74e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Include\Object\Player">
-      <UniqueIdentifier>{b9154d56-c7fd-43db-97c5-174107ac1c09}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Include\Object\Block">
-      <UniqueIdentifier>{d0570057-5fea-4c7c-b1b3-5741798773d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Source\Object">
-      <UniqueIdentifier>{355dd8ce-12c9-48ec-b000-9f1292b82c58}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Source\Object\Block">
-      <UniqueIdentifier>{77cf459e-54da-4453-925e-56fa69d8c27b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Source\Object\Player">
-      <UniqueIdentifier>{b6853ce9-6b44-4bf5-944f-311f9c202fe9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Include\Wire">
-      <UniqueIdentifier>{b29090bc-02fb-46fb-8bea-864bc3f46624}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Source\Wire">
-      <UniqueIdentifier>{8742a229-3eac-4545-ad95-4a41d12574b7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Include\Map">
-      <UniqueIdentifier>{be7df5ed-f85b-4517-92c9-e35394da7ae9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Source\Map">
-      <UniqueIdentifier>{940e4f08-052f-4abc-8e8a-9396a1afcc9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Include\Boss">
-      <UniqueIdentifier>{97995acd-01cd-4afb-88ee-b56802e5ec89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\Source\Boss">
-      <UniqueIdentifier>{19f3a9f7-ea0f-4ec0-932b-a2772f5db4a5}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MyBase\Effect\BaseEffect.cpp">
+      <Filter>MyBase\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBase\Effect\BaseEffectManager.cpp">
+      <Filter>MyBase\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBase\Other\BaseDraw.cpp">
+      <Filter>MyBase\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBase\Other\BaseInput.cpp">
+      <Filter>MyBase\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBase\Other\BaseMath.cpp">
+      <Filter>MyBase\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBase\Resource\BaseAudio.cpp">
+      <Filter>MyBase\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBase\Resource\BaseConst.cpp">
+      <Filter>MyBase\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBase\Resource\BaseTexture.cpp">
+      <Filter>MyBase\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBase\MyBase.cpp">
+      <Filter>MyBase</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Wire\Wire.cpp">
+      <Filter>Class\Wire</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Wire\WireManager.cpp">
+      <Filter>Class\Wire</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Object\Object.cpp">
+      <Filter>Class\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Object\ObjectManager.cpp">
+      <Filter>Class\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Map\Map.cpp">
+      <Filter>Class\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Map\MapManager.cpp">
+      <Filter>Class\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Boss\Boss.cpp">
+      <Filter>Class\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
+      <Filter>KamataEngine\Adapter</Filter>
+    </ClCompile>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
       <Filter>KamataEngine\Source</Filter>
     </ClCompile>
@@ -103,71 +65,91 @@
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\WinApp.cpp">
       <Filter>KamataEngine\Source</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp">
-      <Filter>KamataEngine\Adapter</Filter>
+    <ClCompile Include="Class\Object\Block\Block.cpp">
+      <Filter>Class\Object\Block</Filter>
     </ClCompile>
-    <ClCompile Include="MyBase\Source\Effect\BaseEffect.cpp">
-      <Filter>MyBase\Source\Effect</Filter>
+    <ClCompile Include="Class\Object\Enemy\Enemy.cpp">
+      <Filter>Class\Object\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="MyBase\Source\Effect\BaseEffectManager.cpp">
-      <Filter>MyBase\Source\Effect</Filter>
+    <ClCompile Include="Class\Object\Hook\Hook.cpp">
+      <Filter>Class\Object\Hook</Filter>
     </ClCompile>
-    <ClCompile Include="MyBase\Source\Other\BaseDraw.cpp">
-      <Filter>MyBase\Source\Other</Filter>
-    </ClCompile>
-    <ClCompile Include="MyBase\Source\Other\BaseInput.cpp">
-      <Filter>MyBase\Source\Other</Filter>
-    </ClCompile>
-    <ClCompile Include="MyBase\Source\Other\BaseMath.cpp">
-      <Filter>MyBase\Source\Other</Filter>
-    </ClCompile>
-    <ClCompile Include="MyBase\Source\Resource\BaseAudio.cpp">
-      <Filter>MyBase\Source\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="MyBase\Source\Resource\BaseConst.cpp">
-      <Filter>MyBase\Source\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="MyBase\Source\Resource\BaseTexture.cpp">
-      <Filter>MyBase\Source\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="MyBase\Source\MyBase.cpp">
-      <Filter>MyBase\Source</Filter>
+    <ClCompile Include="Class\Object\Player\Player.cpp">
+      <Filter>Class\Object\Player</Filter>
     </ClCompile>
     <ClCompile Include="Debug.cpp" />
-    <ClCompile Include="Class\Source\Object\Object.cpp">
-      <Filter>Class\Source\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\Source\Object\Player\Player.cpp">
-      <Filter>Class\Source\Object\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\Source\Object\Block\Block.cpp">
-      <Filter>Class\Source\Object\Block</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\Source\Wire\Wire.cpp">
-      <Filter>Class\Source\Wire</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\Source\Wire\WireManager.cpp">
-      <Filter>Class\Source\Wire</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\Source\Object\ObjectManager.cpp">
-      <Filter>Class\Source\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\Source\Map\Map.cpp">
-      <Filter>Class\Source\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\Source\Map\MapManager.cpp">
-      <Filter>Class\Source\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="Class\Source\Boss\Boss.cpp">
-      <Filter>Class\Source\Boss</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MyBase\Effect\BaseEffect.h">
+      <Filter>MyBase\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\Effect\BaseEffectManager.h">
+      <Filter>MyBase\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\Define\BaseEnum.h">
+      <Filter>MyBase\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\Define\BaseStruct.h">
+      <Filter>MyBase\Define</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\Other\BaseDraw.h">
+      <Filter>MyBase\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\Other\BaseInput.h">
+      <Filter>MyBase\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\Other\BaseMath.h">
+      <Filter>MyBase\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\Resource\BaseAudio.h">
+      <Filter>MyBase\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\Resource\BaseConst.h">
+      <Filter>MyBase\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\Resource\BaseTexture.h">
+      <Filter>MyBase\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\MyBase.h">
+      <Filter>MyBase</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Wire\Wire.h">
+      <Filter>Class\Wire</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Wire\WireManager.h">
+      <Filter>Class\Wire</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Object\Object.h">
+      <Filter>Class\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Object\ObjectManager.h">
+      <Filter>Class\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Map\Map.h">
+      <Filter>Class\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Map\MapManager.h">
+      <Filter>Class\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Boss\Boss.h">
+      <Filter>Class\Boss</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\Adapter\Novice.h">
+      <Filter>KamataEngine\Adapter</Filter>
+    </ClInclude>
     <ClInclude Include="C:\KamataEngine\DirectXGame\audio\Audio.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\CircleShadow.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\DebugCamera.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
     <ClInclude Include="C:\KamataEngine\DirectXGame\2d\DebugText.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\DirectionalLight.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
     <ClInclude Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.h">
@@ -179,58 +161,37 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\input\Input.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\Model.h">
-      <Filter>KamataEngine\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\KamataEngine\DirectXGame\base\SafeDelete.h">
-      <Filter>KamataEngine\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\KamataEngine\DirectXGame\2d\Sprite.h">
-      <Filter>KamataEngine\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\KamataEngine\DirectXGame\base\TextureManager.h">
-      <Filter>KamataEngine\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\ViewProjection.h">
-      <Filter>KamataEngine\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\KamataEngine\DirectXGame\base\WinApp.h">
-      <Filter>KamataEngine\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\WorldTransform.h">
-      <Filter>KamataEngine\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\KamataEngine\Adapter\Novice.h">
-      <Filter>KamataEngine\Adapter</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\CircleShadow.h">
-      <Filter>KamataEngine\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\DebugCamera.h">
-      <Filter>KamataEngine\Include</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\DirectionalLight.h">
-      <Filter>KamataEngine\Include</Filter>
-    </ClInclude>
     <ClInclude Include="C:\KamataEngine\DirectXGame\3d\LightGroup.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
     <ClInclude Include="C:\KamataEngine\DirectXGame\3d\Material.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
+    <ClInclude Include="..\DirectXGame\math\MathUtility.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\DirectXGame\math\Matrix4.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
     <ClInclude Include="C:\KamataEngine\DirectXGame\3d\Mesh.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\Model.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
     <ClInclude Include="C:\KamataEngine\DirectXGame\3d\PointLight.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\base\SafeDelete.h">
+      <Filter>KamataEngine\Include</Filter>
+    </ClInclude>
     <ClInclude Include="C:\KamataEngine\DirectXGame\3d\SpotLight.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\DirectXGame\math\MathUtility.h">
+    <ClInclude Include="C:\KamataEngine\DirectXGame\2d\Sprite.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
-    <ClInclude Include="..\DirectXGame\math\Matrix4.h">
+    <ClInclude Include="C:\KamataEngine\DirectXGame\base\TextureManager.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
     <ClInclude Include="..\DirectXGame\math\Vector2.h">
@@ -242,66 +203,83 @@
     <ClInclude Include="..\DirectXGame\math\Vector4.h">
       <Filter>KamataEngine\Include</Filter>
     </ClInclude>
-    <ClInclude Include="MyBase\Include\MyBase.h">
-      <Filter>MyBase\Include</Filter>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\ViewProjection.h">
+      <Filter>KamataEngine\Include</Filter>
     </ClInclude>
-    <ClInclude Include="MyBase\Include\Resource\BaseAudio.h">
-      <Filter>MyBase\Include\Resource</Filter>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\base\WinApp.h">
+      <Filter>KamataEngine\Include</Filter>
     </ClInclude>
-    <ClInclude Include="MyBase\Include\Resource\BaseConst.h">
-      <Filter>MyBase\Include\Resource</Filter>
+    <ClInclude Include="C:\KamataEngine\DirectXGame\3d\WorldTransform.h">
+      <Filter>KamataEngine\Include</Filter>
     </ClInclude>
-    <ClInclude Include="MyBase\Include\Resource\BaseTexture.h">
-      <Filter>MyBase\Include\Resource</Filter>
+    <ClInclude Include="Class\Object\Block\Block.h">
+      <Filter>Class\Object\Block</Filter>
     </ClInclude>
-    <ClInclude Include="MyBase\Include\Other\BaseDraw.h">
-      <Filter>MyBase\Include\Other</Filter>
+    <ClInclude Include="Class\Object\Enemy\Enemy.h">
+      <Filter>Class\Object\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="MyBase\Include\Other\BaseInput.h">
-      <Filter>MyBase\Include\Other</Filter>
+    <ClInclude Include="Class\Object\Hook\Hook.h">
+      <Filter>Class\Object\Hook</Filter>
     </ClInclude>
-    <ClInclude Include="MyBase\Include\Other\BaseMath.h">
-      <Filter>MyBase\Include\Other</Filter>
-    </ClInclude>
-    <ClInclude Include="MyBase\Include\Effect\BaseEffect.h">
-      <Filter>MyBase\Include\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="MyBase\Include\Effect\BaseEffectManager.h">
-      <Filter>MyBase\Include\Effect</Filter>
-    </ClInclude>
-    <ClInclude Include="MyBase\Include\Define\BaseEnum.h">
-      <Filter>MyBase\Include\Define</Filter>
-    </ClInclude>
-    <ClInclude Include="MyBase\Include\Define\BaseStruct.h">
-      <Filter>MyBase\Include\Define</Filter>
+    <ClInclude Include="Class\Object\Player\Player.h">
+      <Filter>Class\Object\Player</Filter>
     </ClInclude>
     <ClInclude Include="Debug.h" />
-    <ClInclude Include="Class\Include\Object\Object.h">
-      <Filter>Class\Include\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\Include\Object\Player\Player.h">
-      <Filter>Class\Include\Object\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\Include\Object\Block\Block.h">
-      <Filter>Class\Include\Object\Block</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\Include\Object\ObjectManager.h">
-      <Filter>Class\Include\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\Include\Wire\WireManager.h">
-      <Filter>Class\Include\Wire</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\Include\Wire\Wire.h">
-      <Filter>Class\Include\Wire</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\Include\Map\Map.h">
-      <Filter>Class\Include\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\Include\Map\MapManager.h">
-      <Filter>Class\Include\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="Class\Include\Boss\Boss.h">
-      <Filter>Class\Include\Boss</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="MyBase">
+      <UniqueIdentifier>{e214d29c-65cd-49dc-8347-8fbddfa69106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class">
+      <UniqueIdentifier>{57269d35-8314-4ca0-b259-3a1355975a86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyBase\Define">
+      <UniqueIdentifier>{dd16f4f0-fab0-4a30-af4b-2a24662edb9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyBase\Effect">
+      <UniqueIdentifier>{fab6512c-ddf8-4691-9727-0b4fbc49469c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyBase\Resource">
+      <UniqueIdentifier>{03e4777e-3e12-4894-a327-43338d215fbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyBase\Other">
+      <UniqueIdentifier>{51891dcf-cf46-4ff8-8fdd-e184ada8dc36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Boss">
+      <UniqueIdentifier>{90beeacd-5086-464e-8a17-4c8663f59ba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Map">
+      <UniqueIdentifier>{be68f683-2361-4668-8b2d-8be8b7318dbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Object">
+      <UniqueIdentifier>{7c4b2ad3-8216-4b1c-992d-4cf61b29df82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Wire">
+      <UniqueIdentifier>{79d794f5-7673-47c8-9c70-896b125f8dc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="KamataEngine">
+      <UniqueIdentifier>{b3d2a6b2-b090-4c57-9fcc-78df642d64d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="KamataEngine\Adapter">
+      <UniqueIdentifier>{303d7d42-152d-4598-b49e-7fae3cf061e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="KamataEngine\Include">
+      <UniqueIdentifier>{0fcbb1ad-2e86-4f09-945d-8b2d39952720}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="KamataEngine\Source">
+      <UniqueIdentifier>{9f94b0e9-a5cd-4d4b-9cfb-8fed096ed38d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Object\Block">
+      <UniqueIdentifier>{b84cb1d5-4b60-4055-8072-ceaaac1322de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Object\Enemy">
+      <UniqueIdentifier>{ef356951-2f3c-4677-9299-039dc1c3e3b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Object\Hook">
+      <UniqueIdentifier>{9289e3ee-224b-4c93-ab3d-0b467b6689ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Object\Player">
+      <UniqueIdentifier>{7fd75e9c-3d41-4696-a85f-d19860eaf8a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

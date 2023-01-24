@@ -21,8 +21,8 @@ void Debug::Initialize() {
 // 更新
 void Debug::Update() {
 
-	// リックでブロックを生成
-	if (BaseInput::GetKeyboardState(DIK_O, Trigger)) {
+	// Bキーでブロックを生成
+	if (BaseInput::GetKeyboardState(DIK_B, Trigger)) {
 		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
 	}
 
@@ -34,6 +34,10 @@ void Debug::Update() {
 		objectManager.MakeNewObjectPlayer({ 100,200 });
 	}
 
+	// エネミー生成
+	if (BaseInput::GetKeyboardState(DIK_E, Trigger)) {
+		objectManager.MakeNewObjectEnemy(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
+	}
 
 
 	// スクリーン座標の移動量

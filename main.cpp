@@ -1,5 +1,5 @@
 ﻿#include <Novice.h>
-#include "MyBase/Include/MyBase.h"
+#include "MyBase/MyBase.h"
 
 #include "Debug.h"
 

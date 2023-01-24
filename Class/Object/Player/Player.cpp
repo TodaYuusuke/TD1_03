@@ -1,0 +1,376 @@
+#include "Class/Object/Player/Player.h"
+
+// コンストラクタ
+Player::Player(Point centerPosition, WireManager* _wireManager) {
+	this->centerPosition = centerPosition;
+	wireManager = _wireManager;
+
+	Initialize();
+}
+// デストラクタ
+Player::~Player() {
+
+}
+
+
+// 初期化
+void Player::SuccessorInitialize() {
+
+	width = 50;
+	height = 100;
+
+	velocity = { 0,0 };
+	acceleration = { 0,0 };
+
+	angle = 0;
+	angleVelocity = 0;
+
+	isFlying = true;
+	reticlePosition = { -10000,-10000 };
+
+}
+// 更新
+void Player::SuccessorUpdate() {
+
+	// 回転を常に初期化
+	angle = 0;
+	angleVelocity = 0;
+
+	reticlePosition = BaseInput::GetMousePosition();
+
+	Move();
+	Jump();
+	ShotWire();
+
+}
+// 描画
+void Player::Draw() {
+	BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
+}
+
+
+
+// どちらもUpdate()で毎フレーム呼び出すこと
+
+// 移動関連
+void Player::Move() {
+
+	// 左移動
+	if (BaseInput::GetKeyboardState(DIK_A, Press)) {
+		if (velocity.x > -BaseConst::kPlayerVelocityLimit) {
+			velocity.x -= 0.5f;
+		}
+	}
+	else if(velocity.x < 0) {
+		velocity.x += 0.1f;
+	}
+	// 右移動
+	if (BaseInput::GetKeyboardState(DIK_D, Press)) {
+		if (velocity.x < BaseConst::kPlayerVelocityLimit) {
+			velocity.x += 0.5f;
+		}
+	}
+	else if (velocity.x > 0) {
+		velocity.x -= 0.1f;
+	}
+}
+
+// ジャンプ
+void Player::Jump() {
+	// スペースキーが押されたとき
+	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger)) {
+		if (!isFlying) {
+			// 速度Yがマイナスのとき -> 0にリセットしてから
+			if (velocity.y < 0) {
+				velocity.y = 0;
+			}
+			// ジャンプ分の速度を足す
+			velocity.y += 8.0f;
+		}
+	}
+}
+
+// ワイヤー関連
+void Player::ShotWire() {
+	if (BaseInput::GetMouseState(LeftClick, Trigger)) {
+		reticlePosition = BaseInput::GetMousePosition();
+		//float angle = atan2(centerPosition.y - ReticlePosition.y, centerPosition.x - ReticlePosition.x);
+
+		//wireManager->Shot(centerPosition, BaseMath::RadiantoDegree(angle), this);
+		wireManager->Shot(centerPosition, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition), this);
+
+	}
+	if (BaseInput::GetMouseState(RightClick, Trigger)) {
+		wireManager->Attract();
+	}
+}
+
+
+// 当たり判定をオーバーライド
+
+// オブジェクト自体の当たり判定をチェックする関数
+void Player::CheckFieldHitBox() {
+
+	// 当たり判定をチェックする座標
+	Point checkPoint;
+
+	// プレイヤーから上の点
+	checkPoint = { centerPosition.x,centerPosition.y + height / 2 };
+	// 上がヒットしたとき
+	if (MapManager::CheckHitBox(checkPoint)) {
+		// 速度は0に
+		velocity.y = 0;
+
+		// ヒットしなくなるまで下へ補正する
+		while (MapManager::CheckHitBox(checkPoint)) {
+			// 座標を下に
+			centerPosition.y -= 1;
+			// 再計算
+			checkPoint.y -= 1;
+		}
+	}
+
+	// プレイヤーから下の点
+	checkPoint = { centerPosition.x,centerPosition.y - height / 2 };
+	// 下がヒットしたとき
+	if (MapManager::CheckHitBox(checkPoint)) {
+		// 速度は0に
+		velocity.y = 0;
+		// 飛んでいないのでフラグを戻す
+		isFlying = false;
+
+		// ヒットしなくなるまで上へ補正する
+		while (MapManager::CheckHitBox(checkPoint)) {
+			// 座標を上に
+			centerPosition.y += 1;
+			// 再計算
+			checkPoint.y += 1;
+		}
+	}
+	// 一個下のマスがヒットしていないときは空中ということなのでフラグをtrueに
+	else if (!MapManager::CheckHitBox({ checkPoint.x ,checkPoint.y - 1 })) {
+		isFlying = true;
+	}
+
+	// プレイヤーから左の点
+	checkPoint = { centerPosition.x - width / 2,centerPosition.y };
+	// 左がヒットしたとき
+	if (MapManager::CheckHitBox(checkPoint)) {
+		// 速度は0に
+		velocity.x = 0;
+
+		// ヒットしなくなるまで右へ補正する
+		while (MapManager::CheckHitBox(checkPoint)) {
+
+			// 座標を右に
+			centerPosition.x += 1;
+			// 再計算
+			checkPoint.x += 1;
+		}
+	}
+
+	// プレイヤーから右の点
+	checkPoint = { centerPosition.x + width / 2,centerPosition.y };
+	// 右がヒットしたとき
+	if (MapManager::CheckHitBox(checkPoint)) {
+		// 速度は0に
+		velocity.x = 0;
+
+		// ヒットしなくなるまで左へ補正する
+		while (MapManager::CheckHitBox(checkPoint)) {
+			// 座標を左に
+			centerPosition.x -= 1;
+			// 再計算
+			checkPoint.x -= 1;
+		}
+	}
+
+
+
+	// プレイヤーから左上の点
+	checkPoint = { centerPosition.x - width / 2,centerPosition.y + height / 2 };
+	// 左上がヒットしたとき -> 補正する
+	if (MapManager::CheckHitBox(checkPoint)) {
+		// 補正分の座標
+		Point correctionPos = { 0,0 };
+
+		// 右下に補正する
+		while (MapManager::CheckHitBox(checkPoint)) {
+			correctionPos.x += 1;
+			correctionPos.y -= 1;
+			checkPoint.x += 1;
+			checkPoint.y -= 1;
+		}
+
+		// 補正終了後、より距離が短いほうのみを適応し、長いほうは破棄する
+
+		// yのほうがxより短いor同じの場合 -> yを適応し、xは破棄
+		if (-correctionPos.y <= correctionPos.x) {
+			// 速度がプラスのときのみ0に
+			if (velocity.y > 0) {
+				velocity.y = 0;
+			}
+
+			// 補正を実行
+			centerPosition.y += correctionPos.y;
+		}
+		// xのほうがyより短い場合 -> xを適応し、yは破棄
+		else {
+			// 速度がマイナスのときのみ0に
+			if (velocity.x < 0) {
+				velocity.x = 0;
+			}
+
+			// 補正を実行
+			centerPosition.x += correctionPos.x;
+		}
+	}
+
+
+
+	// プレイヤーから左下の点
+	checkPoint = { centerPosition.x - width / 2,centerPosition.y - height / 2 };
+	// 左下がヒットしたとき -> 補正する
+	if (MapManager::CheckHitBox(checkPoint)) {
+		// 補正分の座標
+		Point correctionPos = { 0,0 };
+
+		// 右上に補正する
+		while (MapManager::CheckHitBox(checkPoint)) {
+			correctionPos.x += 1;
+			correctionPos.y += 1;
+			checkPoint.x += 1;
+			checkPoint.y += 1;
+		}
+
+		// 補正終了後、より距離が短いほうのみを適応し、長いほうは破棄する
+
+		// yのほうがxより短いor同じの場合 -> yを適応し、xは破棄
+		if (correctionPos.y <= correctionPos.x) {
+			// 速度がマイナスのときのみ0に
+			if (velocity.y < 0) {
+				velocity.y = 0;
+			}
+			// 飛んでいないのでフラグを戻す
+			isFlying = false;
+
+			// 補正を実行
+			centerPosition.y += correctionPos.y;
+		}
+		// xのほうがyより短い場合 -> xを適応し、yは破棄
+		else {
+			// 速度がマイナスのときのみ0に
+			if (velocity.x < 0) {
+				velocity.x = 0;
+			}
+
+			// 補正を実行
+			centerPosition.x += correctionPos.x;
+		}
+	}
+	// もし空中判定された後の場合
+	else if (isFlying) {
+		// 一個下のマスがヒットしているときは空中ではないということなのでフラグをfalseに
+		if (MapManager::CheckHitBox({ checkPoint.x,checkPoint.y - 1 })) {
+			// ヒットしていないときは空中ということなのでフラグをtrueに
+			isFlying = false;
+		}
+	}
+
+
+
+	// プレイヤーから右上の点
+	checkPoint = { centerPosition.x + width / 2,centerPosition.y + height / 2 };
+	// 右上がヒットしたとき -> 補正する
+	if (MapManager::CheckHitBox(checkPoint)) {
+		// 補正分の座標
+		Point correctionPos = { 0,0 };
+
+		// 左下に補正する
+		while (MapManager::CheckHitBox(checkPoint)) {
+			correctionPos.x -= 1;
+			correctionPos.y -= 1;
+			checkPoint.x -= 1;
+			checkPoint.y -= 1;
+		}
+
+		// 補正終了後、より距離が短いほうのみを適応し、長いほうは破棄する
+
+		// yのほうがxより短いor同じの場合 -> yを適応し、xは破棄
+		if (-correctionPos.y >= -correctionPos.x) {
+			// 速度がプラスのときのみ0に
+			if (velocity.y > 0) {
+				velocity.y = 0;
+			}
+
+			// 補正を実行
+			centerPosition.y += correctionPos.y;
+		}
+		// xのほうがyより短い場合 -> xを適応し、yは破棄
+		else {
+			// 速度がプラスのときのみ0に
+			if (velocity.x > 0) {
+				velocity.x = 0;
+			}
+
+			// 補正を実行
+			centerPosition.x += correctionPos.x;
+		}
+	}
+
+
+
+	// プレイヤーから右下の点
+	checkPoint = { centerPosition.x + width / 2,centerPosition.y - height / 2 };
+	// 右下がヒットしたとき -> 補正する
+	if (MapManager::CheckHitBox(checkPoint)) {
+		// 補正分の座標
+		Point correctionPos = { 0,0 };
+
+		// 左上に補正する
+		while (MapManager::CheckHitBox(checkPoint)) {
+			correctionPos.x -= 1;
+			correctionPos.y += 1;
+			checkPoint.x -= 1;
+			checkPoint.y += 1;
+		}
+
+		// 補正終了後、より距離が短いほうのみを適応し、長いほうは破棄する
+
+		// yのほうがxより短いor同じの場合 -> yを適応し、xは破棄
+		if (correctionPos.y <= -correctionPos.x) {
+			// 速度がマイナスのときのみ0に
+			if (velocity.y < 0) {
+				velocity.y = 0;
+			}
+			// 飛んでいないのでフラグを戻す
+			isFlying = false;
+
+			// 補正を実行
+			centerPosition.y += correctionPos.y;
+		}
+		// xのほうがyより短い場合 -> xを適応し、yは破棄
+		else {
+			// 速度がプラスのときのみ0に
+			if (velocity.x > 0) {
+				velocity.x = 0;
+			}
+
+			// 補正を実行
+			centerPosition.x += correctionPos.x;
+		}
+	}
+	// もし空中判定された後の場合
+	else if (isFlying) {
+		// 一個下のマスがヒットしているときは空中ではないということなのでフラグをfalseに
+		if (MapManager::CheckHitBox({ checkPoint.x,checkPoint.y - 1 })) {
+			// ヒットしていないときは空中ということなのでフラグをtrueに
+			isFlying = false;
+		}
+	}
+}
+
+
+ObjectType Player::GetType() {
+	return typePlayer;
+}
