@@ -30,11 +30,25 @@ void Hook::SuccessorInitialize() {
 	//ãÛíÜÇ…Ç¢ÇÈÇ©Ç«Ç§Ç©
 	isFlying = true;
 	isAlive = true;
+	isPulled = false;
+
+	pullCount = 0;
 }
 // çXêV
 void Hook::Update() {
 	if (isAlive) {
+		if (isPulled) {
+			if (5 < pullCount) {
+				// à¯Ç¡í£ÇÁÇÍÇΩíºå„ÇÃèàóù
 
+
+				pullCount = 0;
+				isPulled = false;
+			}
+			else {
+				pullCount++;
+			}
+		}
 	}
 }
 
@@ -42,7 +56,12 @@ void Hook::Update() {
 void Hook::Draw() {
 	if (isAlive) {
 		Point temp = BaseDraw::ScreentoWorld({ centerPosition.x - width / 2.0f, centerPosition.y + height / 2.0f });
-		Novice::DrawBox(temp.x, temp.y, width, height, 0.0f, 0xFFFFFFFF, kFillModeWireFrame);
+		if (isPulled) {
+			Novice::DrawBox(temp.x, temp.y, width, height, 0.0f, 0xAA0000FF, kFillModeWireFrame);
+		}
+		else {
+			Novice::DrawBox(temp.x, temp.y, width, height, 0.0f, 0xFFFFFFFF, kFillModeWireFrame);
+		}
 	}
 }
 
