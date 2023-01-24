@@ -22,12 +22,19 @@ void Player::SuccessorInitialize() {
 	velocity = { 0,0 };
 	acceleration = { 0,0 };
 
+	angle = 0;
+	angleVelocity = 0;
+
 	isFlying = true;
 	reticlePosition = { -10000,-10000 };
 
 }
 // çXêV
 void Player::SuccessorUpdate() {
+
+	// âÒì]ÇèÌÇ…èâä˙âª
+	angle = 0;
+	angleVelocity = 0;
 
 	reticlePosition = BaseInput::GetMousePosition();
 
@@ -37,10 +44,7 @@ void Player::SuccessorUpdate() {
 }
 // ï`âÊ
 void Player::Draw() {
-
-	Novice::ScreenPrintf(0, 0, "playerPosX %f playerPosY %f",centerPosition.x, centerPosition.y);
-
-	BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y - height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
+	BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
 }
 
 
@@ -57,7 +61,7 @@ void Player::Move() {
 		}
 	}
 	else if(velocity.x < 0) {
-		velocity.x += 0.5f;
+		velocity.x += 0.1f;
 	}
 	// âEà⁄ìÆ
 	if (BaseInput::GetKeyboardState(DIK_D, Press)) {
@@ -66,7 +70,7 @@ void Player::Move() {
 		}
 	}
 	else if (velocity.x > 0) {
-		velocity.x -= 0.5f;
+		velocity.x -= 0.1f;
 	}
 }
 

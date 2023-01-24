@@ -20,8 +20,8 @@ void Debug::Initialize() {
 // 更新
 void Debug::Update() {
 
-	// 中クリックでブロックを生成
-	if (BaseInput::GetMouseState(MiddleClick, Trigger)) {
+	// リックでブロックを生成
+	if (BaseInput::GetKeyboardState(DIK_O, Trigger)) {
 		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
 	}
 

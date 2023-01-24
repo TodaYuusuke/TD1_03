@@ -9,7 +9,9 @@ enum ObjectType {
 	// ブロック
 	typeBlock,
 	// プレイヤー
-	typePlayer
+	typePlayer,
+	// 壁（ワイヤーの識別用）
+	typeWall
 };
 
 
