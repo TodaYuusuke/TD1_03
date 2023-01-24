@@ -202,7 +202,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 	}
 	
 	// ƒXƒ^ƒ“ˆ—
-	if (inStun == true) {
+	if (inStun == true && inDamage == false) {
 		Stun(1.25f, 1.5f, 3.0f, 0.75f);
 	}
 
