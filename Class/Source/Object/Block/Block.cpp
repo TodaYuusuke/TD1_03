@@ -29,6 +29,7 @@ void Block::SuccessorInitialize() {
 
 	//ãÛíÜÇ…Ç¢ÇÈÇ©Ç«Ç§Ç©
 	isFlying = true;
+	isAlive = true;
 }
 // çXêV
 void Block::SuccessorUpdate() {
@@ -36,11 +37,13 @@ void Block::SuccessorUpdate() {
 }
 // ï`âÊ
 void Block::Draw() {
-	if (BaseMath::CheckHitBox(centerPosition, width, height, angle, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()))) {
-		BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, BLUE);
-	}
-	else {
-		BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, WHITE);
+	if (isAlive) {
+		if (BaseMath::CheckHitBox(centerPosition, width, height, angle, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()))) {
+			BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, BLUE);
+		}
+		else {
+			BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, WHITE);
+		}
 	}
 }
 

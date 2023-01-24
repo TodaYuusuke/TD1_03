@@ -13,7 +13,7 @@ enum ObjectType {
 	// フック
 	typeHook,
 	// 敵
-	typeEnemy
+	typeEnemy,
 	// 壁（ワイヤーの識別用）
 	typeWall
 };
@@ -70,6 +70,12 @@ public: // メンバ関数
 	// 引数：なし
 	bool GetisFlying();
 
+	/// <summary>
+	/// オブジェクトの処理するかを受け取る関数
+	/// </summary>
+	/// <returns>処理するならば true</returns>
+	bool GetisAlive();
+
 	// オブジェクトに速度ベクトルを足す関数
 	// 返り値：なし
 	// 引数：足す速度のベクトル
@@ -79,6 +85,12 @@ public: // メンバ関数
 	// 返り値：なし
 	// 引数：足す速度
 	void AddVelocity(float _addVelocity);
+
+	/// <summary>
+	/// オブジェクトの処理をするかを設定する関数
+	/// </summary>
+	/// <param name="_isAlive">オブジェクトの処理をするか</param>
+	void SetisAlive(bool _isAlive);
 
 	
 	// 当たり判定関連
@@ -162,6 +174,9 @@ protected: // メンバ変数
 
 	//空中にいるかどうか
 	bool isFlying;
+
+	// オブジェクトの処理をするかどうか
+	bool isAlive;
 
 	// 0 ... 上
 	// 1 ... 下

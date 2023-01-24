@@ -29,6 +29,7 @@ void Hook::SuccessorInitialize() {
 
 	//ãÛíÜÇ…Ç¢ÇÈÇ©Ç«Ç§Ç©
 	isFlying = true;
+	isAlive = true;
 }
 // çXêV
 void Hook::Update() {
@@ -37,11 +38,10 @@ void Hook::Update() {
 
 // ï`âÊ
 void Hook::Draw() {
-	if (BaseMath::CheckHitBox(centerPosition, width, height, angle, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()))) {
-		BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, BLUE);
-	}
-	else {
-		BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, WHITE);
+	if (isAlive) {
+		// ìñÇΩÇËîªíËópÇÃï`âÊ
+		Point temp = BaseDraw::ScreentoWorld({ centerPosition.x - width / 2.0f ,centerPosition.y + height / 2.0f });
+		Novice::DrawBox(temp.x, temp.y, width, height, 0.0f, 0xFFFFFFFF, kFillModeWireFrame);
 	}
 }
 

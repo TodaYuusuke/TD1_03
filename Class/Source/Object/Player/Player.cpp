@@ -26,12 +26,12 @@ void Player::SuccessorInitialize() {
 	angleVelocity = 0;
 
 	isFlying = true;
+	isAlive = true;
 	reticlePosition = { -10000,-10000 };
 
 }
 // XV
 void Player::SuccessorUpdate() {
-
 	// ‰ñ“]‚ğí‚É‰Šú‰»
 	angle = 0;
 	angleVelocity = 0;
@@ -44,7 +44,9 @@ void Player::SuccessorUpdate() {
 }
 // •`‰æ
 void Player::Draw() {
-	BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
+	if (isAlive) {
+		BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
+	}
 }
 
 

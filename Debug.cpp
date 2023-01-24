@@ -21,17 +21,22 @@ void Debug::Initialize() {
 // 更新
 void Debug::Update() {
 
-	// リックでブロックを生成
-	if (BaseInput::GetKeyboardState(DIK_O, Trigger)) {
-		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
-	}
-
 	// Rキーでリセット
 	if (BaseInput::GetKeyboardState(DIK_R, Trigger)) {
 		MapManager::Initialize();
 		objectManager.Initialize();
 		wireManager.Initialize();
 		objectManager.MakeNewObjectPlayer({ 100,200 });
+	}
+
+	// リックでブロックを生成
+	if (BaseInput::GetKeyboardState(DIK_B, Trigger)) {
+		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
+	}
+
+	// フック生成
+	if (BaseInput::GetKeyboardState(DIK_H, Trigger)) {
+		objectManager.MakeNewObjectHook(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
 	}
 
 	// エネミー生成

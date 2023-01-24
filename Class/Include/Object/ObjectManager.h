@@ -6,6 +6,7 @@
 #include "Class/Include/Object/Player/Player.h"
 #include "Class/Include/Wire/Wire.h"
 #include "Class/Include/Object/Enemy/Enemy.h"
+#include "Class/Include/Object/Hook/Hook.h"
 
 #include "Class/Include/Wire/WireManager.h";
 
@@ -42,6 +43,9 @@ public: // ÉÅÉìÉoä÷êî
 
 	// Player
 	void MakeNewObjectPlayer(Point position);
+
+	// Hook
+	void MakeNewObjectHook(Point position, Point size);
 
 	// Enemy
 	void MakeNewObjectEnemy(Point position, Point size);

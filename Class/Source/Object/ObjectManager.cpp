@@ -71,6 +71,16 @@ void ObjectManager::MakeNewObjectPlayer(Point position) {
 	}
 }
 
+// Hook
+void ObjectManager::MakeNewObjectHook(Point position, Point size) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeObject) {
+			object[i] = new Hook(position, { 50,50 });
+			object[i]->Initialize();
+			break;
+		}
+	}
+}
 
 // Enemy
 void ObjectManager::MakeNewObjectEnemy(Point position,Point size) {
@@ -156,6 +166,7 @@ Object* ObjectManager::GetSelectObject(ObjectType objecttype) {
 		}
 	}
 	return NULL;
+}
 
 // プレイヤーの中心座標を受け取る関数
 Point ObjectManager::GetPlayerPosition() {

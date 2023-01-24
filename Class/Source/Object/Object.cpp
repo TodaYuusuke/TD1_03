@@ -27,90 +27,94 @@ void Object::SuccessorInitialize(){
 
 	//空中にいるかどうか
 	isFlying = true;
+	isAlive = false;
  }
 
 void Object::Update() {
+	
+	if (isAlive) {
 
-	acceleration = { 0,0 };
+		acceleration = { 0,0 };
 
-	// 加速度や速度を継承先で変更
-	SuccessorUpdate();
+		// 加速度や速度を継承先で変更
+		SuccessorUpdate();
 
-	// 加速度に重力を追加
-	if (isFlying) {
+		// 加速度に重力を追加
+		if (isFlying) {
 
-		if (velocity.y < -(BaseConst::kPlayerVelocityLimit)) {
-		
+			if (velocity.y < -(BaseConst::kPlayerVelocityLimit)) {
+
+			}
+			// 速度制限にかかっているときは追加しない
+			else {
+				acceleration.y -= BaseConst::kPlayerGravitationalAcceleration;
+			}
 		}
-		// 速度制限にかかっているときは追加しない
-		else {
-			acceleration.y -= BaseConst::kPlayerGravitationalAcceleration;
-		}
-	}
 
-	// 加速度を追加
-	velocity.x += acceleration.x;
-	velocity.y += acceleration.y;
+		// 加速度を追加
+		velocity.x += acceleration.x;
+		velocity.y += acceleration.y;
 
-	// 速度を追加
-	centerPosition.x += velocity.x;
-	centerPosition.y += velocity.y;
+		// 速度を追加
+		centerPosition.x += velocity.x;
+		centerPosition.y += velocity.y;
 
 
-	// 速度を少しずつ減速させる
-	if (velocity.x > 0) {
-		velocity.x -= 0.02f;
-		if (velocity.x < 0) {
-			velocity.x = 0;
-		}
-	}
-	else if (velocity.x < 0) {
-		velocity.x += 0.02f;
+		// 速度を少しずつ減速させる
 		if (velocity.x > 0) {
-			velocity.x = 0;
+			velocity.x -= 0.02f;
+			if (velocity.x < 0) {
+				velocity.x = 0;
+			}
 		}
-	}
+		else if (velocity.x < 0) {
+			velocity.x += 0.02f;
+			if (velocity.x > 0) {
+				velocity.x = 0;
+			}
+		}
 
-	if (velocity.y > 0) {
-		velocity.y -= 0.02f;
-		if (velocity.y < 0) {
-			velocity.y = 0;
-		}
-	}
-	else if (velocity.y < 0) {
-		velocity.y += 0.02f;
 		if (velocity.y > 0) {
-			velocity.y = 0;
+			velocity.y -= 0.02f;
+			if (velocity.y < 0) {
+				velocity.y = 0;
+			}
 		}
-	}
-
-
-	// 回転速度を追加
-	angle += angleVelocity;
-
-	if (angleVelocity > 0) {
-		centerPosition.x -= 0.5f * angleVelocity;
-	}
-	else if (angleVelocity < 0) {
-		centerPosition.x -= 0.5f * angleVelocity;
-	}
-
-	// 回転速度を減速させていく
-	/*if (angleVelocity > BaseConst::kPlayerVelocityLimit) {
-		angleVelocity -= 0.05f;
-		if (angleVelocity < 0) {
-			angleVelocity = 0;
+		else if (velocity.y < 0) {
+			velocity.y += 0.02f;
+			if (velocity.y > 0) {
+				velocity.y = 0;
+			}
 		}
-	}
-	else if (angleVelocity < -BaseConst::kPlayerVelocityLimit) {
-		angleVelocity += 0.05f;
+
+
+		// 回転速度を追加
+		angle += angleVelocity;
+
 		if (angleVelocity > 0) {
-			angleVelocity = 0;
+			centerPosition.x -= 0.5f * angleVelocity;
 		}
-	}*/
+		else if (angleVelocity < 0) {
+			centerPosition.x -= 0.5f * angleVelocity;
+		}
+
+		// 回転速度を減速させていく
+		/*if (angleVelocity > BaseConst::kPlayerVelocityLimit) {
+			angleVelocity -= 0.05f;
+			if (angleVelocity < 0) {
+				angleVelocity = 0;
+			}
+		}
+		else if (angleVelocity < -BaseConst::kPlayerVelocityLimit) {
+			angleVelocity += 0.05f;
+			if (angleVelocity > 0) {
+				angleVelocity = 0;
+			}
+		}*/
 
 
-	CheckFieldHitBox();
+		CheckFieldHitBox();
+	}
 }
 
 void Object::SuccessorUpdate() {
@@ -118,7 +122,9 @@ void Object::SuccessorUpdate() {
 }
 
 void Object::Draw() {
-	BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { 100,100 }, 1.0f, 0.0f, WHITE);
+	if (isAlive) {
+		BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { 100,100 }, 1.0f, 0.0f, WHITE);
+	}
 }
 
 
@@ -145,6 +151,14 @@ bool Object::GetisFlying() {
 	return isFlying;
 }
 
+/// <summary>
+/// オブジェクトの処理するかを受け取る関数
+/// </summary>
+/// <returns>処理するならば true</returns>
+bool Object::GetisAlive() {
+	return isAlive;
+}
+
 // オブジェクトに速度ベクトルを足す関数
 // 返り値：なし
 // 引数：足す速度
@@ -158,6 +172,14 @@ void Object::AddVelocity(Point _addVelocity) {
 // 引数：足す速度
 void Object::AddVelocity(float _addVelocity) {
 	angleVelocity += _addVelocity;
+}
+
+/// <summary>
+/// オブジェクトの処理をするかを設定する関数
+/// </summary>
+/// <param name="_isAlive">オブジェクトの処理をするか</param>
+void Object::SetisAlive(bool _isAlive) {
+	isAlive = _isAlive;
 }
 
 
