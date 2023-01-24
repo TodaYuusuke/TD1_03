@@ -30,6 +30,7 @@ void Enemy::SuccessorInitialize() {
 
 	//‹ó’†‚É‚¢‚é‚©‚Ç‚¤‚©
 	isFlying = true;
+	isAlive = true;
 
 	direct = -1;
 
@@ -65,13 +66,14 @@ void Enemy::SuccessorUpdate() {
 }
 
 void Enemy::Draw() {
-	if (BaseMath::CheckHitBox(centerPosition, width, height, angle, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()))) {
-		BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, RED);
+	if (isAlive) {
+		if (BaseMath::CheckHitBox(centerPosition, width, height, angle, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()))) {
+			BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, RED);
+		}
+		else {
+			BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, 0x770000FF);
+		}
 	}
-	else {
-		BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, 0x770000FF);
-	}
-
 }
 
 ObjectType Enemy::GetType() {
