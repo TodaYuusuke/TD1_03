@@ -500,7 +500,9 @@ void Boss::None(float waitFrame) {
 		t += 1.0f / 60.0f;
 	}
 	else {
+		t = 0.0f;
 		endAction = true;
+		inAction = false;
 	}
 }
 
