@@ -58,8 +58,6 @@ void Object::Update() {
 		centerPosition.x += velocity.x;
 		centerPosition.y += velocity.y;
 
-		CheckFieldHitBox();
-
 		// ‰ñ“]‘¬“x‚ð’Ç‰Á
 		angle += angleVelocity;
 
@@ -112,6 +110,9 @@ void Object::Update() {
 			}
 		}*/
 
+
+
+		CheckFieldHitBox();
 
 	}
 }

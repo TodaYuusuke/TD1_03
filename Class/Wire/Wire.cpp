@@ -114,7 +114,7 @@ bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager, Bos
 
 	// オブジェクトにヒットしているか検証
 	object[i] = objectManager->CheckObjectHitBox(_position);
-	if(object[i] != NULL && object[i]->GetType() != typePlayer && object[i] != object[!i] && !(object[i]->GetType() == typeHook && object[!i]->GetType() == typeHook)) {
+	if(object[i] != NULL && object[i]->GetType() != typePlayer && object[i] != object[!i] && !(type[i] == typeHook && type[!i] == typeHook)) {
 		// ヒットしていた場合 -> 戻る
 		type[i] = object[i]->GetType();
 		return true;
