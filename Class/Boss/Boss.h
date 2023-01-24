@@ -26,6 +26,13 @@ public:
 	// 描画処理
 	void Draw();
 
+	// ボス自体の当たり判定を返す関数
+	// 返り値：当たっている ... true 当たっていない ... false
+	// 引数：
+	// hitPosition ... 当たった座標
+	// 引数で指定したPointがボスの外殻に命中しているかどうかを返す関数
+	bool GetBossCollision(Point hitPosition);
+
 private:
 
 	/*********************************

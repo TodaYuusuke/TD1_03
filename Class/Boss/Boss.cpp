@@ -140,7 +140,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager) {
 	if (coreSeparated == false) {
 		coreCenterPosition = centerPosition;
 		coreDegree = degree;
-	}	
+	}
 
 	/// 弾関係の更新処理
 
@@ -174,14 +174,15 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager) {
 		// 生成間隔が0になると生成
 		if (generatedBlockInterval < 0) {
 			if (generatedBlockValue > 0) {
+				float blockSize = BaseMath::RandomF(20.0f, 60.0f, 0);
 				// ランダムな位置に、ランダムな大きさのブロックを生成
-				objectManager->MakeNewObjectBlock({ BaseMath::RandomF(20.0f, 1900.0f, 1), (float)BaseConst::kWindowHeight }, { BaseMath::RandomF(20.0f, 60.0f, 0), BaseMath::RandomF(20.0f, 60.0f, 0) });
+				objectManager->MakeNewObjectBlock({ BaseMath::RandomF(20.0f, 1900.0f, 1), (float)BaseConst::kWindowHeight }, { blockSize, blockSize });
 				generatedBlockValue--;
 			}
 			else {
 				canGeneratedBlock = false;
 			}
-			generatedBlockInterval = BaseMath::RandomF(0.1f, 0.4f, 2);
+			generatedBlockInterval = BaseMath::RandomF(0.1f, 0.2f, 2);
 		}
 		else {
 			generatedBlockInterval -= 1.0f / 60.0f;
@@ -248,16 +249,33 @@ void Boss::Draw() {
 		degree,
 		0xFFFFFFFF
 	);
+}
 
-	Novice::ScreenPrintf(0, 30, "t : %4.2f", t);
-	Novice::ScreenPrintf(0, 50, "pos x : %4.2f y : %4.2f", centerPosition.x, centerPosition.y);
-	Novice::ScreenPrintf(0, 70, "inAction : %d", inAction);
-	Novice::ScreenPrintf(0, 90, "endAction : %d", endAction);
-	Novice::ScreenPrintf(0, 110, "actionWayPoint : %d", actionWayPoint);
-	Novice::ScreenPrintf(0, 130, "actionBranch : %d", actionBranch);
-	Novice::ScreenPrintf(0, 150, "isShot : %d", isShot[0]);
-	Novice::ScreenPrintf(0, 190, "bulletPos * x : %4.2f y : %4.2f", bulletCenterPosition[0].x, bulletCenterPosition[0].y);
+// ボス自体の当たり判定を返す関数
+// 返り値：当たっている ... true 当たっていない ... false
+// 引数：
+// hitPosition ... 当たった座標
+// 引数で指定したPointがボスの外殻に命中しているかどうかを返す関数
+bool Boss::GetBossCollision(Point hitPosition) {
 
+	// 距離を求める
+	float x = centerPosition.x - hitPosition.x;
+	float y = centerPosition.y - hitPosition.y;
+	float d = sqrt(pow(x, 2) + pow(y, 2));
+
+	// ボスが開いている時は当たらない
+	if (offset > 0) {
+		return false;
+	}
+	else {
+		// 円に命中した場合trueを返す
+		if (d <= size.y) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
 
 // 選択初期化関数
