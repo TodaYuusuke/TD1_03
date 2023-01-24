@@ -70,6 +70,31 @@ public: // メンバ関数
 	// 引数：なし
 	bool GetisFlying();
 
+	/// <summary>
+	/// 生きてるかどうかを受け取る関数
+	/// </summary>
+	/// <returns>生きてる場合 true</returns>
+	bool GetisAlive();
+
+	/// <summary>
+	/// 引っ張られたかどうかを受け取る関数
+	/// </summary>
+	/// <returns>引っ張られた場合 true</returns>
+	bool GetisPulled();
+
+	/// <summary>
+	/// Angle(Degree)を取得する関数
+	/// </summary>
+	/// <returns>Angle(Degree)</returns>
+	float GetAngle();
+
+	/// <summary>
+	/// AngleVelocity(Degree)を取得する関数
+	/// </summary>
+	/// <returns>AngleVelocity(Degree)</returns>
+	float GetAngleVelocity();
+
+
 	// オブジェクトに速度ベクトルを足す関数
 	// 返り値：なし
 	// 引数：足す速度のベクトル
@@ -80,7 +105,31 @@ public: // メンバ関数
 	// 引数：足す速度
 	void AddVelocity(float _addVelocity);
 
+	/// <summary>
+	/// 生きてるかどうかを設定する関数
+	/// </summary>
+	/// <param name="_isAlive">生きてるかどうか</param>
+	void SetisAlive(bool _isAlive);
 	
+	/// <summary>
+	/// 引っ張られたかどうかを設定する関数
+	/// </summary>
+	/// <param name="_isPulled">引っ張られたかどうか</param>
+	void SetisPulled(bool _isPulled);
+
+	/// <summary>
+	/// Angle(Degree)を設定する関数
+	/// </summary>
+	/// <param name="_angle">angle(Degree)</param>
+	void SetAngle(float _angle);
+
+	/// <summary>
+	/// AngleVelocity(Degree)を設定する関数
+	/// </summary>
+	/// <param name="_angleVelocity">angleVelocity(Degree)</param>
+	void SetAngleVelocity(float _angleVelocity);
+
+
 	// 当たり判定関連
 
 	// オブジェクトに対する当たり判定をチェックする関数
@@ -165,6 +214,9 @@ protected: // メンバ変数
 
 	// 生きてるかどうか
 	bool isAlive;
+
+	// 引っ張られているかどうか
+	bool isPulled;
 
 	// 0 ... 上
 	// 1 ... 下
