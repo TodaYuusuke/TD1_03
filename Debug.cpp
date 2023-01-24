@@ -16,7 +16,7 @@ void Debug::Initialize() {
 	objectManager.Initialize();
 	wireManager.Initialize();
 	objectManager.MakeNewObjectPlayer({ 100,200 }, &wireManager);
-	boss.Initialize();
+	boss.Initialize(&objectManager);
 }
 // çXêV
 void Debug::Update() {
@@ -57,9 +57,9 @@ void Debug::Update() {
 	BaseDraw::SetScreenPosition(screenPosMove);
 
 	MapManager::Update();
-	objectManager.Update(&boss);
+	objectManager.Update();
 	wireManager.Update(&objectManager, &boss);
-	boss.Update(objectManager.GetPlayerPosition(), &objectManager);
+	boss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
 }
 // ï`âÊ
 void Debug::Draw() {
