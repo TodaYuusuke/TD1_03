@@ -272,14 +272,14 @@
     <Filter Include="Class\Object\Block">
       <UniqueIdentifier>{b84cb1d5-4b60-4055-8072-ceaaac1322de}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Class\Object\Enemy">
-      <UniqueIdentifier>{ef356951-2f3c-4677-9299-039dc1c3e3b5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Class\Object\Hook">
       <UniqueIdentifier>{9289e3ee-224b-4c93-ab3d-0b467b6689ad}</UniqueIdentifier>
     </Filter>
     <Filter Include="Class\Object\Player">
       <UniqueIdentifier>{7fd75e9c-3d41-4696-a85f-d19860eaf8a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Object\Enemy">
+      <UniqueIdentifier>{ef356951-2f3c-4677-9299-039dc1c3e3b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
