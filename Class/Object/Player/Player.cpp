@@ -97,11 +97,27 @@ void Player::Jump() {
 void Player::ShotWire() {
 	if (BaseInput::GetMouseState(LeftClick, Trigger)) {
 		reticlePosition = BaseInput::GetMousePosition();
-		//float angle = atan2(centerPosition.y - ReticlePosition.y, centerPosition.x - ReticlePosition.x);
 
-		//wireManager->Shot(centerPosition, BaseMath::RadiantoDegree(angle), this);
-		wireManager->Shot(centerPosition, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition), this);
+		// 反動のベクトル
+		Point p = { 7,0 };
 
+		switch (wireManager->Shot(centerPosition, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition), this))
+		{
+			// ワイヤーの射出に成功した場合
+			case 1:
+				// 射出方向と反対方向のベクトルを足す
+				p = BaseMath::TurnPoint(p, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition) + 180);
+
+				velocity.x = p.x;
+				velocity.y = p.y;
+				break;
+			// 射出失敗
+			case -1:
+				break;
+			// これ以上射出できない
+			case -2:
+				break;
+		}
 	}
 	if (BaseInput::GetMouseState(RightClick, Trigger)) {
 		wireManager->Attract();

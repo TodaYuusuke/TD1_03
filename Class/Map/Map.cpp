@@ -30,6 +30,9 @@ void Map::Draw(Point drawPosition, int drawImageNum) {
         case kTypeNormal:
             BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChipSample[drawImageNum], { 1,1 }, 0, WHITE);
             break;
+        case kTypeFloor:
+            BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChipSample[drawImageNum], { 1,1 }, 0, WHITE);
+            break;
         default:
             break;
 

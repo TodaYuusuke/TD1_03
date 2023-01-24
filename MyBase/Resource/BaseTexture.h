@@ -54,6 +54,9 @@ public: // 静的なテクスチャの変数
 	static int kTextureMapChipSample[];
 	static const int kTextureMapChipSampleSize = 14;
 
+	// 抜けられる床
+	static int kTextureMapChipFloor;
+
 #pragma endregion
 
 #pragma region ボス
