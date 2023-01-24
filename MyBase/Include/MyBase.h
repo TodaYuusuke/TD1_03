@@ -13,6 +13,7 @@
 #include "MyBase/Include/Other/BaseMath.h"
 
 #include <Novice.h>
+#include <stdlib.h>
 #include <time.h>
 #include <memory>
 

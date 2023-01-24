@@ -4,112 +4,114 @@
 #include "Class/Include/Map/MapManager.h"
 
 enum ObjectType {
-	// �I�u�W�F�N�g
+	// オブジェクト
 	typeObject,
-	// �u���b�N
+	// ブロック
 	typeBlock,
-	// �v���C���[
+	// プレイヤー
 	typePlayer,
-	// �t�b�N
+	// フック
 	typeHook,
-	// �G
+	// 敵
 	typeEnemy
+	// 壁（ワイヤーの識別用）
+	typeWall
 };
 
 
-// �S�ẴI�u�W�F�N�g�ɋ��ʂ��鏈������������
+// 全てのオブジェクトに共通する処理を実装する
 
 /*
 
-�E�d�͂ɂ�����
+・重力による加速
 
 */
 
 
 
 class Object {
-public: // �����o�֐�
+public: // メンバ関数
 
-	// �R���X�g���N�^
+	// コンストラクタ
 	//Object();
-	// �f�X�g���N�^
+	// デストラクタ
 	//~Object();
 
-	// ������ ... Objdct�ɒ�`����Ă�萔��������
-	// ���R�[�h���ɕK��SuccessorInitialize���Ăяo������
+	// 初期化 ... Objdctに定義されてる定数を初期化
+	// ※コード内に必ずSuccessorInitializeを呼び出すこと
 	virtual void Initialize();
-	// �p����̏����� ... �p�����ƌp����ɒ�`����Ă�ϐ���������
+	// 継承先の初期化 ... 継承元と継承先に定義されてる変数を初期化
 	virtual void SuccessorInitialize();
 	
-	// �X�V ... �S�I�u�W�F�N�g���ʂ̏���
-	// ���R�[�h���ɕK��SuccessorUpdate���Ăяo������
+	// 更新 ... 全オブジェクト共通の処理
+	// ※コード内に必ずSuccessorUpdateを呼び出すこと
 	virtual void Update();
-	// �p����̍X�V ... �p������L�̏���
+	// 継承先の更新 ... 継承先特有の処理
 	virtual void SuccessorUpdate();
 	
-	// �`��
+	// 描画
 	virtual void Draw();
 	
 
-	// �����o�ϐ��ɍ�p����֐�
+	// メンバ変数に作用する関数
 
-	// �I�u�W�F�N�g�̒��S���W���󂯎��֐�
-	// �Ԃ�l�F���S���W
-	// �����F�Ȃ�
+	// オブジェクトの中心座標を受け取る関数
+	// 返り値：中心座標
+	// 引数：なし
 	Point GetCenterPosition();
 
-	// �I�u�W�F�N�g�̑��x���󂯎��֐�
-	// �Ԃ�l�F���x�̃x�N�g��
-	// �����F�Ȃ�
+	// オブジェクトの速度を受け取る関数
+	// 返り値：速度のベクトル
+	// 引数：なし
 	Point GetVelocity();
 
-	// �I�u�W�F�N�g���󒆂��ǂ������󂯎��֐�
-	// �Ԃ�l�F�󒆂Ȃ��true
-	// �����F�Ȃ�
+	// オブジェクトが空中かどうかを受け取る関数
+	// 返り値：空中ならばtrue
+	// 引数：なし
 	bool GetisFlying();
 
-	// �I�u�W�F�N�g�ɑ��x�x�N�g���𑫂��֐�
-	// �Ԃ�l�F�Ȃ�
-	// �����F�������x�̃x�N�g��
+	// オブジェクトに速度ベクトルを足す関数
+	// 返り値：なし
+	// 引数：足す速度のベクトル
 	void AddVelocity(Point _addVelocity);
 
-	// �I�u�W�F�N�g�ɉ�]���x�𑫂��֐�
-	// �Ԃ�l�F�Ȃ�
-	// �����F�������x
+	// オブジェクトに回転速度を足す関数
+	// 返り値：なし
+	// 引数：足す速度
 	void AddVelocity(float _addVelocity);
 
 	
-	// �����蔻��֘A
+	// 当たり判定関連
 
-	// �I�u�W�F�N�g�ɑ΂��铖���蔻����`�F�b�N����֐�
-	// �Ԃ�l�F�q�b�g���Ă����ꍇ ... true
-	// �����F�`�F�b�N����Point
+	// オブジェクトに対する当たり判定をチェックする関数
+	// 返り値：ヒットしていた場合 ... true
+	// 引数：チェックするPoint
 	bool CheckHitBox(Point hitPosition);
 
-	// �����蔻����`�F�b�N����֐�
-	// ���@����angle���l�����������ɂȂ��Ă��Ȃ��̂ŁA�g�p�֎~�@��
-	// �Ԃ�l�F�q�b�g���Ă����ꍇ ... true
-	// �����F�`�F�b�N����Box
+	// 当たり判定をチェックする関数
+	// ※　現在angleを考慮した処理になっていないので、使用禁止　※
+	// 返り値：ヒットしていた場合 ... true
+	// 引数：チェックするBox
 	bool CheckHitBox(Box hitPosition);
 
 
-	// ���̑�
+	// その他
 
-	// �^�C�v���擾����֐�
-	// �Ԃ�l�F���g��ObjectType
-	// �����F�Ȃ�
+	// タイプを取得する関数
+	// 返り値：自身のObjectType
+	// 引数：なし
 	virtual ObjectType GetType();
 
-protected: // �֐�
+protected: // 関数
 
-	// �I�u�W�F�N�g���̂̓����蔻����`�F�b�N����֐�
+	// オブジェクト自体の当たり判定をチェックする関数
 	virtual void CheckFieldHitBox();
-	// �㉺���E�̓����蔻��̊֐�
+	// 上下左右の当たり判定の関数
 	virtual void CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[]);
 
-	// �ł��߂��l���i�[�����z��̓Y���������߂�
+	// 最も近い値を格納した配列の添え字を求める
 	int GetNearestValue(int v) {
-		// �ϐ��̐錾
+		// 変数の宣言
 		//v = BaseMath::Clamp(v, 0, 360);
 		if (v < 45) {
 			return 0;
@@ -129,49 +131,49 @@ protected: // �֐�
 	}
 
 	/// <summary>
-	/// ��]�p�x���擾����֐�
+	/// 回転角度を取得する関数
 	/// </summary>
 	/// <returns>angle</returns>
 	float GetAngle();
 
 	/// <summary>
-	/// ��`�̂S�_���擾����֐�
+	/// 矩形の４点を取得する関数
 	/// </summary>
 	/// <returns>Quad</returns>
 	Quad GetQuad();
 
-protected: // �����o�ϐ�
+protected: // メンバ変数
 
-	// ���S���W
+	// 中心座標
 	Point centerPosition;
-	// ���x
+	// 速度
 	Point velocity;
-	// �����x
+	// 加速度
 	Point acceleration;
 
-	// ��]�p�x�iDegree�j
+	// 回転角度（Degree）
 	float angle;
-	// ��]���x�iDegree�j
+	// 回転速度（Degree）
 	float angleVelocity;
 
-	// �����蔻��̃T�C�Y�i����̓_����̒����j
+	// 当たり判定のサイズ（左上の点からの長さ）
 	float width;
 	float height;
 
-	//�󒆂ɂ��邩�ǂ���
+	//空中にいるかどうか
 	bool isFlying;
 
-	// 0 ... ��
-	// 1 ... ��
-	// 2 ... ��
-	// 3 ... �E
-	// ��4�_��p��
+	// 0 ... 上
+	// 1 ... 下
+	// 2 ... 左
+	// 3 ... 右
+	// の4点を用意
 	Point checkRhombusPoint[4];
 
-	// 0 ... ����
-	// 1 ... �E��
-	// 2 ... ����
-	// 3 ... �E��
-	// ��4�_��p��
+	// 0 ... 左上
+	// 1 ... 右上
+	// 2 ... 左下
+	// 3 ... 右下
+	// の4点を用意
 	Point checkQuadPoint[4];
 };

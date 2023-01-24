@@ -56,4 +56,16 @@ public: // 静的なテクスチャの変数
 
 #pragma endregion
 
+#pragma region ボス
+
+	// ボスの核
+	static int kBossCore;
+
+	// ボスのカバー
+	static int kBossRCover;
+	static int kBossLCover;
+
+#pragma endregion
+
+
 };

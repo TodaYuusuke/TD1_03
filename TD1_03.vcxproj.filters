@@ -94,6 +94,11 @@
     </Filter>
     <Filter Include="Class\Source\Object\Enemy">
       <UniqueIdentifier>{e5e7bfd8-9379-4f6d-9974-3811d30ed6bb}</UniqueIdentifier>
+    <Filter Include="Class\Include\Boss">
+      <UniqueIdentifier>{97995acd-01cd-4afb-88ee-b56802e5ec89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Source\Boss">
+      <UniqueIdentifier>{19f3a9f7-ea0f-4ec0-932b-a2772f5db4a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +175,8 @@
     </ClCompile>
     <ClCompile Include="Class\Source\Object\Enemy\Enemy.cpp">
       <Filter>Class\Source\Object\Enemy</Filter>
+    <ClCompile Include="Class\Source\Boss\Boss.cpp">
+      <Filter>Class\Source\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -314,6 +321,8 @@
     </ClInclude>
     <ClInclude Include="Class\Include\Object\Enemy\Enemy.h">
       <Filter>Class\Include\Object\Enemy</Filter>
+    <ClInclude Include="Class\Include\Boss\Boss.h">
+      <Filter>Class\Include\Boss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -381,6 +381,14 @@ float BaseMath::Clamp(float a, float min, float max) {
 	return a;
 }
 
+/// <summary>
+/// 絶対値を求める関数
+/// </summary>
+/// <param name="value">絶対値を求める値</param>
+/// <returns>絶対値</returns>
+float BaseMath::GetAbsolute(float value) {
+	return sqrtf(value * value);
+}
 
 // 最も近い値を格納した配列の添え字を求める
 static int getNearestValue(int v) {
