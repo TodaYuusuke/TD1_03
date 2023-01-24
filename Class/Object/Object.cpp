@@ -54,9 +54,15 @@ void Object::Update() {
 		velocity.x += acceleration.x;
 		velocity.y += acceleration.y;
 
-		// 速度を追加
-		centerPosition.x += velocity.x;
-		centerPosition.y += velocity.y;
+		// トンネリング防止のため分割
+		for (int i = 0; i < 10; i++) {
+
+			// 速度を追加
+			centerPosition.x += velocity.x * 0.1f;
+			centerPosition.y += velocity.y * 0.1f;
+		
+			CheckFieldHitBox();
+		}
 
 		// 回転速度を追加
 		angle += angleVelocity;
@@ -111,8 +117,6 @@ void Object::Update() {
 		}*/
 
 
-
-		CheckFieldHitBox();
 
 	}
 }
@@ -396,6 +400,8 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 
 	float kAddAngleVelocity = 0.3f;
 
+	float kAngleVelocityMin = 1.5f;
+
 	// 二点がヒットしている場合
 	if (MapManager::CheckHitBox(checkQuadPoint[0]) && MapManager::CheckHitBox(checkQuadPoint[1]) || MapManager::CheckHitBox(checkQuadPoint[0]) && MapManager::CheckHitBox(checkQuadPoint[2])) {
 		// 何もしない
@@ -464,8 +470,8 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 			
 		}
 
-		if (((int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y > -1 && (int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y < 1) ||
-			((int)checkQuadPoint[0].y - (int)checkQuadPoint[2].y > -1 && (int)checkQuadPoint[0].y - (int)checkQuadPoint[2].y < 1) ) {
+		if (((int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y > -kAngleVelocityMin && (int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y < kAngleVelocityMin) ||
+			((int)checkQuadPoint[0].y - (int)checkQuadPoint[2].y > -kAngleVelocityMin && (int)checkQuadPoint[0].y - (int)checkQuadPoint[2].y < kAngleVelocityMin) ) {
 			angle = GetNearestValue(angle);
 			angleVelocity = 0;
 		}
@@ -489,7 +495,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 
 		// 左の点の方がy座標が下の場合 -> 左回転のベクトルを足す
 		if (checkQuadPoint[1].y < checkQuadPoint[2].y) {
-			if ((int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y > -1 && (int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y < 1) {
+			if ((int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y > -kAngleVelocityMin && (int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y < kAngleVelocityMin) {
 				angle = GetNearestValue(angle);
 				angleVelocity = 0;
 			}
@@ -499,7 +505,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 		}
 		// 右の点の方がy座標が下の場合 -> 右回転のベクトルを足す
 		else {
-			if ((int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y > -1 && (int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y < 1) {
+			if ((int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y > -kAngleVelocityMin && (int)checkQuadPoint[0].y - (int)checkQuadPoint[1].y < kAngleVelocityMin) {
 				angle = GetNearestValue(angle);
 				angleVelocity = 0;
 			}

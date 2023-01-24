@@ -88,7 +88,7 @@ void Player::Jump() {
 				velocity.y = 0;
 			}
 			// ƒWƒƒƒ“ƒv•ª‚Ì‘¬“x‚ð‘«‚·
-			velocity.y += 8.0f;
+			velocity.y += 9.8f * 1.2f;
 		}
 	}
 }
