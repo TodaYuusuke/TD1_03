@@ -32,6 +32,7 @@ void Debug::Update() {
 		objectManager.Initialize();
 		wireManager.Initialize();
 		objectManager.MakeNewObjectPlayer({ 100,200 }, &wireManager);
+		boss.Initialize(&objectManager);
 	}
 
 	// エネミー生成
