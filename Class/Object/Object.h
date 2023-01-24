@@ -163,6 +163,9 @@ protected: // メンバ変数
 	//空中にいるかどうか
 	bool isFlying;
 
+	// 生きてるかどうか
+	bool isAlive;
+
 	// 0 ... 上
 	// 1 ... 下
 	// 2 ... 左

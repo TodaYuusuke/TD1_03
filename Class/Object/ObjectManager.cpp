@@ -72,6 +72,19 @@ void ObjectManager::MakeNewObjectPlayer(Point position) {
 }
 
 
+// Hook
+void ObjectManager::MakeNewObjectHook(Point position, Point size) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeObject) {
+			object[i] = new Hook(position, { 50,50 });
+			object[i]->Initialize();
+			break;
+		}
+	}
+
+}
+
+
 // Enemy
 void ObjectManager::MakeNewObjectEnemy(Point position,Point size) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
