@@ -81,7 +81,6 @@ void ObjectManager::MakeNewObjectHook(Point position, Point size) {
 			break;
 		}
 	}
-
 }
 
 

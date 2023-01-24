@@ -33,6 +33,9 @@ bool BaseTexture::Loading() {
 	kTextureMapChipSample[12] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample13.png");
 	kTextureMapChipSample[13] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample14.png");
 
+	// 抜けられる床
+	kTextureMapChipFloor = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Floor.png");
+
 #pragma endregion
 
 #pragma region ボス
@@ -72,6 +75,9 @@ int BaseTexture::kDebugTexture;
 #pragma region マップ
 
 int BaseTexture::kTextureMapChipSample[kTextureMapChipSampleSize];
+
+// 抜けられる床
+int BaseTexture::kTextureMapChipFloor;
 
 #pragma endregion
 

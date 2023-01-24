@@ -38,6 +38,11 @@ void Wire::Initialize() {
 // 更新
 void Wire::Update(ObjectManager* objectManager, Boss* boss) {
 
+	// もしワイヤーの長さが一定以上になった場合 ... 初期化
+	if (BaseMath::GetLength({ position[1].x - position[0].x, position[1].y - position[0].y }) >= 1500) {
+		Initialize();
+	}
+
 	for (int i = 0; i < 2; i++) {
 
 		// 発射されている場合の更新処理
@@ -56,8 +61,8 @@ void Wire::Update(ObjectManager* objectManager, Boss* boss) {
 				if (CheckHitBox(position[i], i, objectManager, boss)) {
 					// 壁じゃないときは座標を取る
 					if (type[i] != typeWall) {
-						position[i].x = object[i]->GetCenterPosition().x;
-						position[i].y = object[i]->GetCenterPosition().y;
+						//position[i].x = object[i]->GetCenterPosition().x;
+						//position[i].y = object[i]->GetCenterPosition().y;
 						prePosition[i].x = object[i]->GetCenterPosition().x;
 						prePosition[i].y = object[i]->GetCenterPosition().y;
 					}
@@ -69,10 +74,10 @@ void Wire::Update(ObjectManager* objectManager, Boss* boss) {
 		// 発射されている状態ではない　かつ　壁ではなくオブジェクトにヒットしている場合
 		else if (object[i] != NULL) {
 			if (type[i] != typeWall) {
-				position[i].x += object[i]->GetCenterPosition().x - prePosition[i].x;
-				position[i].y += object[i]->GetCenterPosition().y - prePosition[i].y;
-				prePosition[i].x = position[i].x;
-				prePosition[i].y = position[i].y;
+				position[i].x -= prePosition[i].x - object[i]->GetCenterPosition().x;
+				position[i].y -= prePosition[i].y - object[i]->GetCenterPosition().y;
+				prePosition[i].x = object[i]->GetCenterPosition().x;
+				prePosition[i].y = object[i]->GetCenterPosition().y;
 			}
 		}
 

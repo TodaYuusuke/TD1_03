@@ -6,6 +6,8 @@ enum MapChipType {
 	kTypeAir,
 	// 通常マス
 	kTypeNormal,
+	// 下に抜けられるマス
+	kTypeFloor
 };
 
 class Map {
