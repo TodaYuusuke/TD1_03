@@ -32,7 +32,7 @@ public: // メンバ関数
 	void Initialize();
 	// 更新
 	// 全てのオブジェクトを更新（Updateを呼び出す）
-	void Update(Boss* boss);
+	void Update();
 	// 描画
 	// 全てのオブジェクトを描画（Drawを呼び出す）
 	void Draw();
@@ -49,7 +49,7 @@ public: // メンバ関数
 	void MakeNewObjectPlayer(Point position, WireManager* wireManager);
 
 	// Hook
-	void MakeNewObjectHook(Point position, Point size);
+	Object* MakeNewObjectHook(Point position, Point size);
 
 	// Enemy
 	void MakeNewObjectEnemy(Point position, Point size);

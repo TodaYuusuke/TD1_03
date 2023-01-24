@@ -19,7 +19,7 @@ void ObjectManager::Initialize() {
 }
 // 更新
 // 全てのオブジェクトを更新（Updateを呼び出す）
-void ObjectManager::Update(Boss* boss) {
+void ObjectManager::Update() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() != typeObject) {
 			object[i]->Update();
@@ -69,14 +69,16 @@ void ObjectManager::MakeNewObjectPlayer(Point position, WireManager* wireManager
 
 
 // Hook
-void ObjectManager::MakeNewObjectHook(Point position, Point size) {
+Object* ObjectManager::MakeNewObjectHook(Point position, Point size) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() == typeObject) {
 			object[i] = new Hook(position, { 50,50 });
 			object[i]->Initialize();
-			break;
+			return object[i];
 		}
 	}
+	return NULL;
+
 }
 
 
