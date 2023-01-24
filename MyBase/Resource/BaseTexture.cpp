@@ -44,6 +44,8 @@ bool BaseTexture::Loading() {
 	kBossRCover = Novice::LoadTexture("./Resources/Texture/Boss/RCover.png");
 	kBossLCover = Novice::LoadTexture("./Resources/Texture/Boss/LCover.png");
 
+	// ボスのフック
+	kBossHook = Novice::LoadTexture("./Resources/Texture/Boss/Hook.png");
 #pragma endregion
 
 	return true;
@@ -84,5 +86,7 @@ int BaseTexture::kBossCore;
 // ボスのカバー
 int BaseTexture::kBossRCover;
 int BaseTexture::kBossLCover;
+
+int BaseTexture::kBossHook;
 
 #pragma endregion

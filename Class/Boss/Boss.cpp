@@ -8,16 +8,6 @@
 
 // コンストラクタ
 Boss::Boss() {
-	Boss::Initialize();
-}
-
-// デストラクタ
-Boss::~Boss() {
-
-}
-
-// 初期化処理
-void Boss::Initialize() {
 	// ボスの位置を画面中央に持っていく
 	this->centerPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
 	// ボスの画像サイズを設定
@@ -44,9 +34,100 @@ void Boss::Initialize() {
 	// 核の画像サイズを設定
 	this->kernelTextureSize = { 256.0f, 256.0f };
 
+	// 核の画像サイズを設定
+	this->hookTextureSize = { 64.0f, 64.0f };
+
 	// 武器のサイズを指定（仮テクスチャのため、今後変える）
 	this->weaponSize = { 0.0f, 0.0f };
 	this->weaponTextureSize = { 1.0f, 1.0f };
+
+	for (int i = 0; i < kmaxWireHang; i++) {
+		this->wireHangPosition[i] = { 0.0f, 0.0f };
+
+		hook[i] = NULL;
+
+	}
+
+	/// 弾の関係初期化
+	for (int i = 0; i < kmaxBullet; i++) {
+		// 弾の座標
+		this->bulletCenterPosition[i] = { 0.0f, 0.0f };
+
+		// 発射していない状態にする
+		this->isShot[i] = false;
+
+		// 弾の発射方向をリセットする
+		this->bulletDirection[i] = 0.0f;
+
+		// 弾の生存時間をリセットする
+		this->bulletAliveTime[i] = 0.0f;
+	}
+
+	// 弾のサイズを指定
+	this->bulletSize = { 20.0f, 20.0f };
+	// 弾の画像サイズを指定（仮テクスチャのため、今後変える)
+	this->bulletTextureSize = { 1.0f, 1.0f };
+
+	// 弾の発射スピードを指定
+	this->bulletSpeed = 10.0f;
+
+	/// オブジェクト関連
+	// オブジェクトを生成するかどうか
+	this->canGeneratedBlock = false;
+
+	// オブジェクト生成個数
+	this->generatedBlockValue = 0;
+
+	// オブジェクト生成間隔
+	this->generatedBlockInterval = 0.0f;
+}
+
+// デストラクタ
+Boss::~Boss() {
+
+}
+
+// 初期化処理
+void Boss::Initialize(ObjectManager* objectManager) {
+	// ボスの位置を画面中央に持っていく
+	this->centerPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
+	// ボスの画像サイズを設定
+	this->textureSize = { 225.0f, 450.0f };
+	// ボスのオフセットを初期化
+	this->offset = 0.0f;
+
+	this->degree = 0.0f;
+
+	//シェイクしていない状態に戻す
+	this->shakeVariation = { 0.0f, 0.0f };
+
+	// バイブレーション初期化
+	vibInit = false;
+
+	// 行動終了状態にする
+	this->t = 0.0f;
+	this->endAction = true;
+	this->inAction = false;
+	this->actionWayPoint = 0;
+
+	// 核の位置を設定
+	this->coreCenterPosition = centerPosition;
+	// 核の画像サイズを設定
+	this->kernelTextureSize = { 256.0f, 256.0f };
+
+	// 核の画像サイズを設定
+	this->hookTextureSize = { 64.0f, 64.0f };
+
+	// 武器のサイズを指定（仮テクスチャのため、今後変える）
+	this->weaponSize = { 0.0f, 0.0f };
+	this->weaponTextureSize = { 1.0f, 1.0f };
+
+	for (int i = 0; i < kmaxWireHang; i++) {
+		this->wireHangPosition[i] = { 0.0f, 0.0f };
+
+		hook[i] = objectManager->MakeNewObjectHook(wireHangPosition[i], hookTextureSize);
+
+	}
 
 	/// 弾の関係初期化
 	for (int i = 0; i < kmaxBullet; i++) {
@@ -84,7 +165,7 @@ void Boss::Initialize() {
 }
 
 // 更新処理
-void Boss::Update(Point playerPosition, ObjectManager* objectManager) {
+void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManager* wireManager) {
 	/******** デバック処理 **********/
 	// デバッグ状態の切り替え
 	if (BaseInput::GetKeyboardState(DIK_0, Trigger)) {
@@ -103,7 +184,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager) {
 			None(1.0f);
 			break;
 		case Boss::ROTATE:
-			Rotate(720, 2.0f);
+			Rotate(720, 2.0f, wireManager);
 			break;
 		case Boss::RUSH:
 			Rush(playerPosition, 0.5f, 1.5f, 1.0f);
@@ -129,7 +210,15 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager) {
 		Damage(0.15f, 1.5f, 0.1f, 5.0f, 0.75f, 0.25f);
 	}
 
+	// 角度を変換
 	degree %= 360;
+
+	// フックの座標を更新し続ける
+	wireHangPosition[0] = GetLHookPosition(centerPosition);
+	wireHangPosition[1] = GetRHookPosition(centerPosition);
+
+	hook[0]->SetCenterPosition(wireHangPosition[0]);
+	hook[1]->SetCenterPosition(wireHangPosition[1]);
 
 	// デバッグ関数の実行
 	if (inDebug == true) {
@@ -230,6 +319,26 @@ void Boss::Draw() {
 		0xFFFFFFFF
 	);
 
+	// ボス左側フック画像
+	BaseDraw::DrawQuad(
+		Boss::GetLHookPosition(viewPosition),
+		BaseTexture::kBossHook,
+		hookTextureSize,
+		1.0f,
+		degree,
+		0xFFFFFFFF
+	);
+
+	// ボス右側フック画像
+	BaseDraw::DrawQuad(
+		Boss::GetRHookPosition(viewPosition),
+		BaseTexture::kBossHook,
+		hookTextureSize,
+		1.0f,
+		degree,
+		0xFFFFFFFF
+	);
+
 	// ボス左側画像
 	BaseDraw::DrawQuad(
 		Boss::GetLCoverPosition(viewPosition),
@@ -249,6 +358,10 @@ void Boss::Draw() {
 		degree,
 		0xFFFFFFFF
 	);
+
+	Novice::ScreenPrintf(0, 0, "x : %4.2f y : %4.2f", wireHangPosition[0].x, wireHangPosition[0].y);
+	Novice::ScreenPrintf(0, 20, "x : %4.2f y : %4.2f", wireHangPosition[1].x, wireHangPosition[1].y);
+
 }
 
 // ボス自体の当たり判定を返す関数
@@ -269,7 +382,7 @@ bool Boss::GetBossCollision(Point hitPosition) {
 	}
 	else {
 		// 円に命中した場合trueを返す
-		if (d <= size.y) {
+		if (d <= textureSize.y / 2) {
 			return true;
 		}
 		else {
@@ -345,12 +458,28 @@ Point Boss::GetShotPosition(Point centerPosition) {
 	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
 }
 
+// 左側フックの相対座標を求める
+Point Boss::GetLHookPosition(Point centerPosition) {
+	// 回転中心からの差異ベクトル作成
+	Point p = { -textureSize.x - offset , 0 };
+	// ベクトル計算
+	p = BaseMath::TurnPoint(p, degree);
+	// 計算した値を返す
+	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
+}
+
+// 右側フックの相対座標を求める
+Point Boss::GetRHookPosition(Point centerPosition) {
+	// 回転中心からの差異ベクトル作成
+	Point p = { textureSize.x + offset , 0 };
+	// ベクトル計算
+	p = BaseMath::TurnPoint(p, degree);
+	// 計算した値を返す
+	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
+}
+
 // デバッグ用関数
 void Boss::Debug() {
-	// すべてをリセットする
-	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger)) {
-		Boss::Initialize();
-	}
 
 	if (endAction == true) {
 
@@ -530,7 +659,7 @@ void Boss::None(float waitFrame) {
 // endDegree ... 終了時の角度
 // rotateTime ... 回転する時間。これは秒数
 // ボスを回転させる関数
-void Boss::Rotate(float endDegree, float RotateTime) {
+void Boss::Rotate(float endDegree, float RotateTime, WireManager* wireManager) {
 
 	static int startDegree;
 	// 初期化処理
@@ -548,6 +677,7 @@ void Boss::Rotate(float endDegree, float RotateTime) {
 	}
 	else {
 		//t が一定以上になったら行動終了
+		wireManager->Initialize();
 		t = 0.0f;
 		degree = 0;
 		init = false;
@@ -752,6 +882,7 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 				break;
 				// 回転切り
 			case Boss::Pattern3:
+				nextDegree = prevDegree;
 				break;
 			default:
 				break;
@@ -1621,6 +1752,14 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 			nextCenterPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
 
 			prevDegree = degree;
+
+			if (degree < 0) {
+				nextDegree = 360;
+			}
+			else {
+				nextDegree = -360;
+			}
+
 			// tを初期化する
 			t = 0.0f;
 			// 次の行動へ
@@ -1637,7 +1776,7 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 			shakeVariation.y = BaseDraw::Ease_InOut(t, shakeVariation.y, -shakeVariation.y, backTime);
 
 			// 角度関連をイージング
-			degree = BaseDraw::Ease_InOut(t, prevDegree, -prevDegree, backTime);
+			degree = BaseDraw::Ease_InOut(t, prevDegree, -prevDegree + nextDegree, backTime);
 
 			// tをプラスする
 			t += 1.0f / 60.0f;
@@ -1645,6 +1784,8 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 		else {
 
 			prevOffset = offset;
+
+			degree = 0;
 
 			// tを初期化する
 			t = 0.0f;

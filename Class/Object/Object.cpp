@@ -136,6 +136,13 @@ Point Object::GetCenterPosition() {
 	return centerPosition;
 }
 
+// オブジェクトの中心座標を設定する関数
+	// 返り値：なし
+	// 引数：セットする中心座標
+void Object::SetCenterPosition(Point _setPosition) {
+	centerPosition = _setPosition;
+}
+
 // オブジェクトの速度を受け取る関数
 // 返り値：速度のベクトル
 // 引数：なし

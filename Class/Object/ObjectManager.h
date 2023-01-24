@@ -45,7 +45,7 @@ public: // ƒƒ“ƒoŠÖ”
 	void MakeNewObjectPlayer(Point position);
 
 	// Hook
-	void MakeNewObjectHook(Point position, Point size);
+	Object* MakeNewObjectHook(Point position, Point size);
 
 	// Enemy
 	void MakeNewObjectEnemy(Point position, Point size);

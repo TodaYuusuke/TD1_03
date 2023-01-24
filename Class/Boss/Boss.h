@@ -1,6 +1,7 @@
 #pragma once
 #include "MyBase/MyBase.h"
 #include "Class/Object/ObjectManager.h"
+#include "Class/Wire/WireManager.h"
 
 /*********************************************
  * ボスクラス
@@ -18,10 +19,10 @@ public:
 	~Boss();
 
 	// 初期化
-	void Initialize();
+	void Initialize(ObjectManager* objectManager);
 
 	// 更新処理
-	void Update(Point playerPosition, ObjectManager* objectManager);
+	void Update(Point playerPosition, ObjectManager* objectManager,WireManager* wireManager);
 
 	// 描画処理
 	void Draw();
@@ -50,6 +51,12 @@ private:
 
 	// 発射地点の相対座標を求める
 	Point GetShotPosition(Point centerPosition);
+
+	// 左側フックの相対座標を求める
+	Point GetLHookPosition(Point centerPosition);
+
+	// 右側フックの相対座標を求める
+	Point GetRHookPosition(Point centerPosition);
 
 	/******** 初期化関数 **********/
 	// 選択初期化関数
@@ -119,7 +126,7 @@ private:
 	// endDegree ... 終了時の角度
 	// rotateTime ... 回転する時間。これは秒数
 	// ボスを回転させる関数
-	void Rotate(float endDegree, float RotateTime);
+	void Rotate(float endDegree, float RotateTime, WireManager* wireManager);
 
 	// 突進関数
 	// 返り値：なし
@@ -309,10 +316,16 @@ private:
 	// 核のテクスチャサイズ
 	Point kernelTextureSize;
 
+	// フックのテクスチャサイズ
+	Point hookTextureSize;
+
 	// サイズ
 	Point size;
 	// 核のサイズ
 	Point coreSize;
+
+	// フックのテクスチャサイズ
+	Point hookSize;
 
 	/// 武器関連
 	// 武器のサイズ
@@ -377,5 +390,8 @@ private:
 	/******** イージング関連 **********/
 	// イージング用t
 	float t = 0.0f;
+
+	// フックのオブジェクト
+	Object* hook[2];
 
 };

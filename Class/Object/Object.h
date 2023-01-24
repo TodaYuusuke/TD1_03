@@ -60,6 +60,11 @@ public: // メンバ関数
 	// 引数：なし
 	Point GetCenterPosition();
 
+	// オブジェクトの中心座標を設定する関数
+	// 返り値：なし
+	// 引数：セットする中心座標
+	void SetCenterPosition(Point _setPosition);
+
 	// オブジェクトの速度を受け取る関数
 	// 返り値：速度のベクトル
 	// 引数：なし
@@ -80,7 +85,6 @@ public: // メンバ関数
 	// 引数：足す速度
 	void AddVelocity(float _addVelocity);
 
-	
 	// 当たり判定関連
 
 	// オブジェクトに対する当たり判定をチェックする関数
