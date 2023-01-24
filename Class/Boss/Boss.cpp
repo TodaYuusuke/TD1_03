@@ -1808,6 +1808,7 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 		if (t <= closeTime) {
 
 			offset = BaseDraw::Ease_InOut(t, prevOffset, -prevOffset, closeTime);
+			ShakeEaseOut(30, closeTime);
 
 			// t‚ðƒvƒ‰ƒX‚·‚é
 			t += 1.0f / 60.0f;
