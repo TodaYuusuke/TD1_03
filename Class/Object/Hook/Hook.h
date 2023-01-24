@@ -22,4 +22,8 @@ public: // メンバ関数
 	// タイプ取得
 	ObjectType GetType() override;
 
+private:
+
+	int pullCount;
+
 };
