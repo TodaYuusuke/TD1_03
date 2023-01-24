@@ -203,6 +203,19 @@ void Wire::Attract() {
 	}
 
 
+	// 特別な判定
+
+	// もし片方が壁で、片方がHookの場合
+	if ((type[0] == typeHook && type[1] == typeWall) || (type[1] == typeHook && type[0] == typeWall)) {
+		for (int i = 0; i < 2; i++) {
+			if (type[i] == typeHook) {
+				object[i]->SetisPulled(true);
+				return;
+			}
+		}
+	}
+
+
 	// 一つ目のオブジェクトにベクトルを足す
 	if (object[0] != NULL ) {
 		// 引き寄せる強さを決定
