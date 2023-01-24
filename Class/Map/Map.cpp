@@ -57,9 +57,9 @@ bool Map::CheckHitBox(Point hitPosition) {
             return true;
         case kTypeFloor:
             // 点が上辺より下で
-            if (hitPosition.y > 15) {
+            if (hitPosition.y > 12) {
                 // 点が下辺より上で
-                if (hitPosition.y < 16) {
+                if (hitPosition.y < 19) {
                     // 点が左辺より右で
                     if (hitPosition.x > 0) {
                         // 点が右辺より左の場合 -> ヒットしている

@@ -58,6 +58,18 @@ void Object::Update() {
 		centerPosition.x += velocity.x;
 		centerPosition.y += velocity.y;
 
+		CheckFieldHitBox();
+
+		// ‰ñ“]‘¬“x‚ð’Ç‰Á
+		angle += angleVelocity;
+
+		if (angleVelocity > 0) {
+			centerPosition.x -= 0.5f * angleVelocity;
+		}
+		else if (angleVelocity < 0) {
+			centerPosition.x -= 0.5f * angleVelocity;
+		}
+
 
 		// ‘¬“x‚ð­‚µ‚¸‚ÂŒ¸‘¬‚³‚¹‚é
 		if (velocity.x > 0) {
@@ -86,17 +98,6 @@ void Object::Update() {
 			}
 		}
 
-
-		// ‰ñ“]‘¬“x‚ð’Ç‰Á
-		angle += angleVelocity;
-
-		if (angleVelocity > 0) {
-			centerPosition.x -= 0.5f * angleVelocity;
-		}
-		else if (angleVelocity < 0) {
-			centerPosition.x -= 0.5f * angleVelocity;
-		}
-
 		// ‰ñ“]‘¬“x‚ðŒ¸‘¬‚³‚¹‚Ä‚¢‚­
 		/*if (angleVelocity > BaseConst::kPlayerVelocityLimit) {
 			angleVelocity -= 0.05f;
@@ -112,7 +113,6 @@ void Object::Update() {
 		}*/
 
 
-		CheckFieldHitBox();
 	}
 }
 
