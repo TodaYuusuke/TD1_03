@@ -8,11 +8,15 @@
 #include "Class/Object/Enemy/Enemy.h"
 #include "Class/Object/Hook/Hook.h"
 
-#include "Class/Wire/WireManager.h";
+#include "Class/Wire/WireManager.h"
+
+#include "Class/Boss/Boss.h"
 
 // プログラム内のオブジェクトを全て管理するクラス
 
 class WireManager;
+
+class Boss;
 
 class ObjectManager {
 
@@ -28,7 +32,7 @@ public: // メンバ関数
 	void Initialize();
 	// 更新
 	// 全てのオブジェクトを更新（Updateを呼び出す）
-	void Update();
+	void Update(Boss* boss);
 	// 描画
 	// 全てのオブジェクトを描画（Drawを呼び出す）
 	void Draw();

@@ -3,9 +3,11 @@
 #include "Class/Object/ObjectManager.h"
 
 #include "Class/Map/MapManager.h"
+#include "Class/Boss/Boss.h"
 
 // ワイヤーのクラス
 
+class Boss;
 class ObjectManager;
 class Player;
 
@@ -19,7 +21,7 @@ public: // メンバ関数
 	// 初期化（最初は存在しないものとして扱うので、変数はデタラメで）
 	void Initialize();
 	// 更新
-	void Update(ObjectManager* objectManager);
+	void Update(ObjectManager* objectManager, Boss* boss);
 	// 描画
 	void Draw();
 
@@ -31,22 +33,22 @@ public: // メンバ関数
 	// 返り値：ヒットした場合 ... true
 	//
 	// 今回はオブジェクト、もしくは場外に当たった場合にヒット判定
-	bool CheckHitBox(Point _position, int i, ObjectManager* objectManager);
+	bool CheckHitBox(Point _position, int i, ObjectManager* objectManager, Boss* boss);
 
 
 	// ワイヤー射出時に呼び出される関数
 	// 返り値がtrueのパターン：
-	// ・正常に射出できた場合
+	// ・正常に射出できた場合 = 1
 	// 返り値がfalseのパターン：
-	// ・現在ワイヤーが射出中（まだ着弾していない）
-	// ・すでにワイヤーの着弾点が2点決まっている
+	// ・現在ワイヤーが射出中（まだ着弾していない） = -1
+	// ・すでにワイヤーの着弾点が2点決まっている = -2
 	//
 	// 引数：
 	// shotPosition ... ワイヤー射出地点
 	// shotAngle ... 発射角度（Degree）
 	//
 	// この関数が呼び出された後は、Updateにて着弾するまで弾の演算をし続けること。（ワイヤーの速度はBaseConst::kWireSpeed）
-	bool Shot(Point shotPosition, float shotAngle, Player* _player);
+	int Shot(Point shotPosition, float shotAngle, Player* _player);
 
 	// ワイヤー縮小時に呼び出される関数
 	// 返り値：なし

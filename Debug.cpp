@@ -57,8 +57,8 @@ void Debug::Update() {
 	BaseDraw::SetScreenPosition(screenPosMove);
 
 	MapManager::Update();
-	objectManager.Update();
-	wireManager.Update(&objectManager);
+	objectManager.Update(&boss);
+	wireManager.Update(&objectManager, &boss);
 	boss.Update(objectManager.GetPlayerPosition(), &objectManager);
 }
 // •`‰æ

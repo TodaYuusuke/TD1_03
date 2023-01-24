@@ -2,12 +2,12 @@
 #include "MyBase/MyBase.h"
 #include "Class/Object/ObjectManager.h"
 #include "Class/Wire/Wire.h"
+#include "Class/Boss/Boss.h"
 
 class ObjectManager;
-
 class Player;
-
 class Wire;
+class Boss;
 
 class WireManager {
 public: // メンバ関数
@@ -20,23 +20,23 @@ public: // メンバ関数
 	// 初期化
 	void Initialize();
 	// 更新
-	void Update(ObjectManager* objectManager);
+	void Update(ObjectManager* objectManager, Boss* boss);
 	// 描画
 	void Draw();
 
 	// ワイヤー射出時に呼び出される関数
 	// 返り値がtrueのパターン：
-	// ・正常に射出できた場合
+	// ・正常に射出できた場合 = 1
 	// 返り値がfalseのパターン：
-	// ・現在ワイヤーが射出中（まだ着弾していない）
-	// ・すでにワイヤーの着弾点が2点決まっている
+	// ・現在ワイヤーが射出中（まだ着弾していない） = -1
+	// ・すでにワイヤーの着弾点が2点決まっている = -2
 	//
 	// 引数：
 	// shotPosition ... ワイヤー射出地点
 	// shotAngle ... 発射角度（Degree）
 	//
 	// Wireクラスのshotの返り値で正常に射出できたかを判断すること。
-	bool Shot(Point shotPosition, float shotAngle,Player* _player);
+	int Shot(Point shotPosition, float shotAngle,Player* _player);
 
 	// ワイヤー縮小時に呼び出される関数
 	// 返り値：なし

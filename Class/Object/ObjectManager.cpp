@@ -21,13 +21,13 @@ void ObjectManager::Initialize() {
 }
 // 更新
 // 全てのオブジェクトを更新（Updateを呼び出す）
-void ObjectManager::Update() {
+void ObjectManager::Update(Boss* boss) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() != typeObject) {
 			object[i]->Update();
 		}
 	}
-	wireManager->Update(this);
+	wireManager->Update(this, boss);
 }
 // 描画
 // 全てのオブジェクトを描画（Drawを呼び出す）

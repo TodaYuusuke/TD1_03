@@ -36,7 +36,7 @@ void Wire::Initialize() {
 }
 
 // 更新
-void Wire::Update(ObjectManager* objectManager) {
+void Wire::Update(ObjectManager* objectManager, Boss* boss) {
 
 	for (int i = 0; i < 2; i++) {
 
@@ -53,7 +53,7 @@ void Wire::Update(ObjectManager* objectManager) {
 				position[i].y += p.y;
 
 				// 当たり判定チェック
-				if (CheckHitBox(position[i], i, objectManager)) {
+				if (CheckHitBox(position[i], i, objectManager, boss)) {
 					// 壁じゃないときは座標を取る
 					if (type[i] != typeWall) {
 						position[i].x = object[i]->GetCenterPosition().x;
@@ -99,7 +99,13 @@ bool Wire::GetisAlive() {
 // 返り値：ヒットした場合 ... true
 //
 // 今回はオブジェクト、もしくはマップチップに当たった場合にヒット判定
-bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager) {
+bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager, Boss* boss) {
+
+	// ボスの外殻に当たっていないか
+	if (boss->GetBossCollision(_position)) {
+		Initialize();
+		return false;
+	}
 
 	// オブジェクトにヒットしているか検証
 	object[i] = objectManager->CheckObjectHitBox(_position);
@@ -122,23 +128,23 @@ bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager) {
 
 // ワイヤー射出時に呼び出される関数
 // 返り値がtrueのパターン：
-// ・正常に射出できた場合
+// ・正常に射出できた場合 = 1
 // 返り値がfalseのパターン：
-// ・現在ワイヤーが射出中（まだ着弾していない）
-// ・すでにワイヤーの着弾点が2点決まっている
+// ・現在ワイヤーが射出中（まだ着弾していない） = -1
+// ・すでにワイヤーの着弾点が2点決まっている = -2
 //
 // 引数：
 // shotPosition ... ワイヤー射出地点
 // shotAngle ... 発射角度（Degree）
 //
 // この関数が呼び出された後は、Updateにて着弾するまで弾の演算をし続けること。（ワイヤーの速度はBaseConst::kWireSpeed）
-bool Wire::Shot(Point shotPosition, float shotAngle, Player* _player) {
+int Wire::Shot(Point shotPosition, float shotAngle, Player* _player) {
 	// 撃っていない時	: 初期化処理をして撃つ
 	// 撃っている時		: 特に何もしない
 
-	// 発射中もtrueを返す
+	// 発射中はfalseを返す
 	if (isShot[0] || isShot[1]) {
-		return true;
+		return -1;
 	}
 
 	// １発目がまだ発射されていない　かつ　まだ着弾していない場合
@@ -161,7 +167,7 @@ bool Wire::Shot(Point shotPosition, float shotAngle, Player* _player) {
 		// タイプ
 		type[1] = typePlayer;
 
-		return true;
+		return 1;
 	}
 	// １発目が着弾済み　かつ　２発目がまだ発射されていない　かつ　２発目がまだ着弾していない場合
 	//else if ((object[0] != NULL || type[0] == typeWall) && !isShot[1] && object[1]->GetType() == typePlayer) {
@@ -174,10 +180,10 @@ bool Wire::Shot(Point shotPosition, float shotAngle, Player* _player) {
 		// 射出角度（degree）
 		this->shotAngle = shotAngle;
 
-		return true;
+		return 1;
 	}
 
-	return false;
+	return -2;
 }
 
 // ワイヤー縮小時に呼び出される関数

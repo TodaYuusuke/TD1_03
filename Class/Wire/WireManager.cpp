@@ -16,9 +16,9 @@ void WireManager::Initialize() {
 
 }
 
-void WireManager::Update(ObjectManager* objectManager) {
+void WireManager::Update(ObjectManager* objectManager, Boss* boss) {
 	for (int i = 0; i < BaseConst::kWireMaxAmount; i++) {
-		wires[i]->Update(objectManager);
+		wires[i]->Update(objectManager, boss);
 	}
 
 }
@@ -29,13 +29,19 @@ void WireManager::Draw() {
 	}
 }
 
-bool WireManager::Shot(Point shotPosition, float shotAngle,Player* _player) {
+int WireManager::Shot(Point shotPosition, float shotAngle,Player* _player) {
 	for (int i = 0; i < BaseConst::kWireMaxAmount; i++) {
-		if (wires[i]->Shot(shotPosition, shotAngle, _player)) {
-			return true;
+		switch (wires[i]->Shot(shotPosition, shotAngle, _player))
+		{
+			case 1:
+				return 1;
+			case -1:
+				return -1;
+			case -2:
+				break;
 		}
 	}
-	return false;
+	return -2;
 }
 
 void WireManager::Attract() {

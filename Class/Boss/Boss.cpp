@@ -269,7 +269,7 @@ bool Boss::GetBossCollision(Point hitPosition) {
 	}
 	else {
 		// ‰~‚É–½’†‚µ‚½ê‡true‚ğ•Ô‚·
-		if (d <= size.y) {
+		if (d <= textureSize.y / 2) {
 			return true;
 		}
 		else {
