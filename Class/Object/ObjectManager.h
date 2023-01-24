@@ -46,7 +46,7 @@ public: // メンバ関数
 	void MakeNewObjectBlock(Point position, Point size);
 
 	// Player
-	void MakeNewObjectPlayer(Point position);
+	void MakeNewObjectPlayer(Point position, WireManager* wireManager);
 
 	// Hook
 	void MakeNewObjectHook(Point position, Point size);
@@ -97,8 +97,4 @@ private: // メンバ変数
 
 	// オブジェクトのポインタ達
 	Object* object[kMaxObjectSize];
-
-	// ワイヤーマネージャー
-	WireManager* wireManager;
-
 };

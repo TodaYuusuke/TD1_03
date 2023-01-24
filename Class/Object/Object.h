@@ -180,12 +180,6 @@ protected: // 関数
 	}
 
 	/// <summary>
-	/// 回転角度を取得する関数
-	/// </summary>
-	/// <returns>angle</returns>
-	float GetAngle();
-
-	/// <summary>
 	/// 矩形の４点を取得する関数
 	/// </summary>
 	/// <returns>Quad</returns>

@@ -15,7 +15,7 @@ void Debug::Initialize() {
 	MapManager::Initialize();
 	objectManager.Initialize();
 	wireManager.Initialize();
-	objectManager.MakeNewObjectPlayer({ 100,200 });
+	objectManager.MakeNewObjectPlayer({ 100,200 }, &wireManager);
 	boss.Initialize();
 }
 // 更新
@@ -31,7 +31,7 @@ void Debug::Update() {
 		MapManager::Initialize();
 		objectManager.Initialize();
 		wireManager.Initialize();
-		objectManager.MakeNewObjectPlayer({ 100,200 });
+		objectManager.MakeNewObjectPlayer({ 100,200 }, &wireManager);
 	}
 
 	// エネミー生成
