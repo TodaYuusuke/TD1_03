@@ -19,7 +19,7 @@ void ObjectManager::Initialize() {
 }
 // 更新
 // 全てのオブジェクトを更新（Updateを呼び出す）
-void ObjectManager::Update(Boss* boss) {
+void ObjectManager::Update() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() != typeObject) {
 			object[i]->Update();

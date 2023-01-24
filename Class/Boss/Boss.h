@@ -10,6 +10,7 @@
  *********************************************/
 
 class ObjectManager;
+class WireManager;
 
 class Boss {
 public:
