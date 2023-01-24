@@ -197,7 +197,7 @@ private:
 	// stanTime　... スタン秒数
 	// backTime ... 戻る時にかかる秒数
 	// ボスに対してダメージが与えられる状態にする関数
-	void Damage(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime);
+	void Damage(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime, WireManager* wireManager);
 
 	/*********************************
 		メンバ定数
@@ -229,6 +229,8 @@ private:
 	};
 	// 攻撃パターンを格納するint型変数
 	int attackPattern = NONE;
+	int prevAttackPattern = NONE;
+	int nextAttackPattern = NONE;
 
 	/******** 行動中間地点（Enum） **********/
 	// 攻撃やスタン等の中間地点到達の際に切り替え
