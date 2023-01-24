@@ -59,7 +59,7 @@ public: // 静的なテクスチャの変数
 #pragma region ボス
 
 	// ボスの核
-	static int kBossKernel;
+	static int kBossCore;
 
 	// ボスのカバー
 	static int kBossRCover;

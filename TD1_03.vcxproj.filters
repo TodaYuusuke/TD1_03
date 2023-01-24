@@ -83,6 +83,12 @@
     <Filter Include="Class\Source\Map">
       <UniqueIdentifier>{940e4f08-052f-4abc-8e8a-9396a1afcc9a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Class\Include\Boss">
+      <UniqueIdentifier>{97995acd-01cd-4afb-88ee-b56802e5ec89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Source\Boss">
+      <UniqueIdentifier>{19f3a9f7-ea0f-4ec0-932b-a2772f5db4a5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\DirectXCommon.cpp">
@@ -152,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="Class\Source\Map\MapManager.cpp">
       <Filter>Class\Source\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Source\Boss\Boss.cpp">
+      <Filter>Class\Source\Boss</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -290,6 +299,9 @@
     </ClInclude>
     <ClInclude Include="Class\Include\Map\MapManager.h">
       <Filter>Class\Include\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Include\Boss\Boss.h">
+      <Filter>Class\Include\Boss</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

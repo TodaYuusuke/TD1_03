@@ -38,7 +38,7 @@ bool BaseTexture::Loading() {
 #pragma region ボス
 
 	// ボスの核
-	kBossKernel = Novice::LoadTexture("./Resources/Texture/Boss/Kernel.png");
+	kBossCore = Novice::LoadTexture("./Resources/Texture/Boss/Kernel.png");
 
 	// ボスのカバー
 	kBossRCover = Novice::LoadTexture("./Resources/Texture/Boss/RCover.png");
@@ -79,7 +79,7 @@ int BaseTexture::kTextureMapChipSample[kTextureMapChipSampleSize];
 #pragma region ボス
 
 // ボスの核
-int BaseTexture::kBossKernel;
+int BaseTexture::kBossCore;
 
 // ボスのカバー
 int BaseTexture::kBossRCover;
