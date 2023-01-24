@@ -119,6 +119,19 @@ public:
 	// ワールド座標のまま呼び出せる描画関数（DrawQuad）
 	static void DrawQuad(Point worldPosition, int textureHandle, Point textureSize, float scale, float angle, unsigned int color);
 
+	// x, yそれぞれの大きさが指定可能なワールド座標からスプライトを描画する関数（DrawQuad）
+	// 返り値：無し
+	// 引数：
+	// worldPosition ... 描画するスプライトの中心座標
+	// size ... 描画するスプライトのサイズ
+	// textureHandle ... テクスチャのハンドル
+	// textureSize ... テクスチャのサイズ
+	// scale ... 描画するスプライトの倍率
+	// angle ... 描画するスプライトの回転角（Degree）
+	// color ... 描画するスプライトの色
+	// ワールド座標のまま呼び出せる描画関数（DrawQuad）
+	static void DesignationDrawQuad(Point worldPosition, Point size, int textureHandle, Point textureSize, float angle, unsigned int color);
+
 
 private:
 

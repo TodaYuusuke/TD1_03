@@ -16,12 +16,13 @@ void Debug::Initialize() {
 	objectManager.Initialize();
 	wireManager.Initialize();
 	objectManager.MakeNewObjectPlayer({ 100,200 });
+	boss.Initialize();
 }
 // 更新
 void Debug::Update() {
 
-	// 中クリックでブロックを生成
-	if (BaseInput::GetMouseState(MiddleClick, Trigger)) {
+	// リックでブロックを生成
+	if (BaseInput::GetKeyboardState(DIK_O, Trigger)) {
 		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
 	}
 
@@ -54,11 +55,13 @@ void Debug::Update() {
 	MapManager::Update();
 	objectManager.Update();
 	wireManager.Update(&objectManager);
+	boss.Update(objectManager.GetPlayerPosition(), &objectManager);
 }
 // 描画
 void Debug::Draw() {
 
 	MapManager::Draw();
+	boss.Draw();
 	objectManager.Draw();
 	wireManager.Draw();
 }

@@ -253,11 +253,53 @@ void Object::CheckFieldHitBox() {
 	}
 
 
-	// 上下左右のヒットボックスチェック
+	// 8つ角のヒットボックスチェック
 	CheckHitBoxRhombus(checkQuadPoint, checkRhombusPoint);
-	// 左上、左下、右上、右下のヒットボックスチェック
-	//CheckHitBoxQuad(checkQuadPoint);
 
+	// 場外に飛び出した場合の補正を行う
+
+	// 左方向に飛び出したとき
+	while (centerPosition.x - width / 2 < BaseConst::kMapChipSizeWidth) {
+		// 座標を右に
+		centerPosition.x += 1;
+		// 再計算
+		for (int i = 0; i < 4; i++) {
+			checkQuadPoint[i].x += 1;
+			checkRhombusPoint[i].x += 1;
+		}
+	}
+	// 右方向に飛び出したとき
+	while (centerPosition.x + width / 2 > (BaseConst::kMapSizeWidth - 1) * BaseConst::kMapChipSizeWidth) {
+		// 座標を左に
+		centerPosition.x -= 1;
+		// 再計算
+		for (int i = 0; i < 4; i++) {
+			checkQuadPoint[i].x -= 1;
+			checkRhombusPoint[i].x -= 1;
+		}
+	}
+	// 下方向に飛び出したとき
+	while (centerPosition.y - height / 2 < BaseConst::kMapChipSizeHeight) {
+		// 座標を上に
+		centerPosition.y += 1;
+		// 再計算
+		for (int i = 0; i < 4; i++) {
+			checkQuadPoint[i].y += 1;
+			checkRhombusPoint[i].y += 1;
+		}
+	}
+	// 上方向に飛び出したとき
+	while (centerPosition.y + height / 2 > (BaseConst::kMapSizeHeight - 1) * BaseConst::kMapChipSizeHeight) {
+		// 座標を下に
+		centerPosition.y -= 1;
+		// 速度を0に
+		velocity.y = 0;
+		// 再計算
+		for (int i = 0; i < 4; i++) {
+			checkQuadPoint[i].y -= 1;
+			checkRhombusPoint[i].y -= 1;
+		}
+	}
 }
 
 // 上下左右の当たり判定の関数
@@ -471,7 +513,6 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 		}
 		// 右の場合
 		else if (MapManager::CheckHitBox(checkQuadPoint[2])) {
-
 			// 移動量
 			int move = 0;
 			// ヒットしなくなるまで上へ補正する
@@ -514,7 +555,17 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 		}
 		// 上の場合
 		else if (MapManager::CheckHitBox(checkQuadPoint[3])) {
-
+			// ヒットしなくなるまで下へ補正する
+			while (MapManager::CheckHitBox(checkQuadPoint[3])) {
+				// 座標を下に
+				centerPosition.y -= 1;
+				// 再計算
+				for (int i = 0; i < 4; i++) {
+					checkQuadPoint[i].y -= 1;
+					checkRhombusPoint[i].y -= 1;
+				}
+			}
+			angleVelocity -= kAddAngleVelocity;
 		}
 	}
 

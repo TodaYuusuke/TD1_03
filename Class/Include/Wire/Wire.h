@@ -23,13 +23,15 @@ public: // メンバ関数
 	// 描画
 	void Draw();
 
+	// ワイヤーの生存フラグを返す
+	bool GetisAlive();
 
 	// ワイヤーの当たり判定チェック用関数
 	// 引数：なし
 	// 返り値：ヒットした場合 ... true
 	//
 	// 今回はオブジェクト、もしくは場外に当たった場合にヒット判定
-	bool CheckHitBox(Point* _position, Object*& _object, ObjectManager* objectManager);
+	bool CheckHitBox(Point _position, int i, ObjectManager* objectManager);
 
 
 	// ワイヤー射出時に呼び出される関数
@@ -55,32 +57,23 @@ public: // メンバ関数
 
 private: // メンバ変数
 
-	//ワイヤーの状態
-	enum WireState {
-		// 射出していない
-		NoneShot,
-		// 射出中
-		DoneShot
-	};
-	WireState wireState;
+	// 0 ... １発目（First）
+	// 1 ... ２発目（Second）
 
-	// ワイヤーが刺さってるか
-	bool firstisStab;
-	bool secondisStab;
+	// 前フレームの座標
+	Point prePosition[2];
+	// 座標
+	Point position[2];
+	// 着地点のオブジェクト
+	Object* object[2];
+	// 着地点のオブジェクトのタイプ
+	ObjectType type[2];
+	// ワイヤーの状態
+	bool isShot[2];
 
+	// 射出角度（degree）
+	float shotAngle;
 
-	// 1点目の座標
-	Point* firstPosition;
-	// 2点目の座標
-	Point* secondPosition;
-
-	// 1点目の着地点にあったオブジェクト
-	Object* firstObject;
-	// 2点目の着地点にあったオブジェクト
-	Object* secondObject;
-
-	// 射出角度
-	float ShotAngle;
-
-
+	// ワイヤーの生存フラグ
+	bool isAlive;
 };

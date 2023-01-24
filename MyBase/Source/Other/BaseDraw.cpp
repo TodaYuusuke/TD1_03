@@ -88,13 +88,13 @@ void BaseDraw::DrawQuad(Point worldPosition, int textureHandle, Point textureSiz
 	// 四つ角を求める
 	Quad quad = {
 		-textureSize.x / 2.0f * scale,
-		-textureSize.y / 2.0f * scale,
-		+textureSize.x / 2.0f * scale,
-		-textureSize.y / 2.0f * scale,
-		-textureSize.x / 2.0f * scale,
 		+textureSize.y / 2.0f * scale,
 		+textureSize.x / 2.0f * scale,
-		+textureSize.y / 2.0f * scale
+		+textureSize.y / 2.0f * scale,
+		-textureSize.x / 2.0f * scale,
+		-textureSize.y / 2.0f * scale,
+		+textureSize.x / 2.0f * scale,
+		-textureSize.y / 2.0f * scale
 	};
 
 	// 回転
@@ -118,6 +118,50 @@ void BaseDraw::DrawQuad(Point worldPosition, int textureHandle, Point textureSiz
 	);
 }
 
+// x, yそれぞれの座標が指定可能なワールド座標からスプライトを描画する関数（DrawQuad）
+// 返り値：無し
+// 引数：
+// worldPosition ... 描画するスプライトの中心座標
+// size ... 描画するスプライトのサイズ
+// textureHandle ... テクスチャのハンドル
+// textureSize ... テクスチャのサイズ
+// scale ... 描画するスプライトの倍率
+// angle ... 描画するスプライトの回転角（Degree）
+// color ... 描画するスプライトの色
+// ワールド座標のまま呼び出せる描画関数（DrawQuad）
+void BaseDraw::DesignationDrawQuad(Point worldPosition, Point size, int textureHandle, Point textureSize, float angle, unsigned int color) {
+	// 四つ角を求める
+	Quad quad = {
+		-size.x / 2.0f,
+		+size.y / 2.0f,
+		+size.x / 2.0f,
+		+size.y / 2.0f,
+		-size.x / 2.0f,
+		-size.y / 2.0f,
+		+size.x / 2.0f,
+		-size.y / 2.0f
+	};
+
+	// 回転
+	quad = BaseMath::TurnBox(quad, angle);
+	// スクリーン座標に
+	quad.q1 = WorldtoScreen({ quad.q1.x + worldPosition.x, quad.q1.y + worldPosition.y });
+	quad.q2 = WorldtoScreen({ quad.q2.x + worldPosition.x, quad.q2.y + worldPosition.y });
+	quad.q3 = WorldtoScreen({ quad.q3.x + worldPosition.x, quad.q3.y + worldPosition.y });
+	quad.q4 = WorldtoScreen({ quad.q4.x + worldPosition.x, quad.q4.y + worldPosition.y });
+
+	// 描画
+	Novice::DrawQuad(
+		quad.q1.x, quad.q1.y,
+		quad.q2.x, quad.q2.y,
+		quad.q3.x, quad.q3.y,
+		quad.q4.x, quad.q4.y,
+		0, 0,
+		textureSize.x, textureSize.y,
+		textureHandle,
+		color
+	);
+}
 
 //////////////////////////////////
 /* - staticメンバ変数の実態を宣言 - */
