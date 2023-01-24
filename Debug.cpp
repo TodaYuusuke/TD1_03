@@ -21,8 +21,8 @@ void Debug::Initialize() {
 // 更新
 void Debug::Update() {
 
-	// リックでブロックを生成
-	if (BaseInput::GetKeyboardState(DIK_O, Trigger)) {
+	// Bキーでブロックを生成
+	if (BaseInput::GetKeyboardState(DIK_B, Trigger)) {
 		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
 	}
 

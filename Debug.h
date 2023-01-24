@@ -1,10 +1,10 @@
-#include "MyBase/Include/MyBase.h"
-#include "Class/Include/Object/ObjectManager.h"
-#include "Class/Include/Wire/WireManager.h"
+#include "MyBase/MyBase.h"
+#include "Class/Object/ObjectManager.h"
+#include "Class/Wire/WireManager.h"
 
-#include "Class/Include/Map/MapManager.h"
+#include "Class/Map/MapManager.h"
 
-#include "Class/Include/Boss/Boss.h"
+#include "Class/Boss/Boss.h"
 
 // 自分で開発する際に、デバッグ用の処理はこちらで用意すること。
 // 開発中のclassのインスタンスなどをここで呼び出し、試したい関数を自分で呼び出すコードを書くこと。
