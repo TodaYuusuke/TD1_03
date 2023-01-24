@@ -37,31 +37,32 @@ void Enemy::SuccessorInitialize() {
 }
 
 void Enemy::SuccessorUpdate() {
-
-	if (object->GetCenterPosition().x < centerPosition.x) {
-		direct = -1;
-	}
-	else if(centerPosition.x < object->GetCenterPosition().x){
-		direct = 1;
-	}
-	else {
-		direct = 0;
-	}
-
-	// ¶ˆÚ“®
-	if (direct < 0) {
-		if (velocity.x > -BaseConst::kPlayerVelocityLimit) {
-			velocity.x -= 0.5f;
+	if (!isFlying) {
+		if (object->GetCenterPosition().x < centerPosition.x) {
+			direct = -1;
 		}
-	}
-	else if (0 < direct) {
-		// ‰EˆÚ“®
-		if (velocity.x < BaseConst::kPlayerVelocityLimit) {
-			velocity.x += 0.5f;
+		else if (centerPosition.x < object->GetCenterPosition().x) {
+			direct = 1;
 		}
-	}
-	else {
-		
+		else {
+			direct = 0;
+		}
+
+		// ¶ˆÚ“®
+		if (direct < 0) {
+			if (velocity.x > -BaseConst::kPlayerVelocityLimit) {
+				acceleration.x -= 0.5f;
+			}
+		}
+		else if (0 < direct) {
+			// ‰EˆÚ“®
+			if (velocity.x < BaseConst::kPlayerVelocityLimit) {
+				acceleration.x += 0.5f;
+			}
+		}
+		else {
+
+		}
 	}
 }
 
