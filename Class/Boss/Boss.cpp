@@ -200,14 +200,15 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			break;
 		}
 	}
-
+	
 	// スタン処理
-	if (inStun == true) {
+	if (inStun == true && inDamage == false) {
 		Stun(1.25f, 1.5f, 3.0f, 0.75f);
 	}
 
+	// ダメージを受けられる状態にする処理
 	if (inDamage == true) {
-		Damage(0.15f, 1.5f, 0.1f, 5.0f, 0.75f, 0.25f);
+		Damage(0.15f, 1.5f, 0.1f, 5.0f, 0.75f, 0.25f, wireManager);
 	}
 
 	// 角度を変換
@@ -217,6 +218,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 	wireHangPosition[0] = GetLHookPosition(centerPosition);
 	wireHangPosition[1] = GetRHookPosition(centerPosition);
 
+	// フックの中心座標をセットする
 	hook[0]->SetCenterPosition(wireHangPosition[0]);
 	hook[1]->SetCenterPosition(wireHangPosition[1]);
 
@@ -673,11 +675,15 @@ void Boss::Rotate(float endDegree, float RotateTime, WireManager* wireManager) {
 		inAction = true;
 		// イージングを用いて回転
 		degree = BaseDraw::Ease_InOut(t, startDegree, endDegree, RotateTime);
+
+		if (t >= (RotateTime / 2)) {
+			wireManager->Initialize();
+		}
+
 		t += 1.0f / 60.0f;
 	}
 	else {
 		//t が一定以上になったら行動終了
-		wireManager->Initialize();
 		t = 0.0f;
 		degree = 0;
 		init = false;
@@ -1644,7 +1650,7 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 // backTime ... 戻る時にかかる秒数
 // closeTime ... 閉じるまでにかかる時間
 // ボスに対してダメージが与えられる状態にする関数
-void Boss::Damage(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime) {
+void Boss::Damage(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime, WireManager* wireManager) {
 
 	switch (actionWayPoint)
 	{
@@ -1775,6 +1781,10 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, backTime);
 			shakeVariation.y = BaseDraw::Ease_InOut(t, shakeVariation.y, -shakeVariation.y, backTime);
 
+			if (t >= (backTime / 2)) {
+				wireManager->Initialize();
+			}
+
 			// 角度関連をイージング
 			degree = BaseDraw::Ease_InOut(t, prevDegree, -prevDegree + nextDegree, backTime);
 
@@ -1798,6 +1808,7 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 		if (t <= closeTime) {
 
 			offset = BaseDraw::Ease_InOut(t, prevOffset, -prevOffset, closeTime);
+			ShakeEaseOut(30, closeTime);
 
 			// tをプラスする
 			t += 1.0f / 60.0f;
