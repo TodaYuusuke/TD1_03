@@ -1,16 +1,16 @@
 #include "Class/Include/Object/ObjectManager.h"
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 ObjectManager::ObjectManager() {
 	
 }
-// ƒfƒXƒgƒ‰ƒNƒ^
+// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 ObjectManager::~ObjectManager() {
 
 }
 
-// ‰Šú‰»
-// ‘S‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚ÌÀ‘Ô‚ğiObject‚Åj‰Šú‰»
+// åˆæœŸåŒ–
+// å…¨ã¦ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å®Ÿæ…‹ã‚’ï¼ˆObjectã§ï¼‰åˆæœŸåŒ–
 void ObjectManager::Initialize() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		object[i] = new Object();
@@ -19,8 +19,8 @@ void ObjectManager::Initialize() {
 	wireManager = new WireManager();
 	wireManager->Initialize();
 }
-// XV
-// ‘S‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚ğXViUpdate‚ğŒÄ‚Ño‚·j
+// æ›´æ–°
+// å…¨ã¦ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ›´æ–°ï¼ˆUpdateã‚’å‘¼ã³å‡ºã™ï¼‰
 void ObjectManager::Update() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() != typeObject) {
@@ -29,8 +29,8 @@ void ObjectManager::Update() {
 	}
 	wireManager->Update(this);
 }
-// •`‰æ
-// ‘S‚Ä‚ÌƒIƒuƒWƒFƒNƒg‚ğ•`‰æiDraw‚ğŒÄ‚Ño‚·j
+// æç”»
+// å…¨ã¦ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æç”»ï¼ˆDrawã‚’å‘¼ã³å‡ºã™ï¼‰
 void ObjectManager::Draw() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() != typeObject) {
@@ -41,8 +41,8 @@ void ObjectManager::Draw() {
 }
 
 
-// V‚µ‚¢ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éŠÖ”‚½‚¿
-// ’†‚ÌÀ‘Ô‚ªObject‚Ì‚à‚Ì‚ğá‚¢”š—Dæ‚Åã‘‚«‚µ‚Ä‚¢‚­
+// æ–°ã—ã„ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹é–¢æ•°ãŸã¡
+// ä¸­ã®å®Ÿæ…‹ãŒObjectã®ã‚‚ã®ã‚’è‹¥ã„æ•°å­—å„ªå…ˆã§ä¸Šæ›¸ãã—ã¦ã„ã
 
 
 // Block
@@ -59,7 +59,7 @@ void ObjectManager::MakeNewObjectBlock(Point position, Point size) {
 // Player
 void ObjectManager::MakeNewObjectPlayer(Point position) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
-		// ¶¬‚³‚ê‚Ä‚¢‚½‚ç¶¬‚µ‚È‚¢
+		// ç”Ÿæˆã•ã‚Œã¦ã„ãŸã‚‰ç”Ÿæˆã—ãªã„
 		if (object[i]->GetType() == typePlayer) {
 			break;
 		}
@@ -72,11 +72,23 @@ void ObjectManager::MakeNewObjectPlayer(Point position) {
 }
 
 
-// ƒIƒuƒWƒFƒNƒg‚Ì“–‚½‚è”»’è‚ğƒ`ƒFƒbƒN‚·‚éŠÖ”
-// •Ô‚è’lF‚»‚ÌƒIƒuƒWƒFƒNƒg‚Ìƒ|ƒCƒ“ƒ^
-// ˆø”Fƒ`ƒFƒbƒN‚·‚éPoint
+// Enemy
+void ObjectManager::MakeNewObjectEnemy(Point position,Point size) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeObject) {
+			object[i] = new Enemy(position, { 50,50 }, GetSelectObject(typePlayer));
+			object[i]->Initialize();
+			break;
+		}
+	}
+}
+
+
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å½“ãŸã‚Šåˆ¤å®šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒã‚¤ãƒ³ã‚¿
+// å¼•æ•°ï¼šãƒã‚§ãƒƒã‚¯ã™ã‚‹Point
 //
-// ‚Ğ‚Æ‚Â‚àƒqƒbƒg‚µ‚Ä‚¢‚È‚¢ê‡‚ÍNULL‚ğ•Ô‚·i‚±‚ÌŠÖ”‚ğg‚¤ê‡‚Í•K‚¸NULLƒ`ƒFƒbƒN‚ğ‚·‚é‚±‚ÆIj
+// ã²ã¨ã¤ã‚‚ãƒ’ãƒƒãƒˆã—ã¦ã„ãªã„å ´åˆã¯NULLã‚’è¿”ã™ï¼ˆã“ã®é–¢æ•°ã‚’ä½¿ã†å ´åˆã¯å¿…ãšNULLãƒã‚§ãƒƒã‚¯ã‚’ã™ã‚‹ã“ã¨ï¼ï¼‰
 Object* ObjectManager::CheckObjectHitBox(Point hitPosition) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() == typeObject) {
@@ -90,23 +102,23 @@ Object* ObjectManager::CheckObjectHitBox(Point hitPosition) {
 }
 
 /// <summary>
-/// ƒIƒuƒWƒFƒNƒg‚Ì“–‚½‚è”»’è‚ğƒ`ƒFƒbƒN‚·‚éŠÖ”
+/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å½“ãŸã‚Šåˆ¤å®šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹é–¢æ•°
 /// </summary>
-/// <param name="hitPosition">ƒ`ƒFƒbƒN‚·‚éPoint</param>
-/// <param name="hitVelocity">ü•ª‚ÌƒxƒNƒgƒ‹</param>
-/// <returns>‚»‚ÌƒIƒuƒWƒFƒNƒg‚Ìƒ|ƒCƒ“ƒ^</returns>
+/// <param name="hitPosition">ãƒã‚§ãƒƒã‚¯ã™ã‚‹Point</param>
+/// <param name="hitVelocity">ç·šåˆ†ã®ãƒ™ã‚¯ãƒˆãƒ«</param>
+/// <returns>ãã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒã‚¤ãƒ³ã‚¿</returns>
 Object* ObjectManager::CheckObjectHitBox(Point hitPosition, Point hitVelocity) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() == typeObject) {
 			continue;
 		}
-		// ‚S“_‚ğ—p‚¢‚½“–‚½‚è”»’è
-		// •’Ê‚Éˆ—‚ªŠÔˆá‚Á‚Ä‚é‚Ì‚Å“®ì‚µ‚È‚¢
+		// ï¼”ç‚¹ã‚’ç”¨ã„ãŸå½“ãŸã‚Šåˆ¤å®š
+		// æ™®é€šã«å‡¦ç†ãŒé–“é•ã£ã¦ã‚‹ã®ã§å‹•ä½œã—ãªã„
 		/*if (object[i]->CheckHitBox(BaseMath::GetNearestPosition(object[i]->GetQuad(), hitPosition, hitVelocity))) {
 			return object[i];
 		}*/
-		// ’†S“_‚ğ—p‚¢‚½“–‚½‚è”»’è
-		// ‰~‚İ‚½‚¢‚É‚È‚Á‚¿‚á‚¤
+		// ä¸­å¿ƒç‚¹ã‚’ç”¨ã„ãŸå½“ãŸã‚Šåˆ¤å®š
+		// å††ã¿ãŸã„ã«ãªã£ã¡ã‚ƒã†
 		if (object[i]->CheckHitBox(BaseMath::GetNearestPosition(object[i]->GetCenterPosition(), hitPosition, hitVelocity))) {
 			return object[i];
 		}
@@ -115,11 +127,11 @@ Object* ObjectManager::CheckObjectHitBox(Point hitPosition, Point hitVelocity) {
 }
 
 
-// ƒIƒuƒWƒFƒNƒg‚Ì“–‚½‚è”»’è‚ğƒ`ƒFƒbƒN‚·‚éŠÖ”
-// •Ô‚è’lF‚»‚ÌƒIƒuƒWƒFƒNƒg‚Ìƒ|ƒCƒ“ƒ^
-// ˆø”Fƒ`ƒFƒbƒN‚·‚éPoint
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®å½“ãŸã‚Šåˆ¤å®šã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒã‚¤ãƒ³ã‚¿
+// å¼•æ•°ï¼šãƒã‚§ãƒƒã‚¯ã™ã‚‹Point
 //
-// ‚Ğ‚Æ‚Â‚àƒqƒbƒg‚µ‚Ä‚¢‚È‚¢ê‡‚ÍNULL‚ğ•Ô‚·i‚±‚ÌŠÖ”‚ğg‚¤ê‡‚Í•K‚¸NULLƒ`ƒFƒbƒN‚ğ‚·‚é‚±‚ÆIj
+// ã²ã¨ã¤ã‚‚ãƒ’ãƒƒãƒˆã—ã¦ã„ãªã„å ´åˆã¯NULLã‚’è¿”ã™ï¼ˆã“ã®é–¢æ•°ã‚’ä½¿ã†å ´åˆã¯å¿…ãšNULLãƒã‚§ãƒƒã‚¯ã‚’ã™ã‚‹ã“ã¨ï¼ï¼‰
 Object* ObjectManager::CheckObjectHitBox(Box hitPosition) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() == typeObject) {
@@ -132,8 +144,20 @@ Object* ObjectManager::CheckObjectHitBox(Box hitPosition) {
 	return NULL;
 }
 
+/// <summary>
+/// æŒ‡å®šã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹é–¢æ•°
+/// </summary>
+/// <param name="objecttype">ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚¿ã‚¤ãƒ—</param>
+/// <returns>Object</returns>
+Object* ObjectManager::GetSelectObject(ObjectType objecttype) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == objecttype) {
+			return object[i];
+		}
+	}
+	return NULL;
 
-// ƒvƒŒƒCƒ„[‚Ì’†SÀ•W‚ğó‚¯æ‚éŠÖ”
+// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ä¸­å¿ƒåº§æ¨™ã‚’å—ã‘å–ã‚‹é–¢æ•°
 Point ObjectManager::GetPlayerPosition() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() == typePlayer) {

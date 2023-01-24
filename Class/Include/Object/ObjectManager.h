@@ -5,6 +5,7 @@
 #include "Class/Include/Object/Block/Block.h"
 #include "Class/Include/Object/Player/Player.h"
 #include "Class/Include/Wire/Wire.h"
+#include "Class/Include/Object/Enemy/Enemy.h"
 
 #include "Class/Include/Wire/WireManager.h";
 
@@ -42,6 +43,8 @@ public: // メンバ関数
 	// Player
 	void MakeNewObjectPlayer(Point position);
 
+	// Enemy
+	void MakeNewObjectEnemy(Point position, Point size);
 
 	// オブジェクトの当たり判定をチェックする関数
 	// 返り値：そのオブジェクトのポインタ
@@ -65,6 +68,13 @@ public: // メンバ関数
 	//
 	// ひとつもヒットしていない場合はNULLを返す（この関数を使う場合は必ずNULLチェックをすること！）
 	Object* CheckObjectHitBox(Box hitPosition);
+
+	/// <summary>
+	/// 指定したオブジェクトを取得する関数
+	/// </summary>
+	/// <param name="objecttype">オブジェクトタイプ</param>
+	/// <returns>Object</returns>
+	Object* GetSelectObject(ObjectType objecttype);
 
 
 
