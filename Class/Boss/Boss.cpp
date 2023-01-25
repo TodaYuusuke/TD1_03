@@ -349,7 +349,9 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 	hook[1]->SetCenterPosition(wireHangPosition[1]);
 
 	// 武器のヒットボックス
-	EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, degree, 1.0f);
+	EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree, 1.0f);
+	EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree - 30.0f, 1.0f);
+	EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree + 30.0f, 1.0f);
 
 	// ボスのヒットボックス
 	EnemyAttackHitBox::MakeNewHitBoxRight(GetRCoverPosition(centerPosition), textureSize.y / 2.0f, degree, 1.0f);
@@ -373,10 +375,11 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 	// 弾が発射されている時の処理
 	for (int i = 0; i < kmaxBullet; i++) {
-		if (isShot[i] == true && bulletAliveTime[i] > 0.0f) {
 
-			// 弾のヒットボックス
-			EnemyAttackHitBox::MakeNewHitBox(bulletCenterPosition[i], bulletSize.x, bulletSize.y, 0.0f, 1.0f);
+		// 弾のヒットボックス
+		EnemyAttackHitBox::MakeNewHitBox(bulletCenterPosition[i], bulletSize.x, bulletSize.y, 0.0f, 1.0f);
+
+		if (isShot[i] == true && bulletAliveTime[i] > 0.0f) {
 
 			// 弾の移動
 			bulletCenterPosition[i].x += -cosf(bulletDirection[i]) * bulletSpeed;
