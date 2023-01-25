@@ -208,6 +208,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 	if (HP == 0) {
 		Novice::ScreenPrintf(0, 0, "Dead");
+		attackPattern = NONE;
 		endAction = false;
 	}
 
@@ -2090,6 +2091,9 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 			t += 1.0f / 60.0f;
 		}
 		else {
+
+			canGeneratedBlock = true;
+			generatedBlockValue = BaseMath::Random(3, 5);
 
 			// t‚ğ‰Šú‰»‚·‚é
 			t = 0.0f;
