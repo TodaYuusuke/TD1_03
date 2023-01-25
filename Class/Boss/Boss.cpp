@@ -202,8 +202,6 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			inDebug = false;
 	}
 
-	Novice::ScreenPrintf(0, 0, "x : %4.2f y : %4.2f", coreCenterPosition.x, coreCenterPosition.y);
-
 	if (inDebug == false) {
 		// s“®‚Ì•ªŠò
 		if (endAction == true) {
