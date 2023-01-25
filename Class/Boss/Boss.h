@@ -2,6 +2,7 @@
 #include "MyBase/MyBase.h"
 #include "Class/Object/ObjectManager.h"
 #include "Class/Wire/WireManager.h"
+#include "Class/AttackHitBox/EnemyAttackHitBox.h"
 
 /*********************************************
  * ボスクラス
@@ -11,6 +12,8 @@
 
 class ObjectManager;
 class WireManager;
+class AttackHitBox;
+
 
 class Boss {
 public:
