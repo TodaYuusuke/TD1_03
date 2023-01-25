@@ -12,6 +12,7 @@ Debug::~Debug() {
 
 // 初期化
 void Debug::Initialize() {
+	ObjectHitBox::Initialize();
 	MapManager::Initialize();
 	objectManager.Initialize();
 	wireManager.Initialize();
@@ -31,6 +32,7 @@ void Debug::Update() {
 
 	// Rキーでリセット
 	if (BaseInput::GetKeyboardState(DIK_R, Trigger)) {
+		ObjectHitBox::Initialize();
 		MapManager::Initialize();
 		objectManager.Initialize();
 		wireManager.Initialize();
@@ -63,7 +65,7 @@ void Debug::Update() {
 	MapManager::Update();
 	boss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
 	objectManager.Update();
-	wireManager.Update(&objectManager, &boss);
+	wireManager.Update(&objectManager);
 }
 // 描画
 void Debug::Draw() {

@@ -2,34 +2,7 @@
 #include "MyBase/MyBase.h"
 
 #include "Class/Map/MapManager.h"
-
-enum ObjectType {
-	// オブジェクト
-	typeObject,
-	// ブロック
-	typeBlock,
-	// プレイヤー
-	typePlayer,
-	// フック
-	typeHook,
-	// 敵
-	typeEnemy,
-	// 壁（ワイヤーの識別用）
-	typeWall,
-	// ボスの中心部
-	typeCore
-};
-
-
-// 全てのオブジェクトに共通する処理を実装する
-
-/*
-
-・重力による加速
-
-*/
-
-
+#include "Class/AttackHitBox/ObjectHitBox.h"
 
 class Object {
 public: // メンバ関数
@@ -165,6 +138,9 @@ protected: // 関数
 	// 上下左右の当たり判定の関数
 	virtual void CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[]);
 
+	// オブジェクトとマップの当たり判定を検証
+	bool isHit(Point hitPosition);
+
 	// 最も近い値を格納した配列の添え字を求める
 	int GetNearestValue(int v) {
 		// 変数の宣言
@@ -184,7 +160,7 @@ protected: // 関数
 		else {
 			return 0;
 		}
-	}
+	};
 
 	/// <summary>
 	/// 矩形の４点を取得する関数
@@ -232,4 +208,6 @@ protected: // メンバ変数
 	// 3 ... 右下
 	// の4点を用意
 	Point checkQuadPoint[4];
+	
+	int num;
 };

@@ -36,7 +36,7 @@ void Wire::Initialize() {
 }
 
 // 更新
-void Wire::Update(ObjectManager* objectManager, Boss* boss) {
+void Wire::Update(ObjectManager* objectManager) {
 
 	// もしワイヤーの長さが一定以上になった場合 ... 初期化
 	if (BaseMath::GetLength({ position[1].x - position[0].x, position[1].y - position[0].y }) >= 1500) {
@@ -58,7 +58,7 @@ void Wire::Update(ObjectManager* objectManager, Boss* boss) {
 				position[i].y += p.y;
 
 				// 当たり判定チェック
-				if (CheckHitBox(position[i], i, objectManager, boss)) {
+				if (CheckHitBox(position[i], i, objectManager)) {
 					// 壁じゃないときは座標を取る
 					if (type[i] != typeWall) {
 						//position[i].x = object[i]->GetCenterPosition().x;
@@ -104,7 +104,7 @@ bool Wire::GetisAlive() {
 // 返り値：ヒットした場合 ... true
 //
 // 今回はオブジェクト、もしくはマップチップに当たった場合にヒット判定
-bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager, Boss* boss) {
+bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager) {
 
 	// ボスの外殻に当たっていないか
 	if (EnemyAttackHitBox::CheckHitEllipse(_position) != -1) {

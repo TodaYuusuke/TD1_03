@@ -16,9 +16,9 @@ void WireManager::Initialize() {
 
 }
 
-void WireManager::Update(ObjectManager* objectManager, Boss* boss) {
+void WireManager::Update(ObjectManager* objectManager) {
 	for (int i = 0; i < BaseConst::kWireMaxAmount; i++) {
-		wires[i]->Update(objectManager, boss);
+		wires[i]->Update(objectManager);
 	}
 
 }

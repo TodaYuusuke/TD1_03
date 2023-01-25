@@ -52,3 +52,21 @@ enum SceneState {
 	// ゲーム終了（プログラム終了）
 	GameEnd
 };
+
+
+enum ObjectType {
+	// オブジェクト
+	typeObject,
+	// ブロック
+	typeBlock,
+	// プレイヤー
+	typePlayer,
+	// フック
+	typeHook,
+	// 敵
+	typeEnemy,
+	// 壁（ワイヤーの識別用）
+	typeWall,
+	// ボスの中心部
+	typeCore
+};

@@ -4,29 +4,19 @@
 
 #include "Class/Object/Block/Block.h"
 #include "Class/Object/Player/Player.h"
-#include "Class/Wire/Wire.h"
 #include "Class/Object/Enemy/Enemy.h"
 #include "Class/Object/Hook/Hook.h"
 #include "Class/Object/Core/Core.h"
 
 #include "Class/Wire/WireManager.h"
 
-#include "Class/Boss/Boss.h"
-
 // プログラム内のオブジェクトを全て管理するクラス
 
 class WireManager;
 
-class Boss;
-
 class ObjectManager {
 
 public: // メンバ関数
-
-	// コンストラクタ
-	ObjectManager();
-	// デストラクタ
-	~ObjectManager();
 
 	// 初期化
 	// 全てのオブジェクトの実態を（Objectで）初期化

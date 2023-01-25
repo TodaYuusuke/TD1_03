@@ -14,7 +14,7 @@ class Player :
 public: // メンバ関数
 
 	// コンストラクタ
-	Player(Point centerPosition,WireManager* _wireManager);
+	Player(Point centerPosition, WireManager* _wireManager);
 	// デストラクタ
 	~Player();
 

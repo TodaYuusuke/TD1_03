@@ -11,9 +11,8 @@
  *********************************************/
 
 class ObjectManager;
+class Object;
 class WireManager;
-class AttackHitBox;
-
 
 class Boss {
 public:

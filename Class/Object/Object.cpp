@@ -4,7 +4,9 @@ void Object::Initialize() {
 
 	SuccessorInitialize();
 
-	CheckFieldHitBox();
+	//CheckFieldHitBox();
+	// 当たり判定を外部に渡す
+	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle);
  }
 
 void Object::SuccessorInitialize(){
@@ -28,6 +30,7 @@ void Object::SuccessorInitialize(){
 	//空中にいるかどうか
 	isFlying = true;
 	isAlive = false;
+
  }
 
 void Object::Update() {
@@ -403,7 +406,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 	float kAngleVelocityMin = 1.5f;
 
 	// 二点がヒットしている場合
-	if (MapManager::CheckHitBox(checkQuadPoint[0]) && MapManager::CheckHitBox(checkQuadPoint[1]) || MapManager::CheckHitBox(checkQuadPoint[0]) && MapManager::CheckHitBox(checkQuadPoint[2])) {
+	if (isHit(checkQuadPoint[0]) && isHit(checkQuadPoint[1]) || isHit(checkQuadPoint[0]) && isHit(checkQuadPoint[2])) {
 		// 何もしない
 		velocity.y = 0;
 		// 速度を少しずつ減速させる
@@ -412,7 +415,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 
 		int move = 0;
 		// ヒットしなくなるまで上へ補正する
-		while (MapManager::CheckHitBox(checkQuadPoint[0])) {
+		while (isHit(checkQuadPoint[0])) {
 			move += 1;
 			// 座標を上に
 			centerPosition.y += 1;
@@ -441,7 +444,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 					leftMove -= 1;
 					rightMove += 1;
 
-					if (!MapManager::CheckHitBox({checkQuadPoint[2].x + leftMove,checkQuadPoint[2].y})) {
+					if (!isHit({checkQuadPoint[2].x + leftMove,checkQuadPoint[2].y})) {
 						velocity.x *= -0.9f;
 						centerPosition.x += leftMove;
 						// 再計算
@@ -451,7 +454,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 						}
 						break;
 					}
-					if (!MapManager::CheckHitBox({ checkQuadPoint[1].x + rightMove,checkQuadPoint[1].y })) {
+					if (!isHit({ checkQuadPoint[1].x + rightMove,checkQuadPoint[1].y })) {
 						velocity.x *= -0.9f;
 						centerPosition.x += rightMove;
 						// 再計算
@@ -477,13 +480,13 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 		}
 	}
 	// 下の場合
-	else if (MapManager::CheckHitBox(checkQuadPoint[0])) {
+	else if (isHit(checkQuadPoint[0])) {
 
 		// 速度を少しずつ減速させる
 		velocity.x *= 0.9f;
 
 		// ヒットしなくなるまで上へ補正する
-		while (MapManager::CheckHitBox(checkQuadPoint[0])) {
+		while (isHit(checkQuadPoint[0])) {
 			// 座標を上に
 			centerPosition.y += 1;
 			// 再計算
@@ -518,10 +521,10 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 		isFlying = false;
 	}
 	// 一番下の中心が触れている場合
-	else if (MapManager::CheckHitBox(checkRhombusPoint[0])) {
+	else if (isHit(checkRhombusPoint[0])) {
 
 		// ヒットしなくなるまで上へ補正する
-		while (MapManager::CheckHitBox(checkRhombusPoint[0])) {
+		while (isHit(checkRhombusPoint[0])) {
 			// 座標を上に
 			centerPosition.y += 1;
 			// 再計算
@@ -554,11 +557,11 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 		isFlying = true;
 
 		// 左の場合
-		if (MapManager::CheckHitBox(checkQuadPoint[1])) {
+		if (isHit(checkQuadPoint[1])) {
 			// 移動量
 			int move = 0;
 			// ヒットしなくなるまで上へ補正する
-			while (MapManager::CheckHitBox(checkQuadPoint[1])) {
+			while (isHit(checkQuadPoint[1])) {
 				move += 1;
 				// 座標を上に
 				centerPosition.y += 1;
@@ -578,7 +581,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 						checkRhombusPoint[i].y -= move;
 					}
 
-					while (MapManager::CheckHitBox(checkQuadPoint[1])) {
+					while (isHit(checkQuadPoint[1])) {
 						// 座標を右に
 						centerPosition.x -= 1;
 						// 再計算
@@ -596,11 +599,11 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 			angleVelocity += kAddAngleVelocity;
 		}
 		// 右の場合
-		else if (MapManager::CheckHitBox(checkQuadPoint[2])) {
+		else if (isHit(checkQuadPoint[2])) {
 			// 移動量
 			int move = 0;
 			// ヒットしなくなるまで上へ補正する
-			while (MapManager::CheckHitBox(checkQuadPoint[2])) {
+			while (isHit(checkQuadPoint[2])) {
 				move += 1;
 				// 座標を上に
 				centerPosition.y += 1;
@@ -620,7 +623,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 						checkRhombusPoint[i].y -= move;
 					}
 
-					while (MapManager::CheckHitBox(checkQuadPoint[2])) {
+					while (isHit(checkQuadPoint[2])) {
 						// 座標を右に
 						centerPosition.x += 1;
 						// 再計算
@@ -638,9 +641,9 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 			angleVelocity -= kAddAngleVelocity;
 		}
 		// 上の場合
-		else if (MapManager::CheckHitBox(checkQuadPoint[3])) {
+		else if (isHit(checkQuadPoint[3])) {
 			// ヒットしなくなるまで下へ補正する
-			while (MapManager::CheckHitBox(checkQuadPoint[3])) {
+			while (isHit(checkQuadPoint[3])) {
 				// 座標を下に
 				centerPosition.y -= 1;
 				// 再計算
@@ -652,4 +655,18 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 			angleVelocity -= kAddAngleVelocity;
 		}
 	}
+}
+
+bool Object::isHit(Point hitPosition) {
+	// マップにヒットしているかどうか
+	if (MapManager::CheckHitBox(hitPosition)) {
+		return true;
+	}
+	// 別のobjectにヒットしているかどうか
+	//else if (ObjectHitBox::CheckHitBox(hitPosition, num)) {
+	//	return true;
+	//}
+	
+
+	return false;
 }
