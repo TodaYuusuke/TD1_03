@@ -7,6 +7,7 @@
 #include "Class/Wire/Wire.h"
 #include "Class/Object/Enemy/Enemy.h"
 #include "Class/Object/Hook/Hook.h"
+#include "Class/Object/Core/Core.h"
 
 #include "Class/Wire/WireManager.h"
 
@@ -50,6 +51,9 @@ public: // ÉÅÉìÉoä÷êî
 
 	// Hook
 	Object* MakeNewObjectHook(Point position, Point size);
+
+	// Hook
+	Object* MakeNewObjectCore(Point position, Point size);
 
 	// Enemy
 	void MakeNewObjectEnemy(Point position, Point size);
