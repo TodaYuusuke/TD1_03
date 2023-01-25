@@ -99,6 +99,7 @@
     <ClCompile Include="C:\KamataEngine\DirectXGame\base\WinApp.cpp" />
     <ClCompile Include="C:\KamataEngine\DirectXGame\scene\GameScene.cpp" />
     <ClCompile Include="C:\KamataEngine\Adapter\Novice.cpp" />
+    <ClCompile Include="Class\AttackHitBox\EnemyAttackHitBox.cpp" />
     <ClCompile Include="Class\Boss\Boss.cpp" />
     <ClCompile Include="Class\Map\Map.cpp" />
     <ClCompile Include="Class\Map\MapManager.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="C:\KamataEngine\DirectXGame\input\Input.h" />
     <ClInclude Include="C:\KamataEngine\DirectXGame\scene\GameScene.h" />
     <ClInclude Include="C:\KamataEngine\Adapter\Novice.h" />
+    <ClInclude Include="Class\AttackHitBox\EnemyAttackHitBox.h" />
     <ClInclude Include="Class\Boss\Boss.h" />
     <ClInclude Include="Class\Map\Map.h" />
     <ClInclude Include="Class\Map\MapManager.h" />
