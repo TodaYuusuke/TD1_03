@@ -81,6 +81,9 @@
     <ClCompile Include="Class\AttackHitBox\EnemyAttackHitBox.cpp">
       <Filter>Class\AttackHitBox</Filter>
     </ClCompile>
+    <ClCompile Include="Class\Object\Core\Core.cpp">
+      <Filter>Class\Object\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyBase\Effect\BaseEffect.h">
@@ -231,6 +234,9 @@
     <ClInclude Include="Class\AttackHitBox\EnemyAttackHitBox.h">
       <Filter>Class\AttackHitBox</Filter>
     </ClInclude>
+    <ClInclude Include="Class\Object\Core\Core.h">
+      <Filter>Class\Object\Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MyBase">
@@ -289,6 +295,9 @@
     </Filter>
     <Filter Include="Class\AttackHitBox">
       <UniqueIdentifier>{234ad5f3-ae41-46ea-a673-7cb61b74b43c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Object\Core">
+      <UniqueIdentifier>{8f5dc105-9cf3-47c2-b8f9-bccc3feaee41}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

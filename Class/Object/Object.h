@@ -15,7 +15,9 @@ enum ObjectType {
 	// 敵
 	typeEnemy,
 	// 壁（ワイヤーの識別用）
-	typeWall
+	typeWall,
+	// ボスの中心部
+	typeCore
 };
 
 
