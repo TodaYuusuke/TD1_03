@@ -5,8 +5,6 @@ void Object::Initialize() {
 	SuccessorInitialize();
 
 	//CheckFieldHitBox();
-	// “–‚½‚è”»’è‚ðŠO•”‚É“n‚·
-	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle);
  }
 
 void Object::SuccessorInitialize(){

@@ -182,3 +182,50 @@ Point ObjectManager::GetPlayerPosition() {
 
 	return { -10000,-10000 };
 }
+
+
+// コアにブロックがヒットしたかを返す関数
+bool ObjectManager::isHitCore() {
+	int i = 0;
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeCore) {
+			break;
+		}
+	}
+
+	// コアの中心座標
+	Point p = object[i]->GetCenterPosition();
+	// コアのサイズ
+	float width = 256;
+	float height = 256;
+
+	// 8つ角の座標を含めた9点
+	Point hitPos[9] = {
+		// 左上
+		{p.x - width / 2, p.y + height / 2},
+		// 左
+		{p.x - width / 2, p.y},
+		// 左下
+		{p.x - width / 2, p.y - height / 2},
+		// 上
+		{p.x, p.y + height / 2},
+		// 中
+		{p.x, p.y},
+		// 下
+		{p.x, p.y - height / 2},
+		// 右上
+		{p.x + width / 2, p.y + height / 2},
+		// 右
+		{p.x + width / 2, p.y},
+		// 右下
+		{p.x + width / 2, p.y - height / 2},
+	};
+
+	for (int j = 0; j < 9; j++) {
+		if (ObjectHitBox::CheckHitBox(hitPos[j], i)) {
+			return true;
+		}
+	}
+	
+	return false;
+}

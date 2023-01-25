@@ -30,6 +30,9 @@ void Block::SuccessorInitialize() {
 	//‹ó’†‚É‚¢‚é‚©‚Ç‚¤‚©
 	isFlying = true;
 	isAlive = true;
+
+	// “–‚½‚è”»’è‚ğŠO•”‚É“n‚·
+	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle);
 }
 // XV
 void Block::SuccessorUpdate() {

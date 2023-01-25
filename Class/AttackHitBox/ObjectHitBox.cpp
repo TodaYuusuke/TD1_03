@@ -7,12 +7,12 @@ void ObjectHitBox::Initialize() {
 	num = 0;
 
 	// 当たり判定のリスト
-	for (int i = 0; i < 256; i++) {
-		hitBox[i].centerPosition = NULL;
-		hitBox[i].width = 0;
-		hitBox[i].height = 0;
-		hitBox[i].angle = 0;
-	}
+	//for (int i = 0; i < 256; i++) {
+	//	hitBox[i]->centerPosition = NULL;
+	//	hitBox[i]->width = NULL;
+	//	hitBox[i]->height = NULL;
+	//	hitBox[i]->angle = NULL;
+	//}
 }
 // 更新
 void ObjectHitBox::Update() {
@@ -29,15 +29,15 @@ void ObjectHitBox::Draw() {
 // width ... ヒットボックスの横幅（左上の点から）
 // height ... ヒットボックスの縦幅（左上の点から）
 // angle ... ヒット対象の四角の回転角度
-int ObjectHitBox::AddHitBox(Point* centerPosition, float* width, float* height, float* angle) {
+int ObjectHitBox::AddHitBox(Point* _centerPosition, float* _width, float* _height, float* _angle) {
 	if (num >= 256) {
 		return -1;
 	}
 
-	hitBox[num].centerPosition = centerPosition;
-	hitBox[num].width = width;
-	hitBox[num].height = height;
-	hitBox[num].angle = angle;
+	centerPosition[num] = _centerPosition;
+	width[num] = _width;
+	height[num] = _height;
+	angle[num] = _angle;
 
 	return num++;
 }
@@ -46,11 +46,11 @@ int ObjectHitBox::AddHitBox(Point* centerPosition, float* width, float* height, 
 // 返り値：ヒットしていた場合 -> true、　ヒットしていない場合 -> false
 // 引数：
 // centerPosition ... 検証する座標
-bool ObjectHitBox::CheckHitBox(Point centerPosition, int noCheck) {
+bool ObjectHitBox::CheckHitBox(Point _centerPosition, int noCheck) {
 	for (int i = 0; i < num; i++) {
-		if (hitBox[i].centerPosition != NULL) {
+		if (centerPosition[i] != NULL) {
 			if (i != noCheck) {
-				if (BaseMath::CheckHitBox(*hitBox[i].centerPosition, *hitBox[i].width, *hitBox[i].height, *hitBox[i].angle, centerPosition)) {
+				if (BaseMath::CheckHitBox(*centerPosition[i], *width[i], *height[i], *angle[i], _centerPosition)) {
 					return true;
 				}
 			}
@@ -64,4 +64,7 @@ bool ObjectHitBox::CheckHitBox(Point centerPosition, int noCheck) {
 // 現在の添え字
 int ObjectHitBox::num;
 // 当たり判定のリスト
-ObjectHitBox::HitBox ObjectHitBox::hitBox[256];
+Point* ObjectHitBox::centerPosition[256];
+float* ObjectHitBox::width[256];
+float* ObjectHitBox::height[256];
+float* ObjectHitBox::angle[256];

@@ -19,26 +19,23 @@ public: // メンバ関数
 	// width ... ヒットボックスの横幅（左上の点から）
 	// height ... ヒットボックスの縦幅（左上の点から）
 	// angle ... ヒット対象の四角の回転角度
-	static int AddHitBox(Point* centerPosition, float* width, float* height, float* angle);
+	static int AddHitBox(Point* _centerPosition, float* _width, float* _height, float* _angle);
 
 	// 当たり判定検証
 	// 返り値：ヒットしていた場合 -> true、　ヒットしていない場合 -> false
 	// 引数：
 	// centerPosition ... 検証する座標
 	// num ... 検証しない添え字
-	static bool CheckHitBox(Point centerPosition, int noCheck);
+	static bool CheckHitBox(Point _centerPosition, int noCheck);
 
 private: // メンバ変数
 
 	// 現在の添え字
 	static int num;
-
-	struct HitBox {
-		Point* centerPosition;
-		float* width;
-		float* height;
-		float* angle;
-	};
 	// 当たり判定のリスト
-	static HitBox hitBox[256];
+	static Point* centerPosition[256];
+	static float* width[256];
+	static float* height[256];
+	static float* angle[256];
+	
 };

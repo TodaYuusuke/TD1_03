@@ -333,7 +333,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 	// ダメージを受けられる状態にする処理
 	if (inDamage == true) {
-		Damage(0.15f, 1.5f, 0.1f, 5.0f, 0.75f, 0.25f, wireManager);
+		Damage(0.15f, 1.5f, 0.1f, 5.0f, 0.75f, 0.25f, wireManager, objectManager);
 	}
 	else {
 		if (hook[0]->GetisPulled() == true && hook[1]->GetisPulled() == true) {
@@ -1977,7 +1977,7 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 // backTime ... 戻る時にかかる秒数
 // closeTime ... 閉じるまでにかかる時間
 // ボスに対してダメージが与えられる状態にする関数
-void Boss::Damage(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime, WireManager* wireManager) {
+void Boss::Damage(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime, WireManager* wireManager, ObjectManager* objectManager) {
 
 	switch (actionWayPoint)
 	{
@@ -2073,6 +2073,7 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 		if (t <= stanTime) {
 
 			vibration(15, stanTime, stanTime, 4);
+			objectManager->isHitCore();
 
 			// tをプラスする
 			t += 1.0f / 60.0f;

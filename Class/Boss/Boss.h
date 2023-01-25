@@ -209,7 +209,7 @@ private:
 	// stanTime　... スタン秒数
 	// backTime ... 戻る時にかかる秒数
 	// ボスに対してダメージが与えられる状態にする関数
-	void Damage(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime, WireManager* wireManager);
+	void Damage(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime, WireManager* wireManager, ObjectManager* objectManager);
 
 	/*********************************
 		メンバ定数
