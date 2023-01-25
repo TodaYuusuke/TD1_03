@@ -45,6 +45,27 @@ bool BaseAudio::Loading() {
 
 #pragma endregion
 
+#pragma region Player
+
+	// ジャンプ
+	kPlayerJump = Novice::LoadAudio("./Resources/Audio/Player/Jump.mp3");
+	// 被ダメージ
+	kPlayerDamage = Novice::LoadAudio("./Resources/Audio/Player/Damage.mp3");
+	// 射撃
+	kPlayerShoot = Novice::LoadAudio("./Resources/Audio/Player/Shoot.mp3");
+	// 排莢
+	kPlayerEjection = Novice::LoadAudio("./Resources/Audio/Player/Ejection.mp3");
+
+#pragma endregion
+
+#pragma region Wire
+
+	// ワイヤーがヒット
+	kWireHit = Novice::LoadAudio("./Resources/Audio/Wire/Hit.mp3");
+	// ワイヤーが切れる
+	kWireCut = Novice::LoadAudio("./Resources/Audio/Wire/Cut.mp3");
+
+#pragma endregion
 
 	return true;
 }
@@ -93,5 +114,27 @@ int BaseAudio::kBossPickGun;
 // 射撃音
 int BaseAudio::kBossShot;
 
+
+#pragma endregion
+
+#pragma region Player
+
+// ジャンプ
+int BaseAudio::kPlayerJump;
+// 被ダメージ
+int BaseAudio::kPlayerDamage;
+// 射撃
+int BaseAudio::kPlayerShoot;
+// 排莢
+int BaseAudio::kPlayerEjection;
+
+#pragma endregion
+
+#pragma region Wire
+
+// ワイヤーがヒット
+int BaseAudio::kWireHit;
+// ワイヤーが切れる
+int BaseAudio::kWireCut;
 
 #pragma endregion

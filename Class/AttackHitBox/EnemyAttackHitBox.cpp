@@ -33,20 +33,6 @@ void EnemyAttackHitBox::Update() {
 // 描画
 void EnemyAttackHitBox::Draw() {
 	// なし
-	// 
-	// デバッグ用
-	// 当たり判定のリスト
-	for (int i = 0; i < num; i++) {
-		Novice::DrawBox(
-			BaseDraw::WorldtoScreen(hitBox[i].centerPosition).x,
-			BaseDraw::WorldtoScreen(hitBox[i].centerPosition).y,
-			hitBox[i].width,
-			hitBox[i].height,
-			hitBox[i].angle,
-			WHITE,
-			kFillModeWireFrame
-		);
-	}
 }
 
 

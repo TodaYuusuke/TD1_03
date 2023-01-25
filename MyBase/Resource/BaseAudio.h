@@ -71,5 +71,27 @@ public: // 静的なオーディオの変数
 
 #pragma endregion
 
+#pragma region Player
+
+	// ジャンプ
+	static int kPlayerJump;
+	// 被ダメージ
+	static int kPlayerDamage;
+	// 射撃
+	static int kPlayerShoot;
+	// 排莢
+	static int kPlayerEjection;
+
+#pragma endregion
+
+
+#pragma region Wire
+
+	// ワイヤーがヒット
+	static int kWireHit;
+	// ワイヤーが切れる
+	static int kWireCut;
+
+#pragma endregion
 
 };
