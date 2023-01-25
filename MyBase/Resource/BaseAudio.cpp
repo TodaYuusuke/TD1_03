@@ -22,6 +22,16 @@ void BaseAudio::InitializeVolume() {
 // オーディオのロードを100分割で行う。全てのロードが完了するまで呼び出させる（今回は％は実装しない、ロードするだけ）
 bool BaseAudio::Loading() {
 
+#pragma region ボス
+
+	// 射撃音
+	kBossShot = Novice::LoadAudio("./Resources/Audio/Boss/kBossShot.wav");
+
+	// 斬撃音
+	kBossSlash = Novice::LoadAudio("./Resources/Audio/Boss/kBossSlash.wav");
+
+#pragma endregion
+
 
 	return true;
 }
@@ -49,3 +59,17 @@ float BaseAudio::BGMvolume;
 // SE系の音量
 float BaseAudio::SEvolume;
 
+#pragma region ボス
+
+// ブレード展開音
+int BaseAudio::kBossDeployBlade;
+// ブレード斬撃音
+int BaseAudio::kBossSlash;
+
+// 銃を取り出す音
+int BaseAudio::kBossPickGun;
+// 射撃音
+int BaseAudio::kBossShot;
+
+
+#pragma endregion
