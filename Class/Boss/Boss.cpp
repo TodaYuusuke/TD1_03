@@ -2090,7 +2090,10 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 		if (t <= stanTime) {
 
 			vibration(15, stanTime, stanTime, 4);
+
+			// ここで返り値がtrueのときにダメージ判定を行う
 			objectManager->isHitCore();
+			// 
 
 			// tをプラスする
 			t += 1.0f / 60.0f;

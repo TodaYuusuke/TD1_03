@@ -229,6 +229,10 @@ void Wire::Attract() {
 		// ˆø‚«Šñ‚¹‚é‹­‚³‚ðŒˆ’è
 		Point p = { 20,0 };
 
+		if (object[0]->GetType() == typeBlock) {
+			p = { 40,0 };
+		}
+
 		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(position[0], position[1]));
 
 		object[0]->AddVelocity(p);
@@ -237,6 +241,10 @@ void Wire::Attract() {
 	if (object[1] != NULL) {
 		// ˆø‚«Šñ‚¹‚é‹­‚³‚ðŒˆ’è
 		Point p = { 20,0 };
+
+		if (object[1]->GetType() == typeBlock) {
+			p = { 40,0 };
+		}
 
 		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(position[1], position[0]));
 

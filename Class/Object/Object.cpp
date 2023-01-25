@@ -247,10 +247,16 @@ void Object::SetAngleVelocity(float _angleVelocity) {
 // “–‚½‚è”»’èŠÖ˜A
 
 bool Object::CheckHitBox(Point hitPosition) {
+	if (!isAlive) {
+		return false;
+	}
 	return BaseMath::CheckHitBox(centerPosition, width, height, angle, hitPosition);
 }
 
 bool Object::CheckHitBox(Box hitPosition) {
+	if (!isAlive) {
+		return false;
+	}
 	if (BaseMath::CheckHitBox({ BaseDraw::WorldtoScreen(centerPosition),width,height }, { BaseDraw::WorldtoScreen(hitPosition.position),hitPosition.width,hitPosition.height })){
 		return true;
 	}

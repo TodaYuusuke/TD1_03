@@ -32,7 +32,7 @@ void Block::SuccessorInitialize() {
 	isAlive = true;
 
 	// “–‚½‚è”»’è‚ğŠO•”‚É“n‚·
-	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle);
+	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle, &isAlive);
 }
 // XV
 void Block::SuccessorUpdate() {

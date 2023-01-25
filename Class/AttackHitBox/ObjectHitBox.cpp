@@ -29,7 +29,7 @@ void ObjectHitBox::Draw() {
 // width ... ヒットボックスの横幅（左上の点から）
 // height ... ヒットボックスの縦幅（左上の点から）
 // angle ... ヒット対象の四角の回転角度
-int ObjectHitBox::AddHitBox(Point* _centerPosition, float* _width, float* _height, float* _angle) {
+int ObjectHitBox::AddHitBox(Point* _centerPosition, float* _width, float* _height, float* _angle, bool* _isAlive) {
 	if (num >= 256) {
 		return -1;
 	}
@@ -38,6 +38,7 @@ int ObjectHitBox::AddHitBox(Point* _centerPosition, float* _width, float* _heigh
 	width[num] = _width;
 	height[num] = _height;
 	angle[num] = _angle;
+	isAlive[num] = _isAlive;
 
 	return num++;
 }
@@ -46,12 +47,15 @@ int ObjectHitBox::AddHitBox(Point* _centerPosition, float* _width, float* _heigh
 // 返り値：ヒットしていた場合 -> true、　ヒットしていない場合 -> false
 // 引数：
 // centerPosition ... 検証する座標
-bool ObjectHitBox::CheckHitBox(Point _centerPosition, int noCheck) {
+int ObjectHitBox::CheckHitBox(Point _centerPosition, int noCheck) {
 	for (int i = 0; i < num; i++) {
 		if (centerPosition[i] != NULL) {
-			if (i != noCheck) {
-				if (BaseMath::CheckHitBox(*centerPosition[i], *width[i], *height[i], *angle[i], _centerPosition)) {
-					return true;
+			if (*isAlive[i]) {
+				if (i != noCheck) {
+					if (BaseMath::CheckHitBox(*centerPosition[i], *width[i], *height[i], *angle[i], _centerPosition)) {
+						*isAlive[i] = false;
+						return true;
+					}
 				}
 			}
 		}
@@ -68,3 +72,4 @@ Point* ObjectHitBox::centerPosition[256];
 float* ObjectHitBox::width[256];
 float* ObjectHitBox::height[256];
 float* ObjectHitBox::angle[256];
+bool* ObjectHitBox::isAlive[256];
