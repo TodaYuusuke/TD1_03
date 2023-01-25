@@ -90,6 +90,9 @@
     <ClCompile Include="MyBase\Effect\Inheritance\WhirlWind.cpp">
       <Filter>MyBase\Effect\Inheritance</Filter>
     </ClCompile>
+    <ClCompile Include="MyBase\Effect\Inheritance\BlockBreak.cpp">
+      <Filter>MyBase\Effect\Inheritance</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyBase\Effect\BaseEffect.h">
@@ -247,6 +250,9 @@
       <Filter>Class\AttackHitBox</Filter>
     </ClInclude>
     <ClInclude Include="MyBase\Effect\Inheritance\WhirlWind.h">
+      <Filter>MyBase\Effect\Inheritance</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\Effect\Inheritance\BlockBreak.h">
       <Filter>MyBase\Effect\Inheritance</Filter>
     </ClInclude>
   </ItemGroup>

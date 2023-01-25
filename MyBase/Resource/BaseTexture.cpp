@@ -53,7 +53,21 @@ bool BaseTexture::Loading() {
 
 #pragma region その他
 
+	// ブロック
 	kBlockTexture = Novice::LoadTexture("./Resources/Texture/Block/Block.png");
+	// ブロックの破片
+	kBlockScrap[0] = Novice::LoadTexture("./Resources/Texture/Block/Scrap0.png");
+	kBlockScrap[1] = Novice::LoadTexture("./Resources/Texture/Block/Scrap1.png");
+	kBlockScrap[2] = Novice::LoadTexture("./Resources/Texture/Block/Scrap2.png");
+	kBlockScrap[3] = Novice::LoadTexture("./Resources/Texture/Block/Scrap3.png");
+	kBlockScrap[4] = Novice::LoadTexture("./Resources/Texture/Block/Scrap4.png");
+	kBlockScrap[5] = Novice::LoadTexture("./Resources/Texture/Block/Scrap5.png");
+	kBlockScrap[6] = Novice::LoadTexture("./Resources/Texture/Block/Scrap6.png");
+	kBlockScrap[7] = Novice::LoadTexture("./Resources/Texture/Block/Scrap7.png");
+	kBlockScrap[8] = Novice::LoadTexture("./Resources/Texture/Block/Scrap8.png");
+	kBlockScrap[9] = Novice::LoadTexture("./Resources/Texture/Block/Scrap9.png");
+	kBlockScrap[10] = Novice::LoadTexture("./Resources/Texture/Block/Scrap10.png");
+	kBlockScrap[11] = Novice::LoadTexture("./Resources/Texture/Block/Scrap11.png");
 
 #pragma endregion
 
@@ -105,6 +119,9 @@ int BaseTexture::kBossHook;
 
 #pragma region その他
 
+// ブロック
 int BaseTexture::kBlockTexture;
+// ブロックの破片
+int BaseTexture::kBlockScrap[kBlockScrapAmount];
 
 #pragma endregion

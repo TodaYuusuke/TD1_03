@@ -406,6 +406,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 	float kAddAngleVelocity = 0.3f;
 
 	float kAngleVelocityMin = 1.5f;
+	bool preIsAlive = isAlive;
 
 	// “ñ“_‚ªƒqƒbƒg‚µ‚Ä‚¢‚éê‡
 	if (isHit(checkQuadPoint[0]) && isHit(checkQuadPoint[1]) || isHit(checkQuadPoint[0]) && isHit(checkQuadPoint[2])) {
@@ -656,6 +657,10 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 			}
 			angleVelocity -= kAddAngleVelocity;
 		}
+	}
+
+	if (preIsAlive != isAlive && GetType() == typeBlock) {
+		BaseEffectManager::MakeNewEffectBlockBreak(centerPosition);
 	}
 }
 

@@ -5,6 +5,7 @@
 #include "MyBase/Effect/BaseEffect.h"
 
 #include "MyBase/Effect/Inheritance/WhirlWind.h"
+#include "MyBase/Effect/Inheritance/BlockBreak.h"
 
 
 class BaseEffectManager
@@ -24,11 +25,9 @@ public: // メンバ関数
 
 	// 新規エフェクト登録関数
 	// 返り値：エフェクトがセットされた番号
-	// 引数：
-	// position ... 中心のワールド座標
-	// effectType ... エフェクトの種類
+	// 引数：それぞれ
 	static int MakeNewEffectWhirlWind();
-
+	static int MakeNewEffectBlockBreak(Point);
 
 
 	// エフェクトを終了させる関数

@@ -42,15 +42,17 @@ void BaseEffectManager::GetEmptyID() {
 
 // 新規エフェクト登録関数
 // 返り値：エフェクトがセットされた番号
-// 引数：
-// position ... 中心のワールド座標
-// angle ... 回転角度（Degree）
-// effectType ... エフェクトの種類
+// 引数：それぞれ
 int BaseEffectManager::MakeNewEffectWhirlWind() {
 	GetEmptyID();
 
 	effects[nextIndex] = new effect::WhirlWind();
+	return nextIndex;
+}
+int BaseEffectManager::MakeNewEffectBlockBreak(Point p) {
+	GetEmptyID();
 
+	effects[nextIndex] = new effect::BlockBreak(p);
 	return nextIndex;
 }
 

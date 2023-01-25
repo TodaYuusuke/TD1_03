@@ -76,6 +76,9 @@ public: // 静的なテクスチャの変数
 
 	// ブロック
 	static int kBlockTexture;
+	// ブロックの破片
+	const static int kBlockScrapAmount = 12;
+	static int kBlockScrap[12];
 
 #pragma endregion
 };

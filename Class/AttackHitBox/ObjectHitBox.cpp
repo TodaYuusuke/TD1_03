@@ -54,6 +54,7 @@ int ObjectHitBox::CheckHitBox(Point _centerPosition, int noCheck) {
 				if (i != noCheck) {
 					if (BaseMath::CheckHitBox(*centerPosition[i], *width[i], *height[i], *angle[i], _centerPosition)) {
 						*isAlive[i] = false;
+						BaseEffectManager::MakeNewEffectBlockBreak(*centerPosition[i]);
 						return true;
 					}
 				}
