@@ -206,8 +206,10 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			inDebug = false;
 	}
 
+	Novice::ScreenPrintf(BaseConst::kWindowWidth / 2, 0, "BOSS HP : %1.0f", HP);
+
 	if (HP == 0) {
-		Novice::ScreenPrintf(0, 0, "Dead");
+		Novice::ScreenPrintf(BaseConst::kWindowWidth / 2, BaseConst::kWindowHeight / 2, "BOSS Dead");
 		attackPattern = NONE;
 		endAction = false;
 	}
