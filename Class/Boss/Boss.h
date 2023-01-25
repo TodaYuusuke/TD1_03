@@ -341,7 +341,7 @@ private:
 	// テクスチャサイズ
 	Point textureSize;
 	// 核のテクスチャサイズ
-	Point kernelTextureSize;
+	Point coreTextureSize;
 
 	// フックのテクスチャサイズ
 	Point hookTextureSize;
@@ -420,5 +420,8 @@ private:
 
 	// フックのオブジェクト
 	Object* hook[2];
+
+	// 核用フック
+	Object* core;
 
 };

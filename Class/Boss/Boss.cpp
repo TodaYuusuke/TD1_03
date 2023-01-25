@@ -29,10 +29,13 @@ Boss::Boss() {
 	this->inAction = false;
 	this->actionWayPoint = 0;
 
+	// 核の当たり判定を初期化
+	core = NULL;
+
 	// 核の位置を設定
 	this->coreCenterPosition = centerPosition;
 	// 核の画像サイズを設定
-	this->kernelTextureSize = { 256.0f, 256.0f };
+	this->coreTextureSize = { 256.0f, 256.0f };
 
 	// 核の画像サイズを設定
 	this->hookTextureSize = { 64.0f, 64.0f };
@@ -123,9 +126,12 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	// 核の位置を設定
 	this->coreCenterPosition = centerPosition;
 	// 核の画像サイズを設定
-	this->kernelTextureSize = { 256.0f, 256.0f };
+	this->coreTextureSize = { 256.0f, 256.0f };
 
-	// 核の画像サイズを設定
+	// 核の当たり判定を初期化
+	core = objectManager->MakeNewObjectCore(coreCenterPosition, coreTextureSize);
+
+	// フックの画像サイズを設定
 	this->hookTextureSize = { 64.0f, 64.0f };
 
 	// 武器のサイズを指定（仮テクスチャのため、今後変える）
@@ -340,6 +346,16 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 	Point viewPosition = { centerPosition.x + shakeVariation.x,centerPosition.y + shakeVariation.y };
 
+	//　コアの当たり判定の中心座標をセットし続ける
+	if (offset > 0) {
+		// 開いてる時に追従
+		core->SetCenterPosition(coreCenterPosition);
+	}
+	else {
+		// 開いていないときはありえないほどとおくに
+		core->SetCenterPosition({10000.0f, 10000.0f});
+	}
+
 	// フックの座標を更新し続ける
 	wireHangPosition[0] = GetLHookPosition(viewPosition);
 	wireHangPosition[1] = GetRHookPosition(viewPosition);
@@ -452,7 +468,7 @@ void Boss::Draw() {
 	BaseDraw::DrawQuad(
 		viewPosition,
 		BaseTexture::kBossCore,
-		kernelTextureSize,
+		coreTextureSize,
 		1.0f,
 		coreDegree,
 		0xFFFFFFFF

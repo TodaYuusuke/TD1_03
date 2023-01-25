@@ -33,6 +33,11 @@ void Player::SuccessorInitialize() {
 	// 現在右を向いているかどうか
 	isRight = true;
 	screenT = 0;
+
+	// HP
+	HP = 6;
+	isDrawHP = false;
+	drawHPFrame = 0;
 }
 // 更新
 void Player::SuccessorUpdate() {
@@ -50,6 +55,15 @@ void Player::SuccessorUpdate() {
 	Move();
 	Jump();
 	ShotWire();
+
+	/// HP の描画の調整
+	if (isDrawHP) {
+		drawHPFrame--;
+		if (drawHPFrame < 0) {
+			drawHPFrame = 0;
+			isDrawHP = false;
+		}
+	}
 
 
 	Point screenPos = BaseDraw::GetScreenPosition();
@@ -128,9 +142,26 @@ void Player::SuccessorUpdate() {
 // 描画
 void Player::Draw() {
 	if (isAlive) {
+		if (isDrawHP) {
+			Point HPlt = {
+				centerPosition.x - 20.0f * 2,centerPosition.y + width / 3.0f * 4.5f
+			};
+			float padding = 15;
+			for (int i = 0; i < HP; i++) {
+				if (i % 2 == 0) {
+					BaseDraw::DrawSprite({ HPlt.x + i * padding,HPlt.y }, BaseTexture::kDebugTexture, { 10,20 }, 0.0f, RED);
+				}
+				else {
+					BaseDraw::DrawSprite({ HPlt.x + (i - 1) * padding + 10,HPlt.y }, BaseTexture::kDebugTexture, { 10,20 }, 0.0f, RED);
+				}
+			}
+		}
 
 		if (invincibleFrame % 10 == 0) {
 			BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
+		}
+		else {
+			BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, 0x550000FF);
 		}
 	}
 }
@@ -502,6 +533,11 @@ void Player::CheckFieldHitBox() {
 			invincibleFrame = 60;
 			// SEを再生
 			Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, 0.5f);
+			// HP を減らす
+			HP--;
+			// HP 表示
+			isDrawHP = true;
+			drawHPFrame = invincibleFrame + 180;
 		}
 		// 外殻に対する当たり判定
 		else if (EnemyAttackHitBox::CheckHitEllipse(centerPosition) != -1) {
@@ -521,6 +557,9 @@ void Player::CheckFieldHitBox() {
 			invincibleFrame = 30;
 			// SEを再生
 			Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, 0.5f);
+			// HP 表示
+			isDrawHP = true;
+			drawHPFrame = invincibleFrame + 180;
 		}
 	}
 
