@@ -114,7 +114,8 @@ float EnemyAttackHitBox::CheckHitEllipse(Point centerPosition) {
 	// 切り口と垂直なベクトル
 	Point e1 = { cosf(radian),sinf(radian) };
 	// 切り口と平行なベクトル
-	Point e2 = { cosf(radian + M_PI),sinf(radian + M_PI) };
+	// 垂直なものより左に回っている
+	Point e2 = { cosf(radian + M_PI / 2.0f),sinf(radian + M_PI / 2.0f) };
 	// 円としての中心点を求める
 	Point ellipseCenter = {
 		leftEllipse.centerPosition.x + e1.x * (leftEllipse.radius / 2.0f),
@@ -127,10 +128,10 @@ float EnemyAttackHitBox::CheckHitEllipse(Point centerPosition) {
 	if (distance <= leftEllipse.radius) {
 		// 円の中だったら外積を使って半円の当たり判定を取る	
 		float cross = BaseMath::GetCross(e2, EtoH);
-		// cross がマイナスの時 ... 左
+		// cross がマイナスの時 ... 右
 		// cross が　　ゼロの時 ... 重なっている
-		// cross が　プラスの時 ... 右
-		if (cross < 0) {
+		// cross が　プラスの時 ... 左
+		if (0 < cross) {
 			return leftEllipse.atk;
 		}
 
@@ -143,7 +144,8 @@ float EnemyAttackHitBox::CheckHitEllipse(Point centerPosition) {
 	// 切り口と垂直なベクトル
 	e1 = { cosf(radian),sinf(radian) };
 	// 切り口と平行なベクトル
-	e2 = { cosf(radian + M_PI),sinf(radian + M_PI) };
+	// 垂直なものより左に回っている
+	e2 = { cosf(radian + M_PI / 2.0f),sinf(radian + M_PI / 2.0f) };
 	// 円としての中心点を求める
 	ellipseCenter = {
 		rightEllipse.centerPosition.x - e1.x * (rightEllipse.radius / 2.0f),
@@ -156,10 +158,10 @@ float EnemyAttackHitBox::CheckHitEllipse(Point centerPosition) {
 	if (distance <= rightEllipse.radius) {
 		// 円の中だったら外積を使って半円の当たり判定を取る	
 		float cross = BaseMath::GetCross(e2, EtoH);
-		// cross がマイナスの時 ... 左
+		// cross がマイナスの時 ... 右
 		// cross が　　ゼロの時 ... 重なっている
-		// cross が　プラスの時 ... 右
-		if (0 < cross) {
+		// cross が　プラスの時 ... 左
+		if (cross < 0) {
 			return rightEllipse.atk;
 		}
 

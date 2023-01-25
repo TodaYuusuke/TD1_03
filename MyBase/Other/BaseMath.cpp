@@ -228,7 +228,7 @@ float BaseMath::GetDot(Point a, Point b) {
 /// <param name="b">ベクトル 2</param>
 /// <returns>外積</returns>
 float BaseMath::GetCross(Point a, Point b) {
-	return a.x * b.y - a.y * b.y;
+	return a.x * b.y - a.y * b.x;
 }
 
 // カプセル
