@@ -1,14 +1,5 @@
 #include "Class/Object/ObjectManager.h"
 
-// コンストラクタ
-ObjectManager::ObjectManager() {
-	
-}
-// デストラクタ
-ObjectManager::~ObjectManager() {
-
-}
-
 // 初期化
 // 全てのオブジェクトの実態を（Objectで）初期化
 void ObjectManager::Initialize() {

@@ -7,7 +7,6 @@
 class ObjectManager;
 class Player;
 class Wire;
-class Boss;
 
 class WireManager {
 public: // メンバ関数
@@ -20,7 +19,7 @@ public: // メンバ関数
 	// 初期化
 	void Initialize();
 	// 更新
-	void Update(ObjectManager* objectManager, Boss* boss);
+	void Update(ObjectManager* objectManager);
 	// 描画
 	void Draw();
 
