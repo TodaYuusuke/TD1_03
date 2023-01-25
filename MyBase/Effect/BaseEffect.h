@@ -14,6 +14,8 @@
 enum EffectType {
 	// エフェクト無し
 	NoEffect,
+	// 旋風
+	WhirlWind,
 };
 
 namespace effect {
@@ -48,8 +50,6 @@ namespace effect {
 		// 引数：無し
 		// エフェクトが完了したかをチェックする関数
 		bool isEndEffect();
-
-
 
 	protected: // メンバ変数
 

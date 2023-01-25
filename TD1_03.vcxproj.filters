@@ -87,6 +87,9 @@
     <ClCompile Include="Class\AttackHitBox\ObjectHitBox.cpp">
       <Filter>Class\AttackHitBox</Filter>
     </ClCompile>
+    <ClCompile Include="MyBase\Effect\Inheritance\WhirlWind.cpp">
+      <Filter>MyBase\Effect\Inheritance</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyBase\Effect\BaseEffect.h">
@@ -243,6 +246,9 @@
     <ClInclude Include="Class\AttackHitBox\ObjectHitBox.h">
       <Filter>Class\AttackHitBox</Filter>
     </ClInclude>
+    <ClInclude Include="MyBase\Effect\Inheritance\WhirlWind.h">
+      <Filter>MyBase\Effect\Inheritance</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MyBase">
@@ -304,6 +310,9 @@
     </Filter>
     <Filter Include="Class\Object\Core">
       <UniqueIdentifier>{8f5dc105-9cf3-47c2-b8f9-bccc3feaee41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyBase\Effect\Inheritance">
+      <UniqueIdentifier>{4e7c2685-5a81-4a81-b37b-91e2cc120b29}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
