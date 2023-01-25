@@ -28,7 +28,6 @@ void Object::SuccessorInitialize(){
 	//空中にいるかどうか
 	isFlying = true;
 	isAlive = false;
-
  }
 
 void Object::Update() {
@@ -41,7 +40,6 @@ void Object::Update() {
 
 		// 加速度に重力を追加
 		if (isFlying) {
-
 			if (velocity.y < -(BaseConst::kPlayerVelocityLimit)) {
 
 			}
@@ -664,6 +662,11 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 bool Object::isHit(Point hitPosition) {
 	// マップにヒットしているかどうか
 	if (MapManager::CheckHitBox(hitPosition)) {
+		if (GetType() == typeBlock) {
+			if (BaseMath::GetLength(velocity) > 20 || BaseMath::GetLength(velocity) < -20) {
+				isAlive = false;
+			}
+		}
 		return true;
 	}
 	// 別のobjectにヒットしているかどうか

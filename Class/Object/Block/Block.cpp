@@ -36,7 +36,7 @@ void Block::SuccessorInitialize() {
 }
 // çXêV
 void Block::SuccessorUpdate() {
-
+	
 }
 // ï`âÊ
 void Block::Draw() {
