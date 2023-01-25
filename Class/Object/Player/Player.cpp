@@ -94,6 +94,7 @@ void Player::SuccessorUpdate() {
 	BaseDraw::SetScreenPosition(screenPos);
 
 	//////////　　　ここまで　　　　//////////
+
 }
 // 描画
 void Player::Draw() {
@@ -444,23 +445,42 @@ void Player::CheckFieldHitBox() {
 		}
 	}
 
+	// 無敵時間の場合 -> 当たり判定を検証しない
+	if (invincibleFrame <= 0) {
+		// 攻撃に対する当たり判定を実装
+		if (EnemyAttackHitBox::CheckHitBox(centerPosition) != -1) {
+			// ノックバック
+			Point p = { 10,0 };
 
-	// 攻撃に対する当たり判定を実装
-	if (EnemyAttackHitBox::CheckHitBox(centerPosition) != 0 && invincibleFrame <= 0) {
-		// 無敵時間を設定
-		invincibleFrame = 60;
-		// ノックバック
-		Point p = { 10,0 };
+			if (isRight) {
+				p = BaseMath::TurnPoint(p, 90 + 45);
+			}
+			else {
+				p = BaseMath::TurnPoint(p, 45);
+			}
 
-		if (isRight) {
-			p = BaseMath::TurnPoint(p, 90 + 45);
+			velocity.x = p.x;
+			velocity.y = p.y;
+			// 無敵時間を設定
+			invincibleFrame = 60;
 		}
-		else {
-			p = BaseMath::TurnPoint(p, 45);
-		}
+		// 外殻に対する当たり判定
+		else if (EnemyAttackHitBox::CheckHitEllipse(centerPosition) != -1) {
+			// ノックバック
+			Point p = { 15,0 };
 
-		velocity.x = p.x;
-		velocity.y = p.y;
+			if (isRight) {
+				p = BaseMath::TurnPoint(p, 90 + 45);
+			}
+			else {
+				p = BaseMath::TurnPoint(p, 45);
+			}
+
+			velocity.x = p.x;
+			velocity.y = p.y;
+			// 無敵時間を設定
+			invincibleFrame = 30;
+		}
 	}
 }
 

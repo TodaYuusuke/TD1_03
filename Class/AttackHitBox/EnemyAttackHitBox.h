@@ -41,10 +41,15 @@ public: // メンバ関数
 
 
 	// 当たり判定検証
-	// 返り値：ヒットしていた場合 -> 被ダメージ量、　ヒットしていない場合 -> 0
+	// 返り値：ヒットしていた場合 -> 被ダメージ量、　ヒットしていない場合 -> -1
 	// 引数：
 	// centerPosition ... 検証する座標
 	static float CheckHitBox(Point centerPosition);
+	// 当たり判定検証
+	// 返り値：ヒットしていた場合 -> 被ダメージ量、　ヒットしていない場合 -> -1
+	// 引数：
+	// centerPosition ... 検証する座標
+	static float CheckHitEllipse(Point centerPosition);
 
 private: // メンバ変数
 
