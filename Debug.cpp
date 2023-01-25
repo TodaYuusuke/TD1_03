@@ -70,6 +70,7 @@ void Debug::Draw() {
 
 	MapManager::Draw();
 	boss.Draw();
+	EnemyAttackHitBox::Draw();
 	objectManager.Draw();
 	wireManager.Draw();
 }
