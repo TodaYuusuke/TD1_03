@@ -4,6 +4,8 @@
 
 #include "MyBase/Effect/BaseEffect.h"
 
+#include "MyBase/Effect/Inheritance/WhirlWind.h"
+
 
 class BaseEffectManager
 {
@@ -17,12 +19,17 @@ public: // メンバ関数
 	static void Draw();
 
 
+	// 空いているエフェクトの枠を受け取る関数
+	static void GetEmptyID();
+
 	// 新規エフェクト登録関数
 	// 返り値：エフェクトがセットされた番号
 	// 引数：
 	// position ... 中心のワールド座標
 	// effectType ... エフェクトの種類
-	static int MakeNewEffect(Point position, EffectType effectType);
+	static int MakeNewEffectWhirlWind();
+
+
 
 	// エフェクトを終了させる関数
 	// 返り値：なし

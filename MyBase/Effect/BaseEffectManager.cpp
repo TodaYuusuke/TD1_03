@@ -25,33 +25,31 @@ void BaseEffectManager::Draw() {
 
 
 
+// 空いているエフェクトの枠を受け取る関数
+void BaseEffectManager::GetEmptyID() {
+	int i = 0;
+	while (true) {
+		if (effects[i]->isEndEffect()) {
+			nextIndex = i;
+			return;
+		}
+		i++;
+		if (i >= effectArraySize) {
+			return;
+		}
+	}
+}
+
 // 新規エフェクト登録関数
 // 返り値：エフェクトがセットされた番号
 // 引数：
 // position ... 中心のワールド座標
 // angle ... 回転角度（Degree）
 // effectType ... エフェクトの種類
-int BaseEffectManager::MakeNewEffect(Point position, EffectType effectType) {
+int BaseEffectManager::MakeNewEffectWhirlWind() {
+	GetEmptyID();
 
-	// 追加するまでループ
-	while (true) {
-
-		nextIndex++;
-		if (nextIndex >= effectArraySize) {
-			nextIndex = 0;
-		}
-
-		if (effects[nextIndex]->isEndEffect()) {
-			switch (effectType)
-			{
-				case EffectType::NoEffect:
-				default:
-					break;
-			}
-			break;
-		}
-
-	}
+	effects[nextIndex] = new effect::WhirlWind();
 
 	return nextIndex;
 }
