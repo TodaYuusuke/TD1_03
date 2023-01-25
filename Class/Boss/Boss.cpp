@@ -128,6 +128,8 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	// 核の画像サイズを設定
 	this->coreTextureSize = { 256.0f, 256.0f };
 
+	coreSeparated = false;
+
 	// 核の当たり判定を初期化
 	core = objectManager->MakeNewObjectCore(coreCenterPosition, coreTextureSize);
 
@@ -199,6 +201,8 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		else
 			inDebug = false;
 	}
+
+	Novice::ScreenPrintf(0, 0, "x : %4.2f y : %4.2f", coreCenterPosition.x, coreCenterPosition.y);
 
 	if (inDebug == false) {
 		// 行動の分岐
@@ -349,7 +353,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 	//　コアの当たり判定の中心座標をセットし続ける
 	if (offset > 0) {
 		// 開いてる時に追従
-		core->SetCenterPosition(coreCenterPosition);
+		core->SetCenterPosition(viewPosition);
 	}
 	else {
 		// 開いていないときはありえないほどとおくに
