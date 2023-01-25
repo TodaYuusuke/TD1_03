@@ -52,6 +52,11 @@ private:
 	// ボス右画像の座標を求める
 	Point GetRCoverPosition(Point centerPosition);
 
+	// ボス左画像の当たり判定を求める
+	Point GetLCoverCollision(Point centerPosition);
+	// ボス右画像の当たり判定を求める
+	Point GetRCoverCollision(Point centerPosition);
+
 	// 武器画像の相対座標を求める
 	Point GetWeaponPosition(Point centerPosition);
 
