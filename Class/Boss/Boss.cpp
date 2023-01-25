@@ -499,7 +499,7 @@ void Boss::Draw() {
 // hitPosition ... 当たった座標
 // 引数で指定したPointがボスの外殻に命中しているかどうかを返す関数
 bool Boss::GetBossCollision(Point hitPosition) {
-
+	
 	// 距離を求める
 	float x = centerPosition.x - hitPosition.x;
 	float y = centerPosition.y - hitPosition.y;
@@ -1520,6 +1520,9 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 			else {
 				for (int i = 0; i < kmaxBullet; i++) {
 					if (isShot[i] == false) {
+
+						Novice::PlayAudio(BaseAudio::kBossShot, 0, 1);
+
 						// 座標を発射地点まで移す
 						bulletCenterPosition[i] = shotPoint;
 						// 弾の発射向きを変更する

@@ -47,4 +47,20 @@ public: // 静的なオーディオの変数
 	// SE系の音量
 	static float SEvolume;
 
+#pragma region ボス
+
+	// ブレード展開音
+	static int kBossDeployBlade;
+	// ブレード斬撃音
+	static int kBossSlash;
+
+	// 銃を取り出す音
+	static int kBossPickGun;
+	// 射撃音
+	static int kBossShot;
+	
+
+#pragma endregion
+
+
 };
