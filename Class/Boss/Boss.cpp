@@ -370,8 +370,8 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 	EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree + 30.0f, 1.0f);
 
 	// ボスのヒットボックス
-	EnemyAttackHitBox::MakeNewHitBoxRight(GetRCoverPosition(centerPosition), textureSize.y / 2.0f, degree, 1.0f);
-	EnemyAttackHitBox::MakeNewHitBoxLeft(GetLCoverPosition(centerPosition), textureSize.y / 2.0f, degree, 1.0f);
+	EnemyAttackHitBox::MakeNewHitBoxRight(GetRCoverCollision(centerPosition), textureSize.y / 2.0f, degree, 1.0f);
+	EnemyAttackHitBox::MakeNewHitBoxLeft(GetLCoverCollision(centerPosition), textureSize.y / 2.0f, degree, 1.0f);
 
 	// デバッグ関数の実行
 	if (inDebug == true) {
@@ -581,6 +581,25 @@ Point Boss::GetLCoverPosition(Point centerPosition) {
 }
 // ボス右画像の相対座標を求める
 Point Boss::GetRCoverPosition(Point centerPosition) { 
+	// 回転中心からの差異ベクトル作成
+	Point p = { textureSize.x / 2 + offset, 0 };
+	// ベクトル計算
+	p = BaseMath::TurnPoint(p, degree);
+	// 計算した値を返す
+	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
+}
+
+// ボス左画像の当たり判定を求める
+Point Boss::GetLCoverCollision(Point centerPosition) {
+	// 回転中心からの差異ベクトル作成
+	Point p = { -textureSize.x / 2 - offset, 0 };
+	// ベクトル計算
+	p = BaseMath::TurnPoint(p, degree);
+	// 計算した値を返す
+	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
+}
+// ボス右画像の当たり判定を求める
+Point Boss::GetRCoverCollision(Point centerPosition) {
 	// 回転中心からの差異ベクトル作成
 	Point p = { textureSize.x / 2 + offset, 0 };
 	// ベクトル計算
@@ -1737,8 +1756,6 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 		else {
 			// tを初期化
 			t = 0.0f;
-
-			wireManager->Initialize();
 
 			canGeneratedBlock = true;
 			generatedBlockValue = BaseMath::Random(3, 5);
