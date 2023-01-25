@@ -48,7 +48,7 @@ void EnemyAttackHitBox::MakeNewHitBox(Point centerPosition, float width, float h
 	if (num >= 128) {
 		return;
 	}
-	
+
 	hitBox[num].centerPosition = centerPosition;
 	hitBox[num].width = width;
 	hitBox[num].height = height;
@@ -107,6 +107,63 @@ float EnemyAttackHitBox::CheckHitEllipse(Point centerPosition) {
 
 	// 半円のどちらかにヒットしていた場合 -> atkを返す
 
+	/// 左側
+
+	// まず円の当たり判定を取る
+	float radian = BaseMath::DegreetoRadian(leftEllipse.angle);
+	// 切り口と垂直なベクトル
+	Point e1 = { cosf(radian),sinf(radian) };
+	// 切り口と平行なベクトル
+	Point e2 = { cosf(radian + M_PI),sinf(radian + M_PI) };
+	// 円としての中心点を求める
+	Point ellipseCenter = {
+		leftEllipse.centerPosition.x + e1.x * (leftEllipse.radius / 2.0f),
+		leftEllipse.centerPosition.y + e1.y * (leftEllipse.radius / 2.0f),
+	};
+	// 円としての中心から点へのベクトル
+	Point EtoH = { centerPosition.x - ellipseCenter.x,centerPosition.y - ellipseCenter.y };
+	// 長さを求める
+	float distance = BaseMath::GetLength(EtoH);
+	if (distance <= leftEllipse.radius) {
+		// 円の中だったら外積を使って半円の当たり判定を取る	
+		float cross = BaseMath::GetCross(e2, EtoH);
+		// cross がマイナスの時 ... 左
+		// cross が　　ゼロの時 ... 重なっている
+		// cross が　プラスの時 ... 右
+		if (cross < 0) {
+			return leftEllipse.atk;
+		}
+
+	}
+	
+	/// 右側
+
+	// まず円の当たり判定を取る
+	radian = BaseMath::DegreetoRadian(rightEllipse.angle);
+	// 切り口と垂直なベクトル
+	e1 = { cosf(radian),sinf(radian) };
+	// 切り口と平行なベクトル
+	e2 = { cosf(radian + M_PI),sinf(radian + M_PI) };
+	// 円としての中心点を求める
+	ellipseCenter = {
+		rightEllipse.centerPosition.x - e1.x * (rightEllipse.radius / 2.0f),
+		rightEllipse.centerPosition.y - e1.y * (rightEllipse.radius / 2.0f),
+	};
+	// 円としての中心から点へのベクトル
+	EtoH = { centerPosition.x - ellipseCenter.x,centerPosition.y - ellipseCenter.y };
+	// 長さを求める
+	distance = BaseMath::GetLength(EtoH);
+	if (distance <= rightEllipse.radius) {
+		// 円の中だったら外積を使って半円の当たり判定を取る	
+		float cross = BaseMath::GetCross(e2, EtoH);
+		// cross がマイナスの時 ... 左
+		// cross が　　ゼロの時 ... 重なっている
+		// cross が　プラスの時 ... 右
+		if (0 < cross) {
+			return rightEllipse.atk;
+		}
+
+	}
 
 	// ヒットしていた場合
 	return -1;
