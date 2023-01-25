@@ -78,12 +78,6 @@ private:
 
 	/******** その他行動関数 **********/
 
-	//イーズアウト（Int型）
-	 int IntEaseOut(float t, long int b, long int c) {
-		float easeT = 1.0f - powf(1.0f - t, 3.0f);
-		return (1.0f - easeT) * b + easeT * c;
-	}
-
 	// シェイク関数
 	// 返り値：なし
 	// 引数：
@@ -123,6 +117,22 @@ private:
 	// 行動の合間に挟む関数。
 	void None(float waitFrame);
 
+	// 接近関数
+	// 返り値：なし
+	// 引数：
+	// playerPosition ... プレイヤー中心座標
+	// moveTIme ... 回転する時間。これは秒数
+	// プレイヤーに向かって接近する関数
+	void Approach(Point playerPosition, float moveTime, WireManager* wireManager);
+
+	// 離反関数
+	// 返り値：なし
+	// 引数：
+	// playerPosition ... プレイヤー中心座標
+	// moveTIme ... 回転する時間。これは秒数
+	// プレイヤーに向かって接近する関数
+	void Separation(Point playerPosition, float moveTime, WireManager* wireManager);
+
 	// 回転関数
 	// 返り値：なし
 	// 引数：
@@ -139,7 +149,7 @@ private:
 	// rushTime ... 突進にかかる秒数
 	// backTime ... 戻る時にかかる秒数
 	// ボスをプレイヤーの向きに突進させる関数
-	void Rush(Point playerPosition, float readyTime , float rushTime, float backTime);
+	void Rush(Point playerPosition, float readyTime , float rushTime, float backTime, WireManager* wireManager);
 
 	// 斬撃関数
 	// 返り値：なし
@@ -151,7 +161,7 @@ private:
 	// rushTime ... 突進にかかる秒数
 	// backTime ... 戻る時にかかる秒数
 	// ボスが斬撃を行う関数
-	void Slash(Point playerPosition, float readyTime, float deployTime, float preparationTime, float slashTime, float backTime);
+	void Slash(Point playerPosition, float readyTime, float deployTime, float preparationTime, float slashTime, float backTime, WireManager* wireManager);
 	
 	// 射撃関数
 	// 返り値：なし
@@ -164,7 +174,7 @@ private:
 	// backTime ... 戻る時にかかる秒数
 	// fireRate ... 何秒おきに射撃するか
 	// ボスが射撃を行う関数
-	void Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime, float fireRate);
+	void Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime, float fireRate, WireManager* wireManager);
 
 	// オブジェクト落下関数
 	// 返り値：なし
@@ -175,7 +185,7 @@ private:
 	// standByTime ... 待機秒数
 	// backTime ... 戻る時にかかる秒数
 	// ボスが天井にぶつかり、破片を落下させて攻撃を行う関数
-	void Fall(float readyTime, float deployTime, float rushTime, float standByTime, float backTime);
+	void Fall(float readyTime, float deployTime, float rushTime, float standByTime, float backTime, WireManager* wireManager);
 
 	/******** スタン関数 **********/
 	// スタン関数
@@ -186,7 +196,7 @@ private:
 	// stanTime　... スタン秒数
 	// backTime ... 戻る時にかかる秒数
 	// 指定された秒数ボスがスタンする関数
-	void Stun(float readyTime, float deployTime, float stanTime, float backTime);
+	void Stun(float readyTime, float deployTime, float stanTime, float backTime, WireManager* wireManager);
 
 	/******** ダメージ **********/
 	// ダメージ関数
@@ -225,12 +235,13 @@ private:
 		RUSH, // 突進
 		SLASH, // 斬撃
 		SHOT, // 射撃
-		FALL
+		FALL, // オブジェクト落下攻撃
+		APPROACH, // 接近
+		SEPARATION // 離反
 	};
 	// 攻撃パターンを格納するint型変数
 	int attackPattern = NONE;
-	int prevAttackPattern = NONE;
-	int nextAttackPattern = NONE;
+	int prevAttackPattern[2] = { NONE };
 
 	/******** 行動中間地点（Enum） **********/
 	// 攻撃やスタン等の中間地点到達の際に切り替え
@@ -252,10 +263,17 @@ private:
 	enum ActionBranch {
 		Pattern1, //行動分岐 1~
 		Pattern2,
-		Pattern3
+		Pattern3,
+		Pattern4,
+		Pattern5
 	};
 	// どの行動に分岐させるかを格納する変数
 	int actionBranch = Pattern1;
+	int attackBranch = Pattern1;
+
+	float waitTime;
+
+	bool pleaseWait;
 
 	/******** 座標関連 **********/
 	/// ボス関連
@@ -300,6 +318,8 @@ private:
 	// 参照するプレイヤー座標
 	Point prePlayerPosition;
 
+	// プレイヤーとの距離
+	float playerDistance;
 	// プレイヤーへの方向
 	float playerDirection;
 
