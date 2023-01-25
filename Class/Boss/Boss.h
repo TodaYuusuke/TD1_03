@@ -282,6 +282,11 @@ private:
 
 	bool pleaseWait;
 
+	/******** HP関連 **********/
+	// HP(ここで初期化)
+	const float MaxHP = 5.0f;
+	float HP;
+
 	/******** 座標関連 **********/
 	/// ボス関連
 	// 中心座標

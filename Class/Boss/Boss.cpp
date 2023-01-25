@@ -59,6 +59,8 @@ Boss::Boss() {
 
 	this->waitTime = 2.5f;
 
+	this->HP = MaxHP;
+
 	/// 弾の関係初期化
 	for (int i = 0; i < kmaxBullet; i++) {
 		// 弾の座標
@@ -155,6 +157,8 @@ void Boss::Initialize(ObjectManager* objectManager) {
 
 	playerDistance = 0.0f;
 
+	this->HP = MaxHP;
+
 	/// 弾の関係初期化
 	for (int i = 0; i < kmaxBullet; i++) {
 		// 弾の座標
@@ -200,6 +204,12 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 		else
 			inDebug = false;
+	}
+
+	if (HP == 0) {
+		Novice::ScreenPrintf(0, 0, "Dead");
+		attackPattern = NONE;
+		endAction = false;
 	}
 
 	if (inDebug == false) {
@@ -2082,6 +2092,9 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 		}
 		else {
 
+			canGeneratedBlock = true;
+			generatedBlockValue = BaseMath::Random(3, 5);
+
 			// tを初期化する
 			t = 0.0f;
 			// 次の行動へ
@@ -2094,8 +2107,9 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 			vibration(15, stanTime, stanTime, 4);
 
 			// ここで返り値がtrueのときにダメージ判定を行う
-			objectManager->isHitCore();
-			// 
+			if (objectManager->isHitCore() == true) {
+				HP--;
+			}
 
 			// tをプラスする
 			t += 1.0f / 60.0f;
