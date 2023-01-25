@@ -104,6 +104,7 @@
     <ClCompile Include="Class\Map\Map.cpp" />
     <ClCompile Include="Class\Map\MapManager.cpp" />
     <ClCompile Include="Class\Object\Block\Block.cpp" />
+    <ClCompile Include="Class\Object\Core\Core.cpp" />
     <ClCompile Include="Class\Object\Enemy\Enemy.cpp" />
     <ClCompile Include="Class\Object\Hook\Hook.cpp" />
     <ClCompile Include="Class\Object\Object.cpp" />
@@ -155,6 +156,7 @@
     <ClInclude Include="Class\Map\Map.h" />
     <ClInclude Include="Class\Map\MapManager.h" />
     <ClInclude Include="Class\Object\Block\Block.h" />
+    <ClInclude Include="Class\Object\Core\Core.h" />
     <ClInclude Include="Class\Object\Enemy\Enemy.h" />
     <ClInclude Include="Class\Object\Hook\Hook.h" />
     <ClInclude Include="Class\Object\Object.h" />

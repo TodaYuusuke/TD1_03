@@ -81,6 +81,19 @@ Object* ObjectManager::MakeNewObjectHook(Point position, Point size) {
 
 }
 
+// Core
+Object* ObjectManager::MakeNewObjectCore(Point position, Point size) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeObject) {
+			object[i] = new Core(position, { 100,100 });
+			object[i]->Initialize();
+			return object[i];
+		}
+	}
+	return NULL;
+
+}
+
 
 // Enemy
 void ObjectManager::MakeNewObjectEnemy(Point position,Point size) {
