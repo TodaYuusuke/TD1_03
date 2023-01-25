@@ -107,7 +107,7 @@ bool Wire::GetisAlive() {
 bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager, Boss* boss) {
 
 	// ボスの外殻に当たっていないか
-	if (boss->GetBossCollision(_position)) {
+	if (EnemyAttackHitBox::CheckHitEllipse(_position) != -1) {
 		Initialize();
 		return false;
 	}
@@ -117,12 +117,16 @@ bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager, Bos
 	if(object[i] != NULL && object[i]->GetType() != typePlayer && object[i] != object[!i] && !(object[i]->GetType() == typeHook && type[!i] == typeHook)) {
 		// ヒットしていた場合 -> 戻る
 		type[i] = object[i]->GetType();
+		// SEを再生
+		Novice::PlayAudio(BaseAudio::kWireHit, 0, 0.5f);
 		return true;
 	}
 	// 壁にヒットしているか検証
 	else if (MapManager::CheckHitBox(_position)) {
 		// ヒットしていた場合
 		type[i] = typeWall;
+		// SEを再生
+		Novice::PlayAudio(BaseAudio::kWireHit, 0, 0.5f);
 		return true;
 	}
 
@@ -201,6 +205,10 @@ void Wire::Attract() {
 	if (isShot[0] || isShot[1]) {
 		return;
 	}
+	// 着弾していない場合 -> 戻る
+	if (type[0] == typeObject && type[1] == typeObject) {
+		return;
+	}
 
 
 	// 特別な判定
@@ -237,4 +245,6 @@ void Wire::Attract() {
 
 	// ワイヤーを初期化
 	Initialize();
+	// SEを再生
+	Novice::PlayAudio(BaseAudio::kWireCut, 0, 0.5f);
 }
