@@ -49,6 +49,15 @@ public: // 静的なオーディオの変数
 
 #pragma region ボス
 
+	// 開く音
+	static int kBossOpen;
+
+	// 閉じる音
+	static int kBossClose;
+
+	// 突進する音
+	static int kBossRush;
+
 	// ブレード展開音
 	static int kBossDeployBlade;
 	// ブレード斬撃音

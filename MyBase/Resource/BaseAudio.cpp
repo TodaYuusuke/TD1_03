@@ -24,9 +24,22 @@ bool BaseAudio::Loading() {
 
 #pragma region ボス
 
+	// ボスが開く音
+	kBossOpen = Novice::LoadAudio("./Resources/Audio/Boss/kBossOpen.wav");
+
+	// 閉じる音
+	kBossClose = Novice::LoadAudio("./Resources/Audio/Boss/kBossClose.mp3");
+
+	// 突進する音
+	kBossRush = Novice::LoadAudio("./Resources/Audio/Boss/kBossRush.mp3");
+
+	// 銃展開音
+	kBossPickGun = Novice::LoadAudio("./Resources/Audio/Boss/kBossPickGun.wav");
 	// 射撃音
 	kBossShot = Novice::LoadAudio("./Resources/Audio/Boss/kBossShot.wav");
 
+	// ブレード展開音
+	kBossDeployBlade = Novice::LoadAudio("./Resources/Audio/Boss/kBossDeployBlade.wav");
 	// 斬撃音
 	kBossSlash = Novice::LoadAudio("./Resources/Audio/Boss/kBossSlash.wav");
 
@@ -60,6 +73,15 @@ float BaseAudio::BGMvolume;
 float BaseAudio::SEvolume;
 
 #pragma region ボス
+
+// 開く音
+int BaseAudio::kBossOpen;
+
+// 閉じる音
+int BaseAudio::kBossClose;
+
+// 突進する音
+int BaseAudio::kBossRush;
 
 // ブレード展開音
 int BaseAudio::kBossDeployBlade;
