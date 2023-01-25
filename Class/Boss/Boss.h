@@ -117,6 +117,22 @@ private:
 	// 行動の合間に挟む関数。
 	void None(float waitFrame);
 
+	// 接近関数
+	// 返り値：なし
+	// 引数：
+	// playerPosition ... プレイヤー中心座標
+	// moveTIme ... 回転する時間。これは秒数
+	// プレイヤーに向かって接近する関数
+	void Approach(Point playerPosition, float moveTime, WireManager* wireManager);
+
+	// 離反関数
+	// 返り値：なし
+	// 引数：
+	// playerPosition ... プレイヤー中心座標
+	// moveTIme ... 回転する時間。これは秒数
+	// プレイヤーに向かって接近する関数
+	void Separation(Point playerPosition, float moveTime, WireManager* wireManager);
+
 	// 回転関数
 	// 返り値：なし
 	// 引数：
@@ -219,7 +235,9 @@ private:
 		RUSH, // 突進
 		SLASH, // 斬撃
 		SHOT, // 射撃
-		FALL
+		FALL, // オブジェクト落下攻撃
+		APPROACH, // 接近
+		SEPARATION // 離反
 	};
 	// 攻撃パターンを格納するint型変数
 	int attackPattern = NONE;
@@ -300,6 +318,8 @@ private:
 	// 参照するプレイヤー座標
 	Point prePlayerPosition;
 
+	// プレイヤーとの距離
+	float playerDistance;
 	// プレイヤーへの方向
 	float playerDirection;
 

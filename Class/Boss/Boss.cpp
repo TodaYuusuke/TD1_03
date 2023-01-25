@@ -143,7 +143,9 @@ void Boss::Initialize(ObjectManager* objectManager) {
 
 	pleaseWait = true;
 
-	this->waitTime = 2.5f;
+	this->waitTime = 1.0f;
+
+	playerDistance = 0.0f;
 
 	/// 弾の関係初期化
 	for (int i = 0; i < kmaxBullet; i++) {
@@ -192,71 +194,99 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			inDebug = false;
 	}
 
-	// 行動の分岐
-	if (endAction == true) {
+	if (inDebug == false) {
+		// 行動の分岐
+		if (endAction == true) {
 
-		// 行動の間隔を作る
-		if (pleaseWait == true) {
-			attackPattern = NONE;
-		}
-		else {
+			// 行動の間隔を作る
+			if (pleaseWait == true) {
+				attackPattern = NONE;
+			}
+			else {
+				do{
+					// プレイヤーとボスの距離を求めて近いか遠いかで行動を分岐させる
+					if (BaseMath::GetLength({ playerPosition.x - centerPosition.x,playerPosition.y - centerPosition.y }) < 500.0f) {
 
-			do
-			{
-				// プレイヤーとボスの距離を求めて近いか遠いかで行動を分岐させる
-				if (BaseMath::GetLength({ playerPosition.x - centerPosition.x,playerPosition.y - centerPosition.y }) < 500.0f) {
+						// 近い
+						attackBranch = BaseMath::Random(Pattern1, Pattern4);
+						switch (attackBranch)
+						{
+						case Boss::Pattern1:
+							attackPattern = FALL;
+							break;
+						case Boss::Pattern2:
+							attackPattern = SLASH;
+							break;
+						case Boss::Pattern3:
+							if (prevAttackPattern[0] == APPROACH || prevAttackPattern[0] == SEPARATION
+								|| prevAttackPattern[1] == APPROACH || prevAttackPattern[1] == SEPARATION) {
+								continue;
+							}
+							else {
+								attackPattern = ROTATE;
+							}
+							
+							break;
+						case Boss::Pattern4:
+							if (prevAttackPattern[0] == APPROACH || prevAttackPattern[1] == APPROACH) {
+								continue;
+							}
+							else {
+								attackPattern = SEPARATION;
+							}
+							break;
+						default:
+							attackPattern = NONE;
+							break;
+						}
 
-					// 近い
-					attackBranch = BaseMath::Random(Pattern1, Pattern3);
-
-					switch (attackBranch)
-					{
-					case Boss::Pattern1:
-						attackPattern = FALL;
-						break;
-					case Boss::Pattern2:
-						attackPattern = SLASH;
-						break;
-					case Boss::Pattern3:
-						attackPattern = ROTATE;
-						break;
-					default:
-						attackPattern = NONE;
-						break;
 					}
+					else {
 
-				}
-				else {
+						// 遠い
+						attackBranch = BaseMath::Random(Pattern1, Pattern5);
+						switch (attackBranch)
+						{
+						case Boss::Pattern1:
+							if (prevAttackPattern[0] == APPROACH || prevAttackPattern[0] == SEPARATION
+								|| prevAttackPattern[1] == APPROACH || prevAttackPattern[1] == SEPARATION) {
+								continue;
+							}
+							else {
+								attackPattern = ROTATE;
+							}
+							break;
+						case Boss::Pattern2:
+							attackPattern = SHOT;
+							break;
+						case Boss::Pattern3:
+							attackPattern = SLASH;
+							break;
+						case Boss::Pattern4:
+							attackPattern = RUSH;
+							break;
+						case Boss::Pattern5:
+							if (prevAttackPattern[0] == SEPARATION || prevAttackPattern[1] == SEPARATION) {
+								continue;
+							}
+							else {
+								attackPattern = APPROACH;
+							}
+							break;
+						default:
+							attackPattern = NONE;
+							break;
+						}
 
-					// 遠い
-					attackBranch = BaseMath::Random(Pattern1, Pattern4);
-					switch (attackBranch)
-					{
-					case Boss::Pattern1:
-						attackPattern = ROTATE;
-						break;
-					case Boss::Pattern2:
-						attackPattern = SHOT;
-						break;
-					case Boss::Pattern3:
-						attackPattern = SLASH;
-						break;
-					case Boss::Pattern4:
-						attackPattern = RUSH;
-						break;
-					default:
-						attackPattern = NONE;
-						break;
 					}
+				} while (prevAttackPattern[0] == attackPattern || prevAttackPattern[1] == attackPattern);
+			}
 
-				}
-			} while (prevAttackPattern[0] == attackPattern || prevAttackPattern[1] == attackPattern);
+			// 行動開始
+			inAction = true;
+			endAction = false;
+
 		}
-
-		// 行動開始
-		inAction = true;
-		endAction = false;
-
 	}
 
 	// 行動の実行処理
@@ -270,7 +300,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			Rotate(720, 2.0f, wireManager);
 			break;
 		case Boss::RUSH:
-			Rush(playerPosition, 0.5f, 1.5f, 1.0f, wireManager);
+			Rush(playerPosition, 0.5f, 0.95f, 1.0f, wireManager);
 			break;
 		case Boss::SLASH:
 			Slash(playerPosition, 0.35f, 0.2f, 1.0f, 0.75f, 1.0f, wireManager);
@@ -280,6 +310,12 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			break;
 		case Boss::FALL:
 			Fall(0.35f, 1.0f, 0.15f, 0.75f, 1.0f, wireManager);
+			break;
+		case Boss::APPROACH:
+			Approach(playerPosition, 1.0f, wireManager);
+			break;
+		case Boss::SEPARATION:
+			Separation(playerPosition, 1.0f, wireManager);
 			break;
 		}
 	}
@@ -300,7 +336,6 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		}
 	}
 
-	// 角度を変換
 	degree %= 360;
 
 	Point viewPosition = { centerPosition.x + shakeVariation.x,centerPosition.y + shakeVariation.y };
@@ -332,11 +367,6 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 	// 弾が発射されている時の処理
 	for (int i = 0; i < kmaxBullet; i++) {
 		if (isShot[i] == true && bulletAliveTime[i] > 0.0f) {
-
-			// 場外判定を入れる　現状はわからないので割愛
-			/*if () {
-
-			}*/
 
 			bulletCenterPosition[i].x += -cosf(bulletDirection[i]) * bulletSpeed;
 			bulletCenterPosition[i].y += -sinf(bulletDirection[i]) * bulletSpeed;
@@ -455,6 +485,10 @@ void Boss::Draw() {
 	Novice::ScreenPrintf(0, 0, "attackPattern : %d", attackPattern);
 	Novice::ScreenPrintf(0, 20, "prevAttackPattern[0] : %d", prevAttackPattern[0]);
 	Novice::ScreenPrintf(0, 40, "prevAttackPattern[1] : %d", prevAttackPattern[1]);
+	Novice::ScreenPrintf(0, 60, "attackBranch : %d", attackBranch);
+	Novice::ScreenPrintf(0, 80, "inAction : %d", inAction);
+	Novice::ScreenPrintf(0, 100, "endAction : %d", endAction);
+	Novice::ScreenPrintf(0, 120, "endAction : %4.2f", t);
 
 
 }
@@ -603,16 +637,19 @@ void Boss::Debug() {
 		else if (BaseInput::GetKeyboardState(DIK_6, Trigger)) {
 			attackPattern = FALL;
 		}
+		else if (BaseInput::GetKeyboardState(DIK_7, Trigger)) {
+			attackPattern = SEPARATION;
+		}
 	}
 
 	 // ボスをスタンさせる
-	if (BaseInput::GetKeyboardState(DIK_7, Trigger)) {
+	if (BaseInput::GetKeyboardState(DIK_8, Trigger)) {
 		actionWayPoint = WAYPOINT0;
 		inStun = true;
 	}
 
 	// ボスをスタンさせる
-	if (BaseInput::GetKeyboardState(DIK_8, Trigger)) {
+	if (BaseInput::GetKeyboardState(DIK_9, Trigger)) {
 		actionWayPoint = WAYPOINT0;
 		inDamage = true;
 	}
@@ -749,6 +786,128 @@ void Boss::None(float waitFrame) {
 	}
 }
 
+// 接近関数
+// 返り値：なし
+// 引数：
+// playerPosition ... プレイヤー中心座標
+// moveTIme ... 回転する時間。これは秒数
+// プレイヤーに向かって接近する関数
+void Boss::Approach(Point playerPosition, float moveTime, WireManager* wireManager) {
+	switch (actionWayPoint)
+	{
+	case Boss::WAYPOINT0:
+		// 中心座標取得
+		prevCenterPosition = centerPosition;
+
+		// プレイヤーの座標を取得
+		prePlayerPosition = playerPosition;
+
+		// プレイヤーとの距離を求める
+		playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
+
+		// プレイヤーがいる方向を求める
+		playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
+
+		// 突進する座標を求める
+		nextCenterPosition = {
+			centerPosition.x + (cosf(playerDirection) * playerDistance / 4),
+			centerPosition.y + (sinf(playerDirection) * playerDistance / 4)
+		};
+
+		// t初期化
+		t = 0.0f;
+
+		// 次の段階へ
+		actionWayPoint++;
+		break;
+	case Boss::WAYPOINT1:
+		if (t <= moveTime) {
+
+			// ボスを取得したプレイヤーの向きに向かって突進させる
+			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, (nextCenterPosition.x) - prevCenterPosition.x, moveTime);
+			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, (nextCenterPosition.y) - prevCenterPosition.y, moveTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+			//t が一定以上になったら行動終了
+			prevAttackPattern[1] = prevAttackPattern[0];
+			prevAttackPattern[0] = APPROACH;
+			pleaseWait = true;
+			waitTime = 0.1f;
+			t = 0.0f;
+			init = false;
+			endAction = true;
+			inAction = false;
+			actionWayPoint = WAYPOINT0;
+		}
+
+		break;
+	}
+}
+
+// 離反関数
+// 返り値：なし
+// 引数：
+// moveTIme ... 回転する時間。これは秒数
+// プレイヤーから少し離れる関数
+void Boss::Separation(Point playerPosition, float moveTime, WireManager* wireManager) {
+	switch (actionWayPoint)
+	{
+	case Boss::WAYPOINT0:
+		// 中心座標取得
+		prevCenterPosition = centerPosition;
+		
+		// プレイヤーの座標を取得
+		prePlayerPosition = playerPosition;
+
+		// プレイヤーがいる方向を求める
+		playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
+
+		// プレイヤーとの距離を求める
+		playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
+
+		// 突進する座標を求める
+		nextCenterPosition = {
+			centerPosition.x + (cosf(playerDirection) * playerDistance / 4),
+			centerPosition.y + (sinf(playerDirection) * playerDistance / 4)
+		};
+
+		// t初期化
+		t = 0.0f;
+
+		// 次の段階へ
+		actionWayPoint++;
+		break;
+	case Boss::WAYPOINT1:
+
+		if (t <= moveTime) {
+
+			// ボスを取得したプレイヤーの向きに向かって突進させる
+			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, -(nextCenterPosition.x - prevCenterPosition.x), moveTime);
+			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, -(nextCenterPosition.y - prevCenterPosition.y), moveTime);
+
+			// tをプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+			//t が一定以上になったら行動終了
+			prevAttackPattern[1] = prevAttackPattern[0];
+			prevAttackPattern[0] = SEPARATION;
+			pleaseWait = true;
+			waitTime = 0.1f;
+			t = 0.0f;
+			init = false;
+			endAction = true;
+			inAction = false;
+			actionWayPoint = WAYPOINT0;
+		}
+
+		break;
+	}
+}
+
 // 回転関数
 // 返り値：なし
 // 引数：
@@ -781,7 +940,7 @@ void Boss::Rotate(float endDegree, float RotateTime, WireManager* wireManager) {
 		prevAttackPattern[1] = prevAttackPattern[0];
 		prevAttackPattern[0] = ROTATE;
 		pleaseWait = true;
-		waitTime = 0.25f;
+		waitTime = 0.1f;
 		t = 0.0f;
 		degree = 0;
 		init = false;
@@ -833,7 +992,7 @@ void Boss::Rush(Point playerPosition, float readyTime, float rushTime, float bac
 			playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
 
 			// プレイヤーとの距離を求める
-			float playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
+			playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
 
 			if (playerDistance < 500.0f) {
 				playerDistance = 500.0f;
@@ -887,7 +1046,7 @@ void Boss::Rush(Point playerPosition, float readyTime, float rushTime, float bac
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = RUSH;
 			pleaseWait = true;
-			waitTime = 0.5f;
+			waitTime = 0.35f;
 			init = false;
 			endAction = true;
 			inAction = false;
@@ -1123,7 +1282,7 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			// 行動終了
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = SLASH;
-			waitTime = 1.0f;
+			waitTime = 0.5f;
 			pleaseWait = true;
 			init = false;
 			endAction = true;
@@ -1429,7 +1588,7 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 			// 行動終了
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = SHOT;
-			waitTime = 0.75f;
+			waitTime = 0.35f;
 			pleaseWait = true;
 			init = false;
 			endAction = true;
