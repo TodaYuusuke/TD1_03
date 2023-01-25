@@ -98,7 +98,7 @@ Boss::~Boss() {
 // 初期化処理
 void Boss::Initialize(ObjectManager* objectManager) {
 	// ボスの位置を画面中央に持っていく
-	this->centerPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
+	this->centerPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
 	// ボスの画像サイズを設定
 	this->textureSize = { 225.0f, 450.0f };
 	// ボスのオフセットを初期化
@@ -388,7 +388,8 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			if (generatedBlockValue > 0) {
 				float blockSize = BaseMath::RandomF(20.0f, 60.0f, 0);
 				// ランダムな位置に、ランダムな大きさのブロックを生成
-				objectManager->MakeNewObjectBlock({ BaseMath::RandomF(20.0f, 1900.0f, 1), (float)BaseConst::kWindowHeight }, { blockSize, blockSize });
+				objectManager->MakeNewObjectBlock({ BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kMapSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1), 
+					(float)BaseConst::kMapSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize }, { blockSize, blockSize });
 				generatedBlockValue--;
 			}
 			else {
@@ -481,16 +482,6 @@ void Boss::Draw() {
 		degree,
 		0xFFFFFFFF
 	);
-
-	Novice::ScreenPrintf(0, 0, "attackPattern : %d", attackPattern);
-	Novice::ScreenPrintf(0, 20, "prevAttackPattern[0] : %d", prevAttackPattern[0]);
-	Novice::ScreenPrintf(0, 40, "prevAttackPattern[1] : %d", prevAttackPattern[1]);
-	Novice::ScreenPrintf(0, 60, "attackBranch : %d", attackBranch);
-	Novice::ScreenPrintf(0, 80, "inAction : %d", inAction);
-	Novice::ScreenPrintf(0, 100, "endAction : %d", endAction);
-	Novice::ScreenPrintf(0, 120, "endAction : %4.2f", t);
-
-
 }
 
 // ボス自体の当たり判定を返す関数
@@ -1086,10 +1077,13 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 		// 武器をどれだけ大きくするかを決める
 		weaponSize = { 40, 0 };
 		prevWeaponSize = weaponSize;
-		nextWeaponSize = { weaponSize.x, 350.0f };
+		nextWeaponSize = { weaponSize.x, 400.0f };
 		
 		// t初期化
 		t = 0.0f;
+
+		// 効果音再生
+		Novice::PlayAudio(BaseAudio::kBossOpen, 0, 0.25f);
 
 		//次の段階へ
 		actionWayPoint++;
@@ -1109,6 +1103,9 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 		else {
 			// tをリセット
 			t = 0.0f;
+
+			// 効果音再生
+			Novice::PlayAudio(BaseAudio::kBossDeployBlade, 0, 0.25f);
 
 			//次へ
 			actionWayPoint++;
@@ -1177,6 +1174,9 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			// tを初期化
 			t = 0.0f;
 
+			// 効果音再生
+			Novice::PlayAudio(BaseAudio::kBossSlash, 0, 0.25f);
+
 			//プレイヤー座標取得
 			prePlayerPosition = playerPosition;
 
@@ -1189,6 +1189,10 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			// プレイヤーとの距離が一定以下ならその場で斬撃を行う
 			if (playerDistance < 200.0f) {
 				playerDistance = 0.0f;
+			}
+			else {
+				// 効果音再生
+				Novice::PlayAudio(BaseAudio::kBossRush, 0, 0.1f);
 			}
 
 			// 突進する座標を求める
@@ -1247,6 +1251,10 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			}
 		}
 		else {
+
+			// 効果音再生
+			Novice::PlayAudio(BaseAudio::kBossClose, 0, 0.1f);
+
 			// tを初期化
 			t = 0.0f;
 			// 次へ
@@ -1338,6 +1346,9 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 		count = 0;
 		fireRateCount = 0;
 
+		// 効果音再生
+		Novice::PlayAudio(BaseAudio::kBossOpen, 0, 0.25f);
+
 		//次の段階へ
 		actionWayPoint++;
 		break;
@@ -1356,6 +1367,9 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 		else {
 			// tをリセット
 			t = 0.0f;
+
+			// 効果音再生
+			Novice::PlayAudio(BaseAudio::kBossPickGun, 0, 0.25f);
 
 			//次へ
 			actionWayPoint++;
@@ -1521,7 +1535,7 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 				for (int i = 0; i < kmaxBullet; i++) {
 					if (isShot[i] == false) {
 
-						Novice::PlayAudio(BaseAudio::kBossShot, 0, 1);
+						Novice::PlayAudio(BaseAudio::kBossShot, 0, 0.5f);
 
 						// 座標を発射地点まで移す
 						bulletCenterPosition[i] = shotPoint;
@@ -1620,7 +1634,7 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 	case Boss::WAYPOINT0:
 		// 中心座標取得
 		prevCenterPosition = centerPosition;
-		nextCenterPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
+		nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
 
 		// t初期化
 		t = 0.0f;
@@ -1671,7 +1685,7 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 
 			// 座標設定
 			prevCenterPosition = centerPosition;
-			nextCenterPosition = { centerPosition.x, (float)BaseConst::kWindowHeight};
+			nextCenterPosition = { centerPosition.x, ((float)BaseConst::kMapSizeHeight * (float)BaseConst::kMapChipSizeHeight - (float)BaseConst::kMapChipSizeHeight) - (textureSize.y / 2) };
 
 			// 次の段階
 			actionWayPoint++;
@@ -1716,7 +1730,7 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 		else {
 
 			// 現在の座標を記録する
-			prevCenterPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
+			prevCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
 			nextCenterPosition = centerPosition;
 
 			// tを初期化
@@ -1878,7 +1892,7 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 		else {
 
 			prevCenterPosition = centerPosition;
-			nextCenterPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
+			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
 
 			prevDegree = degree;
 
@@ -2037,7 +2051,7 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 			vibInit = false;
 
 			prevCenterPosition = centerPosition;
-			nextCenterPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
+			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
 
 			prevDegree = degree;
 
@@ -2111,22 +2125,3 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 		break;
 	}
 }
-#pragma region コピペ用
-//// 初期化処理
-//if (init = false) {
-//	init = true;
-//}
-//
-//// t の値が一定以上になるまで足す
-//if (t < 1.0f) {
-//	t += 0.01f;
-//
-//}
-//else {
-//	//t が一定以上になったら行動終了
-//	t = 0.0f;
-//	init = false;
-//	endAction = true;
-//	inAction = false;
-//}
-#pragma endregion
