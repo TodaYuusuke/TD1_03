@@ -4,8 +4,14 @@
 Block::Block(Point _centerPosition, Point size) {
 
 	centerPosition = _centerPosition;
-	width = size.x;
-	height = size.y;
+	//width = size.x;
+	//if (width < 64) {
+		width = 64;
+	//}
+	//height = size.y;
+	//if (height < 64) {
+		height = 64;
+	//}
 
 	Initialize();
 }
@@ -40,14 +46,11 @@ void Block::SuccessorUpdate() {
 }
 // •`‰æ
 void Block::Draw() {
-	if (isAlive) {
-		if (BaseMath::CheckHitBox(centerPosition, width, height, angle, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()))) {
-			BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, BLUE);
-		}
-		else {
-			BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, WHITE);
-		}
+	if (!isAlive) {
+		return;
 	}
+
+	BaseDraw::DrawQuad(centerPosition, BaseTexture::kBlockTexture, { width,height }, 64.0f / width, angle, WHITE);
 }
 
 // ƒ^ƒCƒv‚ðŽæ“¾
