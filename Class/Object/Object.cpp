@@ -5,6 +5,8 @@ void Object::Initialize() {
 	SuccessorInitialize();
 
 	//CheckFieldHitBox();
+	// “–‚½‚è”»’è‚ðŠO•”‚É“n‚·
+	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle);
  }
 
 void Object::SuccessorInitialize(){
@@ -29,8 +31,6 @@ void Object::SuccessorInitialize(){
 	isFlying = true;
 	isAlive = false;
 
-	// “–‚½‚è”»’è‚ðŠO•”‚É“n‚·
-	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle);
  }
 
 void Object::Update() {
@@ -663,9 +663,10 @@ bool Object::isHit(Point hitPosition) {
 		return true;
 	}
 	// •Ê‚Ìobject‚Éƒqƒbƒg‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©
-	else if (ObjectHitBox::CheckHitBox(hitPosition, num)) {
-		return true;
-	}
+	//else if (ObjectHitBox::CheckHitBox(hitPosition, num)) {
+	//	return true;
+	//}
+	
 
 	return false;
 }
