@@ -1757,8 +1757,6 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 			// t‚ð‰Šú‰»
 			t = 0.0f;
 
-			wireManager->Initialize();
-
 			canGeneratedBlock = true;
 			generatedBlockValue = BaseMath::Random(3, 5);
 
