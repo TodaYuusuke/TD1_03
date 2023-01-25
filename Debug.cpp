@@ -21,6 +21,9 @@ void Debug::Initialize() {
 // 更新
 void Debug::Update() {
 
+	// 毎フレーム当たり判定を初期化
+	EnemyAttackHitBox::Initialize();
+
 	// Bキーでブロックを生成
 	if (BaseInput::GetKeyboardState(DIK_B, Trigger)) {
 		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
@@ -35,7 +38,7 @@ void Debug::Update() {
 		boss.Initialize(&objectManager);
 	}
 
-	// エネミー生成
+	// Eキーで雑魚的生成
 	if (BaseInput::GetKeyboardState(DIK_E, Trigger)) {
 		objectManager.MakeNewObjectEnemy(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
 	}
@@ -58,9 +61,9 @@ void Debug::Update() {
 	BaseDraw::SetScreenPosition(screenPosMove);
 
 	MapManager::Update();
+	boss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
 	objectManager.Update();
 	wireManager.Update(&objectManager, &boss);
-	boss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
 }
 // 描画
 void Debug::Draw() {

@@ -29,9 +29,16 @@ void Player::SuccessorInitialize() {
 	isAlive = true;
 	reticlePosition = { -10000,-10000 };
 
+	invincibleFrame = 0;
+	// 現在右を向いているかどうか
+	isRight = true;
 }
 // 更新
 void Player::SuccessorUpdate() {
+
+	if (invincibleFrame > 0) {
+		invincibleFrame--;
+	}
 
 	// 回転を常に初期化
 	angle = 0;
@@ -43,11 +50,58 @@ void Player::SuccessorUpdate() {
 	Jump();
 	ShotWire();
 
+
+	Point screenPos = BaseDraw::GetScreenPosition();
+
+	/// x座標の調整 ///
+
+	if (isRight) {
+		screenPos.x = centerPosition.x - 300;
+	}
+	else {
+		screenPos.x = centerPosition.x + 300 - BaseConst::kWindowWidth;
+	}
+
+	/// y座標の調整 ///
+
+	if (!isFlying) {
+		screenPos.y = centerPosition.y + 900;
+	}
+	else {
+
+	}
+
+
+	// スクリーン座標が画面外に行かないように調整
+	if (screenPos.x < 0) {
+		screenPos.x = 0;
+	}
+	else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth) {
+		screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth - BaseConst::kWindowWidth;
+	}
+	if (screenPos.y - BaseConst::kWindowHeight < 0 ) {
+		screenPos.y = BaseConst::kWindowHeight;
+	}
+	else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight) {
+		screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight;
+	}
+
+
+	//////////　　ここで線形補完　　//////////
+	// screenPos ... 移動先のカメラ
+	// BaseDraw::GetScreenPosition ... このフレームでの現在のカメラ座標
+
+	BaseDraw::SetScreenPosition(screenPos);
+
+	//////////　　　ここまで　　　　//////////
 }
 // 描画
 void Player::Draw() {
 	if (isAlive) {
-		BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
+
+		if (invincibleFrame % 10 == 0) {
+			BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
+		}
 	}
 }
 
@@ -62,6 +116,7 @@ void Player::Move() {
 	if (BaseInput::GetKeyboardState(DIK_A, Press)) {
 		if (velocity.x > -BaseConst::kPlayerVelocityLimit) {
 			velocity.x -= 0.5f;
+			isRight = false;
 		}
 	}
 	else if(velocity.x < 0) {
@@ -71,6 +126,7 @@ void Player::Move() {
 	if (BaseInput::GetKeyboardState(DIK_D, Press)) {
 		if (velocity.x < BaseConst::kPlayerVelocityLimit) {
 			velocity.x += 0.5f;
+			isRight = true;
 		}
 	}
 	else if (velocity.x > 0) {
@@ -386,6 +442,25 @@ void Player::CheckFieldHitBox() {
 			// ヒットしていないときは空中ということなのでフラグをtrueに
 			isFlying = false;
 		}
+	}
+
+
+	// 攻撃に対する当たり判定を実装
+	if (EnemyAttackHitBox::CheckHitBox(centerPosition) != 0 && invincibleFrame <= 0) {
+		// 無敵時間を設定
+		invincibleFrame = 60;
+		// ノックバック
+		Point p = { 10,0 };
+
+		if (isRight) {
+			p = BaseMath::TurnPoint(p, 90 + 45);
+		}
+		else {
+			p = BaseMath::TurnPoint(p, 45);
+		}
+
+		velocity.x = p.x;
+		velocity.y = p.y;
 	}
 }
 

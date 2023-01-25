@@ -33,6 +33,20 @@ void EnemyAttackHitBox::Update() {
 // 描画
 void EnemyAttackHitBox::Draw() {
 	// なし
+	// 
+	// デバッグ用
+	// 当たり判定のリスト
+	for (int i = 0; i < num; i++) {
+		Novice::DrawBox(
+			BaseDraw::WorldtoScreen(hitBox[i].centerPosition).x,
+			BaseDraw::WorldtoScreen(hitBox[i].centerPosition).y,
+			hitBox[i].width,
+			hitBox[i].height,
+			hitBox[i].angle,
+			WHITE,
+			kFillModeWireFrame
+		);
+	}
 }
 
 
@@ -96,4 +110,18 @@ float EnemyAttackHitBox::CheckHitBox(Point centerPosition) {
 			return hitBox[i].atk;
 		}
 	}
+
+	return 0;
 }
+
+
+
+
+// 現在の添え字
+int EnemyAttackHitBox::num;
+// 当たり判定のリスト
+EnemyAttackHitBox::HitBox EnemyAttackHitBox::hitBox[128];
+// 左の半円の当たり判定
+EnemyAttackHitBox::HitEllipse EnemyAttackHitBox::leftEllipse;
+// 右の半円の当たり判定
+EnemyAttackHitBox::HitEllipse EnemyAttackHitBox::rightEllipse;

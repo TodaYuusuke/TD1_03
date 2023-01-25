@@ -4,6 +4,7 @@
 
 #include "Class/Wire/WireManager.h"
 
+#include "Class/AttackHitBox/EnemyAttackHitBox.h"
 
 // いうまでもなくプレイヤー
 class WireManager;
@@ -56,4 +57,8 @@ private: // メンバ変数
 	// ワイヤー管理クラス
 	WireManager* wireManager;
 
+	// ヒット後の無敵時間
+	int invincibleFrame;
+	// 現在右を向いているかどうか
+	bool isRight;
 };
