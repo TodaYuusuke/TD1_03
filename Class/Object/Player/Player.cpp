@@ -32,6 +32,7 @@ void Player::SuccessorInitialize() {
 	invincibleFrame = 0;
 	// 現在右を向いているかどうか
 	isRight = true;
+	screenT = 0;
 }
 // 更新
 void Player::SuccessorUpdate() {
@@ -79,7 +80,7 @@ void Player::SuccessorUpdate() {
 	else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth) {
 		screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth - BaseConst::kWindowWidth;
 	}
-	if (screenPos.y - BaseConst::kWindowHeight < 0 ) {
+	if (screenPos.y - BaseConst::kWindowHeight < 0) {
 		screenPos.y = BaseConst::kWindowHeight;
 	}
 	else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight) {
@@ -91,7 +92,35 @@ void Player::SuccessorUpdate() {
 	// screenPos ... 移動先のカメラ
 	// BaseDraw::GetScreenPosition ... このフレームでの現在のカメラ座標
 
-	BaseDraw::SetScreenPosition(screenPos);
+	// 前のフレームの、移動する先のカメラ座標を取得
+	static Point prevScreenPos = BaseDraw::GetScreenPosition();
+
+	// 線形補間中のカメラ位置
+	Point linerScreenPos = BaseDraw::GetScreenPosition();
+
+	// GetScreenPosition関数呼び出すのが面倒なので変数に入れます
+	Point nowScreenPos = linerScreenPos;
+
+	if (prevScreenPos.x != screenPos.x || prevScreenPos.y != screenPos.y) {
+		screenT = 0.0f;
+	}
+
+	else if (nowScreenPos.x == screenPos.x && nowScreenPos.y == screenPos.y) {
+		screenT = 0.0f;
+	}
+
+	screenT += 0.005f;
+
+	BaseMath::Clamp(screenT, 0.0f, 1.0f);
+
+	linerScreenPos = {
+		(1 - screenT) * nowScreenPos.x + screenT * screenPos.x,
+		(1 - screenT) * nowScreenPos.y + screenT * screenPos.y
+	};
+	// 次の移動先座標を保存
+	prevScreenPos = screenPos;
+	// 最終的にカメラを設定する
+	BaseDraw::SetScreenPosition(linerScreenPos);
 
 	//////////　　　ここまで　　　　//////////
 
@@ -120,7 +149,7 @@ void Player::Move() {
 			isRight = false;
 		}
 	}
-	else if(velocity.x < 0) {
+	else if (velocity.x < 0) {
 		velocity.x += 0.1f;
 	}
 	// 右移動
@@ -161,19 +190,19 @@ void Player::ShotWire() {
 		switch (wireManager->Shot(centerPosition, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition), this))
 		{
 			// ワイヤーの射出に成功した場合
-			case 1:
-				// 射出方向と反対方向のベクトルを足す
-				p = BaseMath::TurnPoint(p, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition) + 180);
+		case 1:
+			// 射出方向と反対方向のベクトルを足す
+			p = BaseMath::TurnPoint(p, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition) + 180);
 
-				velocity.x = p.x;
-				velocity.y = p.y;
-				break;
+			velocity.x = p.x;
+			velocity.y = p.y;
+			break;
 			// 射出失敗
-			case -1:
-				break;
+		case -1:
+			break;
 			// これ以上射出できない
-			case -2:
-				break;
+		case -2:
+			break;
 		}
 	}
 	if (BaseInput::GetMouseState(RightClick, Trigger)) {

@@ -61,4 +61,8 @@ private: // ƒƒ“ƒo•Ï”
 	int invincibleFrame;
 	// Œ»İ‰E‚ğŒü‚¢‚Ä‚¢‚é‚©‚Ç‚¤‚©
 	bool isRight;
+
+	// ƒJƒƒ‰‚ğˆÚ“®‚³‚¹‚é‚½‚ß‚Ì t
+	float screenT;
+
 };
