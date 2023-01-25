@@ -175,6 +175,8 @@ void Player::Jump() {
 			}
 			// ジャンプ分の速度を足す
 			velocity.y += 9.8f * 1.2f;
+			// SEを再生
+			Novice::PlayAudio(BaseAudio::kPlayerJump, 0, 0.5f);
 		}
 	}
 }
@@ -196,6 +198,8 @@ void Player::ShotWire() {
 
 			velocity.x = p.x;
 			velocity.y = p.y;
+			// SEを再生
+			Novice::PlayAudio(BaseAudio::kPlayerShoot, 0, 0.5f);
 			break;
 			// 射出失敗
 		case -1:
@@ -474,6 +478,10 @@ void Player::CheckFieldHitBox() {
 		}
 	}
 
+	//////////////////////////
+	///　　当たり判定チェック　　//
+	//////////////////////////
+
 	// 無敵時間の場合 -> 当たり判定を検証しない
 	if (invincibleFrame <= 0) {
 		// 攻撃に対する当たり判定を実装
@@ -492,11 +500,13 @@ void Player::CheckFieldHitBox() {
 			velocity.y = p.y;
 			// 無敵時間を設定
 			invincibleFrame = 60;
+			// SEを再生
+			Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, 0.5f);
 		}
 		// 外殻に対する当たり判定
 		else if (EnemyAttackHitBox::CheckHitEllipse(centerPosition) != -1) {
 			// ノックバック
-			Point p = { 15,0 };
+			Point p = { 20,0 };
 
 			if (isRight) {
 				p = BaseMath::TurnPoint(p, 90 + 45);
@@ -509,8 +519,14 @@ void Player::CheckFieldHitBox() {
 			velocity.y = p.y;
 			// 無敵時間を設定
 			invincibleFrame = 30;
+			// SEを再生
+			Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, 0.5f);
 		}
 	}
+
+	////////////////////////
+	///　　　　ここまで　　　　//
+	////////////////////////
 }
 
 
