@@ -42,7 +42,6 @@ public: // 静的なテクスチャの変数
 	// デバッグ用テクスチャ
 	static int kDebugTexture;
 
-
 #pragma region マップ
 
 	// マップチップサンプル
@@ -73,5 +72,10 @@ public: // 静的なテクスチャの変数
 
 #pragma endregion
 
+#pragma region その他
 
+	// ブロック
+	static int kBlockTexture;
+
+#pragma endregion
 };
