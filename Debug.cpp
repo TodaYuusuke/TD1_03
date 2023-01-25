@@ -22,6 +22,12 @@ void Debug::Initialize() {
 // 更新
 void Debug::Update() {
 
+	Novice::ScreenPrintf(0, 0, "Move ... WASD");
+	Novice::ScreenPrintf(0, 20, "SPACE ... JAMP");
+	Novice::ScreenPrintf(0, 40, "SHOT WIRE ... LEFTCLICK");
+	Novice::ScreenPrintf(0, 60, "ATTARACT ... RIGHTCLICK");
+	Novice::ScreenPrintf(0, 80, "RESTART ... R");
+
 	// 毎フレーム当たり判定を初期化
 	EnemyAttackHitBox::Initialize();
 
