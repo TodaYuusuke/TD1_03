@@ -101,7 +101,7 @@ void EnemyAttackHitBox::MakeNewHitBoxRight(Point centerPosition, float radius, f
 
 
 // 当たり判定検証
-// 返り値：ヒットしていた場合 -> 被ダメージ量、　ヒットしていない場合 -> 0
+// 返り値：ヒットしていた場合 -> 被ダメージ量、　ヒットしていない場合 -> -1
 // 引数：
 // centerPosition ... 検証する座標
 float EnemyAttackHitBox::CheckHitBox(Point centerPosition) {
@@ -110,8 +110,20 @@ float EnemyAttackHitBox::CheckHitBox(Point centerPosition) {
 			return hitBox[i].atk;
 		}
 	}
+	return -1;
+}
 
-	return 0;
+// 当たり判定検証
+// 返り値：ヒットしていた場合 -> 被ダメージ量、　ヒットしていない場合 -> -1
+// 引数：
+// centerPosition ... 検証する座標
+float EnemyAttackHitBox::CheckHitEllipse(Point centerPosition) {
+
+	// 半円のどちらかにヒットしていた場合 -> atkを返す
+
+
+	// ヒットしていた場合
+	return -1;
 }
 
 
