@@ -68,18 +68,6 @@ private:
 	// 右側フックの相対座標を求める
 	Point GetRHookPosition(Point centerPosition);
 
-	/******** 初期化関数 **********/
-	// 選択初期化関数
-	// 返り値：なし
-	// 引数：
-	// cenerPosition ... 座標を初期化するか
-	// degree ... 角度を初期化するか
-	// offset ... オフセットを初期化するか
-	// t ... tを初期化するか
-	// weapon ... 武器関係の変数を初期化するか
-	// 引数でTrueにしたものだけ初期化する関数
-	void SelectionInitialize(bool centerPosition, bool degree, bool offset, bool t, bool weapon);
-
 	/******** デバッグ関数 **********/
 	void Debug();
 
@@ -128,25 +116,28 @@ private:
 	// 返り値：なし
 	// 引数：
 	// playerPosition ... プレイヤー中心座標
-	// moveTIme ... 回転する時間。これは秒数
+	// moveTIme ... 回転する時間
+	// afterWaitTime ... 行動後に発生する待機時間
 	// プレイヤーに向かって接近する関数
-	void Approach(Point playerPosition, float moveTime, WireManager* wireManager);
+	void Approach(Point playerPosition, float moveTime, float afterWaitTime, WireManager* wireManager);
 
 	// 離反関数
 	// 返り値：なし
 	// 引数：
 	// playerPosition ... プレイヤー中心座標
 	// moveTIme ... 回転する時間。これは秒数
-	// プレイヤーに向かって接近する関数
-	void Separation(Point playerPosition, float moveTime, WireManager* wireManager);
+	// afterWaitTime ... 行動後に発生する待機時間
+	// プレイヤーに向かって離反する関数
+	void Separation(Point playerPosition, float moveTime,float afterWaitTime, WireManager* wireManager);
 
 	// 回転関数
 	// 返り値：なし
 	// 引数：
 	// endDegree ... 終了時の角度
 	// rotateTime ... 回転する時間。これは秒数
+	// afterWaitTime ... 行動後に発生する待機時間
 	// ボスを回転させる関数
-	void Rotate(float endDegree, float RotateTime, WireManager* wireManager);
+	void Rotate(float endDegree, float RotateTime, float afterWaitTime, WireManager* wireManager);
 
 	// 突進関数
 	// 返り値：なし
@@ -155,8 +146,9 @@ private:
 	// readyTime ... 突進の準備にかかる秒数
 	// rushTime ... 突進にかかる秒数
 	// backTime ... 戻る時にかかる秒数
+	// afterWaitTime ... 行動後に発生する待機時間
 	// ボスをプレイヤーの向きに突進させる関数
-	void Rush(Point playerPosition, float readyTime , float rushTime, float backTime, WireManager* wireManager);
+	void Rush(Point playerPosition, float readyTime , float rushTime, float backTime, float afterWaitTime, WireManager* wireManager);
 
 	// 斬撃関数
 	// 返り値：なし
@@ -167,8 +159,9 @@ private:
 	// preparationTime　... 攻撃までの待機時間
 	// rushTime ... 突進にかかる秒数
 	// backTime ... 戻る時にかかる秒数
+	// afterWaitTime ... 行動後に発生する待機時間
 	// ボスが斬撃を行う関数
-	void Slash(Point playerPosition, float readyTime, float deployTime, float preparationTime, float slashTime, float backTime, WireManager* wireManager);
+	void Slash(Point playerPosition, float readyTime, float deployTime, float preparationTime, float slashTime, float backTime, float afterWaitTIme, WireManager* wireManager);
 	
 	// 射撃関数
 	// 返り値：なし
@@ -179,9 +172,10 @@ private:
 	// preparationTime　... 攻撃までの待機時間
 	// shotTime ... 射撃秒数
 	// backTime ... 戻る時にかかる秒数
+	// afterWaitTime ... 行動後に発生する待機時間
 	// fireRate ... 何秒おきに射撃するか
 	// ボスが射撃を行う関数
-	void Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime, float fireRate, WireManager* wireManager);
+	void Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime, float afterWaitTime, float fireRate, WireManager* wireManager);
 
 	// オブジェクト落下関数
 	// 返り値：なし
@@ -191,8 +185,9 @@ private:
 	// rushTime　... 天井に突進するまでにかかる秒数
 	// standByTime ... 待機秒数
 	// backTime ... 戻る時にかかる秒数
+	// afterWaitTime ... 行動後に発生する待機時間
 	// ボスが天井にぶつかり、破片を落下させて攻撃を行う関数
-	void Fall(float readyTime, float deployTime, float rushTime, float standByTime, float backTime, WireManager* wireManager);
+	void Fall(float readyTime, float deployTime, float rushTime, float standByTime, float backTime, float afterWaitTime, WireManager* wireManager);
 
 	/******** スタン関数 **********/
 	// スタン関数

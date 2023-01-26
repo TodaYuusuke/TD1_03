@@ -317,25 +317,25 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			None(waitTime);
 			break;
 		case Boss::ROTATE:
-			Rotate(720, 2.0f, wireManager);
+			Rotate(720, 2.0f, 0.5f, wireManager);
 			break;
 		case Boss::RUSH:
-			Rush(playerPosition, 0.5f, 0.95f, 1.0f, wireManager);
+			Rush(playerPosition, 1.0f, 1.5f, 1.0f, 1.0f, wireManager);
 			break;
 		case Boss::SLASH:
-			Slash(playerPosition, 0.35f, 0.2f, 1.0f, 0.75f, 1.0f, wireManager);
+			Slash(playerPosition, 0.35f, 0.2f, 1.0f, 0.75f, 1.0f, 1.0f, wireManager);
 			break;
 		case Boss::SHOT:
-			Shot(playerPosition, 0.35f, 0.75f, 1.0f, 5.0f, 1.0f, 0.1f, wireManager);
+			Shot(playerPosition, 0.35f, 0.75f, 1.0f, 5.0f, 1.0f, 1.0f, 0.25f, wireManager);
 			break;
 		case Boss::FALL:
-			Fall(0.35f, 1.0f, 0.15f, 0.75f, 1.0f, wireManager);
+			Fall(0.35f, 1.0f, 0.15f, 0.75f, 1.0f, 1.0f, wireManager);
 			break;
 		case Boss::APPROACH:
-			Approach(playerPosition, 1.0f, wireManager);
+			Approach(playerPosition, 1.0f, 1.0f, wireManager);
 			break;
 		case Boss::SEPARATION:
-			Separation(playerPosition, 1.0f, wireManager);
+			Separation(playerPosition, 1.0f, 1.0f, wireManager);
 			break;
 		}
 	}
@@ -384,8 +384,8 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 	EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree + 30.0f, 1.0f);
 
 	// ボスのヒットボックス
-	EnemyAttackHitBox::MakeNewHitBoxRight(GetRCoverCollision(centerPosition), textureSize.y / 2.0f, degree, 1.0f);
-	EnemyAttackHitBox::MakeNewHitBoxLeft(GetLCoverCollision(centerPosition), textureSize.y / 2.0f, degree, 1.0f);
+	EnemyAttackHitBox::MakeNewHitBoxRight(GetRCoverCollision(centerPosition), textureSize.y / 2.0f, degree, 0.0f);
+	EnemyAttackHitBox::MakeNewHitBoxLeft(GetLCoverCollision(centerPosition), textureSize.y / 2.0f, degree, 0.0f);
 
 	// デバッグ関数の実行
 	if (inDebug == true) {
@@ -553,34 +553,6 @@ bool Boss::GetBossCollision(Point hitPosition) {
 		else {
 			return false;
 		}
-	}
-}
-
-// 選択初期化関数
-// 返り値：なし
-// 引数：
-// cenerPosition ... 座標を初期化するか
-// degree ... 角度を初期化するか
-// offset ... オフセットを初期化するか
-// t ... tを初期化するか
-// weapon ... 武器関係の変数を初期化するか
-// 引数でTrueにしたものだけ初期化する関数
-void Boss::SelectionInitialize(bool initCenterPosition, bool initDegree, bool initOffset, bool initT, bool initWeapon) {
-	if (initCenterPosition == true) {
-		// ボスの位置を画面中央に持っていく
-		centerPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
-	}
-	if (initDegree == true) {
-		degree = 0;
-	}
-	if (initOffset == true) {
-		offset = 0.0f;
-	}
-	if (initT == true) {
-		t = 0.0f;
-	}
-	if (initWeapon == true) {
-		weaponSize = { 0.0f };
 	}
 }
 
@@ -845,9 +817,10 @@ void Boss::None(float waitFrame) {
 // 返り値：なし
 // 引数：
 // playerPosition ... プレイヤー中心座標
-// moveTIme ... 回転する時間。これは秒数
+// moveTIme ... 回転する時間
+// afterWaitTime ... 行動後に発生する待機時間
 // プレイヤーに向かって接近する関数
-void Boss::Approach(Point playerPosition, float moveTime, WireManager* wireManager) {
+void Boss::Approach(Point playerPosition, float moveTime, float afterWaitTime, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
 	case Boss::WAYPOINT0:
@@ -890,7 +863,7 @@ void Boss::Approach(Point playerPosition, float moveTime, WireManager* wireManag
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = APPROACH;
 			pleaseWait = true;
-			waitTime = 0.1f;
+			waitTime = afterWaitTime;
 			t = 0.0f;
 			init = false;
 			endAction = true;
@@ -903,11 +876,13 @@ void Boss::Approach(Point playerPosition, float moveTime, WireManager* wireManag
 }
 
 // 離反関数
-// 返り値：なし
-// 引数：
-// moveTIme ... 回転する時間。これは秒数
-// プレイヤーから少し離れる関数
-void Boss::Separation(Point playerPosition, float moveTime, WireManager* wireManager) {
+	// 返り値：なし
+	// 引数：
+	// playerPosition ... プレイヤー中心座標
+	// moveTIme ... 回転する時間。これは秒数
+	// afterWaitTime ... 行動後に発生する待機時間
+	// プレイヤーに向かって離反する関数
+void Boss::Separation(Point playerPosition, float moveTime, float afterWaitTime, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
 	case Boss::WAYPOINT0:
@@ -951,7 +926,7 @@ void Boss::Separation(Point playerPosition, float moveTime, WireManager* wireMan
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = SEPARATION;
 			pleaseWait = true;
-			waitTime = 0.1f;
+			waitTime = afterWaitTime;
 			t = 0.0f;
 			init = false;
 			endAction = true;
@@ -968,8 +943,9 @@ void Boss::Separation(Point playerPosition, float moveTime, WireManager* wireMan
 // 引数：
 // endDegree ... 終了時の角度
 // rotateTime ... 回転する時間。これは秒数
+// afterWaitTime ... 行動後に発生する待機時間
 // ボスを回転させる関数
-void Boss::Rotate(float endDegree, float RotateTime, WireManager* wireManager) {
+void  Boss::Rotate(float endDegree, float RotateTime, float afterWaitTime, WireManager* wireManager) {
 
 	static int startDegree;
 	// 初期化処理
@@ -995,7 +971,7 @@ void Boss::Rotate(float endDegree, float RotateTime, WireManager* wireManager) {
 		prevAttackPattern[1] = prevAttackPattern[0];
 		prevAttackPattern[0] = ROTATE;
 		pleaseWait = true;
-		waitTime = 0.1f;
+		waitTime = afterWaitTime;
 		t = 0.0f;
 		degree = 0;
 		init = false;
@@ -1012,7 +988,7 @@ void Boss::Rotate(float endDegree, float RotateTime, WireManager* wireManager) {
 // rushTime ... 突進にかかる秒数
 // backTime ... 戻る時にかかる秒数
 // ボスをプレイヤーの向きに突進させる関数
-void Boss::Rush(Point playerPosition, float readyTime, float rushTime, float backTime, WireManager* wireManager) {
+void Boss::Rush(Point playerPosition, float readyTime, float rushTime, float backTime, float afterWaitTime, WireManager* wireManager) {
 
 	switch (actionWayPoint)
 	{
@@ -1069,6 +1045,11 @@ void Boss::Rush(Point playerPosition, float readyTime, float rushTime, float bac
 			// ボスを取得したプレイヤーの向きに向かって突進させる
 			centerPosition.x = BaseDraw::Ease_Out(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, rushTime);
 			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, rushTime);
+
+			// ボスのヒットボックス
+			EnemyAttackHitBox::MakeNewHitBoxRight(GetRCoverCollision(centerPosition), textureSize.y / 2.0f, degree, 2.0f);
+			EnemyAttackHitBox::MakeNewHitBoxLeft(GetLCoverCollision(centerPosition), textureSize.y / 2.0f, degree, 2.0f);
+
 			t += 1.0f / 60.0f;
 		}
 		else {
@@ -1101,7 +1082,7 @@ void Boss::Rush(Point playerPosition, float readyTime, float rushTime, float bac
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = RUSH;
 			pleaseWait = true;
-			waitTime = 0.35f;
+			waitTime = afterWaitTime;
 			init = false;
 			endAction = true;
 			inAction = false;
@@ -1121,12 +1102,14 @@ void Boss::Rush(Point playerPosition, float readyTime, float rushTime, float bac
 // 返り値：なし
 // 引数：
 // playerPosition ... プレイヤーの座標
-// readyTime ... 斬撃の準備にかかる秒数
+// readyTime ... ボスが開くまでにかかる秒数
 // deployTime ... ブレードの展開にかかる秒数
-// slashTime ... 斬撃にかかる秒数
+// preparationTime　... 攻撃までの待機時間
+// rushTime ... 突進にかかる秒数
 // backTime ... 戻る時にかかる秒数
+// afterWaitTime ... 行動後に発生する待機時間
 // ボスが斬撃を行う関数
-void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float preparationTime, float slashTime, float backTime, WireManager* wireManager) {
+void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float preparationTime, float slashTime, float backTime, float afterWaitTime, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
 	// 初期化
@@ -1354,7 +1337,7 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			// 行動終了
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = SLASH;
-			waitTime = 0.5f;
+			waitTime = afterWaitTime;
 			pleaseWait = true;
 			init = false;
 			endAction = true;
@@ -1376,9 +1359,10 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 // preparationTime　... 攻撃までの待機時間
 // shotTime ... 射撃秒数
 // backTime ... 戻る時にかかる秒数
+// afterWaitTime ... 行動後に発生する待機時間
 // fireRate ... 何秒おきに射撃するか
 // ボスが射撃を行う関数
-void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime, float fireRate, WireManager* wireManager) {
+void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime, float afterWaitTime, float fireRate, WireManager* wireManager) {
 
 	// ボスがプレイヤーに追従して回転する時に用いるカウント変数
 	static int count;
@@ -1669,7 +1653,7 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 			// 行動終了
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = SHOT;
-			waitTime = 0.35f;
+			waitTime = afterWaitTime;
 			pleaseWait = true;
 			init = false;
 			endAction = true;
@@ -1691,7 +1675,7 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 // standByTime ... 待機秒数
 // backTime ... 戻る時にかかる秒数
 // ボスが天井にぶつかり、破片を落下させて攻撃を行う関数
-void Boss::Fall(float readyTime, float deployTime, float rushTime, float standByTime, float backTime, WireManager* wireManager) {
+void Boss::Fall(float readyTime, float deployTime, float rushTime, float standByTime, float backTime, float afterWaitTime, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
 		// 初期化
