@@ -514,9 +514,11 @@ void Player::CheckFieldHitBox() {
 	//////////////////////////
 
 	// 無敵時間の場合 -> 当たり判定を検証しない
-	if (invincibleFrame <= 0) {
+	while (invincibleFrame <= 0) {
+		int atk;
 		// 攻撃に対する当たり判定を実装
-		if (EnemyAttackHitBox::CheckHitBox(centerPosition) != -1) {
+		atk = EnemyAttackHitBox::CheckHitBox(centerPosition);
+		if (atk != -1) {
 			// ノックバック
 			Point p = { 10,0 };
 
@@ -534,13 +536,16 @@ void Player::CheckFieldHitBox() {
 			// SEを再生
 			Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, 0.5f);
 			// HP を減らす
-			HP--;
+			HP -= atk;
 			// HP 表示
 			isDrawHP = true;
 			drawHPFrame = invincibleFrame + 180;
+
+			break;
 		}
 		// 外殻に対する当たり判定
-		else if (EnemyAttackHitBox::CheckHitEllipse(centerPosition) != -1) {
+		atk = EnemyAttackHitBox::CheckHitEllipse(centerPosition);
+		if (atk != -1) {
 			// ノックバック
 			Point p = { 20,0 };
 
@@ -557,10 +562,15 @@ void Player::CheckFieldHitBox() {
 			invincibleFrame = 30;
 			// SEを再生
 			Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, 0.5f);
+			// HP を減らす
+			HP -= atk;
 			// HP 表示
 			isDrawHP = true;
 			drawHPFrame = invincibleFrame + 180;
+
+			break;
 		}
+		break;
 	}
 
 	////////////////////////
