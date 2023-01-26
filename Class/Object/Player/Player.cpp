@@ -70,21 +70,11 @@ void Player::SuccessorUpdate() {
 
 	/// x座標の調整 ///
 
-	if (isRight) {
-		screenPos.x = centerPosition.x - 300;
-	}
-	else {
-		screenPos.x = centerPosition.x + 300 - BaseConst::kWindowWidth;
-	}
+	screenPos.x = centerPosition.x - BaseConst::kWindowWidth / 2.0f;
 
 	/// y座標の調整 ///
 
-	if (!isFlying) {
-		screenPos.y = centerPosition.y + 900;
-	}
-	else {
-
-	}
+	screenPos.y = centerPosition.y + 400;
 
 
 	// スクリーン座標が画面外に行かないように調整
@@ -106,35 +96,35 @@ void Player::SuccessorUpdate() {
 	// screenPos ... 移動先のカメラ
 	// BaseDraw::GetScreenPosition ... このフレームでの現在のカメラ座標
 
-	// 前のフレームの、移動する先のカメラ座標を取得
-	static Point prevScreenPos = BaseDraw::GetScreenPosition();
+	//// 前のフレームの、移動する先のカメラ座標を取得
+	//static Point prevScreenPos = BaseDraw::GetScreenPosition();
 
-	// 線形補間中のカメラ位置
-	Point linerScreenPos = BaseDraw::GetScreenPosition();
+	//// 線形補間中のカメラ位置
+	//Point linerScreenPos = BaseDraw::GetScreenPosition();
 
-	// GetScreenPosition関数呼び出すのが面倒なので変数に入れます
-	Point nowScreenPos = linerScreenPos;
+	//// GetScreenPosition関数呼び出すのが面倒なので変数に入れます
+	//Point nowScreenPos = linerScreenPos;
 
-	if (prevScreenPos.x != screenPos.x || prevScreenPos.y != screenPos.y) {
-		screenT = 0.0f;
-	}
+	//if (prevScreenPos.x != screenPos.x || prevScreenPos.y != screenPos.y) {
+	//	screenT = 0.0f;
+	//}
 
-	else if (nowScreenPos.x == screenPos.x && nowScreenPos.y == screenPos.y) {
-		screenT = 0.0f;
-	}
+	//else if (nowScreenPos.x == screenPos.x && nowScreenPos.y == screenPos.y) {
+	//	screenT = 0.0f;
+	//}
 
-	screenT += 0.005f;
+	//screenT += 0.005f;
 
-	BaseMath::Clamp(screenT, 0.0f, 1.0f);
+	//BaseMath::Clamp(screenT, 0.0f, 1.0f);
 
-	linerScreenPos = {
-		(1 - screenT) * nowScreenPos.x + screenT * screenPos.x,
-		(1 - screenT) * nowScreenPos.y + screenT * screenPos.y
-	};
-	// 次の移動先座標を保存
-	prevScreenPos = screenPos;
+	//linerScreenPos = {
+	//	(1 - screenT) * nowScreenPos.x + screenT * screenPos.x,
+	//	(1 - screenT) * nowScreenPos.y + screenT * screenPos.y
+	//};
+	//// 次の移動先座標を保存
+	//prevScreenPos = screenPos;
 	// 最終的にカメラを設定する
-	BaseDraw::SetScreenPosition(linerScreenPos);
+	BaseDraw::SetScreenPosition(screenPos);
 
 	//////////　　　ここまで　　　　//////////
 
@@ -218,7 +208,7 @@ void Player::ShotWire() {
 		reticlePosition = BaseInput::GetMousePosition();
 
 		// 反動のベクトル
-		Point p = { 7,0 };
+		Point p = { 3,0 };
 
 		switch (wireManager->Shot(centerPosition, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition), this))
 		{
@@ -226,9 +216,10 @@ void Player::ShotWire() {
 		case 1:
 			// 射出方向と反対方向のベクトルを足す
 			p = BaseMath::TurnPoint(p, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition) + 180);
-
-			velocity.x = p.x;
-			velocity.y = p.y;
+			if (isFlying) {
+				velocity.x = p.x;
+				velocity.y = p.y;
+			}
 			// SEを再生
 			Novice::PlayAudio(BaseAudio::kPlayerShoot, 0, 0.5f);
 			break;
