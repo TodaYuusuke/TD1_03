@@ -208,7 +208,7 @@ void Player::ShotWire() {
 		reticlePosition = BaseInput::GetMousePosition();
 
 		// 反動のベクトル
-		Point p = { 7,0 };
+		Point p = { 3,0 };
 
 		switch (wireManager->Shot(centerPosition, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition), this))
 		{
@@ -216,9 +216,10 @@ void Player::ShotWire() {
 		case 1:
 			// 射出方向と反対方向のベクトルを足す
 			p = BaseMath::TurnPoint(p, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition) + 180);
-
-			velocity.x = p.x;
-			velocity.y = p.y;
+			if (isFlying) {
+				velocity.x = p.x;
+				velocity.y = p.y;
+			}
 			// SEを再生
 			Novice::PlayAudio(BaseAudio::kPlayerShoot, 0, 0.5f);
 			break;
