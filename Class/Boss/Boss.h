@@ -73,6 +73,11 @@ private:
 
 	/******** その他行動関数 **********/
 
+	// イーズインバック関数
+	float easeInBack(float t, float start, float end, float d) {
+		return (t / d) * (t / d) * (end * (t / d) - start);
+	}
+
 	// シェイク関数
 	// 返り値：なし
 	// 引数：
@@ -144,11 +149,13 @@ private:
 	// 引数：
 	// playerPosition ... プレイヤーの座標
 	// readyTime ... 突進の準備にかかる秒数
+	// chargeTime ... 突進の溜めにかかる秒数
 	// rushTime ... 突進にかかる秒数
 	// backTime ... 戻る時にかかる秒数
 	// afterWaitTime ... 行動後に発生する待機時間
+	// damage ... 行動によって発生するダメージ
 	// ボスをプレイヤーの向きに突進させる関数
-	void Rush(Point playerPosition, float readyTime , float rushTime, float backTime, float afterWaitTime, WireManager* wireManager);
+	void Rush(Point playerPosition, float readyTime , float chargeTime, float rushTime, float backTime, float afterWaitTime, float damage, WireManager* wireManager);
 
 	// 斬撃関数
 	// 返り値：なし
@@ -160,8 +167,9 @@ private:
 	// rushTime ... 突進にかかる秒数
 	// backTime ... 戻る時にかかる秒数
 	// afterWaitTime ... 行動後に発生する待機時間
+	// damage ... 行動によって発生するダメージ
 	// ボスが斬撃を行う関数
-	void Slash(Point playerPosition, float readyTime, float deployTime, float preparationTime, float slashTime, float backTime, float afterWaitTIme, WireManager* wireManager);
+	void Slash(Point playerPosition, float readyTime, float deployTime, float preparationTime, float slashTime, float backTime, float afterWaitTIme, float damage, WireManager* wireManager);
 	
 	// 射撃関数
 	// 返り値：なし
@@ -174,8 +182,9 @@ private:
 	// backTime ... 戻る時にかかる秒数
 	// afterWaitTime ... 行動後に発生する待機時間
 	// fireRate ... 何秒おきに射撃するか
+	// damage ... 行動によって発生するダメージ
 	// ボスが射撃を行う関数
-	void Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime, float afterWaitTime, float fireRate, WireManager* wireManager);
+	void Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime, float afterWaitTime, float fireRate, float damage, WireManager* wireManager);
 
 	// オブジェクト落下関数
 	// 返り値：なし
@@ -185,9 +194,9 @@ private:
 	// rushTime　... 天井に突進するまでにかかる秒数
 	// standByTime ... 待機秒数
 	// backTime ... 戻る時にかかる秒数
-	// afterWaitTime ... 行動後に発生する待機時間
+	// damage ... 行動によって発生するダメージ
 	// ボスが天井にぶつかり、破片を落下させて攻撃を行う関数
-	void Fall(float readyTime, float deployTime, float rushTime, float standByTime, float backTime, float afterWaitTime, WireManager* wireManager);
+	void Fall(float readyTime, float deployTime, float rushTime, float standByTime, float backTime, float afterWaitTime, float damage, WireManager* wireManager);
 
 	/******** スタン関数 **********/
 	// スタン関数
@@ -282,6 +291,16 @@ private:
 	const float MaxHP = 5.0f;
 	float HP;
 
+	/******** ダメージ関連 **********/
+	// ボス自体のダメージ
+	float bodyDamage;
+
+	// 剣のダメージ
+	float bladeDamage;
+
+	// 弾のダメージ
+	float bulletDamage[kmaxBullet];
+
 	/******** 座標関連 **********/
 	/// ボス関連
 	// 中心座標
@@ -316,6 +335,9 @@ private:
 	int prevDegree;
 	// 行動後角度
 	int nextDegree;
+
+	// 1フレーム前の角度
+	int beforeDegree;
 
 	// 行動前オフセット
 	int prevOffset;
@@ -356,7 +378,7 @@ private:
 	// 核のサイズ
 	Point coreSize;
 
-	// フックのテクスチャサイズ
+	// フックのサイズ
 	Point hookSize;
 
 	/// 武器関連

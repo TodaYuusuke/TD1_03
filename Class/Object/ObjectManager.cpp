@@ -63,7 +63,7 @@ void ObjectManager::MakeNewObjectPlayer(Point position, WireManager* wireManager
 Object* ObjectManager::MakeNewObjectHook(Point position, Point size) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() == typeObject && !object[i]->GetisAlive()) {
-			object[i] = new Hook(position, { 50,50 });
+			object[i] = new Hook(position, size);
 			object[i]->Initialize();
 			return object[i];
 		}
@@ -76,7 +76,7 @@ Object* ObjectManager::MakeNewObjectHook(Point position, Point size) {
 Object* ObjectManager::MakeNewObjectCore(Point position, Point size) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() == typeObject && !object[i]->GetisAlive()) {
-			object[i] = new Core(position, { 100,100 });
+			object[i] = new Core(position, size);
 			object[i]->Initialize();
 			return object[i];
 		}
