@@ -13,6 +13,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	MyBase::Initialize();
 
+	// カーソルの非表示
+	Novice::SetMouseCursorVisibility(false);
+	// デフォルトでフルスクリーン
+	BaseDraw::ChangeFullScreen();
+
 	BaseDraw::SetScreenPosition({ 0,1080 });
 
 	// デバッグクラス

@@ -33,7 +33,7 @@ void Debug::Update() {
 
 	// Bキーでブロックを生成
 	if (BaseInput::GetKeyboardState(DIK_B, Trigger)) {
-		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
+		//objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
 	}
 
 	// Rキーでリセット
@@ -48,25 +48,8 @@ void Debug::Update() {
 
 	// Eキーで雑魚的生成
 	if (BaseInput::GetKeyboardState(DIK_E, Trigger)) {
-		objectManager.MakeNewObjectEnemy(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
+		//objectManager.MakeNewObjectEnemy(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 50,50 });
 	}
-
-
-	// スクリーン座標の移動量
-	Point screenPosMove = BaseDraw::GetScreenPosition();
-	if (BaseInput::GetKeyboardState(DIK_UP, Press)) {
-		screenPosMove.y += 5;
-	}
-	if (BaseInput::GetKeyboardState(DIK_DOWN, Press)) {
-		screenPosMove.y -= 5;
-	}
-	if (BaseInput::GetKeyboardState(DIK_RIGHT, Press)) {
-		screenPosMove.x += 5;
-	}
-	if (BaseInput::GetKeyboardState(DIK_LEFT, Press)) {
-		screenPosMove.x -= 5;
-	}
-	BaseDraw::SetScreenPosition(screenPosMove);
 
 	MapManager::Update();
 	boss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
@@ -80,4 +63,9 @@ void Debug::Draw() {
 	boss.Draw();
 	objectManager.Draw();
 	wireManager.Draw();
+
+	Novice::DrawEllipse(BaseInput::GetMousePosition().x, BaseInput::GetMousePosition().y, 2, 2, 0, GREEN, kFillModeWireFrame);
+	Novice::DrawEllipse(BaseInput::GetMousePosition().x, BaseInput::GetMousePosition().y, 10, 10, 0, GREEN, kFillModeWireFrame);
+	Novice::DrawEllipse(BaseInput::GetMousePosition().x, BaseInput::GetMousePosition().y, 11, 11, 0, GREEN, kFillModeWireFrame);
+	Novice::DrawEllipse(BaseInput::GetMousePosition().x, BaseInput::GetMousePosition().y, 12, 12, 0, GREEN, kFillModeWireFrame);
 }
