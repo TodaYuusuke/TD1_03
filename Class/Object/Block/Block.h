@@ -22,4 +22,10 @@ public: // メンバ関数
 	// タイプ取得
 	ObjectType GetType() override;
 
+private: // メンバ変数
+
+	// 生成されてから、消えるまでの時間
+	int vanishFlame;
+
+
 };

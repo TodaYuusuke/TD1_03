@@ -67,6 +67,16 @@ public: // 静的な定数
 
 #pragma endregion
 
+#pragma region ブロック
+
+	// ブロックが消えるまでのフレーム数
+	static int kBlockVanishFlame;
+	// ブロックが点滅し始めるフレーム
+	static int kBlockBeVanish;
+
+
+#pragma endregion
+
 #pragma region プレイヤー
 
 	// プレイヤーのサイズ
