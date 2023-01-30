@@ -137,6 +137,9 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	// バイブレーション初期化
 	vibInit = false;
 
+	// 戦闘開始していない状態にする
+	this->isBattleStart = false;
+
 	// 行動終了状態にする
 	this->t = 0.0f;
 	this->spareT = 0.0f;
@@ -182,7 +185,7 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	pleaseWait = true;
 
 	// 待機時間を代入
-	this->waitTime = 2.5f;
+	this->waitTime = 1.0f;
 
 	// HP初期化
 	this->HP = MaxHP;
@@ -237,14 +240,34 @@ void Boss::Initialize(ObjectManager* objectManager) {
 void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManager* wireManager) {
 	/******** デバック処理 **********/
 	// デバッグ状態の切り替え
-	if (BaseInput::GetKeyboardState(DIK_0, Trigger)) {
-		if (inDebug == false)
-			inDebug = true;
+	if (BaseInput::GetKeyboardState(DIK_H, Press) && BaseInput::GetKeyboardState(DIK_U, Press)) {
+		if (BaseInput::GetKeyboardState(DIK_BACKSPACE, Trigger)) {
+			if (inDebug == false) {
+				// 戦闘開始状態にする
+				isBattleStart = true;
+				// オフセット初期化
+				offset = 0;
+				// 角度初期化
+				degree = 0;
 
-		else
-			inDebug = false;
+				// 行動終了状態に
+				endAction = true;
+				inAction = false;
+				actionWayPoint = WAYPOINT0;
+
+				// デバック状態にする
+				inDebug = true;
+			}
+			else
+				inDebug = false;
+		}
 	}
 	
+	// デバッグ関数の実行
+	if (inDebug == true) {
+		Debug();
+	}
+
 	if (isBattleStart == true) {
 
 		if (HP == 0) {
@@ -262,7 +285,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		}
 
 		// 行動の分岐処理
-		if (inDebug == false && inDead == false) {
+		if (inDead == false && inDebug == false) {
 			if (endAction == true) {
 
 				// 行動の間隔を作る
@@ -449,11 +472,6 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree - 30.0f, bladeDamage);
 		EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree + 30.0f, bladeDamage);
 
-		// デバッグ関数の実行
-		if (inDebug == true) {
-			Debug();
-		}
-
 		// 核が分離していない状態では核をボスに追従させる
 		if (coreSeparated == false) {
 			coreCenterPosition = centerPosition;
@@ -515,7 +533,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 	}
 	else {
 	// 開始アニメーション再生
-	PlayStartAnim(3.0f, 0.35f, 1.0f, 0.2f);
+	PlayStartAnim(5.0f, 0.25f, 3.0f, 0.2f);
 	}
 }
 
@@ -707,6 +725,12 @@ Point Boss::GetRHookPosition(Point centerPosition) {
 // デバッグ用関数
 void Boss::Debug() {
 
+	Novice::ScreenPrintf(0, 0, "DebugMode :: ON");
+	Novice::ScreenPrintf(0, 20, "ActionSwitching :: 1 ~ 6");
+	Novice::ScreenPrintf(0, 40, "1:NONE  2:SPIN  3:RUSH  4:SLASH  5:SHOT  6:FALL");
+	Novice::ScreenPrintf(0, 60, "NowAction = %d", attackPattern);
+	Novice::ScreenPrintf(0, 80, "8:STUN  9:DAMAGE");
+
 	if (endAction == true) {
 
 		// 行動を開始させる
@@ -879,9 +903,15 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 		// 初期化
 	case Boss::WAYPOINT0:
 
+		// オフセットを初期化
+		offset = 100;
+		
+		// オフセットの開始値と終端値をリセット
+		prevOffset = offset;
+		nextOffset = 110;
+
 		// t初期化
 		t = 0.0f;
-
 		// 次の段階へ
 		actionWayPoint++;
 
@@ -889,18 +919,37 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 		// 振動する
 	case Boss::WAYPOINT1:
 		if (t <= vibTime) {
+
+			// 定期的に振動させる
+			vibration(t * 2, vibTime, vibTime, 3);
+
+			// オフセットを少しだけ大きくする
+			offset = BaseDraw::Ease_InOut(t, prevOffset, nextOffset - prevOffset, vibTime);
+
 			// tを加算する
 			t += 1.0f / 60.0f;
 		}
 		else {
+
+			// オフセットの開始値と終端値をリセット
+			prevOffset = offset;
+			nextOffset = 20;
+
 			// 初期化
 			t = 0.0f;
 			actionWayPoint++;
 		}
 		break;
-		// 完全に閉じる
+		// 途中まで閉じる
 	case Boss::WAYPOINT2:
 		if (t <= closeTime1) {
+
+			// 閉じるときに振動させる
+			ShakeEaseOut(40, closeTime1);
+
+			// オフセットを縮める
+			offset = BaseDraw::Ease_InOut(t, prevOffset, nextOffset - prevOffset, closeTime1);
+
 			// tを加算する
 			t += 1.0f / 60.0f;
 		}
@@ -913,10 +962,20 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 		// 咆哮 (振動)
 	case Boss::WAYPOINT3:
 		if (t <= roarTime) {
+
+			if (t > 1.0f) {
+				Shake(25);
+			}
+
 			// tを加算する
 			t += 1.0f / 60.0f;
 		}
 		else {
+
+			// オフセットの開始値と終端値をリセット
+			prevOffset = offset;
+			nextOffset = 0;
+
 			// 初期化
 			t = 0.0f;
 			actionWayPoint++;
@@ -925,6 +984,13 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 		// 完全に閉じる
 	case Boss::WAYPOINT4:
 		if (t <= closeTime2) {
+
+			// オフセットを縮める
+			offset = BaseDraw::Ease_InOut(t, prevOffset, -prevOffset, closeTime2);
+
+			// 中心座標に戻す
+			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, closeTime2);
+			shakeVariation.y = BaseDraw::Ease_InOut(t, shakeVariation.y, -shakeVariation.y, closeTime2);
 			// tを加算する
 			t += 1.0f / 60.0f;
 		}
@@ -2268,7 +2334,7 @@ void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime,
 		else {
 
 			prevOffset = offset;
-			nextOffset = 100;
+			nextOffset = 150;
 
 			// tを初期化する
 			t = 0.0f;
