@@ -48,7 +48,8 @@ bool BaseTexture::Loading() {
 	kBossLCover = Novice::LoadTexture("./Resources/Texture/Boss/LCover.png");
 
 	// ボスのフック
-	kBossHook = Novice::LoadTexture("./Resources/Texture/Boss/Hook.png");
+	kBossLHook = Novice::LoadTexture("./Resources/Texture/Boss/LHook.png");
+	kBossRHook = Novice::LoadTexture("./Resources/Texture/Boss/RHook.png");
 #pragma endregion
 
 #pragma region その他
@@ -113,7 +114,8 @@ int BaseTexture::kBossCore;
 int BaseTexture::kBossRCover;
 int BaseTexture::kBossLCover;
 
-int BaseTexture::kBossHook;
+int BaseTexture::kBossLHook;
+int BaseTexture::kBossRHook;
 
 #pragma endregion
 

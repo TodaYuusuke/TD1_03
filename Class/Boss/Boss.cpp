@@ -161,7 +161,7 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	core = objectManager->MakeNewObjectCore(coreCenterPosition, coreTextureSize);
 
 	// フックの画像サイズを設定
-	this->hookTextureSize = { 64.0f, 64.0f };
+	this->hookTextureSize = { 48.0f, 48.0f };
 
 	// 武器のサイズを指定（仮テクスチャのため、今後変える）
 	this->weaponSize = { 0.0f, 0.0f };
@@ -580,7 +580,7 @@ void Boss::Draw() {
 	BaseDraw::DesignationDrawQuad(
 		Boss::GetLHookPosition(viewPosition),
 		hookSize,
-		BaseTexture::kBossHook,
+		BaseTexture::kBossLHook,
 		hookTextureSize,
 		degree,
 		0xFFFFFFFF
@@ -590,7 +590,7 @@ void Boss::Draw() {
 	BaseDraw::DesignationDrawQuad(
 		Boss::GetRHookPosition(viewPosition),
 		hookSize,
-		BaseTexture::kBossHook,
+		BaseTexture::kBossRHook,
 		hookTextureSize,
 		degree,
 		0xFFFFFFFF
