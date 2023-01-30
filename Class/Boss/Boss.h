@@ -71,13 +71,7 @@ private:
 	/******** デバッグ関数 **********/
 	void Debug();
 
-	/******** その他行動関数 **********/
-
-	// イーズインバック関数
-	float easeInBack(float t, float start, float end, float d) {
-		return (t / d) * (t / d) * (end * (t / d) - start);
-	}
-
+	/******** 行動関数 **********/
 	// シェイク関数
 	// 返り値：なし
 	// 引数：
@@ -109,7 +103,15 @@ private:
 	// 一定間隔で、一定秒数振動させる関数
 	void vibration(int shakeStrength, float vibTime, float vibRate, int vibValue);
 
-	/******** 攻撃行動関数 **********/
+	/// <summary>
+	/// 戦闘開始時のアニメーションを再生する関数
+	/// </summary>
+	/// <param name="vibTime">振動する時間</param>
+	/// <param name="closeTime1">ボスが途中まで閉じるのにかかる時間</param>
+	/// <param name="roarTime">咆哮する時間</param>
+	/// <param name="closeTime2">ボスを完全に閉じる時間</param>
+	void PlayStartAnim(float vibTime, float closeTime1, float roarTime, float closeTime2);
+
 	// 行動なし関数
 	// 返り値：なし
 	// 引数：
@@ -218,7 +220,16 @@ private:
 	// stanTime　... スタン秒数
 	// backTime ... 戻る時にかかる秒数
 	// ボスに対してダメージが与えられる状態にする関数
-	void Damage(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime, WireManager* wireManager, ObjectManager* objectManager);
+	void MakeDamagePossible(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime, WireManager* wireManager, ObjectManager* objectManager);
+
+	/******** ダメージアニメーション **********/
+	// ダメージアニメーション関数
+	// 返り値：なし
+	// 引数：
+	// readyTime ... 振動する時間
+	// shakeStrength ... 振動する強さ
+	// ダメージが与えられた時のアニメーションを再生する関数
+	void playTakeDamageAnim(float animTime, float shakeStrength);
 
 	/*********************************
 		メンバ定数
@@ -278,8 +289,10 @@ private:
 		Pattern4,
 		Pattern5
 	};
-	// どの行動に分岐させるかを格納する変数
+	// 行動時にどの行動に分岐させるかを格納する変数
 	int actionBranch = Pattern1;
+
+	// 攻撃時にどの攻撃に分岐させるかを格納する変数
 	int attackBranch = Pattern1;
 
 	float waitTime;
@@ -407,6 +420,9 @@ private:
 	// バイブレーション初期化の際に用いられる変数
 	bool vibInit;
 
+	// 戦闘が開始しているか
+	bool isBattleStart;
+
 	// 攻撃中か
 	bool inAction;
 	// 攻撃が終了しているか
@@ -417,11 +433,17 @@ private:
 	// スタンする時間
 	int stunTime;
 
-	// ダメージを受けているのか
+	// ダメージを受けられる状態なのか
+	bool canTakeDamage;
+
+	// ダメージを受けたか
 	bool inDamage;
 
 	// 核が分離しているか
 	bool coreSeparated;
+
+	// ボスが死亡しているか
+	bool inDead;
 
 	// 弾関連
 	// 弾が撃たれているか
@@ -444,6 +466,9 @@ private:
 	/******** イージング関連 **********/
 	// イージング用t
 	float t = 0.0f;
+
+	// 予備用t 上のtとは別のtを使いたい時に使う
+	float spareT = 0.0f;
 
 	// フックのオブジェクト
 	Object* hook[2];

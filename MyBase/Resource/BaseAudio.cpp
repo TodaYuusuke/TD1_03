@@ -43,6 +43,9 @@ bool BaseAudio::Loading() {
 	// éaåÇâπ
 	kBossSlash = Novice::LoadAudio("./Resources/Audio/Boss/kBossSlash.wav");
 
+	// É_ÉÅÅ[ÉWâπ
+	kBossDamage = Novice::LoadAudio("./Resources/Audio/Boss/kBossDamage.wav");
+
 #pragma endregion
 
 #pragma region Player
@@ -113,6 +116,8 @@ int BaseAudio::kBossSlash;
 int BaseAudio::kBossPickGun;
 // éÀåÇâπ
 int BaseAudio::kBossShot;
+
+int BaseAudio::kBossDamage;
 
 
 #pragma endregion

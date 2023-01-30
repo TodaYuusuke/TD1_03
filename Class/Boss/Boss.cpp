@@ -139,9 +139,11 @@ void Boss::Initialize(ObjectManager* objectManager) {
 
 	// 行動終了状態にする
 	this->t = 0.0f;
+	this->spareT = 0.0f;
 	this->endAction = true;
 	this->inAction = false;
 	this->inStun = false;
+	this->canTakeDamage = false;
 	this->inDamage = false;
 	this->actionWayPoint = 0;
 
@@ -188,6 +190,9 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	// 与えるダメージ初期化
 	this->bodyDamage = 0.0f;
 	this->bladeDamage = 0.0f;
+
+	// 死亡していない状態にする
+	this->inDead = false;
 
 	/// 弾の関係初期化
 	for (int i = 0; i < kmaxBullet; i++) {
@@ -239,263 +244,279 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		else
 			inDebug = false;
 	}
-
-	Novice::ScreenPrintf(BaseConst::kWindowWidth / 2, 0, "BOSS HP : %1.0f", HP);
-
-	if (HP == 0) {
-		Novice::ScreenPrintf(BaseConst::kWindowWidth / 2, BaseConst::kWindowHeight / 2, "BOSS Dead");
-		attackPattern = NONE;
-		endAction = false;
-	}
-
-	if (inDebug == false) {
-		// 行動の分岐
-		if (endAction == true) {
-
-			// 行動の間隔を作る
-			if (pleaseWait == true) {
-				attackPattern = NONE;
-			}
-			else {
-				do{
-					// プレイヤーとボスの距離を求めて近いか遠いかで行動を分岐させる
-					if (BaseMath::GetLength({ playerPosition.x - centerPosition.x,playerPosition.y - centerPosition.y }) < 500.0f) {
-
-						// 近い
-						attackBranch = BaseMath::Random(Pattern1, Pattern4);
-						switch (attackBranch)
-						{
-						case Boss::Pattern1:
-							attackPattern = FALL;
-							break;
-						case Boss::Pattern2:
-							attackPattern = SLASH;
-							break;
-						case Boss::Pattern3:
-							if (prevAttackPattern[0] == APPROACH || prevAttackPattern[0] == SEPARATION
-								|| prevAttackPattern[1] == APPROACH || prevAttackPattern[1] == SEPARATION) {
-								continue;
-							}
-							else {
-								attackPattern = ROTATE;
-							}
-							
-							break;
-						case Boss::Pattern4:
-							if (prevAttackPattern[0] == APPROACH || prevAttackPattern[1] == APPROACH) {
-								continue;
-							}
-							else {
-								attackPattern = SEPARATION;
-							}
-							break;
-						default:
-							attackPattern = NONE;
-							break;
-						}
-
-					}
-					else {
-
-						// 遠い
-						attackBranch = BaseMath::Random(Pattern1, Pattern5);
-						switch (attackBranch)
-						{
-						case Boss::Pattern1:
-							if (prevAttackPattern[0] == APPROACH || prevAttackPattern[0] == SEPARATION
-								|| prevAttackPattern[1] == APPROACH || prevAttackPattern[1] == SEPARATION) {
-								continue;
-							}
-							else {
-								attackPattern = ROTATE;
-							}
-							break;
-						case Boss::Pattern2:
-							attackPattern = SHOT;
-							break;
-						case Boss::Pattern3:
-							attackPattern = SLASH;
-							break;
-						case Boss::Pattern4:
-							attackPattern = RUSH;
-							break;
-						case Boss::Pattern5:
-							if (prevAttackPattern[0] == SEPARATION || prevAttackPattern[1] == SEPARATION) {
-								continue;
-							}
-							else {
-								attackPattern = APPROACH;
-							}
-							break;
-						default:
-							attackPattern = NONE;
-							break;
-						}
-
-					}
-				} while (prevAttackPattern[0] == attackPattern || prevAttackPattern[1] == attackPattern);
-			}
-
-			// 行動開始
-			inAction = true;
-			endAction = false;
-
-		}
-	}
-
-	// 行動の実行処理
-	if (inAction == true && inStun == false && inDamage == false) {
-		switch (attackPattern)
-		{
-		case Boss::NONE:
-			None(waitTime);
-			break;
-		case Boss::ROTATE:
-			Rotate(720, 2.0f, 0.5f, wireManager);
-			break;
-		case Boss::RUSH:
-			Rush(playerPosition, 1.0f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f, wireManager);
-			break;
-		case Boss::SLASH:
-			Slash(playerPosition, 0.35f, 0.2f, 1.25f, 1.0f, 1.0f, 1.0f, 1.0f, wireManager);
-			break;
-		case Boss::SHOT:
-			Shot(playerPosition, 0.35f, 0.75f, 1.0f, 5.0f, 1.0f, 1.0f, 0.2f, 1.0f, wireManager);
-			break;
-		case Boss::FALL:
-			Fall(0.35f, 1.0f, 0.15f, 0.75f, 1.0f, 1.0f, 1.0f, wireManager);
-			break;
-		case Boss::APPROACH:
-			Approach(playerPosition, 1.0f, 0.1f, wireManager);
-			break;
-		case Boss::SEPARATION:
-			Separation(playerPosition, 1.0f, 0.1f, wireManager);
-			break;
-		}
-	}
 	
-	// スタン処理
-	if (inStun == true && inDamage == false) {
-		Stun(1.25f, 1.5f, 3.0f, 0.75f, wireManager);
-	}
+	if (isBattleStart == true) {
 
-	// ダメージを受けられる状態にする処理
-	if (inDamage == true) {
-		Damage(0.15f, 1.5f, 0.1f, 10.0f, 0.75f, 0.25f, wireManager, objectManager);
-	}
-	else {
-		if (hook[0]->GetisPulled() == true && hook[1]->GetisPulled() == true) {
-			actionWayPoint = WAYPOINT0;
-			inDamage = true;
+		if (HP == 0) {
+			attackPattern = NONE;
+			endAction = false;
 		}
-	}
 
-	degree %= 360;
+		// 死亡状態の時の実行処理
+		if (inDead == true) {
+			Novice::ScreenPrintf(BaseConst::kWindowWidth / 2, BaseConst::kWindowHeight / 2, "BOSS Dead");
+		}
+		else if (HP <= 0) {
+			// HPが0以下になったらボスを死亡状態にする
+			inDead = true;
+		}
 
-	Point viewPosition = { centerPosition.x + shakeVariation.x,centerPosition.y + shakeVariation.y };
+		// 行動の分岐処理
+		if (inDebug == false && inDead == false) {
+			if (endAction == true) {
 
-	//　コアの当たり判定の中心座標をセットし続ける
-	// ボスが開いている時はボス自体のヒットボックスを無効にする
-	if (offset > 0) {
-		// 開いてる時に追従
-		core->SetCenterPosition(viewPosition);
-	}
-	else {
-		// 開いていないときはありえないほどとおくに
-		core->SetCenterPosition({10000.0f, 10000.0f});
+				// 行動の間隔を作る
+				if (pleaseWait == true) {
+					attackPattern = NONE;
+				}
+				else {
+					do {
+						// プレイヤーとボスの距離を求めて近いか遠いかで行動を分岐させる
+						if (BaseMath::GetLength({ playerPosition.x - centerPosition.x,playerPosition.y - centerPosition.y }) < 500.0f) {
 
-		// ボスのヒットボックスを有効にする
-		EnemyAttackHitBox::MakeNewHitBoxRight(GetRCoverCollision(centerPosition), textureSize.y / 2.0f, degree, bodyDamage);
-		EnemyAttackHitBox::MakeNewHitBoxLeft(GetLCoverCollision(centerPosition), textureSize.y / 2.0f, degree, bodyDamage);
+							// 近い
+							attackBranch = BaseMath::Random(Pattern1, Pattern4);
+							switch (attackBranch)
+							{
+							case Boss::Pattern1:
+								attackPattern = FALL;
+								break;
+							case Boss::Pattern2:
+								attackPattern = SLASH;
+								break;
+							case Boss::Pattern3:
+								if (prevAttackPattern[0] == APPROACH || prevAttackPattern[0] == SEPARATION
+									|| prevAttackPattern[1] == APPROACH || prevAttackPattern[1] == SEPARATION) {
+									continue;
+								}
+								else {
+									attackPattern = ROTATE;
+								}
 
-	}
+								break;
+							case Boss::Pattern4:
+								if (prevAttackPattern[0] == APPROACH || prevAttackPattern[1] == APPROACH) {
+									continue;
+								}
+								else {
+									attackPattern = SEPARATION;
+								}
+								break;
+							default:
+								attackPattern = NONE;
+								break;
+							}
 
-	// フックの座標を更新し続ける
-	wireHangPosition[0] = GetLHookPosition(viewPosition);
-	wireHangPosition[1] = GetRHookPosition(viewPosition);
+						}
+						else {
 
-	// フックの中心座標をセットする
-	hook[0]->SetCenterPosition(wireHangPosition[0]);
-	hook[1]->SetCenterPosition(wireHangPosition[1]);
+							// 遠い
+							attackBranch = BaseMath::Random(Pattern1, Pattern5);
+							switch (attackBranch)
+							{
+							case Boss::Pattern1:
+								if (prevAttackPattern[0] == APPROACH || prevAttackPattern[0] == SEPARATION
+									|| prevAttackPattern[1] == APPROACH || prevAttackPattern[1] == SEPARATION) {
+									continue;
+								}
+								else {
+									attackPattern = ROTATE;
+								}
+								break;
+							case Boss::Pattern2:
+								attackPattern = SHOT;
+								break;
+							case Boss::Pattern3:
+								attackPattern = SLASH;
+								break;
+							case Boss::Pattern4:
+								attackPattern = RUSH;
+								break;
+							case Boss::Pattern5:
+								if (prevAttackPattern[0] == SEPARATION || prevAttackPattern[1] == SEPARATION) {
+									continue;
+								}
+								else {
+									attackPattern = APPROACH;
+								}
+								break;
+							default:
+								attackPattern = NONE;
+								break;
+							}
 
-	float degreeDifference = degree - beforeDegree;
-	Novice::ScreenPrintf(0, 120, "DD : %4.2f", degreeDifference);
+						}
+					} while (prevAttackPattern[0] == attackPattern || prevAttackPattern[1] == attackPattern);
+				}
 
-	for (int i = 0; i < 5; i++) {
-		// 武器のヒットボックス
-		EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree + (degreeDifference * i), bladeDamage);
-	}
+				// 行動開始
+				inAction = true;
+				endAction = false;
 
-	// 武器のヒットボックス
-	EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree, bladeDamage);
-	EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree - 30.0f, bladeDamage);
-	EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree + 30.0f, bladeDamage);
+			}
+		}
 
-	// デバッグ関数の実行
-	if (inDebug == true) {
-		Debug();
-	}
+		// 行動の実行処理
+		if (inAction == true && inStun == false && canTakeDamage == false && inDead == false) {
+			switch (attackPattern)
+			{
+			case Boss::NONE:
+				None(waitTime);
+				break;
+			case Boss::ROTATE:
+				Rotate(720, 2.0f, 0.5f, wireManager);
+				break;
+			case Boss::RUSH:
+				Rush(playerPosition, 1.0f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f, wireManager);
+				break;
+			case Boss::SLASH:
+				Slash(playerPosition, 0.35f, 0.2f, 1.25f, 1.0f, 1.0f, 1.0f, 1.0f, wireManager);
+				break;
+			case Boss::SHOT:
+				Shot(playerPosition, 0.35f, 0.75f, 1.0f, 5.0f, 1.0f, 1.0f, 0.2f, 1.0f, wireManager);
+				break;
+			case Boss::FALL:
+				Fall(0.35f, 1.0f, 0.15f, 0.75f, 1.0f, 1.0f, 1.0f, wireManager);
+				break;
+			case Boss::APPROACH:
+				Approach(playerPosition, 1.0f, 0.1f, wireManager);
+				break;
+			case Boss::SEPARATION:
+				Separation(playerPosition, 1.0f, 0.1f, wireManager);
+				break;
+			}
+		}
 
-	// 核が分離していない状態では核をボスに追従させる
-	if (coreSeparated == false) {
-		coreCenterPosition = centerPosition;
-		coreDegree = degree;
-	}
+		// スタン処理
+		if (inStun == true && canTakeDamage == false) {
+			Stun(1.25f, 1.5f, 3.0f, 0.75f, wireManager);
+		}
 
-	/// 弾関係の更新処理
-
-	// 発射地点の更新
-	shotPoint = GetShotPosition(centerPosition);
-
-	// 弾が発射されている時の処理
-	for (int i = 0; i < kmaxBullet; i++) {
-
-		// 弾のヒットボックス
-		EnemyAttackHitBox::MakeNewHitBox(bulletCenterPosition[i], bulletSize.x, bulletSize.y, 0.0f, bulletDamage[i]);
-
-		if (isShot[i] == true && bulletAliveTime[i] > 0.0f) {
-
-			// 弾の移動
-			bulletCenterPosition[i].x += -cosf(bulletDirection[i]) * bulletSpeed;
-			bulletCenterPosition[i].y += -sinf(bulletDirection[i]) * bulletSpeed;
-
-			// 弾の生存時間をマイナス
-			bulletAliveTime[i] -= 1.0f / 60.0f;
+		// ダメージを受けられる状態にする処理
+		if (canTakeDamage == true) {
+			MakeDamagePossible(0.15f, 1.5f, 0.1f, 10.0f, 0.75f, 0.25f, wireManager, objectManager);
 		}
 		else {
-			// 消滅する時ダメージを０に
-			bulletDamage[i] = 0.0f;
-			isShot[i] = false;
+			if (hook[0]->GetisPulled() == true && hook[1]->GetisPulled() == true) {
+				actionWayPoint = WAYPOINT0;
+				canTakeDamage = true;
+			}
 		}
-	}
 
-	/// オブジェクト関係の更新処理
+		// ダメージを与えた際のアニメーション再生
+		if (inDamage == true) {
+			playTakeDamageAnim(0.1f, 50);
+		}
 
-	// オブジェクト生成する
-	if (canGeneratedBlock == true) {
+		degree %= 360;
 
-		// 生成間隔が0になると生成
-		if (generatedBlockInterval < 0) {
-			if (generatedBlockValue > 0) {
-				float blockSize = BaseMath::RandomF(20.0f, 60.0f, 0);
-				// ランダムな位置に、ランダムな大きさのブロックを生成
-				objectManager->MakeNewObjectBlock({ BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kMapSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1), 
-					(float)BaseConst::kMapSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize }, { blockSize, blockSize });
-				generatedBlockValue--;
+		Point viewPosition = { centerPosition.x + shakeVariation.x,centerPosition.y + shakeVariation.y };
+
+		//　コアの当たり判定の中心座標をセットし続ける
+		// ボスが開いている時はボス自体のヒットボックスを無効にする
+		if (offset > 0) {
+			// 開いてる時に追従
+			core->SetCenterPosition(viewPosition);
+		}
+		else {
+			// 開いていないときはありえないほどとおくに
+			core->SetCenterPosition({ 10000.0f, 10000.0f });
+
+			// ボスのヒットボックスを有効にする
+			EnemyAttackHitBox::MakeNewHitBoxRight(GetRCoverCollision(centerPosition), textureSize.y / 2.0f, degree, bodyDamage);
+			EnemyAttackHitBox::MakeNewHitBoxLeft(GetLCoverCollision(centerPosition), textureSize.y / 2.0f, degree, bodyDamage);
+
+		}
+
+		// フックの座標を更新し続ける
+		wireHangPosition[0] = GetLHookPosition(viewPosition);
+		wireHangPosition[1] = GetRHookPosition(viewPosition);
+
+		// フックの中心座標をセットする
+		hook[0]->SetCenterPosition(wireHangPosition[0]);
+		hook[1]->SetCenterPosition(wireHangPosition[1]);
+
+		float degreeDifference = degree - beforeDegree;
+		Novice::ScreenPrintf(0, 120, "DD : %4.2f", degreeDifference);
+
+		for (int i = 0; i < 5; i++) {
+			// 武器のヒットボックス
+			EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree + (degreeDifference * i), bladeDamage);
+		}
+
+		// 武器のヒットボックス
+		EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree, bladeDamage);
+		EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree - 30.0f, bladeDamage);
+		EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree + 30.0f, bladeDamage);
+
+		// デバッグ関数の実行
+		if (inDebug == true) {
+			Debug();
+		}
+
+		// 核が分離していない状態では核をボスに追従させる
+		if (coreSeparated == false) {
+			coreCenterPosition = centerPosition;
+			coreDegree = degree;
+		}
+
+		/// 弾関係の更新処理
+		// 発射地点の更新
+		shotPoint = GetShotPosition(centerPosition);
+
+		// 弾が発射されている時の処理
+		for (int i = 0; i < kmaxBullet; i++) {
+
+			// 弾のヒットボックス
+			EnemyAttackHitBox::MakeNewHitBox(bulletCenterPosition[i], bulletSize.x, bulletSize.y, 0.0f, bulletDamage[i]);
+
+			if (isShot[i] == true && bulletAliveTime[i] > 0.0f) {
+
+				// 弾の移動
+				bulletCenterPosition[i].x += -cosf(bulletDirection[i]) * bulletSpeed;
+				bulletCenterPosition[i].y += -sinf(bulletDirection[i]) * bulletSpeed;
+
+				// 弾の生存時間をマイナス
+				bulletAliveTime[i] -= 1.0f / 60.0f;
 			}
 			else {
-				canGeneratedBlock = false;
+				// 消滅する時ダメージを０に
+				bulletDamage[i] = 0.0f;
+				isShot[i] = false;
 			}
-			generatedBlockInterval = BaseMath::RandomF(0.1f, 0.2f, 2);
 		}
-		else {
-			generatedBlockInterval -= 1.0f / 60.0f;
+
+		/// オブジェクト関係の更新処理
+
+		// オブジェクト生成する
+		if (canGeneratedBlock == true) {
+
+			// 生成間隔が0になると生成
+			if (generatedBlockInterval < 0) {
+				if (generatedBlockValue > 0) {
+					float blockSize = BaseMath::RandomF(20.0f, 60.0f, 0);
+					// ランダムな位置に、ランダムな大きさのブロックを生成
+					objectManager->MakeNewObjectBlock({ BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kMapSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1),
+						(float)BaseConst::kMapSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize }, { blockSize, blockSize });
+					generatedBlockValue--;
+				}
+				else {
+					canGeneratedBlock = false;
+				}
+				generatedBlockInterval = BaseMath::RandomF(0.1f, 0.2f, 2);
+			}
+			else {
+				generatedBlockInterval -= 1.0f / 60.0f;
+			}
 		}
+
+		// 最後に1フレーム前の角度を取得
+		beforeDegree = degree;
 	}
-
-	// 最後に1フレーム前の角度を取得
-	beforeDegree = degree;
-
+	else {
+	// 開始アニメーション再生
+	PlayStartAnim(3.0f, 0.35f, 1.0f, 0.2f);
+	}
 }
 
 // 描画処理
@@ -727,7 +748,7 @@ void Boss::Debug() {
 	// ボスをスタンさせる
 	if (BaseInput::GetKeyboardState(DIK_9, Trigger)) {
 		actionWayPoint = WAYPOINT0;
-		inDamage = true;
+		canTakeDamage = true;
 	}
 
 	// ボスを左右に開かせる
@@ -845,6 +866,84 @@ void Boss::vibration(int shakeStrength, float vibTime, float vibRate, int vibVal
 	
 }
 
+/// <summary>
+/// 戦闘開始時のアニメーションを再生する関数
+/// </summary>
+/// <param name="vibTime">振動する時間</param>
+/// <param name="closeTime1">ボスが途中まで閉じるのにかかる時間</param>
+/// <param name="roarTime">咆哮する時間</param>
+/// <param name="closeTime2">ボスを完全に閉じる時間</param>
+void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float closeTime2) {
+	switch (actionWayPoint)
+	{
+		// 初期化
+	case Boss::WAYPOINT0:
+
+		// t初期化
+		t = 0.0f;
+
+		// 次の段階へ
+		actionWayPoint++;
+
+		break;
+		// 振動する
+	case Boss::WAYPOINT1:
+		if (t <= vibTime) {
+			// tを加算する
+			t += 1.0f / 60.0f;
+		}
+		else {
+			// 初期化
+			t = 0.0f;
+			actionWayPoint++;
+		}
+		break;
+		// 完全に閉じる
+	case Boss::WAYPOINT2:
+		if (t <= closeTime1) {
+			// tを加算する
+			t += 1.0f / 60.0f;
+		}
+		else {
+			// 初期化
+			t = 0.0f;
+			actionWayPoint++;
+		}
+		break;
+		// 咆哮 (振動)
+	case Boss::WAYPOINT3:
+		if (t <= roarTime) {
+			// tを加算する
+			t += 1.0f / 60.0f;
+		}
+		else {
+			// 初期化
+			t = 0.0f;
+			actionWayPoint++;
+		}
+		break;
+		// 完全に閉じる
+	case Boss::WAYPOINT4:
+		if (t <= closeTime2) {
+			// tを加算する
+			t += 1.0f / 60.0f;
+		}
+		else {
+			// 初期化
+			isBattleStart = true;
+			t = 0.0f;
+			actionWayPoint = WAYPOINT0;
+		}
+		break;
+	case Boss::WAYPOINT5:
+		break;
+	case Boss::WAYPOINT6:
+		break;
+	default:
+		break;
+	}
+}
+
 // 行動なし関数
 // 返り値：なし
 // 引数：
@@ -925,12 +1024,12 @@ void Boss::Approach(Point playerPosition, float moveTime, float afterWaitTime, W
 }
 
 // 離反関数
-	// 返り値：なし
-	// 引数：
-	// playerPosition ... プレイヤー中心座標
-	// moveTIme ... 回転する時間。これは秒数
-	// afterWaitTime ... 行動後に発生する待機時間
-	// プレイヤーに向かって離反する関数
+// 返り値：なし
+// 引数：
+// playerPosition ... プレイヤー中心座標
+// moveTIme ... 回転する時間。これは秒数
+// afterWaitTime ... 行動後に発生する待機時間
+// プレイヤーに向かって離反する関数
 void Boss::Separation(Point playerPosition, float moveTime, float afterWaitTime, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
@@ -1030,16 +1129,16 @@ void  Boss::Rotate(float endDegree, float RotateTime, float afterWaitTime, WireM
 }
 
 // 突進関数
-	// 返り値：なし
-	// 引数：
-	// playerPosition ... プレイヤーの座標
-	// readyTime ... 突進の準備にかかる秒数
-	// chargeTime ... 突進の溜めにかかる秒数
-	// rushTime ... 突進にかかる秒数
-	// backTime ... 戻る時にかかる秒数
-	// afterWaitTime ... 行動後に発生する待機時間
-	// damage ... 行動によって発生するダメージ
-	// ボスをプレイヤーの向きに突進させる関数
+// 返り値：なし
+// 引数：
+// playerPosition ... プレイヤーの座標
+// readyTime ... 突進の準備にかかる秒数
+// chargeTime ... 突進の溜めにかかる秒数
+// rushTime ... 突進にかかる秒数
+// backTime ... 戻る時にかかる秒数
+// afterWaitTime ... 行動後に発生する待機時間
+// damage ... 行動によって発生するダメージ
+// ボスをプレイヤーの向きに突進させる関数
 void Boss::Rush(Point playerPosition, float readyTime, float chargeTime, float rushTime, float backTime, float afterWaitTime, float damage, WireManager* wireManager) {
 
 	switch (actionWayPoint)
@@ -2103,7 +2202,7 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 // backTime ... 戻る時にかかる秒数
 // closeTime ... 閉じるまでにかかる時間
 // ボスに対してダメージが与えられる状態にする関数
-void Boss::Damage(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime, WireManager* wireManager, ObjectManager* objectManager) {
+void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime, WireManager* wireManager, ObjectManager* objectManager) {
 
 	switch (actionWayPoint)
 	{
@@ -2204,7 +2303,16 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 			vibration(15, stanTime, stanTime, 4);
 
 			// ここで返り値がtrueのときにダメージ判定を行う
-			if (objectManager->isHitCore() == true && 0 < HP) {
+			if (objectManager->isHitCore() == true) {
+				// ダメージを与えた際の効果音再生
+				Novice::PlayAudio(BaseAudio::kBossDamage, 0, 0.5f);
+
+				// ダメージアニメーション用のtを初期化する
+				spareT = 0.0f;
+				// ダメージを与えた状態にする
+				inDamage = true;
+
+				// HPを低下させる
 				HP--;
 			}
 
@@ -2237,7 +2345,16 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 		if (t <= backTime) {
 
 			// ここで返り値がtrueのときにダメージ判定を行う
-			if (objectManager->isHitCore() == true && 0 < HP) {
+			if (objectManager->isHitCore() == true) {
+				// ダメージを与えた際の効果音再生
+				Novice::PlayAudio(BaseAudio::kBossDamage, 0, 0.5f);
+
+				// ダメージアニメーション用のtを初期化する
+				spareT = 0.0f;
+				// ダメージを与えた状態にする
+				inDamage = true;
+
+				// HPを低下させる
 				HP--;
 			}
 
@@ -2285,7 +2402,7 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 			waitTime = 1.0f;
 			t = 0.0f;
 			// 行動終了
-			inDamage = false;
+			canTakeDamage = false;
 			pleaseWait = false;
 			actionWayPoint = WAYPOINT0;
 		}
@@ -2293,5 +2410,30 @@ void Boss::Damage(float readyTime, float deployTime, float openTime, float stanT
 		break;
 	default:
 		break;
+	}
+}
+
+/******** ダメージアニメーション **********/
+// ダメージアニメーション関数
+// 返り値：なし
+// 引数：
+// readyTime ... 振動する時間
+// shakeStrength ... 振動する強さ
+// ダメージが与えられた時のアニメーションを再生する関数
+void Boss::playTakeDamageAnim(float animTime, float shakeStrength) {
+	if (spareT <= animTime) {
+		shakeRange = BaseDraw::Ease_Out(spareT, shakeStrength, -shakeStrength, animTime);
+
+		shakeVariation.x = BaseMath::RandomF(-shakeStrength / 2, shakeStrength / 2, 0);
+		shakeVariation.y = BaseMath::RandomF(-shakeStrength / 2, shakeStrength / 2, 0);
+
+		// tをプラスする
+		spareT += 1.0f / 60.0f;
+	}
+	else {
+
+		//tを初期化
+		spareT = 0.0f;
+		inDamage = false;
 	}
 }

@@ -68,6 +68,8 @@ public: // 静的なオーディオの変数
 	// 射撃音
 	static int kBossShot;
 	
+	// ダメージ音
+	static int kBossDamage;
 
 #pragma endregion
 
