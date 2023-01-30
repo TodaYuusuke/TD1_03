@@ -4,6 +4,10 @@ void Object::Initialize() {
 
 	SuccessorInitialize();
 
+	// 共通して false
+	isStub = false;
+	isPulled = false;
+
 	//CheckFieldHitBox();
  }
 
@@ -28,6 +32,8 @@ void Object::SuccessorInitialize(){
 	//空中にいるかどうか
 	isFlying = true;
 	isAlive = false;
+	isStub = false;
+	isPulled = false;
  }
 
 void Object::Update() {
@@ -129,118 +135,6 @@ void Object::Draw() {
 		BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { 100,100 }, 1.0f, 0.0f, WHITE);
 	}
 }
-
-
-// メンバ変数に関与する関数
-
-// オブジェクトの中心座標を受け取る関数
-// 返り値：中心座標
-// 引数：なし
-Point Object::GetCenterPosition() {
-	return centerPosition;
-}
-
-// オブジェクトの中心座標を設定する関数
-	// 返り値：なし
-	// 引数：セットする中心座標
-void Object::SetCenterPosition(Point _setPosition) {
-	centerPosition = _setPosition;
-}
-
-// オブジェクトの速度を受け取る関数
-// 返り値：速度のベクトル
-// 引数：なし
-Point Object::GetVelocity() {
-	return { velocity.x - 0.5f * angleVelocity, velocity.y };
-}
-
-// オブジェクトが空中かどうかを受け取る関数
-// 返り値：空中ならばtrue
-// 引数：なし
-bool Object::GetisFlying() {
-	return isFlying;
-}
-
-/// <summary>
-/// 生きてるかどうかを受け取る関数
-/// </summary>
-/// <returns>生きてる場合 true</returns>
-bool Object::GetisAlive() {
-	return isAlive;
-}
-
-/// <summary>
-/// 引っ張られたかどうかを受け取る関数
-/// </summary>
-/// <returns>引っ張られた場合 true</returns>
-bool Object::GetisPulled() {
-	return isPulled;
-}
-
-/// <summary>
-/// Angle(Degree)を取得する関数
-/// </summary>
-/// <returns>Angle(Degree)</returns>
-float Object::GetAngle() {
-	return angle;
-}
-
-/// <summary>
-/// AngleVelocity(Degree)を取得する関数
-/// </summary>
-/// <returns>AngleVelocity(Degree)</returns>
-float Object::GetAngleVelocity() {
-	return angleVelocity;
-}
-
-
-// オブジェクトに速度ベクトルを足す関数
-// 返り値：なし
-// 引数：足す速度
-void Object::AddVelocity(Point _addVelocity) {
-	velocity.x += _addVelocity.x;
-	velocity.y += _addVelocity.y;
-}
-
-// オブジェクトに回転速度を足す関数
-// 返り値：なし
-// 引数：足す速度
-void Object::AddVelocity(float _addVelocity) {
-	angleVelocity += _addVelocity;
-}
-
-/// <summary>
-/// 生きてるかどうかを設定する関数
-/// </summary>
-/// <param name="_isAlive">生きてるかどうか</param>
-void Object::SetisAlive(bool _isAlive) {
-	isAlive = _isAlive;
-}
-
-/// <summary>
-/// 引っ張られたかどうかを設定する関数
-/// </summary>
-/// <param name="_isPulled">引っ張られたかどうか</param>
-void Object::SetisPulled(bool _isPulled) {
-	isPulled = _isPulled;
-}
-
-/// <summary>
-/// Angle(Degree)を設定する関数
-/// </summary>
-/// <param name="_angle">angle(Degree)</param>
-void Object::SetAngle(float _angle) {
-	angle = _angle;
-}
-
-/// <summary>
-/// AngleVelocity(Degree)を設定する関数
-/// </summary>
-/// <param name="_angleVelocity">angleVelocity(Degree)</param>
-void Object::SetAngleVelocity(float _angleVelocity) {
-	angleVelocity = _angleVelocity;
-}
-
 
 // 当たり判定関連
 

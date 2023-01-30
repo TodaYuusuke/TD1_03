@@ -117,6 +117,7 @@ bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager) {
 	if(object[i] != NULL && object[i]->GetType() != typePlayer && object[i] != object[!i] && !(object[i]->GetType() == typeHook && type[!i] == typeHook)) {
 		// ƒqƒbƒg‚µ‚Ä‚¢‚½ê‡ -> –ß‚é
 		type[i] = object[i]->GetType();
+		object[i]->SetisStub(true);
 		// SE‚ğÄ¶
 		Novice::PlayAudio(BaseAudio::kWireHit, 0, 0.5f);
 		return true;
@@ -218,6 +219,7 @@ void Wire::Attract() {
 		for (int i = 0; i < 2; i++) {
 			if (type[i] == typeHook) {
 				object[i]->SetisPulled(true);
+				object[i]->SetisStub(false);
 				return;
 			}
 		}

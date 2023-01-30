@@ -27,87 +27,120 @@ public: // メンバ関数
 	// 描画
 	virtual void Draw();
 	
-
 	// メンバ変数に作用する関数
+#pragma region アクセッサ
+
+	// 値を取得
 
 	// オブジェクトの中心座標を受け取る関数
 	// 返り値：中心座標
 	// 引数：なし
-	Point GetCenterPosition();
-
-	// オブジェクトの中心座標を設定する関数
-	// 返り値：なし
-	// 引数：セットする中心座標
-	void SetCenterPosition(Point _setPosition);
+	inline Point GetCenterPosition() { return centerPosition; };
 
 	// オブジェクトの速度を受け取る関数
 	// 返り値：速度のベクトル
 	// 引数：なし
-	Point GetVelocity();
-
-	// オブジェクトが空中かどうかを受け取る関数
-	// 返り値：空中ならばtrue
-	// 引数：なし
-	bool GetisFlying();
-
-	/// <summary>
-	/// 生きてるかどうかを受け取る関数
-	/// </summary>
-	/// <returns>生きてる場合 true</returns>
-	bool GetisAlive();
-
-	/// <summary>
-	/// 引っ張られたかどうかを受け取る関数
-	/// </summary>
-	/// <returns>引っ張られた場合 true</returns>
-	bool GetisPulled();
+	inline Point GetVelocity() { return velocity; };
 
 	/// <summary>
 	/// Angle(Degree)を取得する関数
 	/// </summary>
 	/// <returns>Angle(Degree)</returns>
-	float GetAngle();
+	inline float GetAngle() { return angle; };
 
 	/// <summary>
 	/// AngleVelocity(Degree)を取得する関数
 	/// </summary>
 	/// <returns>AngleVelocity(Degree)</returns>
-	float GetAngleVelocity();
+	inline float GetAngleVelocity() { return angleVelocity; };
 
+	// オブジェクトが空中かどうかを受け取る関数
+	// 返り値：空中ならばtrue
+	// 引数：なし
+	inline bool GetisFlying() { return isFlying; };
+
+	/// <summary>
+	/// 生きてるかどうかを受け取る関数
+	/// </summary>
+	/// <returns>生きてる場合 true</returns>
+	inline bool GetisAlive() { return isAlive; };
+
+	/// <summary>
+	/// ワイヤーが刺さってるかを受け取る関数
+	/// </summary>
+	/// <returns>刺さってる場合 true</returns>
+	/// <summary>
+	inline bool GetisStub() { return isStub; };
+
+	/// 引っ張られたかどうかを受け取る関数
+	/// </summary>
+	/// <returns>引っ張られた場合 true</returns>
+	inline bool GetisPulled() { return isPulled; };
+
+
+	// 値を設定
+
+
+	// オブジェクトの中心座標を設定する関数
+	// 返り値：なし
+	// 引数：セットする中心座標
+	inline void SetCenterPosition(Point _p) { centerPosition = _p; };
 
 	// オブジェクトに速度ベクトルを足す関数
 	// 返り値：なし
 	// 引数：足す速度のベクトル
-	void AddVelocity(Point _addVelocity);
+	inline void AddVelocity(Point _v) { velocity = _v; };
 
 	// オブジェクトに回転速度を足す関数
 	// 返り値：なし
 	// 引数：足す速度
-	void AddVelocity(float _addVelocity);
-
-	/// <summary>
-	/// 生きてるかどうかを設定する関数
-	/// </summary>
-	/// <param name="_isAlive">生きてるかどうか</param>
-	void SetisAlive(bool _isAlive);
-	
-	/// <summary>
-	/// 引っ張られたかどうかを設定する関数
-	/// </summary>
-	/// <param name="_isPulled">引っ張られたかどうか</param>
-	void SetisPulled(bool _isPulled);
+	inline void AddVelocity(float _av) { angleVelocity = _av; };
 
 	/// <summary>
 	/// Angle(Degree)を設定する関数
 	/// </summary>
 	/// <param name="_angle">angle(Degree)</param>
-	void SetAngle(float _angle);
+	inline void SetAngle(float _a) { angle = _a; };
+
+	/// <summary>
+	/// Velocity を設定する関数
+	/// </summary>
+	/// <param name="_v">Velocity</param>
+	inline void SetVelocity(Point _v) { velocity = _v; };
 
 	/// <summary>
 	/// AngleVelocity(Degree)を設定する関数
 	/// </summary>
 	/// <param name="_angleVelocity">angleVelocity(Degree)</param>
-	void SetAngleVelocity(float _angleVelocity);
+	inline void SetAngleVelocity(float _aV) { angleVelocity = _aV; };
+
+	/// <summary>
+	/// 飛んでいるかどうかを設定する関数
+	/// </summary>
+	/// <param name="_isF">飛んでいるかどうか</param>
+	inline void SetisFlying(bool _isF) { isFlying = _isF; };
+
+	/// <summary>
+	/// 生きてるかどうかを設定する関数
+	/// </summary>
+	/// <param name="_isAlive">生きてるかどうか</param>
+	inline void SetisAlive(bool _isA) { isAlive = _isA; };
+	
+	/// <summary>
+	/// ワイヤーが刺さってるかどうかを設定する関数
+	/// </summary>
+	/// <param name="_isS">ワイヤーが刺さってるかどうか</param>
+	inline void SetisStub(bool _isS) { isStub = _isS; };
+	
+	/// <summary>
+	/// 引っ張られたかどうかを設定する関数
+	/// </summary>
+	/// <param name="_isPulled">引っ張られたかどうか</param>
+	inline void SetisPulled(bool _isP) { isPulled = _isP; };
+
+
+#pragma endregion
+
 
 
 	// 当たり判定関連
@@ -192,8 +225,12 @@ protected: // メンバ変数
 	// 生きてるかどうか
 	bool isAlive;
 
+	// ワイヤーが刺さってるかどうか
+	bool isStub;
+
 	// 引っ張られているかどうか
 	bool isPulled;
+
 
 	// 0 ... 上
 	// 1 ... 下
