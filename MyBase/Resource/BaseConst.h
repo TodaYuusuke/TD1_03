@@ -109,7 +109,7 @@ public: // 静的な定数
 	// ワイヤーの最大の長さ
 	static float kWireMaxLength;
 	// ワイヤーの最大存在数
-	const static int kWireMaxAmount = 3;
+	const static int kWireMaxAmount = 5;
 
 #pragma endregion
 

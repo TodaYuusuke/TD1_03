@@ -11,7 +11,7 @@ Debug::~Debug() {
 
 // ‰Šú‰»
 void Debug::Initialize() {
-	PublicFrag::Initialize();
+	PublicFlag::Initialize();
 	ObjectHitBox::Initialize();
 	MapManager::Initialize();
 	objectManager.Initialize();

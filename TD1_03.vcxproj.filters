@@ -93,8 +93,23 @@
     <ClCompile Include="MyBase\Effect\Inheritance\BlockBreak.cpp">
       <Filter>MyBase\Effect\Inheritance</Filter>
     </ClCompile>
-    <ClCompile Include="Class\PublicFrag\PublicFrag.cpp">
-      <Filter>Class\PublicFrag</Filter>
+    <ClCompile Include="Class\SceneManager\SceneManager.cpp">
+      <Filter>Class\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\PublicFlag\PublicFlag.cpp">
+      <Filter>Class\PublicFlag</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\SceneManager\Scene\Title.cpp">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\SceneManager\Scene\TutorialStage.cpp">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\SceneManager\Scene\GameClear.cpp">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\SceneManager\Scene\BossStage.cpp">
+      <Filter>Class\SceneManager\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -258,8 +273,26 @@
     <ClInclude Include="MyBase\Effect\Inheritance\BlockBreak.h">
       <Filter>MyBase\Effect\Inheritance</Filter>
     </ClInclude>
-    <ClInclude Include="Class\PublicFrag\PublicFrag.h">
-      <Filter>Class\PublicFrag</Filter>
+    <ClInclude Include="Class\SceneManager\Scene\BaseScene.h">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\SceneManager\SceneManager.h">
+      <Filter>Class\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\PublicFlag\PublicFlag.h">
+      <Filter>Class\PublicFlag</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\SceneManager\Scene\Title.h">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\SceneManager\Scene\TutorialStage.h">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\SceneManager\Scene\GameClear.h">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\SceneManager\Scene\BossStage.h">
+      <Filter>Class\SceneManager\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -326,7 +359,13 @@
     <Filter Include="MyBase\Effect\Inheritance">
       <UniqueIdentifier>{4e7c2685-5a81-4a81-b37b-91e2cc120b29}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Class\PublicFrag">
+    <Filter Include="Class\SceneManager">
+      <UniqueIdentifier>{7024dcdc-8389-466a-ad65-74bf7a6af8bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\SceneManager\Scene">
+      <UniqueIdentifier>{4f76a417-29e7-4378-88d6-ee07158e86c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\PublicFlag">
       <UniqueIdentifier>{84d89fa3-dc5e-455c-949a-c3b2f6a32d47}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

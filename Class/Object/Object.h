@@ -148,7 +148,7 @@ public: // メンバ関数
 	// オブジェクトに対する当たり判定をチェックする関数
 	// 返り値：ヒットしていた場合 ... true
 	// 引数：チェックするPoint
-	bool CheckHitBox(Point hitPosition);
+	virtual bool CheckHitBox(Point hitPosition);
 
 	// 当たり判定をチェックする関数
 	// ※　現在angleを考慮した処理になっていないので、使用禁止　※

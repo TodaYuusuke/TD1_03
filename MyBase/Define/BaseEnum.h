@@ -43,14 +43,16 @@ enum SceneState {
 	Title,
 	// OP
 	OP,
-	// ステージ選択
-	StageSelect,
-	// ゲームプレイ
-	GamePlay,
-	// リザルト（ゲームオーバー）
-	Result,
+	// チュートリアルステージ
+	TutorialStage,
+	// ボスステージ
+	BossStage,
+	// ゲームクリア
+	GameClear,
+	// ゲームオーバー
+	GameOVer,
 	// ゲーム終了（プログラム終了）
-	GameEnd
+	End
 };
 
 

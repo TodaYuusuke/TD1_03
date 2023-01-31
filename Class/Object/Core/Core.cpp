@@ -69,3 +69,18 @@ void Core::Draw() {
 ObjectType Core::GetType() {
 	return typeCore;
 }
+
+// 当たり判定関連
+
+// オブジェクトに対する当たり判定をチェックする関数
+// 返り値：ヒットしていた場合 ... true
+// 引数：チェックするPoint
+bool Core::CheckHitBox(Point hitPosition) {
+	float f = BaseMath::GetLength(BaseMath::GetVector(centerPosition, hitPosition));
+
+	if (f <= width / 2) {
+		return true;
+	}
+
+	return false;
+}
