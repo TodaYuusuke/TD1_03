@@ -53,11 +53,12 @@ void Player::SuccessorUpdate() {
 	angle = 0;
 	angleVelocity = 0;
 
-
-	Move();
-	ReticleMove();
-	Jump();
-	ShotWire();
+	if (!PublicFlag::kisStaging) {
+		Move();
+		ReticleMove();
+		Jump();
+		ShotWire();
+	}
 
 	// 前のフレームの分のマウス座標の取得
 	int x, y;
@@ -73,69 +74,70 @@ void Player::SuccessorUpdate() {
 		}
 	}
 
+	if (!PublicFlag::kisStaging) {
+		Point screenPos = BaseDraw::GetScreenPosition();
 
-	Point screenPos = BaseDraw::GetScreenPosition();
+		/// x座標の調整 ///
 
-	/// x座標の調整 ///
+		screenPos.x = centerPosition.x - BaseConst::kWindowWidth / 2.0f;
 
-	screenPos.x = centerPosition.x - BaseConst::kWindowWidth / 2.0f;
+		/// y座標の調整 ///
 
-	/// y座標の調整 ///
-
-	screenPos.y = centerPosition.y + 400;
+		screenPos.y = centerPosition.y + 400;
 
 
-	// スクリーン座標が画面外に行かないように調整
-	if (screenPos.x < 0) {
-		screenPos.x = 0;
+		// スクリーン座標が画面外に行かないように調整
+		if (screenPos.x < 0) {
+			screenPos.x = 0;
+		}
+		else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth) {
+			screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth - BaseConst::kWindowWidth;
+		}
+		if (screenPos.y - BaseConst::kWindowHeight < 0) {
+			screenPos.y = BaseConst::kWindowHeight;
+		}
+		else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight) {
+			screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight;
+		}
+
+		//////////　　ここで線形補完　　//////////
+		// screenPos ... 移動先のカメラ
+		// BaseDraw::GetScreenPosition ... このフレームでの現在のカメラ座標
+
+		/*
+		//// 前のフレームの、移動する先のカメラ座標を取得
+		//static Point prevScreenPos = BaseDraw::GetScreenPosition();
+
+		//// 線形補間中のカメラ位置
+		//Point linerScreenPos = BaseDraw::GetScreenPosition();
+
+		//// GetScreenPosition関数呼び出すのが面倒なので変数に入れます
+		//Point nowScreenPos = linerScreenPos;
+
+		//if (prevScreenPos.x != screenPos.x || prevScreenPos.y != screenPos.y) {
+		//	screenT = 0.0f;
+		//}
+
+		//else if (nowScreenPos.x == screenPos.x && nowScreenPos.y == screenPos.y) {
+		//	screenT = 0.0f;
+		//}
+
+		//screenT += 0.005f;
+
+		//BaseMath::Clamp(screenT, 0.0f, 1.0f);
+
+		//linerScreenPos = {
+		//	(1 - screenT) * nowScreenPos.x + screenT * screenPos.x,
+		//	(1 - screenT) * nowScreenPos.y + screenT * screenPos.y
+		//};
+		//// 次の移動先座標を保存
+		//prevScreenPos = screenPos;
+		// 最終的にカメラを設定する
+		*/
+		BaseDraw::SetScreenPosition(screenPos);
+
+		//////////　　　ここまで　　　　//////////
 	}
-	else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth) {
-		screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth - BaseConst::kWindowWidth;
-	}
-	if (screenPos.y - BaseConst::kWindowHeight < 0) {
-		screenPos.y = BaseConst::kWindowHeight;
-	}
-	else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight) {
-		screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight;
-	}
-
-
-	//////////　　ここで線形補完　　//////////
-	// screenPos ... 移動先のカメラ
-	// BaseDraw::GetScreenPosition ... このフレームでの現在のカメラ座標
-
-	//// 前のフレームの、移動する先のカメラ座標を取得
-	//static Point prevScreenPos = BaseDraw::GetScreenPosition();
-
-	//// 線形補間中のカメラ位置
-	//Point linerScreenPos = BaseDraw::GetScreenPosition();
-
-	//// GetScreenPosition関数呼び出すのが面倒なので変数に入れます
-	//Point nowScreenPos = linerScreenPos;
-
-	//if (prevScreenPos.x != screenPos.x || prevScreenPos.y != screenPos.y) {
-	//	screenT = 0.0f;
-	//}
-
-	//else if (nowScreenPos.x == screenPos.x && nowScreenPos.y == screenPos.y) {
-	//	screenT = 0.0f;
-	//}
-
-	//screenT += 0.005f;
-
-	//BaseMath::Clamp(screenT, 0.0f, 1.0f);
-
-	//linerScreenPos = {
-	//	(1 - screenT) * nowScreenPos.x + screenT * screenPos.x,
-	//	(1 - screenT) * nowScreenPos.y + screenT * screenPos.y
-	//};
-	//// 次の移動先座標を保存
-	//prevScreenPos = screenPos;
-	// 最終的にカメラを設定する
-	BaseDraw::SetScreenPosition(screenPos);
-
-	//////////　　　ここまで　　　　//////////
-
 }
 // 描画
 void Player::Draw() {
@@ -162,26 +164,29 @@ void Player::Draw() {
 			BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, 0x550000FF);
 		}
 
-		// 射出先の線予測線を描画
-		Point p1 = BaseDraw::WorldtoScreen(centerPosition);
-		Point p2 = reticlePosition;
-		// 射程を一定以下にする
-		Point range = BaseMath::GetVector(p1, p2);
-		// 最大射程より遠かったら
-		float diff = BaseMath::GetLength(range) - BaseConst::kPlayerReticleRange;;
-		if (0.0f < diff) {
-			Point e = BaseMath::GetNormalize(range);
-			p2.x -= e.x * diff;
-			p2.y += e.y * diff;
-		}
-		//Point p2 = BaseMath::TurnPoint({ 2000, 0 }, -BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition));
-		Novice::DrawLine(p1.x, p1.y, p2.x, p2.y, RED);
+		if (!PublicFlag::kisStaging) {
 
-		// レティクルを描画
-		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 2, 2, 0, GREEN, kFillModeWireFrame);
-		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 10, 10, 0, GREEN, kFillModeWireFrame);
-		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 11, 11, 0, GREEN, kFillModeWireFrame);
-		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 12, 12, 0, GREEN, kFillModeWireFrame);
+			// 射出先の線予測線を描画
+			Point p1 = BaseDraw::WorldtoScreen(centerPosition);
+			Point p2 = reticlePosition;
+			// 射程を一定以下にする
+			Point range = BaseMath::GetVector(p1, p2);
+			// 最大射程より遠かったら
+			float diff = BaseMath::GetLength(range) - BaseConst::kPlayerReticleRange;;
+			if (0.0f < diff) {
+				Point e = BaseMath::GetNormalize(range);
+				p2.x -= e.x * diff;
+				p2.y += e.y * diff;
+			}
+			//Point p2 = BaseMath::TurnPoint({ 2000, 0 }, -BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition));
+			Novice::DrawLine(p1.x, p1.y, p2.x, p2.y, RED);
+
+			// レティクルを描画
+			Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 2, 2, 0, GREEN, kFillModeWireFrame);
+			Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 10, 10, 0, GREEN, kFillModeWireFrame);
+			Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 11, 11, 0, GREEN, kFillModeWireFrame);
+			Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 12, 12, 0, GREEN, kFillModeWireFrame);
+		}
 	}
 }
 
