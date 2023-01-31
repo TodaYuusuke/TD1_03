@@ -119,7 +119,6 @@
     <ClCompile Include="Class\SceneManager\Scene\TutorialStage.cpp" />
     <ClCompile Include="Class\Wire\Wire.cpp" />
     <ClCompile Include="Class\Wire\WireManager.cpp" />
-    <ClCompile Include="Debug.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MyBase\Effect\BaseEffect.cpp" />
     <ClCompile Include="MyBase\Effect\BaseEffectManager.cpp" />
@@ -181,7 +180,6 @@
     <ClInclude Include="Class\SceneManager\Scene\TutorialStage.h" />
     <ClInclude Include="Class\Wire\Wire.h" />
     <ClInclude Include="Class\Wire\WireManager.h" />
-    <ClInclude Include="Debug.h" />
     <ClInclude Include="MyBase\Define\BaseEnum.h" />
     <ClInclude Include="MyBase\Define\BaseStruct.h" />
     <ClInclude Include="MyBase\Effect\BaseEffect.h" />
