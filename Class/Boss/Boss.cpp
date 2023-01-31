@@ -172,7 +172,7 @@ void Boss::Initialize(ObjectManager* objectManager) {
 
 	for (int i = 0; i < kmaxWireHang; i++) {
 		this->wireHangPosition[i] = { 0.0f, 0.0f };
-		hook[i] = objectManager->MakeNewObjectHook(wireHangPosition[i], hookSize);
+		hook[i] = objectManager->MakeNewObjectHook(wireHangPosition[i], {64.0f, 64.0f});
 	}
 
 
@@ -1183,12 +1183,17 @@ void  Boss::Rotate(float endDegree, float RotateTime, float afterWaitTime, WireM
 		degree = BaseDraw::Ease_InOut(t, startDegree, endDegree, RotateTime);
 
 		if (t >= (RotateTime / 2)) {
-			wireManager->Initialize();
+			// ワイヤーちぎる
+			PublicFrag::kBossisTurningAndCutWire = true;
 		}
 
 		t += 1.0f / 60.0f;
 	}
 	else {
+
+		// ワイヤーをちぎれなくする
+		PublicFrag::kBossisTurningAndCutWire = false;
+
 		//t が一定以上になったら行動終了
 		prevAttackPattern[1] = prevAttackPattern[0];
 		prevAttackPattern[0] = ROTATE;
@@ -1562,7 +1567,8 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, slashTime);
 
 			if (t >= (slashTime / 2)) {
-				wireManager->Initialize();
+				// ワイヤーちぎる
+				PublicFrag::kBossisTurningAndCutWire = true;
 			}
 
 			// 分岐：回転斬り以外の場合はtにプラスする値を少しだけ多くする
@@ -1574,6 +1580,9 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			}
 		}
 		else {
+
+			// ワイヤーちぎる
+			PublicFrag::kBossisTurningAndCutWire = false;
 
 			// 効果音再生
 			Novice::PlayAudio(BaseAudio::kBossClose, 0, 0.1f);

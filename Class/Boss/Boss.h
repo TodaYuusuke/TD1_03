@@ -3,6 +3,7 @@
 #include "Class/Object/ObjectManager.h"
 #include "Class/Wire/WireManager.h"
 #include "Class/AttackHitBox/EnemyAttackHitBox.h"
+#include "Class/PublicFrag/PublicFrag.h"
 
 /*********************************************
  * ボスクラス
