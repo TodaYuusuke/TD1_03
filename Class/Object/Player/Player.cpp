@@ -90,14 +90,14 @@ void Player::SuccessorUpdate() {
 		if (screenPos.x < 0) {
 			screenPos.x = 0;
 		}
-		else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth) {
-			screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth - BaseConst::kWindowWidth;
+		else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth) {
+			screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth - BaseConst::kWindowWidth;
 		}
 		if (screenPos.y - BaseConst::kWindowHeight < 0) {
 			screenPos.y = BaseConst::kWindowHeight;
 		}
-		else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight) {
-			screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight;
+		else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight) {
+			screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight;
 		}
 
 		//////////　　ここで線形補完　　//////////

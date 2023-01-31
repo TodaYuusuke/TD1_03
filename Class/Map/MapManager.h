@@ -38,5 +38,5 @@ private: // 関数
 private: // メンバ変数
 
 	// マップの配列
-	static Map map[BaseConst::kMapSizeHeight][BaseConst::kMapSizeWidth];
+	static Map map[BaseConst::kBossStageSizeHeight][BaseConst::kBossStageSizeWidth];
 };

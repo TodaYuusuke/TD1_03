@@ -14,7 +14,7 @@ void BaseConst::Initialize() {
 bool BaseConst::Loading() {
 
 	std::vector<std::string> map;
-	std::ifstream mapifs("./Resources/Const/mapSample.csv");
+	std::ifstream mapifs("./Resources/Const/BossStage.csv");
 	std::string line;
 
 	int y = 0;
@@ -24,7 +24,7 @@ bool BaseConst::Loading() {
 		std::vector<std::string> strvec = split(line, ',');
 
 		for (int x = 0; x < strvec.size(); x++) {
-			kMapData[y][x] = stoi(strvec.at(x));
+			kBossStageData[y][x] = stoi(strvec.at(x));
 		}
 
 		y++;
@@ -121,6 +121,6 @@ int BaseConst::kMapChipSizeWidth = 32;
 int BaseConst::kMapChipSizeHeight = 32;
 
 // マップデータ
-int BaseConst::kMapData[kMapSizeHeight][kMapSizeWidth];
+int BaseConst::kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
 
 #pragma endregion

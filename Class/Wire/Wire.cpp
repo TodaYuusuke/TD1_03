@@ -246,9 +246,14 @@ void Wire::Attract() {
 
 		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(position[0], position[1]));
 
+		// ベクトルが下方向の場合 -> すこし上方向に補正
+		if (p.y < 3) {
+			p.y = 3;
+		}
+
 		object[0]->AddVelocity(p);
 	}
-	// 一つ目のオブジェクトにベクトルを足す
+	// 二つ目のオブジェクトにベクトルを足す
 	if (object[1] != NULL) {
 		// 引き寄せる強さを決定
 		Point p = { 20,0 };
@@ -258,6 +263,11 @@ void Wire::Attract() {
 		}
 
 		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(position[1], position[0]));
+
+		// ベクトルが下方向の場合 -> すこし上方向に補正
+		if (p.y < 3) {
+			p.y = 3;
+		}
 
 		object[1]->AddVelocity(p);
 	}

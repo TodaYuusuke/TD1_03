@@ -74,7 +74,6 @@ public: // 静的な定数
 	// ブロックが点滅し始めるフレーム
 	static int kBlockBeVanish;
 
-
 #pragma endregion
 
 #pragma region プレイヤー
@@ -123,16 +122,21 @@ public: // 静的な定数
 
 #pragma region マップ
 
-	// マップの大きさ
-	const static int kMapSizeWidth = 75;
-	const static int kMapSizeHeight = 35;
-
 	// マップチップのサイズ
 	static int kMapChipSizeWidth;
 	static int kMapChipSizeHeight;
 
+	// チュートリアルステージの大きさ
+	const static int kTutorialStageSizeWidth = 75;
+	const static int kTutorialStageSizeHeight = 35;
+	// ボスステージの大きさ
+	const static int kBossStageSizeWidth = 75;
+	const static int kBossStageSizeHeight = 35;
+
+
 	// マップデータ
-	static int kMapData[kMapSizeHeight][kMapSizeWidth];
+	static int kTutorialStageData[kBossStageSizeHeight][kBossStageSizeWidth];
+	static int kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
 
 #pragma endregion
 
