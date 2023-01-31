@@ -36,6 +36,8 @@ private: // 関数
 
 	// 移動関連
 	void Move();
+	// 照準移動
+	void ReticleMove();
 	// ジャンプ
 	void Jump();
 	// ワイヤー関連
@@ -52,6 +54,8 @@ private: // メンバ変数
 
 	// 照準の座標
 	Point reticlePosition;
+	// 前のフレームのマウス座標
+	Point preMousePosition;
 
 
 	// ワイヤー管理クラス

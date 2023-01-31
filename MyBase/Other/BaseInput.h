@@ -51,6 +51,32 @@ public: // メンバ関数
 	static bool GetKeyboardState(int key, InputState state);
 
 
+	/// <summary>
+	/// 特定のキーがどんな状態（Null,Trigger,Press,Release）かをチェックする関数
+	/// ボタンの入力状態を受け取る関数
+	/// </summary>
+	/// <param name="key">検証するボタン</param>
+	/// <param name="state">検証したい状態</param>
+	/// <returns>key が state の場合 -> true そうでない場合 -> false</returns>
+	static bool GetControllerState(ControllerButton key, InputState state);
+
+	/// <summary>
+	/// コントローラーのスティックの状態を受け取る関数
+	/// </summary>
+	/// <param name="left">左スティック</param>
+	/// <param name="right">右スティック</param>
+	/// <returns>正常に受け取れた場合 true</returns>
+	static void GetControllerJoysState(Point* left, Point* right);
+	static void GetControllerLeftJoysState(Point* left);
+	static void GetControllerRightJoysState(Point* right);
+
+	/// <summary>
+	/// アナログスティックを 100% - 0% で表す関数
+	/// </summary>
+	/// <param name="p">アナログスティックの入力値</param>
+	/// <returns>傾きの %</returns>
+	static float AnalogToPer(int p);
+
 	// マウスをフォームに固定する関数
 	// 返り値：無し
 	// 引数：無し
@@ -83,6 +109,12 @@ private: // メンバ変数
 	static char keys[];
 	// キーの入力状況（前回のフレーム）
 	static char preKeys[];
+
+	// ボタンの入力状況 (今回のフレーム)
+	static bool buttons[];
+	// ボタンの入力状況 (前回のフレーム)
+	static bool preButtons[];
+
 
 };
 

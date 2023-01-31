@@ -92,6 +92,11 @@ Point BaseConst::kPlayerJumpVelocity = { 0,9.8f };
 // ジャンプのクールタイム
 int BaseConst::kPlayerJumpCoolTime = 40;
 
+// 照準 //
+
+// 照準の最大射程
+int BaseConst::kPlayerReticleRange = 1000;
+
 #pragma endregion
 
 #pragma region ワイヤー

@@ -99,6 +99,11 @@ public: // 静的な定数
 	// ジャンプのクールタイム
 	static int kPlayerJumpCoolTime;
 
+	// 照準 //
+
+	// 照準の最大射程
+	static int kPlayerReticleRange;
+
 #pragma endregion
 
 #pragma region ワイヤー

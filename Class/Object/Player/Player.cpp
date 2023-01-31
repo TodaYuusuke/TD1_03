@@ -27,7 +27,10 @@ void Player::SuccessorInitialize() {
 
 	isFlying = true;
 	isAlive = true;
-	reticlePosition = { -10000,-10000 };
+	reticlePosition = { BaseConst::kWindowHeight / 2.0f,BaseConst::kWindowHeight / 2.0f };
+	int x, y;
+	Novice::GetMousePosition(&x, &y);
+	preMousePosition = { (float)x,(float)y };
 
 	invincibleFrame = 0;
 	// 現在右を向いているかどうか
@@ -50,11 +53,16 @@ void Player::SuccessorUpdate() {
 	angle = 0;
 	angleVelocity = 0;
 
-	reticlePosition = BaseInput::GetMousePosition();
 
 	Move();
+	ReticleMove();
 	Jump();
 	ShotWire();
+
+	// 前のフレームの分のマウス座標の取得
+	int x, y;
+	Novice::GetMousePosition(&x, &y);
+	preMousePosition = { (float)x,(float)y };
 
 	/// HP の描画の調整
 	if (isDrawHP) {
@@ -161,10 +169,10 @@ void Player::Draw() {
 		Novice::DrawLine(p1.x, p1.y, p2.x, p2.y, RED);
 
 		// レティクルを描画
-		Novice::DrawEllipse(BaseInput::GetMousePosition().x, BaseInput::GetMousePosition().y, 2, 2, 0, GREEN, kFillModeWireFrame);
-		Novice::DrawEllipse(BaseInput::GetMousePosition().x, BaseInput::GetMousePosition().y, 10, 10, 0, GREEN, kFillModeWireFrame);
-		Novice::DrawEllipse(BaseInput::GetMousePosition().x, BaseInput::GetMousePosition().y, 11, 11, 0, GREEN, kFillModeWireFrame);
-		Novice::DrawEllipse(BaseInput::GetMousePosition().x, BaseInput::GetMousePosition().y, 12, 12, 0, GREEN, kFillModeWireFrame);
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 2, 2, 0, GREEN, kFillModeWireFrame);
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 10, 10, 0, GREEN, kFillModeWireFrame);
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 11, 11, 0, GREEN, kFillModeWireFrame);
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 12, 12, 0, GREEN, kFillModeWireFrame);
 	}
 }
 
@@ -174,11 +182,19 @@ void Player::Draw() {
 
 // 移動関連
 void Player::Move() {
-
+	// コントローラー左スティック
+	Point leftStick = { 0,0 };
+	BaseInput::GetControllerLeftJoysState(&leftStick);
 	// 左移動
 	if (BaseInput::GetKeyboardState(DIK_A, Press)) {
 		if (velocity.x > -BaseConst::kPlayerVelocityLimit) {
 			velocity.x -= 0.5f;
+			isRight = false;
+		}
+	}
+	else if (leftStick.x < 0.0f) {
+		if (velocity.x > -BaseConst::kPlayerVelocityLimit) {
+			velocity.x += 0.5f * leftStick.x;
 			isRight = false;
 		}
 	}
@@ -192,15 +208,48 @@ void Player::Move() {
 			isRight = true;
 		}
 	}
+	else if (0.0f < leftStick.x) {
+		if (velocity.x < BaseConst::kPlayerVelocityLimit) {
+			velocity.x += 0.5f * leftStick.x;
+			isRight = true;
+		}
+	}
 	else if (velocity.x > 0) {
 		velocity.x -= 0.1f;
 	}
 }
 
+// 照準移動
+void Player::ReticleMove() {
+	Point rightStick;
+	BaseInput::GetControllerRightJoysState(&rightStick);
+	int x, y;
+	Novice::GetMousePosition(&x, &y);
+	// マウスが動いている時
+	if (preMousePosition.x != x || preMousePosition.y != y) {
+		reticlePosition = BaseInput::GetMousePosition();
+	}
+	// スティックが入力されている時
+	if (BaseMath::GetLength(rightStick) != 0.0f) {
+		reticlePosition.x += 20 * rightStick.x;
+		reticlePosition.y += 20 * rightStick.y;
+	}
+	// 射程を一定以下にする
+	Point range = BaseMath::GetVector(centerPosition, BaseDraw::ScreentoWorld(reticlePosition));
+	// 最大射程より遠かったら
+	float diff = BaseMath::GetLength(range) - BaseConst::kPlayerReticleRange;;
+	if (0.0f < diff) {
+		Point e = BaseMath::GetNormalize(range);
+		reticlePosition.x -= e.x * diff;
+		reticlePosition.y += e.y * diff;
+	}
+}
+
+
 // ジャンプ
 void Player::Jump() {
-	// スペースキーが押されたとき
-	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger)) {
+	// スペースキー || A || LT が押されたとき
+	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger) || BaseInput::GetControllerState(kControllerButtonA, Trigger) || BaseInput::GetControllerState(kControllerButtonL2, Trigger)) {
 		if (!isFlying) {
 			// 速度Yがマイナスのとき -> 0にリセットしてから
 			if (velocity.y < 0) {
@@ -216,8 +265,9 @@ void Player::Jump() {
 
 // ワイヤー関連
 void Player::ShotWire() {
-	if (BaseInput::GetMouseState(LeftClick, Trigger)) {
-		reticlePosition = BaseInput::GetMousePosition();
+	// 左クリック || RB || LB
+	if (BaseInput::GetMouseState(LeftClick, Trigger) || BaseInput::GetControllerState(kControllerButtonR1, Trigger) || BaseInput::GetControllerState(kControllerButtonL1, Trigger)) {
+		//reticlePosition = BaseInput::GetMousePosition();
 
 		// 反動のベクトル
 		Point p = { 3,0 };
@@ -243,7 +293,8 @@ void Player::ShotWire() {
 			break;
 		}
 	}
-	if (BaseInput::GetMouseState(RightClick, Trigger)) {
+	// 右クリック || RT
+	if (BaseInput::GetMouseState(RightClick, Trigger) || BaseInput::GetControllerState(kControllerButtonR2, Trigger)) {
 		wireManager->Attract();
 	}
 }
