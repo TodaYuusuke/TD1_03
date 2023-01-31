@@ -469,7 +469,6 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		hook[1]->SetCenterPosition(wireHangPosition[1]);
 
 		float degreeDifference = degree - beforeDegree;
-		Novice::ScreenPrintf(0, 120, "DD : %4.2f", degreeDifference);
 
 		for (int i = 0; i < 5; i++) {
 			// 武器のヒットボックス
