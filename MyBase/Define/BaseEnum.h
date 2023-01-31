@@ -70,3 +70,52 @@ enum ObjectType {
 	// ボスの中心部
 	typeCore
 };
+
+// コントローラーボタン
+enum ControllerButton {
+		kControllerButtonUp,	//!< XInputの場合、十字キー上
+		kControllerButtonDown,	//!< XInputの場合、十字キー下
+		kControllerButtonLeft,	//!< XInputの場合、十字キー左
+		kControllerButtonRight,	//!< XInputの場合、十字キー右
+		kControllerButtonStart,	//!< XInputの場合、START
+		kControllerButtonBack,	//!< XInputの場合、BACK
+		kControllerButtonL3,	//!< XInputの場合、L3
+		kControllerButtonR3,	//!< XInputの場合、R3
+		kControllerButtonL1,	//!< XInputの場合、L1
+		kControllerButtonR1,	//!< XInputの場合、R1
+		kControllerButtonL2,	//!< XInputの場合、L2
+		kControllerButtonR2,	//!< XInputの場合、R2
+		kControllerButtonA,		//!< XInputの場合、A,
+		kControllerButtonB,		//!< XInputの場合、B,
+		kControllerButtonX,		//!< XInputの場合、X,
+		kControllerButtonY,		//!< XInputの場合、Y,
+		kControllerButton16,
+		kControllerButton17,
+		kControllerButton18,
+		kControllerButton19,
+};
+
+// Noviceに宣言されているコピペ
+//// ゲームパッドボタン
+//enum PadButton {
+//	kPadButton0,  //!< XInputの場合、十字キー上
+//	kPadButton1,  //!< XInputの場合、十字キー下
+//	kPadButton2,  //!< XInputの場合、十字キー左
+//	kPadButton3,  //!< XInputの場合、十字キー右
+//	kPadButton4,  //!< XInputの場合、START
+//	kPadButton5,  //!< XInputの場合、BACK
+//	kPadButton6,  //!< XInputの場合、L3
+//	kPadButton7,  //!< XInputの場合、R3
+//	kPadButton8,  //!< XInputの場合、L1
+//	kPadButton9,  //!< XInputの場合、R1
+//	kPadButton10, //!< XInputの場合、L2
+//	kPadButton11, //!< XInputの場合、R2
+//	kPadButton12, //!< XInputの場合、A,
+//	kPadButton13, //!< XInputの場合、B,
+//	kPadButton14, //!< XInputの場合、X,
+//	kPadButton15, //!< XInputの場合、Y,
+//	kPadButton16,
+//	kPadButton17,
+//	kPadButton18,
+//	kPadButton19,
+//};
