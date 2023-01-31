@@ -2,7 +2,7 @@
 #include "MyBase/MyBase.h"
 #include "Class/Object/ObjectManager.h"
 
-#include "Class/PublicFrag/PublicFrag.h"
+#include "Class/PublicFlag/PublicFlag.h"
 #include "Class/Map/MapManager.h"
 #include "Class/Boss/Boss.h"
 

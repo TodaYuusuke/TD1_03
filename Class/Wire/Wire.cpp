@@ -76,7 +76,7 @@ void Wire::Update(ObjectManager* objectManager) {
 			if (type[i] != typeWall) {
 
 				// ƒƒCƒ„[‚ğØ‚éˆ—‚ğs‚Á‚Ä‚¢‚éê‡ -> object‚ªHook‚Ìê‡Ø‚é
-				if (PublicFrag::kBossisTurningAndCutWire) {
+				if (PublicFlag::kBossisTurningAndCutWire) {
 					if (type[i] == typeHook) {
 						Initialize();
 						return;
