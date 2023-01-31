@@ -111,6 +111,7 @@
     <ClCompile Include="Class\Object\Object.cpp" />
     <ClCompile Include="Class\Object\ObjectManager.cpp" />
     <ClCompile Include="Class\Object\Player\Player.cpp" />
+    <ClCompile Include="Class\PublicFrag\PublicFrag.cpp" />
     <ClCompile Include="Class\Wire\Wire.cpp" />
     <ClCompile Include="Class\Wire\WireManager.cpp" />
     <ClCompile Include="Debug.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Class\Object\Object.h" />
     <ClInclude Include="Class\Object\ObjectManager.h" />
     <ClInclude Include="Class\Object\Player\Player.h" />
+    <ClInclude Include="Class\PublicFrag\PublicFrag.h" />
     <ClInclude Include="Class\Wire\Wire.h" />
     <ClInclude Include="Class\Wire\WireManager.h" />
     <ClInclude Include="Debug.h" />

@@ -74,6 +74,15 @@ void Wire::Update(ObjectManager* objectManager) {
 		// 発射されている状態ではない　かつ　壁ではなくオブジェクトにヒットしている場合
 		else if (object[i] != NULL) {
 			if (type[i] != typeWall) {
+
+				// ワイヤーを切る処理を行っている場合 -> objectがHookの場合切る
+				if (PublicFrag::kBossisTurningAndCutWire) {
+					if (type[i] == typeHook) {
+						Initialize();
+						return;
+					}
+				}
+
 				position[i].x -= prePosition[i].x - object[i]->GetCenterPosition().x;
 				position[i].y -= prePosition[i].y - object[i]->GetCenterPosition().y;
 				prePosition[i].x = object[i]->GetCenterPosition().x;
