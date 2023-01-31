@@ -447,6 +447,10 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 			color = 0x333333FF;
 
+			// ボスのヒットボックスを有効にする
+			EnemyAttackHitBox::MakeNewHitBoxRight({ 10000.0f, 10000.0f }, textureSize.y / 2.0f, degree, bodyDamage);
+			EnemyAttackHitBox::MakeNewHitBoxLeft({ 10000.0f, 10000.0f }, textureSize.y / 2.0f, degree, bodyDamage);
+
 		}
 		else {
 			// 開いていないときはありえないほどとおくに
@@ -622,6 +626,9 @@ void Boss::Draw() {
 		degree,
 		color
 	);
+	// ボスHPゲージ（仮）
+	Novice::DrawBox(450, 100, 0 + 100 * HP, 30, 0.0f, 0xdc143cFF, kFillModeSolid);
+
 }
 
 // ボス自体の当たり判定を返す関数

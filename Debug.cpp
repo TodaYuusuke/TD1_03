@@ -65,7 +65,7 @@ void Debug::Draw() {
 	int debugJumpTex = Novice::LoadTexture("./Resources/Texture/Debug/Jump.png");
 	int debugAttractTex = Novice::LoadTexture("./Resources/Texture/Debug/Attract.png");
 	int debugBGTex = Novice::LoadTexture("./Resources/Texture/Debug/BG.png");
-
+	int debugHPTex = Novice::LoadTexture("./Resources/Texture/Debug/HP.png");
 
 	Novice::DrawSprite(1280, 10, debugBGTex, 10, 0.5f, 0, WHITE);
 	// ìÆçÏï˚ñ@
@@ -73,5 +73,7 @@ void Debug::Draw() {
 	Novice::DrawSprite(1600, 10, debugJumpTex, 0.25f, 0.25f, 0.0f, WHITE);
 	Novice::DrawSprite(1280, 42, debugShotTex, 0.25f, 0.25f, 0.0f, WHITE);
 	Novice::DrawSprite(1600, 42, debugAttractTex, 0.25f, 0.25f, 0.0f, WHITE);
+
+	Novice::DrawSprite(640, 10, debugHPTex, 10, 0.5f, 0, WHITE);
 
 }
