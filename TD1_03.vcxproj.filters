@@ -77,7 +77,6 @@
     <ClCompile Include="Class\Object\Player\Player.cpp">
       <Filter>Class\Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Debug.cpp" />
     <ClCompile Include="Class\AttackHitBox\EnemyAttackHitBox.cpp">
       <Filter>Class\AttackHitBox</Filter>
     </ClCompile>
@@ -257,7 +256,6 @@
     <ClInclude Include="Class\Object\Player\Player.h">
       <Filter>Class\Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Debug.h" />
     <ClInclude Include="Class\AttackHitBox\EnemyAttackHitBox.h">
       <Filter>Class\AttackHitBox</Filter>
     </ClInclude>

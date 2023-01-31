@@ -165,6 +165,15 @@ void Player::Draw() {
 		// Ëoæ‚Ìü—\‘ªü‚ğ•`‰æ
 		Point p1 = BaseDraw::WorldtoScreen(centerPosition);
 		Point p2 = reticlePosition;
+		// Ë’ö‚ğˆê’èˆÈ‰º‚É‚·‚é
+		Point range = BaseMath::GetVector(p1, p2);
+		// Å‘åË’ö‚æ‚è‰“‚©‚Á‚½‚ç
+		float diff = BaseMath::GetLength(range) - BaseConst::kPlayerReticleRange;;
+		if (0.0f < diff) {
+			Point e = BaseMath::GetNormalize(range);
+			p2.x -= e.x * diff;
+			p2.y += e.y * diff;
+		}
 		//Point p2 = BaseMath::TurnPoint({ 2000, 0 }, -BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition));
 		Novice::DrawLine(p1.x, p1.y, p2.x, p2.y, RED);
 
@@ -234,15 +243,29 @@ void Player::ReticleMove() {
 		reticlePosition.x += 20 * rightStick.x;
 		reticlePosition.y += 20 * rightStick.y;
 	}
-	// Ë’ö‚ğˆê’èˆÈ‰º‚É‚·‚é
-	Point range = BaseMath::GetVector(centerPosition, BaseDraw::ScreentoWorld(reticlePosition));
-	// Å‘åË’ö‚æ‚è‰“‚©‚Á‚½‚ç
-	float diff = BaseMath::GetLength(range) - BaseConst::kPlayerReticleRange;;
-	if (0.0f < diff) {
-		Point e = BaseMath::GetNormalize(range);
-		reticlePosition.x -= e.x * diff;
-		reticlePosition.y += e.y * diff;
+	// Æ€‚ğ‰æ–Ê“à‚Éû‚ß‚é
+	if (reticlePosition.x < BaseConst::kPlayerReticleSize) {
+		reticlePosition.x = BaseConst::kPlayerReticleSize;
 	}
+	else if (BaseConst::kWindowWidth - BaseConst::kPlayerReticleSize < reticlePosition.x) {
+		reticlePosition.x = BaseConst::kWindowWidth - BaseConst::kPlayerReticleSize;
+	}
+	if (reticlePosition.y < BaseConst::kPlayerReticleSize) {
+		reticlePosition.y = BaseConst::kPlayerReticleSize;
+	}
+	else if (BaseConst::kWindowHeight - BaseConst::kPlayerReticleSize < reticlePosition.y) {
+		reticlePosition.y = BaseConst::kWindowHeight - BaseConst::kPlayerReticleSize;
+	}
+	
+	//// Ë’ö‚ğˆê’èˆÈ‰º‚É‚·‚é
+	//Point range = BaseMath::GetVector(centerPosition, BaseDraw::ScreentoWorld(reticlePosition));
+	//// Å‘åË’ö‚æ‚è‰“‚©‚Á‚½‚ç
+	//float diff = BaseMath::GetLength(range) - BaseConst::kPlayerReticleRange;;
+	//if (0.0f < diff) {
+	//	Point e = BaseMath::GetNormalize(range);
+	//	reticlePosition.x -= e.x * diff;
+	//	reticlePosition.y += e.y * diff;
+	//}
 }
 
 

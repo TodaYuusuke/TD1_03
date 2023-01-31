@@ -95,7 +95,10 @@ int BaseConst::kPlayerJumpCoolTime = 40;
 // 照準 //
 
 // 照準の最大射程
-int BaseConst::kPlayerReticleRange = 1000;
+int BaseConst::kPlayerReticleRange = 1500;
+
+// 照準のサイズ
+int BaseConst::kPlayerReticleSize = 10;
 
 #pragma endregion
 
@@ -105,7 +108,7 @@ int BaseConst::kPlayerReticleRange = 1000;
 float BaseConst::kWireSpeed = 40;
 
 // ワイヤーの最大の長さ
-float BaseConst::kWireMaxLength = 100.0f;
+float BaseConst::kWireMaxLength = 1500.0f;
 // ワイヤーの最大存在数
 //int BaseConst::kWireMaxAmount = 3;
 
