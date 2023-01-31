@@ -27,7 +27,7 @@ void Player::SuccessorInitialize() {
 
 	isFlying = true;
 	isAlive = true;
-	reticlePosition = { -10000,-10000 };
+	reticlePosition = { BaseConst::kWindowHeight / 2.0f,BaseConst::kWindowHeight / 2.0f };
 	int x, y;
 	Novice::GetMousePosition(&x, &y);
 	preMousePosition = { (float)x,(float)y };
@@ -169,10 +169,10 @@ void Player::Draw() {
 		Novice::DrawLine(p1.x, p1.y, p2.x, p2.y, RED);
 
 		// レティクルを描画
-		Novice::DrawEllipse(BaseInput::GetMousePosition().x, BaseInput::GetMousePosition().y, 2, 2, 0, GREEN, kFillModeWireFrame);
-		Novice::DrawEllipse(BaseInput::GetMousePosition().x, BaseInput::GetMousePosition().y, 10, 10, 0, GREEN, kFillModeWireFrame);
-		Novice::DrawEllipse(BaseInput::GetMousePosition().x, BaseInput::GetMousePosition().y, 11, 11, 0, GREEN, kFillModeWireFrame);
-		Novice::DrawEllipse(BaseInput::GetMousePosition().x, BaseInput::GetMousePosition().y, 12, 12, 0, GREEN, kFillModeWireFrame);
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 2, 2, 0, GREEN, kFillModeWireFrame);
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 10, 10, 0, GREEN, kFillModeWireFrame);
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 11, 11, 0, GREEN, kFillModeWireFrame);
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 12, 12, 0, GREEN, kFillModeWireFrame);
 	}
 }
 
@@ -194,7 +194,7 @@ void Player::Move() {
 	}
 	else if (leftStick.x < 0.0f) {
 		if (velocity.x > -BaseConst::kPlayerVelocityLimit) {
-			velocity.x -= 0.5f * leftStick.x;
+			velocity.x += 0.5f * leftStick.x;
 			isRight = false;
 		}
 	}
@@ -231,8 +231,17 @@ void Player::ReticleMove() {
 	}
 	// スティックが入力されている時
 	if (BaseMath::GetLength(rightStick) != 0.0f) {
-		reticlePosition.x += 10 * rightStick.x;
-		reticlePosition.y += 10 * rightStick.y;
+		reticlePosition.x += 20 * rightStick.x;
+		reticlePosition.y += 20 * rightStick.y;
+	}
+	// 射程を一定以下にする
+	Point range = BaseMath::GetVector(centerPosition, BaseDraw::ScreentoWorld(reticlePosition));
+	// 最大射程より遠かったら
+	float diff = BaseMath::GetLength(range) - BaseConst::kPlayerReticleRange;;
+	if (0.0f < diff) {
+		Point e = BaseMath::GetNormalize(range);
+		reticlePosition.x -= e.x * diff;
+		reticlePosition.y += e.y * diff;
 	}
 }
 
@@ -240,7 +249,7 @@ void Player::ReticleMove() {
 // ジャンプ
 void Player::Jump() {
 	// スペースキー || A || LT が押されたとき
-	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger) ||  BaseInput::GetControllerState(kControllerButtonA,Trigger) ||  BaseInput::GetControllerState(kControllerButtonL2,Trigger)) {
+	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger) || BaseInput::GetControllerState(kControllerButtonA, Trigger) || BaseInput::GetControllerState(kControllerButtonL2, Trigger)) {
 		if (!isFlying) {
 			// 速度Yがマイナスのとき -> 0にリセットしてから
 			if (velocity.y < 0) {
@@ -285,7 +294,7 @@ void Player::ShotWire() {
 		}
 	}
 	// 右クリック || RT
-	if (BaseInput::GetMouseState(RightClick, Trigger) || BaseInput::GetControllerState(kControllerButtonR2,Trigger)) {
+	if (BaseInput::GetMouseState(RightClick, Trigger) || BaseInput::GetControllerState(kControllerButtonR2, Trigger)) {
 		wireManager->Attract();
 	}
 }

@@ -37,6 +37,9 @@ void BaseInput::Update() {
 	for (int i = 0; i < 20; i++) {
 		buttons[i] = Novice::IsPressButton(0, (PadButton)i);
 	}
+	// コントローラーが反応しなくなる自体が発生していたのでデバッグ用
+	//int a = Novice::GetNumberOfJoysticks();
+	//Novice::ScreenPrintf(10, 100, "BaseInput.cpp Update(): Joysticks :%d", a);
 }
 // 描画
 void BaseInput::Draw() {
