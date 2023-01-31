@@ -172,11 +172,11 @@ void Player::Draw() {
 			// Ë’ö‚ğˆê’èˆÈ‰º‚É‚·‚é
 			Point range = BaseMath::GetVector(p1, p2);
 			// Å‘åË’ö‚æ‚è‰“‚©‚Á‚½‚ç
-			float diff = BaseMath::GetLength(range) - BaseConst::kPlayerReticleRange;;
+			float diff = BaseMath::GetLength(range) - BaseConst::kPlayerReticleRange;
 			if (0.0f < diff) {
 				Point e = BaseMath::GetNormalize(range);
-				p2.x -= e.x * diff;
-				p2.y += e.y * diff;
+				p2.x = p1.x + e.x * BaseConst::kWireMaxLength;
+				p2.y = p1.y + e.y * BaseConst::kWireMaxLength;
 			}
 			//Point p2 = BaseMath::TurnPoint({ 2000, 0 }, -BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition));
 			Novice::DrawLine(p1.x, p1.y, p2.x, p2.y, RED);
