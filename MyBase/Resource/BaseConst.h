@@ -127,7 +127,7 @@ public: // 静的な定数
 	static int kMapChipSizeHeight;
 
 	// チュートリアルステージの大きさ
-	const static int kTutorialStageSizeWidth = 75;
+	const static int kTutorialStageSizeWidth = 250;
 	const static int kTutorialStageSizeHeight = 35;
 	// ボスステージの大きさ
 	const static int kBossStageSizeWidth = 75;
@@ -135,7 +135,7 @@ public: // 静的な定数
 
 
 	// マップデータ
-	static int kTutorialStageData[kBossStageSizeHeight][kBossStageSizeWidth];
+	static int kTutorialStageData[kTutorialStageSizeWidth][kTutorialStageSizeHeight];
 	static int kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
 
 #pragma endregion
