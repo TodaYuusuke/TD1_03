@@ -105,7 +105,7 @@ int BaseConst::kPlayerReticleRange = 1000;
 float BaseConst::kWireSpeed = 40;
 
 // ワイヤーの最大の長さ
-float BaseConst::kWireMaxLength = 100.0f;
+float BaseConst::kWireMaxLength = 1500.0f;
 // ワイヤーの最大存在数
 //int BaseConst::kWireMaxAmount = 3;
 

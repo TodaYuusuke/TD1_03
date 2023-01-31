@@ -39,7 +39,7 @@ void Wire::Initialize() {
 void Wire::Update(ObjectManager* objectManager) {
 
 	// ‚à‚µƒƒCƒ„[‚Ì’·‚³‚ªˆê’èˆÈã‚É‚È‚Á‚½ê‡ ... ‰Šú‰»
-	if (BaseMath::GetLength({ position[1].x - position[0].x, position[1].y - position[0].y }) >= 1500) {
+	if (BaseMath::GetLength({ position[1].x - position[0].x, position[1].y - position[0].y }) >= BaseConst::kWireMaxLength) {
 		Initialize();
 	}
 
