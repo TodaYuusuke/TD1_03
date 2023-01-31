@@ -161,7 +161,7 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	core = objectManager->MakeNewObjectCore(coreCenterPosition, coreTextureSize);
 
 	// フックの画像サイズを設定
-	this->hookTextureSize = { 64.0f, 64.0f };
+	this->hookTextureSize = { 48.0f, 48.0f };
 
 	// 武器のサイズを指定（仮テクスチャのため、今後変える）
 	this->weaponSize = { 0.0f, 0.0f };
@@ -233,6 +233,10 @@ void Boss::Initialize(ObjectManager* objectManager) {
 
 	// オブジェクト生成間隔
 	this->generatedBlockInterval = 0.0f;
+
+	// 色関係初期化
+	this->color = 0xFFFFFFFF;
+	this->coreColor = 0xFFFFFFFF;
 
 }
 
@@ -437,13 +441,18 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 		//　コアの当たり判定の中心座標をセットし続ける
 		// ボスが開いている時はボス自体のヒットボックスを無効にする
-		if (offset > 0) {
+		if (offset > 150) {
 			// 開いてる時に追従
 			core->SetCenterPosition(viewPosition);
+
+			color = 0x333333FF;
+
 		}
 		else {
 			// 開いていないときはありえないほどとおくに
 			core->SetCenterPosition({ 10000.0f, 10000.0f });
+
+			color = 0xFFFFFFFF;
 
 			// ボスのヒットボックスを有効にする
 			EnemyAttackHitBox::MakeNewHitBoxRight(GetRCoverCollision(centerPosition), textureSize.y / 2.0f, degree, bodyDamage);
@@ -566,34 +575,33 @@ void Boss::Draw() {
 		}
 	}
 
-	// ボス核画像
 	BaseDraw::DrawQuad(
 		viewPosition,
 		BaseTexture::kBossCore,
 		coreTextureSize,
 		1.0f,
 		coreDegree,
-		0xFFFFFFFF
+		coreColor
 	);
 
 	// ボス左側フック画像
 	BaseDraw::DesignationDrawQuad(
 		Boss::GetLHookPosition(viewPosition),
 		hookSize,
-		BaseTexture::kBossHook,
+		BaseTexture::kBossLHook,
 		hookTextureSize,
 		degree,
-		0xFFFFFFFF
+		color
 	);
 
 	// ボス右側フック画像
 	BaseDraw::DesignationDrawQuad(
 		Boss::GetRHookPosition(viewPosition),
 		hookSize,
-		BaseTexture::kBossHook,
+		BaseTexture::kBossRHook,
 		hookTextureSize,
 		degree,
-		0xFFFFFFFF
+		color
 	);
 
 	// ボス左側画像
@@ -603,7 +611,7 @@ void Boss::Draw() {
 		textureSize,
 		1.0f,
 		degree,
-		0xFFFFFFFF
+		color
 	);
 
 	// ボス右側画像
@@ -613,7 +621,7 @@ void Boss::Draw() {
 		textureSize,
 		1.0f,
 		degree,
-		0xFFFFFFFF
+		color
 	);
 }
 
@@ -2334,7 +2342,7 @@ void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime,
 		else {
 
 			prevOffset = offset;
-			nextOffset = 150;
+			nextOffset = 175;
 
 			// tを初期化する
 			t = 0.0f;
