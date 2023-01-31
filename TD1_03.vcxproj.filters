@@ -93,6 +93,9 @@
     <ClCompile Include="MyBase\Effect\Inheritance\BlockBreak.cpp">
       <Filter>MyBase\Effect\Inheritance</Filter>
     </ClCompile>
+    <ClCompile Include="Class\PublicFrag\PublicFrag.cpp">
+      <Filter>Class\PublicFrag</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyBase\Effect\BaseEffect.h">
@@ -255,6 +258,9 @@
     <ClInclude Include="MyBase\Effect\Inheritance\BlockBreak.h">
       <Filter>MyBase\Effect\Inheritance</Filter>
     </ClInclude>
+    <ClInclude Include="Class\PublicFrag\PublicFrag.h">
+      <Filter>Class\PublicFrag</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MyBase">
@@ -319,6 +325,9 @@
     </Filter>
     <Filter Include="MyBase\Effect\Inheritance">
       <UniqueIdentifier>{4e7c2685-5a81-4a81-b37b-91e2cc120b29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\PublicFrag">
+      <UniqueIdentifier>{84d89fa3-dc5e-455c-949a-c3b2f6a32d47}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
