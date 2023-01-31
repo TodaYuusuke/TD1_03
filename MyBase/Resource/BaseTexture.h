@@ -68,7 +68,8 @@ public: // 静的なテクスチャの変数
 	static int kBossLCover;
 
 	// フック
-	static int kBossHook;
+	static int kBossLHook;
+	static int kBossRHook;
 
 #pragma endregion
 

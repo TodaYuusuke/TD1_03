@@ -3,6 +3,7 @@
 #include "Class/Object/ObjectManager.h"
 #include "Class/Wire/WireManager.h"
 #include "Class/AttackHitBox/EnemyAttackHitBox.h"
+#include "Class/PublicFrag/PublicFrag.h"
 
 /*********************************************
  * ボスクラス
@@ -475,5 +476,12 @@ private:
 
 	// 核用フック
 	Object* core;
+
+	/******** 色関連 **********/
+	// 殻の色
+	unsigned int color;
+
+	// 核の色
+	unsigned int coreColor;
 
 };
