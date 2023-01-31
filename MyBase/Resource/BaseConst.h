@@ -104,6 +104,9 @@ public: // Ã“I‚È’è”
 	// Æ€‚ÌÅ‘åË’ö
 	static int kPlayerReticleRange;
 
+	// Æ€‚Ì‘å‚«‚³
+	static int kPlayerReticleSize;
+
 #pragma endregion
 
 #pragma region ƒƒCƒ„[
