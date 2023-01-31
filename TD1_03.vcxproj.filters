@@ -93,14 +93,23 @@
     <ClCompile Include="MyBase\Effect\Inheritance\BlockBreak.cpp">
       <Filter>MyBase\Effect\Inheritance</Filter>
     </ClCompile>
-    <ClCompile Include="Class\SceneManager\Scene\BaseScene.cpp">
-      <Filter>Class\SceneManager\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Class\SceneManager\SceneManager.cpp">
       <Filter>Class\SceneManager</Filter>
     </ClCompile>
     <ClCompile Include="Class\PublicFlag\PublicFlag.cpp">
       <Filter>Class\PublicFlag</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\SceneManager\Scene\Title.cpp">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\SceneManager\Scene\TutorialStage.cpp">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\SceneManager\Scene\GameClear.cpp">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\SceneManager\Scene\BossStage.cpp">
+      <Filter>Class\SceneManager\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +281,18 @@
     </ClInclude>
     <ClInclude Include="Class\PublicFlag\PublicFlag.h">
       <Filter>Class\PublicFlag</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\SceneManager\Scene\Title.h">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\SceneManager\Scene\TutorialStage.h">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\SceneManager\Scene\GameClear.h">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\SceneManager\Scene\BossStage.h">
+      <Filter>Class\SceneManager\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

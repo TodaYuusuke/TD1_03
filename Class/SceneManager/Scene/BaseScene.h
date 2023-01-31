@@ -25,7 +25,7 @@ public: // メンバ関数
 	}
 
 
-private: // メンバ変数
+protected: // メンバ変数
 
 	// 次のシーン
 	SceneState nextScene;

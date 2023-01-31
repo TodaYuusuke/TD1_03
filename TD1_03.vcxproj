@@ -113,7 +113,10 @@
     <ClCompile Include="Class\Object\Player\Player.cpp" />
     <ClCompile Include="Class\PublicFlag\PublicFlag.cpp" />
     <ClCompile Include="Class\SceneManager\SceneManager.cpp" />
-    <ClCompile Include="Class\SceneManager\Scene\BaseScene.cpp" />
+    <ClCompile Include="Class\SceneManager\Scene\BossStage.cpp" />
+    <ClCompile Include="Class\SceneManager\Scene\GameClear.cpp" />
+    <ClCompile Include="Class\SceneManager\Scene\Title.cpp" />
+    <ClCompile Include="Class\SceneManager\Scene\TutorialStage.cpp" />
     <ClCompile Include="Class\Wire\Wire.cpp" />
     <ClCompile Include="Class\Wire\WireManager.cpp" />
     <ClCompile Include="Debug.cpp" />
@@ -172,6 +175,10 @@
     <ClInclude Include="Class\PublicFlag\PublicFlag.h" />
     <ClInclude Include="Class\SceneManager\SceneManager.h" />
     <ClInclude Include="Class\SceneManager\Scene\BaseScene.h" />
+    <ClInclude Include="Class\SceneManager\Scene\BossStage.h" />
+    <ClInclude Include="Class\SceneManager\Scene\GameClear.h" />
+    <ClInclude Include="Class\SceneManager\Scene\Title.h" />
+    <ClInclude Include="Class\SceneManager\Scene\TutorialStage.h" />
     <ClInclude Include="Class\Wire\Wire.h" />
     <ClInclude Include="Class\Wire\WireManager.h" />
     <ClInclude Include="Debug.h" />

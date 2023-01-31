@@ -1184,7 +1184,7 @@ void  Boss::Rotate(float endDegree, float RotateTime, float afterWaitTime, WireM
 
 		if (t >= (RotateTime / 2)) {
 			// ワイヤーちぎる
-			PublicFrag::kBossisTurningAndCutWire = true;
+			PublicFlag::kBossisTurningAndCutWire = true;
 		}
 
 		t += 1.0f / 60.0f;
@@ -1192,7 +1192,7 @@ void  Boss::Rotate(float endDegree, float RotateTime, float afterWaitTime, WireM
 	else {
 
 		// ワイヤーをちぎれなくする
-		PublicFrag::kBossisTurningAndCutWire = false;
+		PublicFlag::kBossisTurningAndCutWire = false;
 
 		//t が一定以上になったら行動終了
 		prevAttackPattern[1] = prevAttackPattern[0];
@@ -1568,7 +1568,7 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 
 			if (t >= (slashTime / 2)) {
 				// ワイヤーちぎる
-				PublicFrag::kBossisTurningAndCutWire = true;
+				PublicFlag::kBossisTurningAndCutWire = true;
 			}
 
 			// 分岐：回転斬り以外の場合はtにプラスする値を少しだけ多くする
@@ -1582,7 +1582,7 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 		else {
 
 			// ワイヤーちぎる
-			PublicFrag::kBossisTurningAndCutWire = false;
+			PublicFlag::kBossisTurningAndCutWire = false;
 
 			// 効果音再生
 			Novice::PlayAudio(BaseAudio::kBossClose, 0, 0.1f);

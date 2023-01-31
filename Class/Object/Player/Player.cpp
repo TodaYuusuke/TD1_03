@@ -153,6 +153,12 @@ void Player::Draw() {
 		else {
 			BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, 0x550000FF);
 		}
+
+		// Ëoæ‚Ìü—\‘ªü‚ğ•`‰æ
+		Point p1 = BaseDraw::WorldtoScreen(centerPosition);
+		Point p2 = reticlePosition;
+		//Point p2 = BaseMath::TurnPoint({ 2000, 0 }, -BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition));
+		Novice::DrawLine(p1.x, p1.y, p2.x, p2.y, RED);
 	}
 }
 
