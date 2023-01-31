@@ -60,6 +60,15 @@ int BaseConst::kWindowHeight = 1080;
 
 #pragma endregion
 
+#pragma region ブロック
+
+// ブロックが消えるまでのフレーム数
+int BaseConst::kBlockVanishFlame = 1800;
+// ブロックが点滅し始めるフレーム
+int BaseConst::kBlockBeVanish = 300;
+
+
+#pragma endregion
 
 #pragma region プレイヤー
 
