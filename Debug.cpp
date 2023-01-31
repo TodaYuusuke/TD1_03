@@ -33,12 +33,7 @@ void Debug::Update() {
 
 	// Rキーでリセット
 	if (BaseInput::GetKeyboardState(DIK_R, Trigger)) {
-		ObjectHitBox::Initialize();
-		MapManager::Initialize();
-		objectManager.Initialize();
-		wireManager.Initialize();
-		objectManager.MakeNewObjectPlayer({ 100,200 }, &wireManager);
-		boss.Initialize(&objectManager);
+		Initialize();
 	}
 
 	// Eキーで雑魚的生成

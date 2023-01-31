@@ -1,7 +1,6 @@
 #include "MyBase/MyBase.h"
 #include "Class/Object/ObjectManager.h"
 #include "Class/Wire/WireManager.h"
-
 #include "Class/Map/MapManager.h"
 
 #include "Class/Boss/Boss.h"
@@ -32,7 +31,6 @@ public: // ƒƒ“ƒoŠÖ”
 
 
 private: // ƒƒ“ƒo•Ï”
-
 
 	ObjectManager objectManager;
 	WireManager wireManager;

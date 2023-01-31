@@ -13,13 +13,30 @@ BossStage::~BossStage() {
 
 // ‰Šú‰»
 void BossStage::Initialize() {
-	nextScene = None;
+	nextScene = sceneNone;
+
+	PublicFlag::Initialize();
+	ObjectHitBox::Initialize();
+	MapManager::Initialize();
+	objectManager.Initialize();
+	wireManager.Initialize();
+	objectManager.MakeNewObjectPlayer({ 100,200 }, &wireManager);
+	boss.Initialize(&objectManager);
 }
 // XV
 void BossStage::Update() {
+
+	MapManager::Update();
+	boss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
+	objectManager.Update();
+	wireManager.Update(&objectManager);
 
 }
 // •`‰æ
 void BossStage::Draw() {
 
+	MapManager::Draw();
+	boss.Draw();
+	objectManager.Draw();
+	wireManager.Draw();
 }
