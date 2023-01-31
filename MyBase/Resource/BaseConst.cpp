@@ -95,7 +95,10 @@ int BaseConst::kPlayerJumpCoolTime = 40;
 // Æ€ //
 
 // Æ€‚ÌÅ‘åË’ö
-int BaseConst::kPlayerReticleRange = 1000;
+int BaseConst::kPlayerReticleRange = 1500;
+
+// Æ€‚ÌƒTƒCƒY
+int BaseConst::kPlayerReticleSize = 10;
 
 #pragma endregion
 
