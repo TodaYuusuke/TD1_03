@@ -26,6 +26,10 @@ void BossStage::Initialize() {
 // çXêV
 void BossStage::Update() {
 
+	if(BaseInput::GetKeyboardState(DIK_E, Trigger)) {
+		PublicFlag::kisStaging = !PublicFlag::kisStaging;
+	}
+
 	MapManager::Update();
 	boss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
 	objectManager.Update();
