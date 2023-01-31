@@ -25,6 +25,9 @@ void BossStage::Initialize() {
 }
 // 更新
 void BossStage::Update() {
+	// 当たり判定が更新
+	EnemyAttackHitBox::Initialize();
+
 	MapManager::Update();
 	boss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
 	objectManager.Update();
