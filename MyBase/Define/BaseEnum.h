@@ -38,21 +38,21 @@ enum InputState {
 // ゲームシーン
 enum SceneState {
 	// 無し（シーン切り替え無し）
-	None,
+	sceneNone,
 	// タイトル
-	Title,
+	sceneTitle,
 	// OP
-	OP,
+	sceneOP,
 	// チュートリアルステージ
-	TutorialStage,
+	sceneTutorialStage,
 	// ボスステージ
-	BossStage,
+	sceneBossStage,
 	// ゲームクリア
-	GameClear,
+	sceneGameClear,
 	// ゲームオーバー
-	GameOVer,
+	sceneGameOVer,
 	// ゲーム終了（プログラム終了）
-	End
+	sceneEnd
 };
 
 

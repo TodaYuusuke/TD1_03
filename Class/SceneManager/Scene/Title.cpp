@@ -13,13 +13,18 @@ Title::~Title() {
 
 // èâä˙âª
 void Title::Initialize() {
-	nextScene = None;
+	nextScene = sceneNone;
 }
 // çXêV
 void Title::Update() {
 
+	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger)) {
+		nextScene = sceneTutorialStage;
+	}
+
 }
 // ï`âÊ
 void Title::Draw() {
-
+	Novice::ScreenPrintf(1920 / 2, 1080 / 2, "Title");
+	Novice::ScreenPrintf(1920 / 2, 1080 / 2 + 20, "Push Space to next");
 }

@@ -13,7 +13,7 @@ GameClear::~GameClear() {
 
 // ‰Šú‰»
 void GameClear::Initialize() {
-	nextScene = None;
+	nextScene = sceneNone;
 }
 // XV
 void GameClear::Update() {

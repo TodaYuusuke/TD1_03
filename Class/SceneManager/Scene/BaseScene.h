@@ -6,7 +6,7 @@ public: // ƒƒ“ƒoŠÖ”
 
 	// ‰Šú‰»
 	virtual void Initialize() {
-		nextScene = None;
+		nextScene = sceneNone;
 	}
 	// XV
 	virtual void Update() {
