@@ -476,4 +476,11 @@ private:
 	// 核用フック
 	Object* core;
 
+	/******** 色関連 **********/
+	// 殻の色
+	unsigned int color;
+
+	// 核の色
+	unsigned int coreColor;
+
 };
