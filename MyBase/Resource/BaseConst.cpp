@@ -13,8 +13,9 @@ void BaseConst::Initialize() {
 // 定数のロードを100分割で行う。全てのロードが完了するまで呼び出させる（今回は％は実装しない、ロードするだけ）
 bool BaseConst::Loading() {
 
+	// チュートリアルステージロード
 	std::vector<std::string> map;
-	std::ifstream mapifs("./Resources/Const/mapSample.csv");
+	std::ifstream mapifs("./Resources/Const/TutorialStage.csv");
 	std::string line;
 
 	int y = 0;
@@ -24,7 +25,23 @@ bool BaseConst::Loading() {
 		std::vector<std::string> strvec = split(line, ',');
 
 		for (int x = 0; x < strvec.size(); x++) {
-			kMapData[y][x] = stoi(strvec.at(x));
+			kTutorialStageData[y][x] = stoi(strvec.at(x));
+		}
+
+		y++;
+	}
+
+	// ボスステージロード
+	mapifs.open("./Resources/Const/BossStage.csv");
+
+	y = 0;
+
+	while (getline(mapifs, line)) {
+
+		std::vector<std::string> strvec = split(line, ',');
+
+		for (int x = 0; x < strvec.size(); x++) {
+			kBossStageData[y][x] = stoi(strvec.at(x));
 		}
 
 		y++;
@@ -121,6 +138,7 @@ int BaseConst::kMapChipSizeWidth = 32;
 int BaseConst::kMapChipSizeHeight = 32;
 
 // マップデータ
-int BaseConst::kMapData[kMapSizeHeight][kMapSizeWidth];
+int BaseConst::kTutorialStageData[kTutorialStageSizeWidth][kTutorialStageSizeHeight];
+int BaseConst::kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
 
 #pragma endregion

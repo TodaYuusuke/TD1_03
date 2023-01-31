@@ -120,7 +120,7 @@ Boss::~Boss() {
 // 初期化処理
 void Boss::Initialize(ObjectManager* objectManager) {
 	// ボスの位置を画面中央に持っていく
-	this->centerPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
+	this->centerPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
 	// ボスの画像サイズを設定
 	this->textureSize = { 225.0f, 450.0f };
 	// ボスのオフセットを初期化
@@ -2063,7 +2063,7 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 	case Boss::WAYPOINT0:
 		// 中心座標取得
 		prevCenterPosition = centerPosition;
-		nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
+		nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
 
 		// t初期化
 		t = 0.0f;
@@ -2114,7 +2114,7 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 
 			// 座標設定
 			prevCenterPosition = centerPosition;
-			nextCenterPosition = { centerPosition.x, ((float)BaseConst::kMapSizeHeight * (float)BaseConst::kMapChipSizeHeight - (float)BaseConst::kMapChipSizeHeight) - (textureSize.y / 2) };
+			nextCenterPosition = { centerPosition.x, ((float)BaseConst::kBossStageSizeHeight * (float)BaseConst::kMapChipSizeHeight - (float)BaseConst::kMapChipSizeHeight) - (textureSize.y / 2) };
 
 			// 次の段階
 			actionWayPoint++;
@@ -2157,7 +2157,7 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 		else {
 
 			// 現在の座標を記録する
-			prevCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
+			prevCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
 			nextCenterPosition = centerPosition;
 
 			// tを初期化
@@ -2319,7 +2319,7 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 		else {
 
 			prevCenterPosition = centerPosition;
-			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
+			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
 
 			prevDegree = degree;
 
@@ -2495,7 +2495,7 @@ void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime,
 			vibInit = false;
 
 			prevCenterPosition = centerPosition;
-			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
+			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
 
 			prevDegree = degree;
 

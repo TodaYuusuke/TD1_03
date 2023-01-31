@@ -12,26 +12,26 @@ MapManager::~MapManager() {
 
 // 初期化
 void MapManager::Initialize() {
-	for (int y = 0; y < BaseConst::kMapSizeHeight; y++) {
-		for (int x = 0; x < BaseConst::kMapSizeWidth; x++) {
-            map[y][x].Initialize((MapChipType)BaseConst::kMapData[y][x]);
+	for (int y = 0; y < BaseConst::kBossStageSizeHeight; y++) {
+		for (int x = 0; x < BaseConst::kBossStageSizeWidth; x++) {
+            map[y][x].Initialize((MapChipType)BaseConst::kBossStageData[y][x]);
 		}
 	}
 }
 // 更新
 void MapManager::Update() {
-	for (int y = 0; y < BaseConst::kMapSizeHeight; y++) {
-		for (int x = 0; x < BaseConst::kMapSizeWidth; x++) {
+	for (int y = 0; y < BaseConst::kBossStageSizeHeight; y++) {
+		for (int x = 0; x < BaseConst::kBossStageSizeWidth; x++) {
 			map[y][x].Update();
 		}
 	}
 }
 // 描画
 void MapManager::Draw() {
-	for (int y = 0; y < BaseConst::kMapSizeHeight; y++) {
-		for (int x = 0; x < BaseConst::kMapSizeWidth; x++) {
+	for (int y = 0; y < BaseConst::kBossStageSizeHeight; y++) {
+		for (int x = 0; x < BaseConst::kBossStageSizeWidth; x++) {
             // もし画面外の場合は描画しない
-            Point drawPosition = { (float)x * BaseConst::kMapChipSizeWidth, (float)(BaseConst::kMapSizeHeight - y) * BaseConst::kMapChipSizeHeight};
+            Point drawPosition = { (float)x * BaseConst::kMapChipSizeWidth, (float)(BaseConst::kBossStageSizeHeight - y) * BaseConst::kMapChipSizeHeight};
             drawPosition = BaseDraw::WorldtoScreen(drawPosition);
 
             if (drawPosition.y > 0 - BaseConst::kMapChipSizeHeight) {
@@ -54,18 +54,18 @@ void MapManager::Draw() {
 /// <returns>ヒットしていた場合 ... true、ヒットしていなかった場合 ... false</returns>
 bool MapManager::CheckHitBox(Point hitPosition) {
 
-    int y = BaseConst::kMapSizeHeight - (hitPosition.y / BaseConst::kMapChipSizeHeight);
+    int y = BaseConst::kBossStageSizeHeight - (hitPosition.y / BaseConst::kMapChipSizeHeight);
     int x = hitPosition.x / BaseConst::kMapChipSizeWidth;
 
-    if (y < 0 || y >= BaseConst::kMapSizeHeight) {
+    if (y < 0 || y >= BaseConst::kBossStageSizeHeight) {
         return false;
     }
-    if (x < 0 || x >= BaseConst::kMapSizeWidth) {
+    if (x < 0 || x >= BaseConst::kBossStageSizeWidth) {
         return false;
     }
 
     hitPosition.x -= x * BaseConst::kMapChipSizeWidth;
-    hitPosition.y -= (BaseConst::kMapSizeHeight - y - 1) * BaseConst::kMapChipSizeHeight;
+    hitPosition.y -= (BaseConst::kBossStageSizeHeight - y - 1) * BaseConst::kMapChipSizeHeight;
 
     return map[y][x].CheckHitBox(hitPosition);
 }
@@ -94,7 +94,7 @@ int MapManager::GetMapChipType(int y, int x) {
     }
 
     // 場外じゃないかチェック
-    if (y + 1 >= BaseConst::kMapSizeHeight) {
+    if (y + 1 >= BaseConst::kBossStageSizeHeight) {
         // 場外ならば下はあると仮定する
         down = true;
     }
@@ -124,7 +124,7 @@ int MapManager::GetMapChipType(int y, int x) {
     }
 
     // 場外じゃないかチェック
-    if (x + 1 >= BaseConst::kMapSizeWidth) {
+    if (x + 1 >= BaseConst::kBossStageSizeWidth) {
         // 場外ならば右はあると仮定する
         right = true;
     }
@@ -208,4 +208,4 @@ int MapManager::GetMapChipType(int y, int x) {
 
 
 // マップの配列
-Map MapManager::map[BaseConst::kMapSizeHeight][BaseConst::kMapSizeWidth];
+Map MapManager::map[BaseConst::kBossStageSizeHeight][BaseConst::kBossStageSizeWidth];

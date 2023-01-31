@@ -90,14 +90,14 @@ void Player::SuccessorUpdate() {
 		if (screenPos.x < 0) {
 			screenPos.x = 0;
 		}
-		else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth) {
-			screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth - BaseConst::kWindowWidth;
+		else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth) {
+			screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth - BaseConst::kWindowWidth;
 		}
 		if (screenPos.y - BaseConst::kWindowHeight < 0) {
 			screenPos.y = BaseConst::kWindowHeight;
 		}
-		else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight) {
-			screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight;
+		else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight) {
+			screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight;
 		}
 
 		//////////　　ここで線形補完　　//////////
@@ -172,11 +172,11 @@ void Player::Draw() {
 			// 射程を一定以下にする
 			Point range = BaseMath::GetVector(p1, p2);
 			// 最大射程より遠かったら
-			float diff = BaseMath::GetLength(range) - BaseConst::kPlayerReticleRange;;
+			float diff = BaseMath::GetLength(range) - BaseConst::kPlayerReticleRange;
 			if (0.0f < diff) {
 				Point e = BaseMath::GetNormalize(range);
-				p2.x -= e.x * diff;
-				p2.y += e.y * diff;
+				p2.x = p1.x + e.x * BaseConst::kWireMaxLength;
+				p2.y = p1.y + e.y * BaseConst::kWireMaxLength;
 			}
 			//Point p2 = BaseMath::TurnPoint({ 2000, 0 }, -BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition));
 			Novice::DrawLine(p1.x, p1.y, p2.x, p2.y, RED);
