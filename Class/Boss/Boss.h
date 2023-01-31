@@ -302,7 +302,7 @@ private:
 
 	/******** HP関連 **********/
 	// HP(ここで初期化)
-	const float MaxHP = 5.0f;
+	const float MaxHP = 10.0f;
 	float HP;
 
 	/******** ダメージ関連 **********/

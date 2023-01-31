@@ -622,6 +622,9 @@ void Boss::Draw() {
 		degree,
 		color
 	);
+	// ボスHPゲージ（仮）
+	Novice::DrawBox(450, 100, 0 + 100 * HP, 30, 0.0f, 0xdc143cFF, kFillModeSolid);
+
 }
 
 // ボス自体の当たり判定を返す関数
