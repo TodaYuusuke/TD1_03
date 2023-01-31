@@ -26,6 +26,9 @@ void BossStage::Initialize() {
 // 更新
 void BossStage::Update() {
 
+	// 当たり判定が更新
+	EnemyAttackHitBox::Initialize();
+
 	if(BaseInput::GetKeyboardState(DIK_E, Trigger)) {
 		PublicFlag::kisStaging = !PublicFlag::kisStaging;
 	}

@@ -626,8 +626,11 @@ void Boss::Draw() {
 		degree,
 		color
 	);
-	// ボスHPゲージ（仮）
-	Novice::DrawBox(450, 100, 0 + 100 * HP, 30, 0.0f, 0xdc143cFF, kFillModeSolid);
+
+	if (isBattleStart == true) {
+		// ボスHPゲージ（仮）
+		Novice::DrawBox(450, 100, 0 + 100 * HP, 30, 0.0f, 0xdc143cFF, kFillModeSolid);
+	}
 
 }
 
@@ -917,6 +920,9 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 		// 初期化
 	case Boss::WAYPOINT0:
 
+		// 演出中の状態に
+		PublicFlag::kisStaging = true;
+
 		// オフセットを初期化
 		offset = 100;
 		
@@ -1009,6 +1015,10 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 			t += 1.0f / 60.0f;
 		}
 		else {
+
+			// 演出中の状態に
+			PublicFlag::kisStaging = false;
+
 			// 初期化
 			isBattleStart = true;
 			t = 0.0f;
