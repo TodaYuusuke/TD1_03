@@ -134,6 +134,12 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	//シェイクしていない状態に戻す
 	this->shakeVariation = { 0.0f, 0.0f };
 
+	// カットシーン用カメラ移動前座標
+	this->prevScreenPosition = {0.0f, 0.0f};
+
+	// カットシーン用カメラ移動後座標
+	this->nextScreenPosition = {0.0f, 0.0f};
+
 	// バイブレーション初期化
 	vibInit = false;
 
@@ -238,6 +244,12 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	this->color = 0xFFFFFFFF;
 	this->coreColor = 0xFFFFFFFF;
 
+	// 演出スキップ用
+	LongPressFrame = 0.0f;
+
+	// 現在演出中か
+	isPlayingAnim = false;
+
 }
 
 // 更新処理
@@ -286,6 +298,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		else if (HP <= 0) {
 			// HPが0以下になったらボスを死亡状態にする
 			inDead = true;
+			HP = 0;
 		}
 
 		// 行動の分岐処理
@@ -525,9 +538,18 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			if (generatedBlockInterval < 0) {
 				if (generatedBlockValue > 0) {
 					float blockSize = BaseMath::RandomF(20.0f, 60.0f, 0);
+
+					Point spawnPoint = { BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kMapSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1),
+						(float)BaseConst::kMapSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize };
+
+					// 範囲内だった場合は再抽選
+					while (spawnPoint.x + blockSize >= centerPosition.x - textureSize.x / 2.0f && spawnPoint.x - blockSize <= centerPosition.x + textureSize.x / 2.0f)
+					{
+						spawnPoint = { BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kMapSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1),
+						(float)BaseConst::kMapSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize };
+					}
 					// ランダムな位置に、ランダムな大きさのブロックを生成
-					objectManager->MakeNewObjectBlock({ BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kMapSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1),
-						(float)BaseConst::kMapSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize }, { blockSize, blockSize });
+					objectManager->MakeNewObjectBlock(spawnPoint, { blockSize, blockSize });
 					generatedBlockValue--;
 				}
 				else {
@@ -544,8 +566,20 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		beforeDegree = degree;
 	}
 	else {
-	// 開始アニメーション再生
-	PlayStartAnim(5.0f, 0.25f, 3.0f, 0.2f);
+		// 開始アニメーション再生
+		PlayStartAnim(2.5f, 5.0f, 0.25f, 2.5f, 1.0f);
+
+		if (isPlayingAnim == true && PublicFlag::kisStaging == false) {
+			// 演出終了
+			PublicFlag::kisStaging = false;
+			isPlayingAnim = false;
+
+			// 初期化
+			isBattleStart = true;
+			LongPressFrame = 0.0f;
+			t = 0.0f;
+			actionWayPoint = WAYPOINT0;
+		}
 	}
 }
 
@@ -910,11 +944,12 @@ void Boss::vibration(int shakeStrength, float vibTime, float vibRate, int vibVal
 /// <summary>
 /// 戦闘開始時のアニメーションを再生する関数
 /// </summary>
+/// <param name="cameraMoveTime">振動する時間</param>
 /// <param name="vibTime">振動する時間</param>
 /// <param name="closeTime1">ボスが途中まで閉じるのにかかる時間</param>
 /// <param name="roarTime">咆哮する時間</param>
 /// <param name="closeTime2">ボスを完全に閉じる時間</param>
-void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float closeTime2) {
+void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, float roarTime, float closeTime2) {
 	switch (actionWayPoint)
 	{
 		// 初期化
@@ -922,13 +957,15 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 
 		// 演出中の状態に
 		PublicFlag::kisStaging = true;
+		isPlayingAnim = true;
+
+		// スクリーン座標記録
+		prevScreenPosition = BaseDraw::GetScreenPosition();
+		nextScreenPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2) - (float)(BaseConst::kWindowWidth / 2),
+			(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) + (float)(BaseConst::kWindowHeight / 2) };
 
 		// オフセットを初期化
 		offset = 100;
-		
-		// オフセットの開始値と終端値をリセット
-		prevOffset = offset;
-		nextOffset = 110;
 
 		// t初期化
 		t = 0.0f;
@@ -938,6 +975,33 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 		break;
 		// 振動する
 	case Boss::WAYPOINT1:
+		if (t <= cameraMoveTime) {
+
+			// スクリーンを動かす
+			Point screenPosition;
+
+			screenPosition.x = BaseDraw::Ease_Out(t, prevScreenPosition.x, nextScreenPosition.x - prevScreenPosition.x, cameraMoveTime);
+			screenPosition.y = BaseDraw::Ease_Out(t, prevScreenPosition.y, nextScreenPosition.y - prevScreenPosition.y, cameraMoveTime);
+
+			BaseDraw::SetScreenPosition(screenPosition);
+
+			// tを加算する
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// オフセットの開始値と終端値をリセット
+			prevOffset = offset;
+			nextOffset = 110;
+
+			// 初期化
+			t = 0.0f;
+			actionWayPoint++;
+		}
+
+		break;
+		// 途中まで閉じる
+	case Boss::WAYPOINT2:
 		if (t <= vibTime) {
 
 			// 定期的に振動させる
@@ -960,8 +1024,9 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 			actionWayPoint++;
 		}
 		break;
-		// 途中まで閉じる
-	case Boss::WAYPOINT2:
+
+		// 咆哮 (振動)
+	case Boss::WAYPOINT3:
 		if (t <= closeTime1) {
 
 			// 閉じるときに振動させる
@@ -978,9 +1043,10 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 			t = 0.0f;
 			actionWayPoint++;
 		}
+		
 		break;
-		// 咆哮 (振動)
-	case Boss::WAYPOINT3:
+		// 完全に閉じる
+	case Boss::WAYPOINT4:
 		if (t <= roarTime) {
 
 			if (t > 1.0f) {
@@ -1001,12 +1067,19 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 			actionWayPoint++;
 		}
 		break;
-		// 完全に閉じる
-	case Boss::WAYPOINT4:
+	case Boss::WAYPOINT5:
 		if (t <= closeTime2) {
 
 			// オフセットを縮める
 			offset = BaseDraw::Ease_InOut(t, prevOffset, -prevOffset, closeTime2);
+
+			// スクリーンを動かす
+			Point screenPosition;
+
+			screenPosition.x = BaseDraw::Ease_Out(t, nextScreenPosition.x, prevScreenPosition.x - nextScreenPosition.x, closeTime2);
+			screenPosition.y = BaseDraw::Ease_Out(t, nextScreenPosition.y, prevScreenPosition.y - nextScreenPosition.y, closeTime2);
+
+			BaseDraw::SetScreenPosition(screenPosition);
 
 			// 中心座標に戻す
 			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, closeTime2);
@@ -1016,16 +1089,15 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 		}
 		else {
 
-			// 演出中の状態に
+			// 演出終了
 			PublicFlag::kisStaging = false;
+			isPlayingAnim = false;
 
 			// 初期化
 			isBattleStart = true;
 			t = 0.0f;
 			actionWayPoint = WAYPOINT0;
 		}
-		break;
-	case Boss::WAYPOINT5:
 		break;
 	case Boss::WAYPOINT6:
 		break;
