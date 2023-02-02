@@ -248,7 +248,13 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	LongPressFrame = 0.0f;
 
 	// 現在演出中か
-	isPlayingAnim = false;
+	isPlayingStartAnim = false;
+
+	// 死亡アニメーション
+	isPlayingDeadAnim = false;
+
+	// 死亡アニメーションが終了しているか
+	isEndDeadAnim = false;
 
 }
 
@@ -300,10 +306,10 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		}
 
 		// 死亡状態の時の実行処理
-		if (inDead == true) {
-			Novice::ScreenPrintf(BaseConst::kWindowWidth / 2, BaseConst::kWindowHeight / 2, "BOSS Dead");
-		}
-		else if (HP <= 0) {
+		if (HP <= 0) {
+			if (isEndDeadAnim == false) {
+				isPlayingDeadAnim = true;
+			}
 			// HPが0以下になったらボスを死亡状態にする
 			inDead = true;
 			HP = 0;
@@ -464,7 +470,9 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			// 開いてる時に追従
 			core->SetCenterPosition(viewPosition);
 
-			color = 0x333333FF;
+			if (isPlayingDeadAnim == false) {
+				color = 0x333333FF;
+			}
 
 			// ボスのヒットボックスを有効にする
 			EnemyAttackHitBox::MakeNewHitBoxRight({ 10000.0f, 10000.0f }, textureSize.y / 2.0f, degree, bodyDamage);
@@ -475,7 +483,9 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			// 開いていないときはありえないほどとおくに
 			core->SetCenterPosition({ 10000.0f, 10000.0f });
 
-			color = 0xFFFFFFFF;
+			if (isPlayingDeadAnim == false) {
+				color = 0xFFFFFFFF;
+			}
 
 			// ボスのヒットボックスを有効にする
 			EnemyAttackHitBox::MakeNewHitBoxRight(GetRCoverCollision(centerPosition), textureSize.y / 2.0f, degree, bodyDamage);
@@ -564,15 +574,20 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 		// 最後に1フレーム前の角度を取得
 		beforeDegree = degree;
+
+		if (isPlayingDeadAnim == true && isEndDeadAnim == false) {
+			PlayDeadAnim(1.0f, 3.0f, 3.0f, 0.5f, 2.0f);
+		}
+
 	}
 	else {
 		// 開始アニメーション再生
 		PlayStartAnim(2.5f, 5.0f, 0.25f, 2.5f, 1.0f);
 
-		if (isPlayingAnim == true && PublicFlag::kisStaging == false) {
+		if (isPlayingStartAnim == true && PublicFlag::kisStaging == false) {
 			// 演出終了
 			PublicFlag::kisStaging = false;
-			isPlayingAnim = false;
+			isPlayingStartAnim = false;
 
 			// 初期化
 			isBattleStart = true;
@@ -827,6 +842,11 @@ void Boss::Debug() {
 		canTakeDamage = true;
 	}
 
+	if (BaseInput::GetKeyboardState(DIK_UP, Trigger)) {
+		actionWayPoint = WAYPOINT0;
+		isPlayingDeadAnim = true;
+	}
+
 	// ボスを左右に開かせる
 	if (BaseInput::GetKeyboardState(DIK_I, Press))
 		offset += 1.0f;
@@ -958,7 +978,7 @@ void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, 
 
 		// 演出中の状態に
 		PublicFlag::kisStaging = true;
-		isPlayingAnim = true;
+		isPlayingStartAnim = true;
 
 		// スクリーン座標記録
 		prevScreenPosition = BaseDraw::GetScreenPosition();
@@ -1092,7 +1112,7 @@ void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, 
 
 			// 演出終了
 			PublicFlag::kisStaging = false;
-			isPlayingAnim = false;
+			isPlayingStartAnim = false;
 
 			// 初期化
 			isBattleStart = true;
@@ -1116,7 +1136,172 @@ void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, 
 /// <param name="explosiveTime">サイズを大きくして爆発する</param>
 /// <param name="cameraBackTime">カメラが元の位置に帰るまでの時間</param>
 void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime){
+	switch (actionWayPoint)
+	{
+		// 初期化
+	case Boss::WAYPOINT0:
 
+		// 演出中の状態に
+		PublicFlag::kisStaging = true;
+		isPlayingDeadAnim = true;
+
+		// スクリーン座標記録
+		prevScreenPosition = BaseDraw::GetScreenPosition();
+		nextScreenPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2) - (float)(BaseConst::kWindowWidth / 2),
+			(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) + (float)(BaseConst::kWindowHeight / 2) - 250.0f };
+
+		// 中心座標取得
+		prevCenterPosition = centerPosition;
+		nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) - 250.0f };
+
+		prevOffset = offset;
+		nextOffset = 175;
+
+		// 角度取得
+		prevDegree = degree;
+
+		// 初期化
+		t = 0.0f;
+		actionWayPoint++;
+
+		break;
+		// カメラとボスを中心に持っていく
+	case Boss::WAYPOINT1:
+		if (t <= cameraMoveTime) {
+
+			// スクリーンを動かす
+			Point screenPosition;
+
+			screenPosition.x = BaseDraw::Ease_InOut(t, prevScreenPosition.x, nextScreenPosition.x - prevScreenPosition.x, cameraMoveTime);
+			screenPosition.y = BaseDraw::Ease_InOut(t, prevScreenPosition.y, nextScreenPosition.y - prevScreenPosition.y, cameraMoveTime);
+
+			BaseDraw::SetScreenPosition(screenPosition);
+
+			// 画面中央へ戻す
+			centerPosition.x = BaseDraw::Ease_Out(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, cameraMoveTime);
+			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, cameraMoveTime);
+
+			// 角度を0に
+			degree = BaseDraw::Ease_Out(t, prevDegree, -prevDegree, cameraMoveTime);
+
+			// オフセット開く
+			offset = BaseDraw::Ease_Out(t, prevOffset, nextOffset - prevOffset, cameraMoveTime);
+
+			// tを少しづつプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// スクリーン座標記録
+			prevScreenPosition = BaseDraw::GetScreenPosition();
+			nextScreenPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2) - (float)(BaseConst::kWindowWidth / 2),
+				(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) + (float)(BaseConst::kWindowHeight / 2) };
+
+			// コアとボスを分離させる
+			coreSeparated = true;
+
+			// コアの座標を設定
+			prevCoreCenterPosition = coreCenterPosition;
+			nextCoreCenterPosition = { coreCenterPosition.x, (float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
+
+			// 色を取得
+			color = 0x333333FF;
+			prevColor = color;
+			nextColor = 0x33333300;
+
+			// 中心座標取得
+			prevCenterPosition = centerPosition;
+			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) - 250.0f };
+
+			// オフセットを設定
+			prevOffset = offset;
+			nextOffset = 200;
+
+			// 次の行動へ
+			t = 0.0f;
+			actionWayPoint++;
+
+		}
+		break;
+		// 核と殻が分離する
+	case Boss::WAYPOINT2:
+		if (t <= separationTime) {
+
+			// スクリーンを動かす
+			Point screenPosition;
+
+			screenPosition.x = BaseDraw::Ease_Out(t, prevScreenPosition.x, nextScreenPosition.x - prevScreenPosition.x, separationTime);
+			screenPosition.y = BaseDraw::Ease_Out(t, prevScreenPosition.y, nextScreenPosition.y - prevScreenPosition.y, separationTime);
+
+			BaseDraw::SetScreenPosition(screenPosition);
+
+			// 画面中央へ戻す
+			coreCenterPosition.x = BaseDraw::Ease_InOut(t, prevCoreCenterPosition.x, nextCoreCenterPosition.x - prevCoreCenterPosition.x, separationTime);
+			coreCenterPosition.y = BaseDraw::Ease_InOut(t, prevCoreCenterPosition.y, nextCoreCenterPosition.y - prevCoreCenterPosition.y, separationTime);
+
+			color = ColorEasing(t, prevColor, nextColor, separationTime);
+
+			// tを少しづつプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// 次の行動へ
+			t = 0.0f;
+			actionWayPoint++;
+
+		}
+
+		break;
+		// 振動しながら縮む
+	case Boss::WAYPOINT3:
+		if (t <= vibTime) {
+			// tを少しづつプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// 次の行動へ
+			t = 0.0f;
+			actionWayPoint++;
+
+		}
+
+		break;
+		// サイズを大きくして爆発
+	case Boss::WAYPOINT4:
+		if (t <= explosiveTime) {
+			// tを少しづつプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// 次の行動へ
+			t = 0.0f;
+			actionWayPoint++;
+
+		}
+		break;
+		// カメラを元の位置に戻す
+	case Boss::WAYPOINT5:
+		if (t <= cameraBackTime) {
+			// tを少しづつプラスする
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// 次の行動へ
+			t = 0.0f;
+			actionWayPoint++;
+
+		}
+		break;
+	case Boss::WAYPOINT6:
+
+		break;
+	default:
+		break;
+	}
 }
 
 // 行動なし関数

@@ -46,6 +46,22 @@ private:
 		メンバ関数
 	*********************************/
 
+	//イーズアウト（Int型）
+	int IntEaseOut(float t, long int b, long int c, float d) {
+		float easeT = 1.0f - powf(1.0f - t / d, 3.0f);
+		return (1.0f - easeT) * b + easeT * c;
+	}
+
+	// カラーイージング
+	unsigned int ColorEasing(float t, unsigned int startColor, unsigned int endColor, float easingTime) {
+		unsigned int red = IntEaseOut(t, (((startColor & 0xFF000000) >> 24) & 0xFF), (((endColor & 0xFF000000) >> 24) & 0xFF), easingTime);
+		unsigned int green = IntEaseOut(t, (((startColor & 0x00FF0000) >> 16) & 0xFF), (((endColor & 0x00FF0000) >> 16) & 0xFF), easingTime);
+		unsigned int blue = IntEaseOut(t, (((startColor & 0x0000FF00) >> 8) & 0xFF), (((endColor & 0x0000FF00) >> 8) & 0xFF), easingTime);
+		unsigned int alpha = IntEaseOut(t, (((startColor & 0x000000FF)) & 0xFF), (((endColor & 0x000000FF)) & 0xFF), easingTime);
+
+		return (red << 24) + (green << 16) + (blue << 8) + alpha;
+	}
+
 	/******** 変換関数 **********/
 	// ボス左画像の座標を求める
 	Point GetLCoverPosition(Point centerPosition);
@@ -317,7 +333,13 @@ private:
 	float LongPressFrame;
 
 	// 現在演出中か
-	bool isPlayingAnim;
+	// 開始アニメーション
+	bool isPlayingStartAnim;
+	// 死亡アニメーション
+	bool isPlayingDeadAnim;
+
+	// 死亡アニメーションが終了しているか
+	bool isEndDeadAnim;
 
 	/******** HP関連 **********/
 	// HP(ここで初期化)
@@ -363,6 +385,11 @@ private:
 	Point prevCenterPosition;
 	// 行動後座標
 	Point nextCenterPosition;
+
+	// 行動前コア座標
+	Point prevCoreCenterPosition;
+	// 行動後コア座標
+	Point nextCoreCenterPosition;
 
 	// 行動前角度
 	int prevDegree;
@@ -506,6 +533,11 @@ private:
 	/******** 色関連 **********/
 	// 殻の色
 	unsigned int color;
+
+	// 行動前色
+	unsigned int prevColor;
+	// 行動後色
+	unsigned int nextColor;
 
 	// 核の色
 	unsigned int coreColor;
