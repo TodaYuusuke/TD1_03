@@ -15,12 +15,12 @@ bool BaseConst::Loading() {
 
 	// チュートリアルステージロード
 	std::vector<std::string> map;
-	std::ifstream mapifs("./Resources/Const/TutorialStage.csv");
+	std::ifstream tutorialMapifs("./Resources/Const/TutorialStage.csv");
 	std::string line;
 
 	int y = 0;
 
-	while (getline(mapifs, line)) {
+	while (getline(tutorialMapifs, line)) {
 
 		std::vector<std::string> strvec = split(line, ',');
 
@@ -32,11 +32,11 @@ bool BaseConst::Loading() {
 	}
 
 	// ボスステージロード
-	mapifs.open("./Resources/Const/BossStage.csv");
+	std::ifstream bossMapifs("./Resources/Const/BossStage.csv");
 
 	y = 0;
 
-	while (getline(mapifs, line)) {
+	while (getline(bossMapifs, line)) {
 
 		std::vector<std::string> strvec = split(line, ',');
 

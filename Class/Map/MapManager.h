@@ -17,7 +17,8 @@ public: // メンバ関数
 
 
 	// 初期化
-	static void Initialize();
+	static void TutorialInitialize();
+	static void BossInitialize();
 	// 更新
 	static void Update();
 	// 描画
@@ -37,6 +38,11 @@ private: // 関数
 
 private: // メンバ変数
 
-	// マップの配列
-	static Map map[BaseConst::kBossStageSizeHeight][BaseConst::kBossStageSizeWidth];
+	// 現在ボスマップの処理を行っているのかフラグ
+	static bool isBoss;
+
+	// チュートリアルマップの配列
+	static Map tutorialMap[BaseConst::kTutorialStageSizeWidth][BaseConst::kTutorialStageSizeHeight];
+	// ボスマップの配列
+	static Map bossMap[BaseConst::kBossStageSizeHeight][BaseConst::kBossStageSizeWidth];
 };

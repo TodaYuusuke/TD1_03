@@ -17,7 +17,7 @@ void BossStage::Initialize() {
 
 	PublicFlag::Initialize();
 	ObjectHitBox::Initialize();
-	MapManager::Initialize();
+	MapManager::BossInitialize();
 	objectManager.Initialize();
 	wireManager.Initialize();
 	objectManager.MakeNewObjectPlayer({ 100,200 }, &wireManager);
