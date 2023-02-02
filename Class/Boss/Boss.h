@@ -114,6 +114,16 @@ private:
 	/// <param name="closeTime2">ボスを完全に閉じる時間</param>
 	void PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, float roarTime, float closeTime2);
 
+	/// <summary>
+	/// 死亡時のアニメーションを再生する関数
+	/// </summary>
+	/// <param name="cameraMoveTime">カメラとボスを中心に持っていく時間</param>
+	/// <param name="separationTime">核と殻が分離するのにかかる時間</param>
+	/// <param name="vibTime">振動しながら縮む時間</param>
+	/// <param name="explosiveTime">サイズを大きくして爆発する</param>
+	/// <param name="cameraBackTime">カメラが元の位置に帰るまでの時間</param>
+	void PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime);
+
 	// 行動なし関数
 	// 返り値：なし
 	// 引数：

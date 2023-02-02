@@ -284,6 +284,14 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		Debug();
 	}
 
+	Point viewPosition = { centerPosition.x + shakeVariation.x,centerPosition.y + shakeVariation.y };
+
+	// 核が分離していない状態では核をボスに追従させる
+	if (coreSeparated == false) {
+		coreCenterPosition = viewPosition;
+		coreDegree = degree;
+	}
+
 	if (isBattleStart == true) {
 
 		if (HP == 0) {
@@ -450,8 +458,6 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 		degree %= 360;
 
-		Point viewPosition = { centerPosition.x + shakeVariation.x,centerPosition.y + shakeVariation.y };
-
 		//　コアの当たり判定の中心座標をセットし続ける
 		// ボスが開いている時はボス自体のヒットボックスを無効にする
 		if (offset > 150) {
@@ -496,12 +502,6 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree, bladeDamage);
 		EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree - 30.0f, bladeDamage);
 		EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree + 30.0f, bladeDamage);
-
-		// 核が分離していない状態では核をボスに追従させる
-		if (coreSeparated == false) {
-			coreCenterPosition = centerPosition;
-			coreDegree = degree;
-		}
 
 		/// 弾関係の更新処理
 		// 発射地点の更新
@@ -612,8 +612,9 @@ void Boss::Draw() {
 		}
 	}
 
+	// ボスのコア
 	BaseDraw::DrawQuad(
-		viewPosition,
+		coreCenterPosition,
 		BaseTexture::kBossCore,
 		coreTextureSize,
 		1.0f,
