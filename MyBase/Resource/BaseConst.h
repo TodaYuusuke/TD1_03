@@ -135,7 +135,7 @@ public: // 静的な定数
 
 
 	// マップデータ
-	static int kTutorialStageData[kTutorialStageSizeWidth][kTutorialStageSizeHeight];
+	static int kTutorialStageData[kTutorialStageSizeHeight][kTutorialStageSizeWidth];
 	static int kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
 
 #pragma endregion
