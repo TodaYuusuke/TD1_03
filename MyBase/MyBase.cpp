@@ -54,12 +54,6 @@ void MyBase::Update() {
 
 	BaseEffectManager::Update();
 
-}
-
-// 描画
-void MyBase::Draw(){
-	BaseEffectManager::Draw();
-	BaseInput::Draw();
 
 	// 演出が始まったら黒幕を表示
 	if (PublicFlag::kisStaging) {
@@ -68,6 +62,21 @@ void MyBase::Draw(){
 			easingT = 0.5f;
 		}
 		width = BaseDraw::Ease_Out(easingT, 0, BaseConst::kWindowWidth, 0.5f);
+
+		// スキップ用の処理
+		if (BaseInput::GetKeyboardState(DIK_SPACE, Press)) {
+			longPressedFrame++;
+
+			if (longPressedFrame > 60) {
+				PublicFlag::kisStaging = false;
+				longPressedFrame = 0;
+			}
+		}
+		else {
+			if (longPressedFrame > 0) {
+				longPressedFrame--;
+			}
+		}
 	}
 	else {
 		easingT -= 1.0f / 60.0f;
@@ -76,10 +85,19 @@ void MyBase::Draw(){
 		}
 		width = BaseDraw::Ease_In(easingT, 0, BaseConst::kWindowWidth, 0.5f);
 	}
+}
+
+// 描画
+void MyBase::Draw(){
+	BaseEffectManager::Draw();
+	BaseInput::Draw();
 
 
+	// 黒幕描画
 	Novice::DrawBox(0, 0, width, 100, 0, BLACK, kFillModeSolid);
 	Novice::DrawBox(BaseConst::kWindowWidth - width, BaseConst::kWindowHeight - 100, width, 100, 0, BLACK, kFillModeSolid);
+
+	// スキップボタンの描画
 }
 
 

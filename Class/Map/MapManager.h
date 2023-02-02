@@ -31,6 +31,9 @@ public: // メンバ関数
 	/// <returns>ヒットしていた場合 ... true、ヒットしていなかった場合 ... false</returns>
 	static bool CheckHitBox(Point hitPosition);
 
+	// 現在ボスステージなのかを受け取る関数
+	static bool GetisBoss() { return isBoss; }
+
 private: // 関数
 
 	// マップチップの形を決定する関数
@@ -42,7 +45,7 @@ private: // メンバ変数
 	static bool isBoss;
 
 	// チュートリアルマップの配列
-	static Map tutorialMap[BaseConst::kTutorialStageSizeWidth][BaseConst::kTutorialStageSizeHeight];
+	static Map tutorialMap[BaseConst::kTutorialStageSizeHeight][BaseConst::kTutorialStageSizeWidth];
 	// ボスマップの配列
 	static Map bossMap[BaseConst::kBossStageSizeHeight][BaseConst::kBossStageSizeWidth];
 };
