@@ -14,17 +14,32 @@ TutorialStage::~TutorialStage() {
 // 初期化
 void TutorialStage::Initialize() {
 	nextScene = sceneNone;
+
+	PublicFlag::Initialize();
+	
+	MapManager::BossInitialize();
+	objectManager.Initialize();
+	wireManager.Initialize();
+
+	objectManager.MakeNewObjectPlayer({ 100,700 }, &wireManager);
 }
 // 更新
 void TutorialStage::Update() {
-
-	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger)) {
+	// デバッグ用
+	if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
 		nextScene = sceneBossStage;
 	}
 
+	MapManager::Update();
+	objectManager.Update();
+	wireManager.Update(&objectManager);
 }
 // 描画
 void TutorialStage::Draw() {
-	Novice::ScreenPrintf(1920 / 2, 1080 / 2, "TutorialStage");
-	Novice::ScreenPrintf(1920 / 2, 1080 / 2 + 20, "Push Space to next");
+	// デバッグ用
+	Novice::ScreenPrintf(0, 0, "Push ENTER to Skip Stage");
+
+	MapManager::Draw();
+	objectManager.Draw();
+	wireManager.Draw();
 }
