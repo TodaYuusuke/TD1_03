@@ -74,7 +74,6 @@ public: // 静的な定数
 	// ブロックが点滅し始めるフレーム
 	static int kBlockBeVanish;
 
-
 #pragma endregion
 
 #pragma region プレイヤー
@@ -99,6 +98,14 @@ public: // 静的な定数
 	// ジャンプのクールタイム
 	static int kPlayerJumpCoolTime;
 
+	// 照準 //
+
+	// 照準の最大射程
+	static int kPlayerReticleRange;
+
+	// 照準の大きさ
+	static int kPlayerReticleSize;
+
 #pragma endregion
 
 #pragma region ワイヤー
@@ -109,22 +116,27 @@ public: // 静的な定数
 	// ワイヤーの最大の長さ
 	static float kWireMaxLength;
 	// ワイヤーの最大存在数
-	const static int kWireMaxAmount = 3;
+	const static int kWireMaxAmount = 5;
 
 #pragma endregion
 
 #pragma region マップ
 
-	// マップの大きさ
-	const static int kMapSizeWidth = 75;
-	const static int kMapSizeHeight = 35;
-
 	// マップチップのサイズ
 	static int kMapChipSizeWidth;
 	static int kMapChipSizeHeight;
 
+	// チュートリアルステージの大きさ
+	const static int kTutorialStageSizeWidth = 250;
+	const static int kTutorialStageSizeHeight = 35;
+	// ボスステージの大きさ
+	const static int kBossStageSizeWidth = 75;
+	const static int kBossStageSizeHeight = 35;
+
+
 	// マップデータ
-	static int kMapData[kMapSizeHeight][kMapSizeWidth];
+	static int kTutorialStageData[kTutorialStageSizeWidth][kTutorialStageSizeHeight];
+	static int kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
 
 #pragma endregion
 

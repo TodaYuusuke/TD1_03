@@ -27,6 +27,12 @@ void MyBase::Initialize() {
 	// スクリーン座標を初期化
 	BaseDraw::SetScreenPosition({ 0,1080 });
 
+	// 演出用変数
+	easingT = 0;
+	width = 0;
+
+	// 演出スキップ用変数
+	longPressedFrame = 0;
 
 	// 乱数の初期化
 	srand(time(nullptr));
@@ -47,10 +53,39 @@ void MyBase::Update() {
 	}
 
 	BaseEffectManager::Update();
+
 }
 
 // 描画
 void MyBase::Draw(){
 	BaseEffectManager::Draw();
 	BaseInput::Draw();
+
+	// 演出が始まったら黒幕を表示
+	if (PublicFlag::kisStaging) {
+		easingT += 1.0f / 60.0f;
+		if (easingT > 0.5f) {
+			easingT = 0.5f;
+		}
+		width = BaseDraw::Ease_Out(easingT, 0, BaseConst::kWindowWidth, 0.5f);
+	}
+	else {
+		easingT -= 1.0f / 60.0f;
+		if (easingT < 0) {
+			easingT = 0;
+		}
+		width = BaseDraw::Ease_In(easingT, 0, BaseConst::kWindowWidth, 0.5f);
+	}
+
+
+	Novice::DrawBox(0, 0, width, 100, 0, BLACK, kFillModeSolid);
+	Novice::DrawBox(BaseConst::kWindowWidth - width, BaseConst::kWindowHeight - 100, width, 100, 0, BLACK, kFillModeSolid);
 }
+
+
+// 演出用変数
+float MyBase::easingT;
+float MyBase::width;
+
+// 演出スキップ用変数
+int MyBase::longPressedFrame;

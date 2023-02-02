@@ -120,7 +120,7 @@ Boss::~Boss() {
 // 初期化処理
 void Boss::Initialize(ObjectManager* objectManager) {
 	// ボスの位置を画面中央に持っていく
-	this->centerPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
+	this->centerPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
 	// ボスの画像サイズを設定
 	this->textureSize = { 225.0f, 450.0f };
 	// ボスのオフセットを初期化
@@ -133,6 +133,12 @@ void Boss::Initialize(ObjectManager* objectManager) {
 
 	//シェイクしていない状態に戻す
 	this->shakeVariation = { 0.0f, 0.0f };
+
+	// カットシーン用カメラ移動前座標
+	this->prevScreenPosition = {0.0f, 0.0f};
+
+	// カットシーン用カメラ移動後座標
+	this->nextScreenPosition = {0.0f, 0.0f};
 
 	// バイブレーション初期化
 	vibInit = false;
@@ -238,6 +244,12 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	this->color = 0xFFFFFFFF;
 	this->coreColor = 0xFFFFFFFF;
 
+	// 演出スキップ用
+	LongPressFrame = 0.0f;
+
+	// 現在演出中か
+	isPlayingAnim = false;
+
 }
 
 // 更新処理
@@ -286,6 +298,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		else if (HP <= 0) {
 			// HPが0以下になったらボスを死亡状態にする
 			inDead = true;
+			HP = 0;
 		}
 
 		// 行動の分岐処理
@@ -447,6 +460,10 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 			color = 0x333333FF;
 
+			// ボスのヒットボックスを有効にする
+			EnemyAttackHitBox::MakeNewHitBoxRight({ 10000.0f, 10000.0f }, textureSize.y / 2.0f, degree, bodyDamage);
+			EnemyAttackHitBox::MakeNewHitBoxLeft({ 10000.0f, 10000.0f }, textureSize.y / 2.0f, degree, bodyDamage);
+
 		}
 		else {
 			// 開いていないときはありえないほどとおくに
@@ -469,7 +486,6 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		hook[1]->SetCenterPosition(wireHangPosition[1]);
 
 		float degreeDifference = degree - beforeDegree;
-		Novice::ScreenPrintf(0, 120, "DD : %4.2f", degreeDifference);
 
 		for (int i = 0; i < 5; i++) {
 			// 武器のヒットボックス
@@ -522,9 +538,18 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			if (generatedBlockInterval < 0) {
 				if (generatedBlockValue > 0) {
 					float blockSize = BaseMath::RandomF(20.0f, 60.0f, 0);
+
+					Point spawnPoint = { BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kBossStageSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1),
+						(float)BaseConst::kBossStageSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize };
+
+					// 範囲内だった場合は再抽選
+					while (spawnPoint.x + blockSize >= centerPosition.x - textureSize.x / 2.0f && spawnPoint.x - blockSize <= centerPosition.x + textureSize.x / 2.0f)
+					{
+						spawnPoint = { BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kBossStageSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1),
+						(float)BaseConst::kBossStageSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize };
+					}
 					// ランダムな位置に、ランダムな大きさのブロックを生成
-					objectManager->MakeNewObjectBlock({ BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kMapSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1),
-						(float)BaseConst::kMapSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize }, { blockSize, blockSize });
+					objectManager->MakeNewObjectBlock(spawnPoint, { blockSize, blockSize });
 					generatedBlockValue--;
 				}
 				else {
@@ -541,8 +566,20 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		beforeDegree = degree;
 	}
 	else {
-	// 開始アニメーション再生
-	PlayStartAnim(5.0f, 0.25f, 3.0f, 0.2f);
+		// 開始アニメーション再生
+		PlayStartAnim(2.5f, 5.0f, 0.25f, 2.5f, 1.0f);
+
+		if (isPlayingAnim == true && PublicFlag::kisStaging == false) {
+			// 演出終了
+			PublicFlag::kisStaging = false;
+			isPlayingAnim = false;
+
+			// 初期化
+			isBattleStart = true;
+			LongPressFrame = 0.0f;
+			t = 0.0f;
+			actionWayPoint = WAYPOINT0;
+		}
 	}
 }
 
@@ -623,6 +660,12 @@ void Boss::Draw() {
 		degree,
 		color
 	);
+
+	if (isBattleStart == true) {
+		// ボスHPゲージ（仮）
+		Novice::DrawBox(450, 100, 0 + 100 * HP, 30, 0.0f, 0xdc143cFF, kFillModeSolid);
+	}
+
 }
 
 // ボス自体の当たり判定を返す関数
@@ -901,22 +944,28 @@ void Boss::vibration(int shakeStrength, float vibTime, float vibRate, int vibVal
 /// <summary>
 /// 戦闘開始時のアニメーションを再生する関数
 /// </summary>
+/// <param name="cameraMoveTime">振動する時間</param>
 /// <param name="vibTime">振動する時間</param>
 /// <param name="closeTime1">ボスが途中まで閉じるのにかかる時間</param>
 /// <param name="roarTime">咆哮する時間</param>
 /// <param name="closeTime2">ボスを完全に閉じる時間</param>
-void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float closeTime2) {
+void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, float roarTime, float closeTime2) {
 	switch (actionWayPoint)
 	{
 		// 初期化
 	case Boss::WAYPOINT0:
 
+		// 演出中の状態に
+		PublicFlag::kisStaging = true;
+		isPlayingAnim = true;
+
+		// スクリーン座標記録
+		prevScreenPosition = BaseDraw::GetScreenPosition();
+		nextScreenPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2) - (float)(BaseConst::kWindowWidth / 2),
+			(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) + (float)(BaseConst::kWindowHeight / 2) };
+
 		// オフセットを初期化
 		offset = 100;
-		
-		// オフセットの開始値と終端値をリセット
-		prevOffset = offset;
-		nextOffset = 110;
 
 		// t初期化
 		t = 0.0f;
@@ -926,6 +975,33 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 		break;
 		// 振動する
 	case Boss::WAYPOINT1:
+		if (t <= cameraMoveTime) {
+
+			// スクリーンを動かす
+			Point screenPosition;
+
+			screenPosition.x = BaseDraw::Ease_Out(t, prevScreenPosition.x, nextScreenPosition.x - prevScreenPosition.x, cameraMoveTime);
+			screenPosition.y = BaseDraw::Ease_Out(t, prevScreenPosition.y, nextScreenPosition.y - prevScreenPosition.y, cameraMoveTime);
+
+			BaseDraw::SetScreenPosition(screenPosition);
+
+			// tを加算する
+			t += 1.0f / 60.0f;
+		}
+		else {
+
+			// オフセットの開始値と終端値をリセット
+			prevOffset = offset;
+			nextOffset = 110;
+
+			// 初期化
+			t = 0.0f;
+			actionWayPoint++;
+		}
+
+		break;
+		// 途中まで閉じる
+	case Boss::WAYPOINT2:
 		if (t <= vibTime) {
 
 			// 定期的に振動させる
@@ -948,8 +1024,9 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 			actionWayPoint++;
 		}
 		break;
-		// 途中まで閉じる
-	case Boss::WAYPOINT2:
+
+		// 咆哮 (振動)
+	case Boss::WAYPOINT3:
 		if (t <= closeTime1) {
 
 			// 閉じるときに振動させる
@@ -966,9 +1043,10 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 			t = 0.0f;
 			actionWayPoint++;
 		}
+		
 		break;
-		// 咆哮 (振動)
-	case Boss::WAYPOINT3:
+		// 完全に閉じる
+	case Boss::WAYPOINT4:
 		if (t <= roarTime) {
 
 			if (t > 1.0f) {
@@ -989,12 +1067,19 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 			actionWayPoint++;
 		}
 		break;
-		// 完全に閉じる
-	case Boss::WAYPOINT4:
+	case Boss::WAYPOINT5:
 		if (t <= closeTime2) {
 
 			// オフセットを縮める
 			offset = BaseDraw::Ease_InOut(t, prevOffset, -prevOffset, closeTime2);
+
+			// スクリーンを動かす
+			Point screenPosition;
+
+			screenPosition.x = BaseDraw::Ease_Out(t, nextScreenPosition.x, prevScreenPosition.x - nextScreenPosition.x, closeTime2);
+			screenPosition.y = BaseDraw::Ease_Out(t, nextScreenPosition.y, prevScreenPosition.y - nextScreenPosition.y, closeTime2);
+
+			BaseDraw::SetScreenPosition(screenPosition);
 
 			// 中心座標に戻す
 			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, closeTime2);
@@ -1003,13 +1088,16 @@ void Boss::PlayStartAnim(float vibTime, float closeTime1, float roarTime, float 
 			t += 1.0f / 60.0f;
 		}
 		else {
+
+			// 演出終了
+			PublicFlag::kisStaging = false;
+			isPlayingAnim = false;
+
 			// 初期化
 			isBattleStart = true;
 			t = 0.0f;
 			actionWayPoint = WAYPOINT0;
 		}
-		break;
-	case Boss::WAYPOINT5:
 		break;
 	case Boss::WAYPOINT6:
 		break;
@@ -1183,12 +1271,17 @@ void  Boss::Rotate(float endDegree, float RotateTime, float afterWaitTime, WireM
 		degree = BaseDraw::Ease_InOut(t, startDegree, endDegree, RotateTime);
 
 		if (t >= (RotateTime / 2)) {
-			wireManager->Initialize();
+			// ワイヤーちぎる
+			PublicFlag::kBossisTurningAndCutWire = true;
 		}
 
 		t += 1.0f / 60.0f;
 	}
 	else {
+
+		// ワイヤーをちぎれなくする
+		PublicFlag::kBossisTurningAndCutWire = false;
+
 		//t が一定以上になったら行動終了
 		prevAttackPattern[1] = prevAttackPattern[0];
 		prevAttackPattern[0] = ROTATE;
@@ -1562,7 +1655,8 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, slashTime);
 
 			if (t >= (slashTime / 2)) {
-				wireManager->Initialize();
+				// ワイヤーちぎる
+				PublicFlag::kBossisTurningAndCutWire = true;
 			}
 
 			// 分岐：回転斬り以外の場合はtにプラスする値を少しだけ多くする
@@ -1574,6 +1668,9 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			}
 		}
 		else {
+
+			// ワイヤーちぎる
+			PublicFlag::kBossisTurningAndCutWire = false;
 
 			// 効果音再生
 			Novice::PlayAudio(BaseAudio::kBossClose, 0, 0.1f);
@@ -1966,7 +2063,7 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 	case Boss::WAYPOINT0:
 		// 中心座標取得
 		prevCenterPosition = centerPosition;
-		nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
+		nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
 
 		// t初期化
 		t = 0.0f;
@@ -2017,7 +2114,7 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 
 			// 座標設定
 			prevCenterPosition = centerPosition;
-			nextCenterPosition = { centerPosition.x, ((float)BaseConst::kMapSizeHeight * (float)BaseConst::kMapChipSizeHeight - (float)BaseConst::kMapChipSizeHeight) - (textureSize.y / 2) };
+			nextCenterPosition = { centerPosition.x, ((float)BaseConst::kBossStageSizeHeight * (float)BaseConst::kMapChipSizeHeight - (float)BaseConst::kMapChipSizeHeight) - (textureSize.y / 2) };
 
 			// 次の段階
 			actionWayPoint++;
@@ -2060,7 +2157,7 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 		else {
 
 			// 現在の座標を記録する
-			prevCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
+			prevCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
 			nextCenterPosition = centerPosition;
 
 			// tを初期化
@@ -2222,7 +2319,7 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 		else {
 
 			prevCenterPosition = centerPosition;
-			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
+			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
 
 			prevDegree = degree;
 
@@ -2398,7 +2495,7 @@ void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime,
 			vibInit = false;
 
 			prevCenterPosition = centerPosition;
-			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) };
+			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
 
 			prevDegree = degree;
 

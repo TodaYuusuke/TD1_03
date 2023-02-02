@@ -1,7 +1,7 @@
 ﻿#include <Novice.h>
 #include "MyBase/MyBase.h"
 
-#include "Debug.h"
+#include "Class/SceneManager/SceneManager.h"
 
 const char kWindowTitle[] = "チーム開発";
 
@@ -17,13 +17,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Novice::SetMouseCursorVisibility(false);
 	// デフォルトでフルスクリーン
 	BaseDraw::ChangeFullScreen();
-
+	// スクリーン座標をset
 	BaseDraw::SetScreenPosition({ 0,1080 });
 
-	// デバッグクラス
-	Debug debug;
-	// デバッグ初期化
-	debug.Initialize();
+	SceneManager scene;
+	scene.Initialize();
 
 	// ウィンドウの×ボタンが押されるまでループ
 	while (Novice::ProcessMessage() == 0) {
@@ -36,9 +34,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// MyBaseをアップデート
 		MyBase::Update();
-
-		// デバッグ更新
-		debug.Update();
+		// シーン更新
+		scene.Update();
 
 		///
 		/// ↑更新処理ここまで
@@ -48,12 +45,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		/// ↓描画処理ここから
 		///
 
-		// デバッグ描画
-		debug.Draw();
-
+		// シーン描画
+		scene.Draw();
 		// MyBaseを描画
 		MyBase::Draw();
-
 
 		///
 		/// ↑描画処理ここまで

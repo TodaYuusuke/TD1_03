@@ -13,18 +13,35 @@ void BaseConst::Initialize() {
 // 定数のロードを100分割で行う。全てのロードが完了するまで呼び出させる（今回は％は実装しない、ロードするだけ）
 bool BaseConst::Loading() {
 
+	// チュートリアルステージロード
 	std::vector<std::string> map;
-	std::ifstream mapifs("./Resources/Const/mapSample.csv");
+	std::ifstream tutorialMapifs("./Resources/Const/TutorialStage.csv");
 	std::string line;
 
 	int y = 0;
 
-	while (getline(mapifs, line)) {
+	while (getline(tutorialMapifs, line)) {
 
 		std::vector<std::string> strvec = split(line, ',');
 
 		for (int x = 0; x < strvec.size(); x++) {
-			kMapData[y][x] = stoi(strvec.at(x));
+			kTutorialStageData[y][x] = stoi(strvec.at(x));
+		}
+
+		y++;
+	}
+
+	// ボスステージロード
+	std::ifstream bossMapifs("./Resources/Const/BossStage.csv");
+
+	y = 0;
+
+	while (getline(bossMapifs, line)) {
+
+		std::vector<std::string> strvec = split(line, ',');
+
+		for (int x = 0; x < strvec.size(); x++) {
+			kBossStageData[y][x] = stoi(strvec.at(x));
 		}
 
 		y++;
@@ -92,6 +109,14 @@ Point BaseConst::kPlayerJumpVelocity = { 0,9.8f };
 // ジャンプのクールタイム
 int BaseConst::kPlayerJumpCoolTime = 40;
 
+// 照準 //
+
+// 照準の最大射程
+int BaseConst::kPlayerReticleRange = 1500;
+
+// 照準のサイズ
+int BaseConst::kPlayerReticleSize = 10;
+
 #pragma endregion
 
 #pragma region ワイヤー
@@ -100,7 +125,7 @@ int BaseConst::kPlayerJumpCoolTime = 40;
 float BaseConst::kWireSpeed = 40;
 
 // ワイヤーの最大の長さ
-float BaseConst::kWireMaxLength = 100.0f;
+float BaseConst::kWireMaxLength = 1500.0f;
 // ワイヤーの最大存在数
 //int BaseConst::kWireMaxAmount = 3;
 
@@ -113,6 +138,7 @@ int BaseConst::kMapChipSizeWidth = 32;
 int BaseConst::kMapChipSizeHeight = 32;
 
 // マップデータ
-int BaseConst::kMapData[kMapSizeHeight][kMapSizeWidth];
+int BaseConst::kTutorialStageData[kTutorialStageSizeWidth][kTutorialStageSizeHeight];
+int BaseConst::kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
 
 #pragma endregion

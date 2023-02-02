@@ -11,41 +11,83 @@ MapManager::~MapManager() {
 
 
 // 初期化
-void MapManager::Initialize() {
-	for (int y = 0; y < BaseConst::kMapSizeHeight; y++) {
-		for (int x = 0; x < BaseConst::kMapSizeWidth; x++) {
-            map[y][x].Initialize((MapChipType)BaseConst::kMapData[y][x]);
+void MapManager::TutorialInitialize() {
+	for (int y = 0; y < BaseConst::kTutorialStageSizeHeight; y++) {
+		for (int x = 0; x < BaseConst::kTutorialStageSizeWidth; x++) {
+            tutorialMap[y][x].Initialize((MapChipType)BaseConst::kTutorialStageData[y][x]);
 		}
 	}
+
+    isBoss = false;
+}
+void MapManager::BossInitialize() {
+    for (int y = 0; y < BaseConst::kBossStageSizeHeight; y++) {
+        for (int x = 0; x < BaseConst::kBossStageSizeWidth; x++) {
+            bossMap[y][x].Initialize((MapChipType)BaseConst::kBossStageData[y][x]);
+        }
+    }
+
+    isBoss = true;
 }
 // 更新
 void MapManager::Update() {
-	for (int y = 0; y < BaseConst::kMapSizeHeight; y++) {
-		for (int x = 0; x < BaseConst::kMapSizeWidth; x++) {
-			map[y][x].Update();
-		}
-	}
+    if (isBoss) {
+        for (int y = 0; y < BaseConst::kBossStageSizeHeight; y++) {
+            for (int x = 0; x < BaseConst::kBossStageSizeWidth; x++) {
+                bossMap[y][x].Update();
+            }
+        }
+    }
+    else {
+        for (int y = 0; y < BaseConst::kTutorialStageSizeHeight; y++) {
+            for (int x = 0; x < BaseConst::kTutorialStageSizeWidth; x++) {
+                tutorialMap[y][x].Update();
+            }
+        }
+    }
 }
 // 描画
 void MapManager::Draw() {
-	for (int y = 0; y < BaseConst::kMapSizeHeight; y++) {
-		for (int x = 0; x < BaseConst::kMapSizeWidth; x++) {
-            // もし画面外の場合は描画しない
-            Point drawPosition = { (float)x * BaseConst::kMapChipSizeWidth, (float)(BaseConst::kMapSizeHeight - y) * BaseConst::kMapChipSizeHeight};
-            drawPosition = BaseDraw::WorldtoScreen(drawPosition);
+    if (isBoss) {
+        for (int y = 0; y < BaseConst::kBossStageSizeHeight; y++) {
+            for (int x = 0; x < BaseConst::kBossStageSizeWidth; x++) {
+                // もし画面外の場合は描画しない
+                Point drawPosition = { (float)x * BaseConst::kMapChipSizeWidth, (float)(BaseConst::kBossStageSizeHeight - y) * BaseConst::kMapChipSizeHeight };
+                drawPosition = BaseDraw::WorldtoScreen(drawPosition);
 
-            if (drawPosition.y > 0 - BaseConst::kMapChipSizeHeight) {
-                if (drawPosition.y < BaseConst::kWindowHeight + BaseConst::kMapChipSizeHeight) {
-                    if (drawPosition.x > 0 - BaseConst::kMapChipSizeWidth) {
-                        if (drawPosition.x < BaseConst::kWindowWidth + BaseConst::kMapChipSizeWidth) {
-                            map[y][x].Draw(BaseDraw::ScreentoWorld(drawPosition), GetMapChipType(y, x));
+                if (drawPosition.y > 0 - BaseConst::kMapChipSizeHeight) {
+                    if (drawPosition.y < BaseConst::kWindowHeight + BaseConst::kMapChipSizeHeight) {
+                        if (drawPosition.x > 0 - BaseConst::kMapChipSizeWidth) {
+                            if (drawPosition.x < BaseConst::kWindowWidth + BaseConst::kMapChipSizeWidth) {
+                                bossMap[y][x].Draw(BaseDraw::ScreentoWorld(drawPosition), GetMapChipType(y, x));
+                            }
                         }
                     }
                 }
             }
-		}
-	}
+        }
+    }
+    else {
+        for (int y = 0; y < BaseConst::kTutorialStageSizeHeight; y++) {
+            for (int x = 0; x < BaseConst::kTutorialStageSizeWidth; x++) {
+                // もし画面外の場合は描画しない
+                Point drawPosition = { (float)x * BaseConst::kMapChipSizeWidth, (float)(BaseConst::kTutorialStageSizeHeight - y) * BaseConst::kMapChipSizeHeight };
+                drawPosition = BaseDraw::WorldtoScreen(drawPosition);
+
+                if (drawPosition.y > 0 - BaseConst::kMapChipSizeHeight) {
+                    if (drawPosition.y < BaseConst::kWindowHeight + BaseConst::kMapChipSizeHeight) {
+                        if (drawPosition.x > 0 - BaseConst::kMapChipSizeWidth) {
+                            if (drawPosition.x < BaseConst::kWindowWidth + BaseConst::kMapChipSizeWidth) {
+                                tutorialMap[y][x].Draw(BaseDraw::ScreentoWorld(drawPosition), GetMapChipType(y, x));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
+
 
 /// <summary>
 /// 指定した座標がマップにヒットしているかどうか
@@ -53,23 +95,39 @@ void MapManager::Draw() {
 /// <param name="hitPosition 当たり判定を確認するワールド座標"></param>
 /// <returns>ヒットしていた場合 ... true、ヒットしていなかった場合 ... false</returns>
 bool MapManager::CheckHitBox(Point hitPosition) {
+    if (isBoss) {
+        int y = BaseConst::kBossStageSizeHeight - (hitPosition.y / BaseConst::kMapChipSizeHeight);
+        int x = hitPosition.x / BaseConst::kMapChipSizeWidth;
 
-    int y = BaseConst::kMapSizeHeight - (hitPosition.y / BaseConst::kMapChipSizeHeight);
-    int x = hitPosition.x / BaseConst::kMapChipSizeWidth;
+        if (y < 0 || y >= BaseConst::kBossStageSizeHeight) {
+            return false;
+        }
+        if (x < 0 || x >= BaseConst::kBossStageSizeWidth) {
+            return false;
+        }
 
-    if (y < 0 || y >= BaseConst::kMapSizeHeight) {
-        return false;
+        hitPosition.x -= x * BaseConst::kMapChipSizeWidth;
+        hitPosition.y -= (BaseConst::kBossStageSizeHeight - y - 1) * BaseConst::kMapChipSizeHeight;
+
+        return bossMap[y][x].CheckHitBox(hitPosition);
     }
-    if (x < 0 || x >= BaseConst::kMapSizeWidth) {
-        return false;
+    else {
+        int y = BaseConst::kTutorialStageSizeHeight - (hitPosition.y / BaseConst::kMapChipSizeHeight);
+        int x = hitPosition.x / BaseConst::kMapChipSizeWidth;
+
+        if (y < 0 || y >= BaseConst::kTutorialStageSizeHeight) {
+            return false;
+        }
+        if (x < 0 || x >= BaseConst::kTutorialStageSizeWidth) {
+            return false;
+        }
+
+        hitPosition.x -= x * BaseConst::kMapChipSizeWidth;
+        hitPosition.y -= (BaseConst::kTutorialStageSizeHeight - y - 1) * BaseConst::kMapChipSizeHeight;
+
+        return tutorialMap[y][x].CheckHitBox(hitPosition);
     }
-
-    hitPosition.x -= x * BaseConst::kMapChipSizeWidth;
-    hitPosition.y -= (BaseConst::kMapSizeHeight - y - 1) * BaseConst::kMapChipSizeHeight;
-
-    return map[y][x].CheckHitBox(hitPosition);
 }
-
 
 
 // マップチップの形を決定する関数
@@ -78,66 +136,128 @@ int MapManager::GetMapChipType(int y, int x) {
     // 上下左右が同じチップかを記録する変数
     bool up, down, left, right;
 
-    // 場外じゃないかチェック
-    if (y - 1 < 0) {
-        // 場外ならば上はあると仮定する
-        up = true;
-    }
-    // 上が同じチップかを確認
-    else {
-        if (map[y][x].type == map[y - 1][x].type) {
+    if (isBoss) {
+        // 場外じゃないかチェック
+        if (y - 1 < 0) {
+            // 場外ならば上はあると仮定する
             up = true;
         }
+        // 上が同じチップかを確認
         else {
-            up = false;
+            if (bossMap[y][x].type == bossMap[y - 1][x].type) {
+                up = true;
+            }
+            else {
+                up = false;
+            }
         }
-    }
 
-    // 場外じゃないかチェック
-    if (y + 1 >= BaseConst::kMapSizeHeight) {
-        // 場外ならば下はあると仮定する
-        down = true;
-    }
-    // 下が同じチップかを確認
-    else {
-        if (map[y][x].type == map[y + 1][x].type) {
+        // 場外じゃないかチェック
+        if (y + 1 >= BaseConst::kBossStageSizeHeight) {
+            // 場外ならば下はあると仮定する
             down = true;
         }
+        // 下が同じチップかを確認
         else {
-            down = false;
+            if (bossMap[y][x].type == bossMap[y + 1][x].type) {
+                down = true;
+            }
+            else {
+                down = false;
+            }
         }
-    }
 
-    // 場外じゃないかチェック
-    if (x - 1 < 0) {
-        // 場外ならば左はあると仮定する
-        left = true;
-    }
-    // 左が同じチップかを確認
-    else {
-        if (map[y][x].type == map[y][x - 1].type) {
+        // 場外じゃないかチェック
+        if (x - 1 < 0) {
+            // 場外ならば左はあると仮定する
             left = true;
         }
+        // 左が同じチップかを確認
         else {
-            left = false;
+            if (bossMap[y][x].type == bossMap[y][x - 1].type) {
+                left = true;
+            }
+            else {
+                left = false;
+            }
         }
-    }
 
-    // 場外じゃないかチェック
-    if (x + 1 >= BaseConst::kMapSizeWidth) {
-        // 場外ならば右はあると仮定する
-        right = true;
-    }
-    // 右が同じチップかを確認
-    else {
-        if (map[y][x].type == map[y][x + 1].type) {
+        // 場外じゃないかチェック
+        if (x + 1 >= BaseConst::kBossStageSizeWidth) {
+            // 場外ならば右はあると仮定する
             right = true;
         }
+        // 右が同じチップかを確認
         else {
-            right = false;
+            if (bossMap[y][x].type == bossMap[y][x + 1].type) {
+                right = true;
+            }
+            else {
+                right = false;
+            }
         }
     }
+    else {
+        // 場外じゃないかチェック
+        if (y - 1 < 0) {
+            // 場外ならば上はあると仮定する
+            up = true;
+        }
+        // 上が同じチップかを確認
+        else {
+            if (tutorialMap[y][x].type == tutorialMap[y - 1][x].type) {
+                up = true;
+            }
+            else {
+                up = false;
+            }
+        }
 
+        // 場外じゃないかチェック
+        if (y + 1 >= BaseConst::kTutorialStageSizeHeight) {
+            // 場外ならば下はあると仮定する
+            down = true;
+        }
+        // 下が同じチップかを確認
+        else {
+            if (tutorialMap[y][x].type == tutorialMap[y + 1][x].type) {
+                down = true;
+            }
+            else {
+                down = false;
+            }
+        }
+
+        // 場外じゃないかチェック
+        if (x - 1 < 0) {
+            // 場外ならば左はあると仮定する
+            left = true;
+        }
+        // 左が同じチップかを確認
+        else {
+            if (tutorialMap[y][x].type == tutorialMap[y][x - 1].type) {
+                left = true;
+            }
+            else {
+                left = false;
+            }
+        }
+
+        // 場外じゃないかチェック
+        if (x + 1 >= BaseConst::kTutorialStageSizeWidth) {
+            // 場外ならば右はあると仮定する
+            right = true;
+        }
+        // 右が同じチップかを確認
+        else {
+            if (tutorialMap[y][x].type == tutorialMap[y][x + 1].type) {
+                right = true;
+            }
+            else {
+                right = false;
+            }
+        }
+    }
 
 
     // 各種方向のパターン検証
@@ -205,7 +325,10 @@ int MapManager::GetMapChipType(int y, int x) {
 }
 
 
+// 現在ボスマップの処理を行っているのかフラグ
+bool MapManager::isBoss;
 
-
+// チュートリアルマップの配列
+Map MapManager::tutorialMap[BaseConst::kTutorialStageSizeWidth][BaseConst::kTutorialStageSizeHeight];
 // マップの配列
-Map MapManager::map[BaseConst::kMapSizeHeight][BaseConst::kMapSizeWidth];
+Map MapManager::bossMap[BaseConst::kBossStageSizeHeight][BaseConst::kBossStageSizeWidth];

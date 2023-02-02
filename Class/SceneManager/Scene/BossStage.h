@@ -1,7 +1,9 @@
+#pragma once
 #include "MyBase/MyBase.h"
+#include "Class/SceneManager/Scene/BaseScene.h"
+
 #include "Class/Object/ObjectManager.h"
 #include "Class/Wire/WireManager.h"
-
 #include "Class/Map/MapManager.h"
 
 #include "Class/Boss/Boss.h"
@@ -9,31 +11,28 @@
 #include "Class/AttackHitBox/EnemyAttackHitBox.h"
 #include "Class/AttackHitBox/ObjectHitBox.h"
 
-// 自分で開発する際に、デバッグ用の処理はこちらで用意すること。
-// 開発中のclassのインスタンスなどをここで呼び出し、試したい関数を自分で呼び出すコードを書くこと。
+#include "Class/PublicFlag/PublicFlag.h"
 
-class Debug {
 
+class BossStage :
+	public BaseScene{
 public: // メンバ関数
 
 	// コンストラクタ
-	Debug();
+	BossStage();
 	// デストラクタ
-	~Debug();
+	~BossStage();
 
 	// 初期化
-	void Initialize();
+	void Initialize() override;
 	// 更新
-	void Update();
+	void Update() override;
 	// 描画
-	void Draw();
-
+	void Draw() override;
 
 private: // メンバ変数
-
 
 	ObjectManager objectManager;
 	WireManager wireManager;
 	Boss boss;
-
 };

@@ -39,7 +39,7 @@ void Wire::Initialize() {
 void Wire::Update(ObjectManager* objectManager) {
 
 	// もしワイヤーの長さが一定以上になった場合 ... 初期化
-	if (BaseMath::GetLength({ position[1].x - position[0].x, position[1].y - position[0].y }) >= 1500) {
+	if (BaseMath::GetLength({ position[1].x - position[0].x, position[1].y - position[0].y }) >= BaseConst::kWireMaxLength) {
 		Initialize();
 	}
 
@@ -74,6 +74,15 @@ void Wire::Update(ObjectManager* objectManager) {
 		// 発射されている状態ではない　かつ　壁ではなくオブジェクトにヒットしている場合
 		else if (object[i] != NULL) {
 			if (type[i] != typeWall) {
+
+				// ワイヤーを切る処理を行っている場合 -> objectがHookの場合切る
+				if (PublicFlag::kBossisTurningAndCutWire) {
+					if (type[i] == typeHook) {
+						Initialize();
+						return;
+					}
+				}
+
 				position[i].x -= prePosition[i].x - object[i]->GetCenterPosition().x;
 				position[i].y -= prePosition[i].y - object[i]->GetCenterPosition().y;
 				prePosition[i].x = object[i]->GetCenterPosition().x;
@@ -237,9 +246,14 @@ void Wire::Attract() {
 
 		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(position[0], position[1]));
 
+		// ベクトルが下方向の場合 -> すこし上方向に補正
+		if (p.y < 3) {
+			p.y = 3;
+		}
+
 		object[0]->AddVelocity(p);
 	}
-	// 一つ目のオブジェクトにベクトルを足す
+	// 二つ目のオブジェクトにベクトルを足す
 	if (object[1] != NULL) {
 		// 引き寄せる強さを決定
 		Point p = { 20,0 };
@@ -249,6 +263,11 @@ void Wire::Attract() {
 		}
 
 		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(position[1], position[0]));
+
+		// ベクトルが下方向の場合 -> すこし上方向に補正
+		if (p.y < 3) {
+			p.y = 3;
+		}
 
 		object[1]->AddVelocity(p);
 	}

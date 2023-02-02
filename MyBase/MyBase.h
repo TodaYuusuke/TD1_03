@@ -17,6 +17,8 @@
 #include <time.h>
 #include <memory>
 
+#include "Class/PublicFlag/PublicFlag.h"
+
 ////////////////////////////////////
 /* - Baseクラス全てを管理するクラス - */
 ////////////////////////////////////
@@ -40,5 +42,14 @@ public: // メンバ関数
 	static void Update();
 	// 描画
 	static void Draw();
+
+private: // メンバ変数
+
+	// 演出用変数
+	static float easingT;
+	static float width;
+
+	// 演出スキップ用変数
+	static int longPressedFrame;
 
 };
