@@ -539,14 +539,14 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 				if (generatedBlockValue > 0) {
 					float blockSize = BaseMath::RandomF(20.0f, 60.0f, 0);
 
-					Point spawnPoint = { BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kMapSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1),
-						(float)BaseConst::kMapSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize };
+					Point spawnPoint = { BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kBossStageSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1),
+						(float)BaseConst::kBossStageSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize };
 
 					// 範囲内だった場合は再抽選
 					while (spawnPoint.x + blockSize >= centerPosition.x - textureSize.x / 2.0f && spawnPoint.x - blockSize <= centerPosition.x + textureSize.x / 2.0f)
 					{
-						spawnPoint = { BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kMapSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1),
-						(float)BaseConst::kMapSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize };
+						spawnPoint = { BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kBossStageSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1),
+						(float)BaseConst::kBossStageSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize };
 					}
 					// ランダムな位置に、ランダムな大きさのブロックを生成
 					objectManager->MakeNewObjectBlock(spawnPoint, { blockSize, blockSize });
@@ -961,8 +961,8 @@ void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, 
 
 		// スクリーン座標記録
 		prevScreenPosition = BaseDraw::GetScreenPosition();
-		nextScreenPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kMapSizeWidth / 2) - (float)(BaseConst::kWindowWidth / 2),
-			(float)(BaseConst::kMapChipSizeHeight * BaseConst::kMapSizeHeight / 2) + (float)(BaseConst::kWindowHeight / 2) };
+		nextScreenPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2) - (float)(BaseConst::kWindowWidth / 2),
+			(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) + (float)(BaseConst::kWindowHeight / 2) };
 
 		// オフセットを初期化
 		offset = 100;
