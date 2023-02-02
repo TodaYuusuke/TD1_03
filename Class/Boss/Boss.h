@@ -103,6 +103,13 @@ private:
 	// ボスをシェイクの強さを少しずつ弱くしながら動かす関数
 	void ShakeEaseOut(int shakeStrength, float shakeTime);
 
+	// シェイクイーズアウト関数
+	// 返り値：なし
+	// 引数：
+	// shakeStrength ... シェイクする際の強さ
+	// ボスをシェイクの強さを少しずつ弱くしながら動かす関数
+	void CoreShakeEaseOut(int shakeStrength, float shakeTime);
+
 	// シェイクイーズインアウト関数
 	// 返り値：なし
 	// 引数：
@@ -362,6 +369,8 @@ private:
 	Point centerPosition;
 	// シェイクするときの座標の変化量
 	Point shakeVariation;
+	// シェイクするときの座標の変化量
+	Point coreShakeVariation;
 	// シェイクする範囲
 	int shakeRange;
 	

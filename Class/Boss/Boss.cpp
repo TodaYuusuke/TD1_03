@@ -22,6 +22,7 @@ Boss::Boss() {
 
 	//シェイクしていない状態に戻す
 	this->shakeVariation = { 0.0f, 0.0f };
+	this->coreShakeVariation = { 0.0f, 0.0f };
 
 	// バイブレーション初期化
 	vibInit = false;
@@ -133,6 +134,7 @@ void Boss::Initialize(ObjectManager* objectManager) {
 
 	//シェイクしていない状態に戻す
 	this->shakeVariation = { 0.0f, 0.0f };
+	this->coreShakeVariation = { 0.0f, 0.0f };
 
 	// カットシーン用カメラ移動前座標
 	this->prevScreenPosition = {0.0f, 0.0f};
@@ -160,6 +162,9 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	this->coreCenterPosition = centerPosition;
 	// 核の画像サイズを設定
 	this->coreTextureSize = { 256.0f, 256.0f };
+
+	// 核のサイズ
+	this->coreSize = { 256.0f, 256.0f };
 
 	coreSeparated = false;
 
@@ -294,7 +299,8 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 	// 核が分離していない状態では核をボスに追従させる
 	if (coreSeparated == false) {
-		coreCenterPosition = viewPosition;
+		coreCenterPosition = centerPosition;
+		coreShakeVariation = shakeVariation;
 		coreDegree = degree;
 	}
 
@@ -576,7 +582,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		beforeDegree = degree;
 
 		if (isPlayingDeadAnim == true && isEndDeadAnim == false) {
-			PlayDeadAnim(1.0f, 3.0f, 3.0f, 0.5f, 2.0f);
+			PlayDeadAnim(2.5f, 3.0f, 3.0f, 0.5f, 2.0f);
 		}
 
 	}
@@ -590,6 +596,8 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			isPlayingStartAnim = false;
 
 			// 初期化
+			offset = 0;
+			shakeVariation = { 0.0f, 0.0f };
 			isBattleStart = true;
 			LongPressFrame = 0.0f;
 			t = 0.0f;
@@ -602,6 +610,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 void Boss::Draw() {
 
 	Point viewPosition = { centerPosition.x + shakeVariation.x,centerPosition.y + shakeVariation.y };
+	Point coreViewPosition = { coreCenterPosition.x + coreShakeVariation.x, coreCenterPosition.y + coreShakeVariation.y };
 
 	// ボス武器画像 現在は仮テクスチャ
 	BaseDraw::DesignationDrawQuad(
@@ -628,11 +637,11 @@ void Boss::Draw() {
 	}
 
 	// ボスのコア
-	BaseDraw::DrawQuad(
-		coreCenterPosition,
+	BaseDraw::DesignationDrawQuad(
+		coreViewPosition,
+		coreSize,
 		BaseTexture::kBossCore,
 		coreTextureSize,
-		1.0f,
 		coreDegree,
 		coreColor
 	);
@@ -907,6 +916,19 @@ void Boss::ShakeEaseOut(int shakeStrength, float shakeTime) {
 	shakeVariation.y = BaseMath::RandomF(-shakeRange / 2, shakeRange / 2, 0);
 }
 
+// シェイクイーズアウト関数
+// 返り値：なし
+// 引数：
+// shakeStrength ... シェイクする際の強さ
+// shakeTime ... シェイクする時間
+// ボスをシェイクの強さを少しずつ弱くしながら動かす関数
+void Boss::CoreShakeEaseOut(int shakeStrength, float shakeTime) {
+	shakeRange = BaseDraw::Ease_Out(t, shakeStrength, -shakeStrength, shakeTime);
+
+	coreShakeVariation.x = BaseMath::RandomF(-shakeRange / 2, shakeRange / 2, 0);
+	coreShakeVariation.y = BaseMath::RandomF(-shakeRange / 2, shakeRange / 2, 0);
+}
+
 // シェイクイーズインアウト関数
 // 返り値：なし
 // 引数：
@@ -1175,6 +1197,8 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 			screenPosition.x = BaseDraw::Ease_InOut(t, prevScreenPosition.x, nextScreenPosition.x - prevScreenPosition.x, cameraMoveTime);
 			screenPosition.y = BaseDraw::Ease_InOut(t, prevScreenPosition.y, nextScreenPosition.y - prevScreenPosition.y, cameraMoveTime);
 
+			Shake(15);
+
 			BaseDraw::SetScreenPosition(screenPosition);
 
 			// 画面中央へ戻す
@@ -1186,6 +1210,9 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 
 			// オフセット開く
 			offset = BaseDraw::Ease_Out(t, prevOffset, nextOffset - prevOffset, cameraMoveTime);
+
+			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, cameraMoveTime);
+			shakeVariation.y = BaseDraw::Ease_InOut(t, shakeVariation.y, -shakeVariation.y, cameraMoveTime);
 
 			// tを少しづつプラスする
 			t += 1.0f / 60.0f;
@@ -1211,11 +1238,15 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 
 			// 中心座標取得
 			prevCenterPosition = centerPosition;
-			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) - 250.0f };
+			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) - 1000.0f };
 
 			// オフセットを設定
 			prevOffset = offset;
-			nextOffset = 200;
+			nextOffset = 250;
+
+			// 角度を設定
+			prevDegree = degree;
+			nextDegree = 190;
 
 			// 次の行動へ
 			t = 0.0f;
@@ -1230,16 +1261,31 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 			// スクリーンを動かす
 			Point screenPosition;
 
+			// カメラ移動
 			screenPosition.x = BaseDraw::Ease_Out(t, prevScreenPosition.x, nextScreenPosition.x - prevScreenPosition.x, separationTime);
 			screenPosition.y = BaseDraw::Ease_Out(t, prevScreenPosition.y, nextScreenPosition.y - prevScreenPosition.y, separationTime);
 
 			BaseDraw::SetScreenPosition(screenPosition);
+
+			// 振動
+			ShakeEaseOut(20, separationTime);
+			CoreShakeEaseOut(20, separationTime);
 
 			// 画面中央へ戻す
 			coreCenterPosition.x = BaseDraw::Ease_InOut(t, prevCoreCenterPosition.x, nextCoreCenterPosition.x - prevCoreCenterPosition.x, separationTime);
 			coreCenterPosition.y = BaseDraw::Ease_InOut(t, prevCoreCenterPosition.y, nextCoreCenterPosition.y - prevCoreCenterPosition.y, separationTime);
 
 			color = ColorEasing(t, prevColor, nextColor, separationTime);
+
+			// 画面中央へ戻す
+			centerPosition.x = BaseDraw::Ease_In(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, separationTime);
+			centerPosition.y = BaseDraw::Ease_In(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, separationTime);
+
+			// 角度を0に
+			degree = BaseDraw::Ease_In(t, prevDegree, nextDegree - prevDegree, separationTime);
+
+			// オフセット開く
+			offset = BaseDraw::Ease_In(t, prevOffset, nextOffset - prevOffset, separationTime);
 
 			// tを少しづつプラスする
 			t += 1.0f / 60.0f;
@@ -1256,6 +1302,9 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 		// 振動しながら縮む
 	case Boss::WAYPOINT3:
 		if (t <= vibTime) {
+
+			CoreShakeEaseOut(30, separationTime);
+
 			// tを少しづつプラスする
 			t += 1.0f / 60.0f;
 		}
