@@ -73,7 +73,7 @@ void Player::SuccessorUpdate() {
 			isDrawHP = false;
 		}
 	}
-
+	// カメラ移動
 	if (!PublicFlag::kisStaging) {
 		Point screenPos = BaseDraw::GetScreenPosition();
 
@@ -87,19 +87,34 @@ void Player::SuccessorUpdate() {
 
 
 		// スクリーン座標が画面外に行かないように調整
-		if (screenPos.x < 0) {
-			screenPos.x = 0;
+		if (MapManager::GetisBoss()) {
+			if (screenPos.x < 0) {
+				screenPos.x = 0;
+			}
+			else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth) {
+				screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth - BaseConst::kWindowWidth;
+			}
+			if (screenPos.y - BaseConst::kWindowHeight < 0) {
+				screenPos.y = BaseConst::kWindowHeight;
+			}
+			else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight) {
+				screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight;
+			}
 		}
-		else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth) {
-			screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth - BaseConst::kWindowWidth;
+		else {
+			if (screenPos.x < 0) {
+				screenPos.x = 0;
+			}
+			else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth) {
+				screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth - BaseConst::kWindowWidth;
+			}
+			if (screenPos.y - BaseConst::kWindowHeight < 0) {
+				screenPos.y = BaseConst::kWindowHeight;
+			}
+			else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kTutorialStageSizeHeight) {
+				screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kTutorialStageSizeHeight;
+			}
 		}
-		if (screenPos.y - BaseConst::kWindowHeight < 0) {
-			screenPos.y = BaseConst::kWindowHeight;
-		}
-		else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight) {
-			screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight;
-		}
-
 		//////////　　ここで線形補完　　//////////
 		// screenPos ... 移動先のカメラ
 		// BaseDraw::GetScreenPosition ... このフレームでの現在のカメラ座標
@@ -261,7 +276,7 @@ void Player::ReticleMove() {
 	else if (BaseConst::kWindowHeight - BaseConst::kPlayerReticleSize < reticlePosition.y) {
 		reticlePosition.y = BaseConst::kWindowHeight - BaseConst::kPlayerReticleSize;
 	}
-	
+
 	//// 射程を一定以下にする
 	//Point range = BaseMath::GetVector(centerPosition, BaseDraw::ScreentoWorld(reticlePosition));
 	//// 最大射程より遠かったら
