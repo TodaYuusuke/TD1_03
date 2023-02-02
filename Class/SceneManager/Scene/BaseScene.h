@@ -1,6 +1,17 @@
 #pragma once
 #include "MyBase/MyBase.h"
 
+#include "Class/Object/ObjectManager.h"
+#include "Class/Wire/WireManager.h"
+#include "Class/Map/MapManager.h"
+
+#include "Class/Boss/Boss.h"
+
+#include "Class/AttackHitBox/EnemyAttackHitBox.h"
+#include "Class/AttackHitBox/ObjectHitBox.h"
+
+#include "Class/PublicFlag/PublicFlag.h"
+
 class BaseScene {
 public: // ƒƒ“ƒoŠÖ”
 
