@@ -107,11 +107,12 @@ private:
 	/// <summary>
 	/// 戦闘開始時のアニメーションを再生する関数
 	/// </summary>
+	/// <param name="cameraMoveTime">振動する時間</param>
 	/// <param name="vibTime">振動する時間</param>
 	/// <param name="closeTime1">ボスが途中まで閉じるのにかかる時間</param>
 	/// <param name="roarTime">咆哮する時間</param>
 	/// <param name="closeTime2">ボスを完全に閉じる時間</param>
-	void PlayStartAnim(float vibTime, float closeTime1, float roarTime, float closeTime2);
+	void PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, float roarTime, float closeTime2);
 
 	// 行動なし関数
 	// 返り値：なし
@@ -296,9 +297,17 @@ private:
 	// 攻撃時にどの攻撃に分岐させるかを格納する変数
 	int attackBranch = Pattern1;
 
+	// 行動間の待機時間
 	float waitTime;
 
+	// 待機するか
 	bool pleaseWait;
+
+	// 演出スキップ用
+	float LongPressFrame;
+
+	// 現在演出中か
+	bool isPlayingAnim;
 
 	/******** HP関連 **********/
 	// HP(ここで初期化)
@@ -365,6 +374,13 @@ private:
 	float playerDistance;
 	// プレイヤーへの方向
 	float playerDirection;
+
+	// カットシーン用カメラ移動前座標
+	Point prevScreenPosition;
+
+	// カットシーン用カメラ移動後座標
+	Point nextScreenPosition;
+
 
 	/// 弾関連
 	// 弾の中心座標

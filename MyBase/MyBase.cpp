@@ -31,6 +31,9 @@ void MyBase::Initialize() {
 	easingT = 0;
 	width = 0;
 
+	// 演出スキップ用変数
+	longPressedFrame = 0;
+
 	// 乱数の初期化
 	srand(time(nullptr));
 }
@@ -83,3 +86,6 @@ void MyBase::Draw(){
 // 演出用変数
 float MyBase::easingT;
 float MyBase::width;
+
+// 演出スキップ用変数
+int MyBase::longPressedFrame;
