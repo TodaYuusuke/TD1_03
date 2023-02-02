@@ -276,8 +276,8 @@ void Player::ReticleMove() {
 
 // ジャンプ
 void Player::Jump() {
-	// スペースキー || A || LT が押されたとき
-	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger) || BaseInput::GetControllerState(kControllerButtonA, Trigger) || BaseInput::GetControllerState(kControllerButtonL2, Trigger)) {
+	// スペースキー || A || L || R が押されたとき
+	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger) || BaseInput::GetControllerState(kControllerButtonA, Trigger) || BaseInput::GetControllerState(kControllerButtonL1, Trigger) || BaseInput::GetControllerState(kControllerButtonR1, Trigger)) {
 		if (!isFlying) {
 			// 速度Yがマイナスのとき -> 0にリセットしてから
 			if (velocity.y < 0) {
@@ -293,8 +293,8 @@ void Player::Jump() {
 
 // ワイヤー関連
 void Player::ShotWire() {
-	// 左クリック || RB || LB
-	if (BaseInput::GetMouseState(LeftClick, Trigger) || BaseInput::GetControllerState(kControllerButtonR1, Trigger) || BaseInput::GetControllerState(kControllerButtonL1, Trigger)) {
+	// 左クリック || RT
+	if (BaseInput::GetMouseState(LeftClick, Trigger) || BaseInput::GetControllerState(kControllerButtonR2, Trigger)) {
 		//reticlePosition = BaseInput::GetMousePosition();
 
 		// 反動のベクトル
@@ -321,8 +321,8 @@ void Player::ShotWire() {
 			break;
 		}
 	}
-	// 右クリック || RT
-	if (BaseInput::GetMouseState(RightClick, Trigger) || BaseInput::GetControllerState(kControllerButtonR2, Trigger)) {
+	// 右クリック || LT
+	if (BaseInput::GetMouseState(RightClick, Trigger) || BaseInput::GetControllerState(kControllerButtonL2, Trigger)) {
 		wireManager->Attract();
 	}
 }
