@@ -14,12 +14,11 @@ void BaseConst::Initialize() {
 bool BaseConst::Loading() {
 
 	// チュートリアルステージロード
-	std::vector<std::string> map;
+	//std::vector<std::string> map;
 	std::ifstream tutorialMapifs("./Resources/Const/TutorialStage.csv");
 	std::string line;
 
 	int y = 0;
-
 	while (getline(tutorialMapifs, line)) {
 
 		std::vector<std::string> strvec = split(line, ',');
@@ -138,7 +137,7 @@ int BaseConst::kMapChipSizeWidth = 32;
 int BaseConst::kMapChipSizeHeight = 32;
 
 // マップデータ
-int BaseConst::kTutorialStageData[kTutorialStageSizeWidth][kTutorialStageSizeHeight];
+int BaseConst::kTutorialStageData[kTutorialStageSizeHeight][kTutorialStageSizeWidth];
 int BaseConst::kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
 
 #pragma endregion

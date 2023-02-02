@@ -16,8 +16,9 @@ void TutorialStage::Initialize() {
 	nextScene = sceneNone;
 
 	PublicFlag::Initialize();
-	
-	MapManager::BossInitialize();
+
+	ObjectHitBox::Initialize();
+	MapManager::TutorialInitialize();
 	objectManager.Initialize();
 	wireManager.Initialize();
 
@@ -25,12 +26,15 @@ void TutorialStage::Initialize() {
 }
 // 更新
 void TutorialStage::Update() {
+	// 当たり判定の初期化
+	EnemyAttackHitBox::Initialize();
+
 	// デバッグ用
 	if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
 		nextScene = sceneBossStage;
 	}
 
-	MapManager::Update();
+	//MapManager::Update();
 	objectManager.Update();
 	wireManager.Update(&objectManager);
 }
