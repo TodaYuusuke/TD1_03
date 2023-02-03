@@ -43,8 +43,19 @@ bool BaseAudio::Loading() {
 	// 斬撃音
 	kBossSlash = Novice::LoadAudio("./Resources/Audio/Boss/kBossSlash.wav");
 
+	// 再起動音
+	kBossReboot = Novice::LoadAudio("./Resources/Audio/Boss/kBossReboot.wav");
+
+	// 振動音
+	kBossVibration = Novice::LoadAudio("./Resources/Audio/Boss/kBossVib.wav");
+
 	// ダメージ音
-	kBossDamage = Novice::LoadAudio("./Resources/Audio/Boss/kBossDamage.wav");
+	kBossDamage = Novice::LoadAudio("./Resources/Audio/Boss/kBossDamage.mp3");
+
+	// ボスが左右に引っ張られる音
+	kBossPull = Novice::LoadAudio("./Resources/Audio/Boss/kBossPull.mp3");
+	// ボスが弱点をさらす時の音
+	kBossHardOpen = Novice::LoadAudio("./Resources/Audio/Boss/kBossHardOpen.mp3");
 
 #pragma endregion
 
@@ -117,8 +128,19 @@ int BaseAudio::kBossPickGun;
 // 射撃音
 int BaseAudio::kBossShot;
 
+// ボスの再起動音
+int BaseAudio::kBossReboot;
+
+// ボスの振動音
+int BaseAudio::kBossVibration;
+
+// ボスにダメージが入った時の音
 int BaseAudio::kBossDamage;
 
+// ボスが左右に引っ張られる音
+int BaseAudio::kBossPull;
+// ボスが弱点をさらす時の音
+int BaseAudio::kBossHardOpen;
 
 #pragma endregion
 

@@ -68,6 +68,17 @@ public: // 静的なオーディオの変数
 	// 射撃音
 	static int kBossShot;
 	
+	// ボスの振動の音
+	static int kBossVibration;
+
+	// ボスの起動音
+	static int kBossReboot;
+
+	// ボスが左右に引っ張られる音
+	static int kBossPull;
+	// ボスが弱点をさらす時の音
+	static int kBossHardOpen;
+
 	// ダメージ音
 	static int kBossDamage;
 
