@@ -329,6 +329,6 @@ int MapManager::GetMapChipType(int y, int x) {
 bool MapManager::isBoss;
 
 // チュートリアルマップの配列
-Map MapManager::tutorialMap[BaseConst::kTutorialStageSizeWidth][BaseConst::kTutorialStageSizeHeight];
+Map MapManager::tutorialMap[BaseConst::kTutorialStageSizeHeight][BaseConst::kTutorialStageSizeWidth];
 // マップの配列
 Map MapManager::bossMap[BaseConst::kBossStageSizeHeight][BaseConst::kBossStageSizeWidth];

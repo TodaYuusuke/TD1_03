@@ -35,7 +35,6 @@ void Map::Draw(Point drawPosition, int drawImageNum) {
             break;
         default:
             break;
-
     }
 }
 

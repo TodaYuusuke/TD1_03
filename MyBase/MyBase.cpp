@@ -54,12 +54,6 @@ void MyBase::Update() {
 
 	BaseEffectManager::Update();
 
-}
-
-// 描画
-void MyBase::Draw(){
-	BaseEffectManager::Draw();
-	BaseInput::Draw();
 
 	// 演出が始まったら黒幕を表示
 	if (PublicFlag::kisStaging) {
@@ -68,6 +62,21 @@ void MyBase::Draw(){
 			easingT = 0.5f;
 		}
 		width = BaseDraw::Ease_Out(easingT, 0, BaseConst::kWindowWidth, 0.5f);
+
+		// スキップ用の処理
+		if (BaseInput::GetKeyboardState(DIK_SPACE, Press)) {
+			longPressedFrame++;
+
+			if (longPressedFrame > 60) {
+				PublicFlag::kisStaging = false;
+				longPressedFrame = 0;
+			}
+		}
+		else {
+			if (longPressedFrame > 0) {
+				longPressedFrame--;
+			}
+		}
 	}
 	else {
 		easingT -= 1.0f / 60.0f;
@@ -76,10 +85,56 @@ void MyBase::Draw(){
 		}
 		width = BaseDraw::Ease_In(easingT, 0, BaseConst::kWindowWidth, 0.5f);
 	}
+}
+
+// 描画
+void MyBase::Draw(){
+	BaseEffectManager::Draw();
+	BaseInput::Draw();
 
 
+	// 黒幕描画
 	Novice::DrawBox(0, 0, width, 100, 0, BLACK, kFillModeSolid);
 	Novice::DrawBox(BaseConst::kWindowWidth - width, BaseConst::kWindowHeight - 100, width, 100, 0, BLACK, kFillModeSolid);
+
+	// スキップボタンの描画
+	if (PublicFlag::kisStaging) {
+		Point skipPosition[3] = {
+			BaseConst::kWindowWidth - 100,
+			BaseConst::kWindowHeight - 100,
+			BaseConst::kWindowWidth - 200,
+			BaseConst::kWindowHeight - 100,
+			BaseConst::kWindowWidth - 456,
+			BaseConst::kWindowHeight - 100,
+		};
+		// スキップ
+		Novice::DrawSpriteRect(
+			skipPosition[0].x, skipPosition[0].y, 0, 0, 100, 100,
+			BaseTexture::kUserInterfaceSkip[0], 1.0f, 1.0f, 0.0f, WHITE
+		);
+		Novice::DrawSpriteRect(
+			skipPosition[0].x, skipPosition[0].y, 0, 0, 100 / 60.0f * longPressedFrame, 100,
+			BaseTexture::kUserInterfaceSkip[1], 100 / 60.0f * longPressedFrame / 100.0f, 1.0f, 0.0f, WHITE
+		);
+		// A ボタン
+		Novice::DrawSpriteRect(
+			skipPosition[1].x, skipPosition[1].y, 0, 0, 100, 100,
+			BaseTexture::kUserInterfaceA[0], 1.0f, 1.0f, 0.0f, WHITE
+		);
+		Novice::DrawSpriteRect(
+			skipPosition[1].x, skipPosition[1].y, 0, 0, 100 / 60.0f * longPressedFrame, 100,
+			BaseTexture::kUserInterfaceA[1], 100 / 60.0f * longPressedFrame / 100.0f, 1.0f, 0.0f, WHITE
+		);
+		// Space ボタン
+		Novice::DrawSpriteRect(
+			skipPosition[2].x, skipPosition[2].y, 0, 0, 256, 100,
+			BaseTexture::kUserInterfaceSpace[0], 1.0f, 1.0f, 0.0f, WHITE
+		);
+		Novice::DrawSpriteRect(
+			skipPosition[2].x, skipPosition[2].y, 0, 0, 256 / 60.0f * longPressedFrame, 100,
+			BaseTexture::kUserInterfaceSpace[1], 256 / 60.0f * longPressedFrame / 256.0f, 1.0f, 0.0f, WHITE
+		);
+	}
 }
 
 

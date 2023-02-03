@@ -247,8 +247,10 @@ void Wire::Attract() {
 		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(position[0], position[1]));
 
 		// ベクトルが下方向の場合 -> すこし上方向に補正
-		if (p.y < 3) {
-			p.y = 3;
+		if (type[0] != typePlayer) {
+			if (p.y < 3) {
+				p.y = 3;
+			}
 		}
 
 		object[0]->AddVelocity(p);
@@ -265,8 +267,10 @@ void Wire::Attract() {
 		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(position[1], position[0]));
 
 		// ベクトルが下方向の場合 -> すこし上方向に補正
-		if (p.y < 3) {
-			p.y = 3;
+		if (type[1] != typePlayer) {
+			if (p.y < 3) {
+				p.y = 3;
+			}
 		}
 
 		object[1]->AddVelocity(p);
