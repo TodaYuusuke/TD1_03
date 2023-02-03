@@ -157,18 +157,19 @@ void Player::SuccessorUpdate() {
 // •`‰æ
 void Player::Draw() {
 	if (isAlive) {
+		// HP ‚Ì•`‰æ
 		if (isDrawHP) {
 			Point HPlt = {
 				centerPosition.x - 20.0f * 2,centerPosition.y + width / 3.0f * 4.5f
 			};
-			float padding = 15;
-			for (int i = 0; i < HP; i++) {
-				if (i % 2 == 0) {
-					BaseDraw::DrawSprite({ HPlt.x + i * padding,HPlt.y }, BaseTexture::kDebugTexture, { 10,20 }, 0.0f, RED);
-				}
-				else {
-					BaseDraw::DrawSprite({ HPlt.x + (i - 1) * padding + 10,HPlt.y }, BaseTexture::kDebugTexture, { 10,20 }, 0.0f, RED);
-				}
+			float padding = 30;
+			int fullHp = HP / 2;
+			int i = 0;
+			for (; i < fullHp; i++) {
+				BaseDraw::DrawSprite({ HPlt.x + i * padding,HPlt.y }, BaseTexture::kPlayerHeart[0], { 20 / 256.0f,20 / 256.0f }, 0.0f, WHITE);
+			}
+			if(HP % 2 == 1){
+				BaseDraw::DrawSprite({ HPlt.x + i * padding,HPlt.y }, BaseTexture::kPlayerHeart[1], { 20 / 256.0f,20 / 256.0f }, 0.0f, WHITE);
 			}
 		}
 

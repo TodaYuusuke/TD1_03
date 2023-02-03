@@ -65,6 +65,15 @@ bool BaseTexture::Loading() {
 
 #pragma endregion
 
+#pragma region プレイヤー
+
+	// ハート
+	kPlayerHeart[0] = Novice::LoadTexture("./Resources/Texture/Player/HeartFull.png");
+	kPlayerHeart[1] = Novice::LoadTexture("./Resources/Texture/Player/HeartHalf.png");
+
+
+#pragma endregion
+
 #pragma region その他
 
 	// ブロック
@@ -137,6 +146,14 @@ int BaseTexture::kBossRHook;
 int BaseTexture::kUserInterfaceA[2];
 int BaseTexture::kUserInterfaceSpace[2];
 int BaseTexture::kUserInterfaceSkip[2];
+
+#pragma endregion
+
+#pragma region プレイヤー
+
+// ハート
+int BaseTexture::kPlayerHeart[2];
+
 
 #pragma endregion
 

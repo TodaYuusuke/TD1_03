@@ -84,6 +84,14 @@ public: // 静的なテクスチャの変数
 
 #pragma endregion
 
+#pragma region プレイヤー
+
+	// ハート
+	static int kPlayerHeart[2];
+
+
+#pragma endregion
+
 #pragma region その他
 
 	// ブロック
