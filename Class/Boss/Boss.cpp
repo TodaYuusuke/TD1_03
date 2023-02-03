@@ -304,7 +304,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		coreDegree = degree;
 	}
 
-	if (isBattleStart == true) {
+	if (isBattleStart == true && inDead == false) {
 
 		if (HP == 0) {
 			attackPattern = NONE;
@@ -313,11 +313,18 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 		// 死亡状態の時の実行処理
 		if (HP <= 0) {
-			if (isEndDeadAnim == false) {
+			if (isEndDeadAnim == false && isPlayingDeadAnim == false) {
+
+				endAction = true;
+				inAction = false;
+
+				inDamage = false;
+				inStun = false;
+				t = 0.0f;
+				actionWayPoint = WAYPOINT0;
 				isPlayingDeadAnim = true;
 			}
 			// HPが0以下になったらボスを死亡状態にする
-			inDead = true;
 			HP = 0;
 		}
 
@@ -417,7 +424,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		}
 
 		// 行動の実行処理
-		if (inAction == true && inStun == false && canTakeDamage == false && inDead == false) {
+		if (inAction == true && inStun == false && canTakeDamage == false && isPlayingDeadAnim ==false) {
 			switch (attackPattern)
 			{
 			case Boss::NONE:
@@ -453,7 +460,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		}
 
 		// ダメージを受けられる状態にする処理
-		if (canTakeDamage == true) {
+		if (canTakeDamage == true && isPlayingDeadAnim == false) {
 			MakeDamagePossible(0.15f, 1.5f, 0.1f, 10.0f, 0.75f, 0.25f, wireManager, objectManager);
 		}
 		else {
@@ -582,11 +589,11 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		beforeDegree = degree;
 
 		if (isPlayingDeadAnim == true && isEndDeadAnim == false) {
-			PlayDeadAnim(2.5f, 3.0f, 3.0f, 0.5f, 2.0f);
+			PlayDeadAnim(2.5f, 3.0f, 5.0f, 0.45f, 2.0f, wireManager);
 		}
 
 	}
-	else {
+	else if (inDead == false) {
 		// 開始アニメーション再生
 		PlayStartAnim(2.5f, 5.0f, 0.25f, 2.5f, 1.0f);
 
@@ -612,79 +619,81 @@ void Boss::Draw() {
 	Point viewPosition = { centerPosition.x + shakeVariation.x,centerPosition.y + shakeVariation.y };
 	Point coreViewPosition = { coreCenterPosition.x + coreShakeVariation.x, coreCenterPosition.y + coreShakeVariation.y };
 
-	// ボス武器画像 現在は仮テクスチャ
-	BaseDraw::DesignationDrawQuad(
-		Boss::GetWeaponPosition(viewPosition),
-		weaponSize,
-		BaseTexture::kDebugTexture,
-		weaponTextureSize,
-		degree,
-		0xFFFFFFFF
-	);
+	if (inDead == false) {
+		// ボス武器画像 現在は仮テクスチャ
+		BaseDraw::DesignationDrawQuad(
+			Boss::GetWeaponPosition(viewPosition),
+			weaponSize,
+			BaseTexture::kDebugTexture,
+			weaponTextureSize,
+			degree,
+			0xFFFFFFFF
+		);
 
-	for (int i = 0; i < kmaxBullet; i++) {
-		if (isShot[i] == true) {
-			// 弾画像 現在は仮テクスチャ
-			BaseDraw::DesignationDrawQuad(
-				bulletCenterPosition[i],
-				bulletSize,
-				BaseTexture::kDebugTexture,
-				bulletTextureSize,
-				0.0f,
-				0x000000FF
-			);
+		for (int i = 0; i < kmaxBullet; i++) {
+			if (isShot[i] == true) {
+				// 弾画像 現在は仮テクスチャ
+				BaseDraw::DesignationDrawQuad(
+					bulletCenterPosition[i],
+					bulletSize,
+					BaseTexture::kDebugTexture,
+					bulletTextureSize,
+					0.0f,
+					0x000000FF
+				);
+			}
 		}
+
+		// ボスのコア
+		BaseDraw::DesignationDrawQuad(
+			coreViewPosition,
+			coreSize,
+			BaseTexture::kBossCore,
+			coreTextureSize,
+			coreDegree,
+			coreColor
+		);
+
+		// ボス左側フック画像
+		BaseDraw::DesignationDrawQuad(
+			Boss::GetLHookPosition(viewPosition),
+			hookSize,
+			BaseTexture::kBossLHook,
+			hookTextureSize,
+			degree,
+			color
+		);
+
+		// ボス右側フック画像
+		BaseDraw::DesignationDrawQuad(
+			Boss::GetRHookPosition(viewPosition),
+			hookSize,
+			BaseTexture::kBossRHook,
+			hookTextureSize,
+			degree,
+			color
+		);
+
+		// ボス左側画像
+		BaseDraw::DrawQuad(
+			Boss::GetLCoverPosition(viewPosition),
+			BaseTexture::kBossLCover,
+			textureSize,
+			1.0f,
+			degree,
+			color
+		);
+
+		// ボス右側画像
+		BaseDraw::DrawQuad(
+			Boss::GetRCoverPosition(viewPosition),
+			BaseTexture::kBossRCover,
+			textureSize,
+			1.0f,
+			degree,
+			color
+		);
 	}
-
-	// ボスのコア
-	BaseDraw::DesignationDrawQuad(
-		coreViewPosition,
-		coreSize,
-		BaseTexture::kBossCore,
-		coreTextureSize,
-		coreDegree,
-		coreColor
-	);
-
-	// ボス左側フック画像
-	BaseDraw::DesignationDrawQuad(
-		Boss::GetLHookPosition(viewPosition),
-		hookSize,
-		BaseTexture::kBossLHook,
-		hookTextureSize,
-		degree,
-		color
-	);
-
-	// ボス右側フック画像
-	BaseDraw::DesignationDrawQuad(
-		Boss::GetRHookPosition(viewPosition),
-		hookSize,
-		BaseTexture::kBossRHook,
-		hookTextureSize,
-		degree,
-		color
-	);
-
-	// ボス左側画像
-	BaseDraw::DrawQuad(
-		Boss::GetLCoverPosition(viewPosition),
-		BaseTexture::kBossLCover,
-		textureSize,
-		1.0f,
-		degree,
-		color
-	);
-
-	// ボス右側画像
-	BaseDraw::DrawQuad(
-		Boss::GetRCoverPosition(viewPosition),
-		BaseTexture::kBossRCover,
-		textureSize,
-		1.0f,
-		degree,
-		color
-	);
 
 	if (isBattleStart == true) {
 		// ボスHPゲージ（仮）
@@ -901,6 +910,16 @@ void Boss::Debug() {
 void Boss::Shake(int shakeStrength) {
 	shakeVariation.x = BaseMath::RandomF(-shakeStrength, shakeStrength, 1);
 	shakeVariation.y = BaseMath::RandomF(-shakeStrength, shakeStrength, 1);
+}
+
+// シェイク関数
+// 返り値：なし
+// 引数：
+// shakeStrength ... シェイクする際の強さ
+// ボスをシェイクさせる関数
+void Boss::CoreShake(int shakeStrength) {
+	coreShakeVariation.x = BaseMath::RandomF(-shakeStrength, shakeStrength, 1);
+	coreShakeVariation.y = BaseMath::RandomF(-shakeStrength, shakeStrength, 1);
 }
 
 // シェイクイーズアウト関数
@@ -1157,7 +1176,7 @@ void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, 
 /// <param name="vibTime">振動しながら縮む時間</param>
 /// <param name="explosiveTime">サイズを大きくして爆発する</param>
 /// <param name="cameraBackTime">カメラが元の位置に帰るまでの時間</param>
-void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime){
+void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime, WireManager* wireManager){
 	switch (actionWayPoint)
 	{
 		// 初期化
@@ -1166,6 +1185,8 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 		// 演出中の状態に
 		PublicFlag::kisStaging = true;
 		isPlayingDeadAnim = true;
+
+		wireManager->Initialize();
 
 		// スクリーン座標記録
 		prevScreenPosition = BaseDraw::GetScreenPosition();
@@ -1292,6 +1313,10 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 		}
 		else {
 
+			// コアのサイズを設定
+			prevCoreSize = coreSize;
+			nextCoreSize = { 64, 64 };
+
 			// 次の行動へ
 			t = 0.0f;
 			actionWayPoint++;
@@ -1303,12 +1328,21 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 	case Boss::WAYPOINT3:
 		if (t <= vibTime) {
 
-			CoreShakeEaseOut(30, separationTime);
+			CoreShake(15);
+
+			coreSize.x = BaseDraw::Ease_InOut(t, prevCoreSize.x, nextCoreSize.x - prevCoreSize.x, vibTime);
+			coreSize.y = BaseDraw::Ease_InOut(t, prevCoreSize.y, nextCoreSize.y - prevCoreSize.y, vibTime);
 
 			// tを少しづつプラスする
 			t += 1.0f / 60.0f;
 		}
 		else {
+
+			prevCoreSize = coreSize;
+			nextCoreSize = { 512, 512 };
+
+			prevColor = coreColor;
+			nextColor = 0xFFFFFF00;
 
 			// 次の行動へ
 			t = 0.0f;
@@ -1320,6 +1354,14 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 		// サイズを大きくして爆発
 	case Boss::WAYPOINT4:
 		if (t <= explosiveTime) {
+
+			CoreShake(20);
+
+			coreSize.x = BaseDraw::Ease_InOut(t, prevCoreSize.x, nextCoreSize.x - prevCoreSize.x, explosiveTime);
+			coreSize.y = BaseDraw::Ease_InOut(t, prevCoreSize.y, nextCoreSize.y - prevCoreSize.y, explosiveTime);
+
+			coreColor = ColorEasing(t - explosiveTime / 2, prevColor, nextColor, explosiveTime - explosiveTime / 2);
+
 			// tを少しづつプラスする
 			t += 1.0f / 60.0f;
 		}
@@ -1339,9 +1381,17 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 		}
 		else {
 
-			// 次の行動へ
+			// 演出終了
+			PublicFlag::kisStaging = false;
+			isPlayingDeadAnim = false;
+
+			// 初期化
+			isEndDeadAnim = true;
+			
+			inDead = true;
+
 			t = 0.0f;
-			actionWayPoint++;
+			actionWayPoint = WAYPOINT0;
 
 		}
 		break;

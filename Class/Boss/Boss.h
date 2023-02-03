@@ -96,6 +96,13 @@ private:
 	// ボスをシェイクさせる関数
 	void Shake(int shakeStrength);
 
+	// シェイク関数
+	// 返り値：なし
+	// 引数：
+	// shakeStrength ... シェイクする際の強さ
+	// ボスをシェイクさせる関数
+	void CoreShake(int shakeStrength);
+
 	// シェイクイーズアウト関数
 	// 返り値：なし
 	// 引数：
@@ -145,7 +152,7 @@ private:
 	/// <param name="vibTime">振動しながら縮む時間</param>
 	/// <param name="explosiveTime">サイズを大きくして爆発する</param>
 	/// <param name="cameraBackTime">カメラが元の位置に帰るまでの時間</param>
-	void PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime);
+	void PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime, WireManager* wireManager);
 
 	// 行動なし関数
 	// 返り値：なし
@@ -453,6 +460,10 @@ private:
 	Point size;
 	// 核のサイズ
 	Point coreSize;
+
+	// 核の行動前後サイズ
+	Point prevCoreSize;
+	Point nextCoreSize;
 
 	// フックのサイズ
 	Point hookSize;
