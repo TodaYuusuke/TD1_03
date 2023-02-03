@@ -100,11 +100,14 @@ void MyBase::Draw(){
 	// スキップボタンの描画
 	if (PublicFlag::kisStaging) {
 		Point skipPosition[3] = {
+			// スキップ
 			BaseConst::kWindowWidth - 100,
 			BaseConst::kWindowHeight - 100,
+			// A ボタン
 			BaseConst::kWindowWidth - 200,
 			BaseConst::kWindowHeight - 100,
-			BaseConst::kWindowWidth - 456,
+			// SPACE キー
+			BaseConst::kWindowWidth - 430,
 			BaseConst::kWindowHeight - 100,
 		};
 		// スキップ
@@ -117,15 +120,31 @@ void MyBase::Draw(){
 			BaseTexture::kUserInterfaceSkip[1], 100 / 60.0f * longPressedFrame / 100.0f, 1.0f, 0.0f, WHITE
 		);
 		// A ボタン
-		Novice::DrawSpriteRect(
-			skipPosition[1].x, skipPosition[1].y, 0, 0, 100, 100,
-			BaseTexture::kUserInterfaceA[0], 1.0f, 1.0f, 0.0f, WHITE
-		);
-		Novice::DrawSpriteRect(
-			skipPosition[1].x, skipPosition[1].y, 0, 0, 100 / 60.0f * longPressedFrame, 100,
-			BaseTexture::kUserInterfaceA[1], 100 / 60.0f * longPressedFrame / 100.0f, 1.0f, 0.0f, WHITE
-		);
+		if (BaseInput::GetControllerState(kControllerButtonA, Press)) {
+			Novice::DrawSpriteRect(
+				skipPosition[1].x, skipPosition[1].y, 0, 0, 100, 100,
+				BaseTexture::kUserInterfaceA[1], 1.0f, 1.0f, 0.0f, WHITE
+			);
+		}
+		else {
+			Novice::DrawSpriteRect(
+				skipPosition[1].x, skipPosition[1].y, 0, 0, 100, 100,
+				BaseTexture::kUserInterfaceA[0], 1.0f, 1.0f, 0.0f, WHITE
+			);
+		}
 		// Space ボタン
+		if (BaseInput::GetKeyboardState(DIK_SPACE,Press)) {
+			Novice::DrawSpriteRect(
+				skipPosition[2].x, skipPosition[2].y, 0, 0, 256, 100,
+				BaseTexture::kUserInterfaceSpace[1], 1.0f, 1.0f, 0.0f, WHITE
+			);
+		}
+		else {
+			Novice::DrawSpriteRect(
+				skipPosition[2].x, skipPosition[2].y, 0, 0, 256, 100,
+				BaseTexture::kUserInterfaceSpace[0], 1.0f, 1.0f, 0.0f, WHITE
+			);
+		}/*
 		Novice::DrawSpriteRect(
 			skipPosition[2].x, skipPosition[2].y, 0, 0, 256, 100,
 			BaseTexture::kUserInterfaceSpace[0], 1.0f, 1.0f, 0.0f, WHITE
@@ -133,7 +152,7 @@ void MyBase::Draw(){
 		Novice::DrawSpriteRect(
 			skipPosition[2].x, skipPosition[2].y, 0, 0, 256 / 60.0f * longPressedFrame, 100,
 			BaseTexture::kUserInterfaceSpace[1], 256 / 60.0f * longPressedFrame / 256.0f, 1.0f, 0.0f, WHITE
-		);
+		);*/
 	}
 }
 
