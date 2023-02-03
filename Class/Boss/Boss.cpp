@@ -186,7 +186,7 @@ void Boss::Initialize(ObjectManager* objectManager) {
 
 	for (int i = 0; i < kmaxWireHang; i++) {
 		this->wireHangPosition[i] = { 0.0f, 0.0f };
-		hook[i] = objectManager->MakeNewObjectHook(wireHangPosition[i], hookSize);
+		hook[i] = objectManager->MakeNewObjectHook(wireHangPosition[i], {hookSize.x -20.0f, hookSize.y -20.0f});
 	}
 
 
