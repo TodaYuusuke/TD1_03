@@ -48,8 +48,10 @@ private: // メンバ変数
 	// 演出用変数
 	static float easingT;
 	static float width;
+	static Point skipPosition[3];
 
 	// 演出スキップ用変数
 	static int longPressedFrame;
+
 
 };

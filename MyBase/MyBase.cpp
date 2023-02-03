@@ -30,7 +30,21 @@ void MyBase::Initialize() {
 	// 演出用変数
 	easingT = 0;
 	width = 0;
-
+	// スキップ
+	skipPosition[0] = {
+		BaseConst::kWindowWidth - 100.0f,
+		BaseConst::kWindowHeight - 100.0f
+	};
+	// A ボタン
+	skipPosition[1] = {
+		BaseConst::kWindowWidth - 200.0f,
+		BaseConst::kWindowHeight - 100.0f
+	};
+	// SPACE キー
+	skipPosition[2] = {
+		BaseConst::kWindowWidth - 430.0f,
+		BaseConst::kWindowHeight - 100.0f
+	};
 	// 演出スキップ用変数
 	longPressedFrame = 0;
 
@@ -88,7 +102,7 @@ void MyBase::Update() {
 }
 
 // 描画
-void MyBase::Draw(){
+void MyBase::Draw() {
 	BaseEffectManager::Draw();
 	BaseInput::Draw();
 
@@ -99,17 +113,7 @@ void MyBase::Draw(){
 
 	// スキップボタンの描画
 	if (PublicFlag::kisStaging) {
-		Point skipPosition[3] = {
-			// スキップ
-			BaseConst::kWindowWidth - 100,
-			BaseConst::kWindowHeight - 100,
-			// A ボタン
-			BaseConst::kWindowWidth - 200,
-			BaseConst::kWindowHeight - 100,
-			// SPACE キー
-			BaseConst::kWindowWidth - 430,
-			BaseConst::kWindowHeight - 100,
-		};
+
 		// スキップ
 		Novice::DrawSpriteRect(
 			skipPosition[0].x, skipPosition[0].y, 0, 0, 100, 100,
@@ -133,7 +137,7 @@ void MyBase::Draw(){
 			);
 		}
 		// Space ボタン
-		if (BaseInput::GetKeyboardState(DIK_SPACE,Press)) {
+		if (BaseInput::GetKeyboardState(DIK_SPACE, Press)) {
 			Novice::DrawSpriteRect(
 				skipPosition[2].x, skipPosition[2].y, 0, 0, 256, 100,
 				BaseTexture::kUserInterfaceSpace[1], 1.0f, 1.0f, 0.0f, WHITE
@@ -160,6 +164,7 @@ void MyBase::Draw(){
 // 演出用変数
 float MyBase::easingT;
 float MyBase::width;
+Point MyBase::skipPosition[3];
 
 // 演出スキップ用変数
 int MyBase::longPressedFrame;
