@@ -566,7 +566,17 @@ private:
 	unsigned int coreColor;
 
 	// ‰¹
+
+	// ˆø‚­Žž‚Ì‰¹
 	int PullSoundHundle;
 	int PullVoiceHundle;
+
+	// ™ôšK‰¹
+	int screamSoundHundle;
+	int screamVoiceHundle;
+
+	// ’n–Â‚è‰¹
+	int RumbleEarthSoundHundle;
+	int RumbleEarthVoiceHundle;
 
 };
