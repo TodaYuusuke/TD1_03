@@ -5,6 +5,7 @@
 #include "Class/Wire/WireManager.h"
 #include "Class/Map/MapManager.h"
 
+#include "Class/MiddleBoss/MiddleBoss.h"
 #include "Class/Boss/Boss.h"
 
 #include "Class/AttackHitBox/EnemyAttackHitBox.h"

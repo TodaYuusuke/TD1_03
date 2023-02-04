@@ -78,7 +78,10 @@ public: // メンバ関数
 	/// <returns>Object</returns>
 	Object* GetSelectObject(ObjectType objecttype);
 
-
+	/// <summary>
+	/// 全オブジェクト中にブロックが生成されているかどうかを取得する関数
+	/// </summary>
+	bool GetIsCreatedBlock();
 
 	// プレイヤーの中心座標を受け取る関数
 	Point GetPlayerPosition();

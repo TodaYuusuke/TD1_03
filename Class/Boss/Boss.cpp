@@ -537,11 +537,6 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree + (degreeDifference * i), bladeDamage);
 		}
 
-		// 武器のヒットボックス
-		EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree, bladeDamage);
-		EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree - 30.0f, bladeDamage);
-		EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree + 30.0f, bladeDamage);
-
 		/// 弾関係の更新処理
 		// 発射地点の更新
 		shotPoint = GetShotPosition(centerPosition);
@@ -1609,7 +1604,7 @@ void Boss::Separation(Point playerPosition, float moveTime, float afterWaitTime,
 // rotateTime ... 回転する時間。これは秒数
 // afterWaitTime ... 行動後に発生する待機時間
 // ボスを回転させる関数
-void  Boss::Rotate(float endDegree, float RotateTime, float afterWaitTime, WireManager* wireManager) {
+void Boss::Rotate(float endDegree, float RotateTime, float afterWaitTime, WireManager* wireManager) {
 
 	static int startDegree;
 	// 初期化処理

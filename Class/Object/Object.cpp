@@ -250,13 +250,26 @@ void Object::CheckFieldHitBox() {
 		}
 	}
 	// 右方向に飛び出したとき
-	while (centerPosition.x + width / 2 > (BaseConst::kBossStageSizeWidth - 1) * BaseConst::kMapChipSizeWidth) {
-		// 座標を左に
-		centerPosition.x -= 1;
-		// 再計算
-		for (int i = 0; i < 4; i++) {
-			checkQuadPoint[i].x -= 1;
-			checkRhombusPoint[i].x -= 1;
+	if (MapManager::GetisBoss() == true) {
+		while (centerPosition.x + width / 2 > (BaseConst::kBossStageSizeWidth - 1) * BaseConst::kMapChipSizeWidth) {
+			// 座標を左に
+			centerPosition.x -= 1;
+			// 再計算
+			for (int i = 0; i < 4; i++) {
+				checkQuadPoint[i].x -= 1;
+				checkRhombusPoint[i].x -= 1;
+			}
+		}
+	}
+	else {
+		while (centerPosition.x + width / 2 > (BaseConst::kTutorialStageSizeWidth - 1) * BaseConst::kMapChipSizeWidth) {
+			// 座標を左に
+			centerPosition.x -= 1;
+			// 再計算
+			for (int i = 0; i < 4; i++) {
+				checkQuadPoint[i].x -= 1;
+				checkRhombusPoint[i].x -= 1;
+			}
 		}
 	}
 	// 下方向に飛び出したとき
@@ -270,15 +283,30 @@ void Object::CheckFieldHitBox() {
 		}
 	}
 	// 上方向に飛び出したとき
-	while (centerPosition.y + height / 2 > (BaseConst::kBossStageSizeHeight - 1) * BaseConst::kMapChipSizeHeight) {
-		// 座標を下に
-		centerPosition.y -= 1;
-		// 速度を0に
-		velocity.y = 0;
-		// 再計算
-		for (int i = 0; i < 4; i++) {
-			checkQuadPoint[i].y -= 1;
-			checkRhombusPoint[i].y -= 1;
+	if (MapManager::GetisBoss() == true) {
+		while (centerPosition.y + height / 2 > (BaseConst::kBossStageSizeHeight - 1) * BaseConst::kMapChipSizeHeight) {
+			// 座標を下に
+			centerPosition.y -= 1;
+			// 速度を0に
+			velocity.y = 0;
+			// 再計算
+			for (int i = 0; i < 4; i++) {
+				checkQuadPoint[i].y -= 1;
+				checkRhombusPoint[i].y -= 1;
+			}
+		}
+	}
+	else {
+		while (centerPosition.y + height / 2 > (BaseConst::kTutorialStageSizeHeight - 1) * BaseConst::kMapChipSizeHeight) {
+			// 座標を下に
+			centerPosition.y -= 1;
+			// 速度を0に
+			velocity.y = 0;
+			// 再計算
+			for (int i = 0; i < 4; i++) {
+				checkQuadPoint[i].y -= 1;
+				checkRhombusPoint[i].y -= 1;
+			}
 		}
 	}
 }

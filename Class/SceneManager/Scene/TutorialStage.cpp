@@ -23,6 +23,9 @@ void TutorialStage::Initialize() {
 	wireManager.Initialize();
 
 	objectManager.MakeNewObjectPlayer({ 100,700 }, &wireManager);
+
+	middleBoss.Initialize(&objectManager);
+
 }
 // çXêV
 void TutorialStage::Update() {
@@ -34,7 +37,8 @@ void TutorialStage::Update() {
 		nextScene = sceneBossStage;
 	}
 
-	//MapManager::Update();
+	MapManager::Update();
+	middleBoss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
 	objectManager.Update();
 	wireManager.Update(&objectManager);
 }
@@ -44,6 +48,9 @@ void TutorialStage::Draw() {
 	Novice::ScreenPrintf(0, 0, "Push ENTER to Skip Stage");
 
 	MapManager::Draw();
+
+	middleBoss.Draw();
+
 	objectManager.Draw();
 	wireManager.Draw();
 }
