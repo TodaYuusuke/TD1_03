@@ -73,6 +73,25 @@ public: // 静的なテクスチャの変数
 
 #pragma endregion
 
+#pragma region UI
+
+	// A ボタン
+	static int kUserInterfaceA[2];
+	// Space
+	static int kUserInterfaceSpace[2];
+	// Skip
+	static int kUserInterfaceSkip[2];
+
+#pragma endregion
+
+#pragma region プレイヤー
+
+	// ハート
+	static int kPlayerHeart[2];
+
+
+#pragma endregion
+
 #pragma region その他
 
 	// ブロック

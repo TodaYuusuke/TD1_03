@@ -52,6 +52,28 @@ bool BaseTexture::Loading() {
 	kBossRHook = Novice::LoadTexture("./Resources/Texture/Boss/RHook.png");
 #pragma endregion
 
+#pragma region UI
+
+	kUserInterfaceA[0] = Novice::LoadTexture("./Resources/Texture/UI/A0.png");
+	kUserInterfaceA[1] = Novice::LoadTexture("./Resources/Texture/UI/A1.png");
+	
+	kUserInterfaceSpace[0] = Novice::LoadTexture("./Resources/Texture/UI/Space0.png");
+	kUserInterfaceSpace[1] = Novice::LoadTexture("./Resources/Texture/UI/Space1.png");
+	
+	kUserInterfaceSkip[0] = Novice::LoadTexture("./Resources/Texture/UI/Skip0.png");
+	kUserInterfaceSkip[1] = Novice::LoadTexture("./Resources/Texture/UI/Skip1.png");
+
+#pragma endregion
+
+#pragma region プレイヤー
+
+	// ハート
+	kPlayerHeart[0] = Novice::LoadTexture("./Resources/Texture/Player/HeartFull.png");
+	kPlayerHeart[1] = Novice::LoadTexture("./Resources/Texture/Player/HeartHalf.png");
+
+
+#pragma endregion
+
 #pragma region その他
 
 	// ブロック
@@ -116,6 +138,22 @@ int BaseTexture::kBossLCover;
 
 int BaseTexture::kBossLHook;
 int BaseTexture::kBossRHook;
+
+#pragma endregion
+
+#pragma region UI
+
+int BaseTexture::kUserInterfaceA[2];
+int BaseTexture::kUserInterfaceSpace[2];
+int BaseTexture::kUserInterfaceSkip[2];
+
+#pragma endregion
+
+#pragma region プレイヤー
+
+// ハート
+int BaseTexture::kPlayerHeart[2];
+
 
 #pragma endregion
 
