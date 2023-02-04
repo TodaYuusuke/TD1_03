@@ -30,6 +30,9 @@ bool BaseAudio::Loading() {
 	// 閉じる音
 	kBossClose = Novice::LoadAudio("./Resources/Audio/Boss/kBossClose.mp3");
 
+	// 咆哮音
+	kBossScream = Novice::LoadAudio("./Resources/Audio/Boss/kBossScream.wav");
+
 	// 突進する音
 	kBossRush = Novice::LoadAudio("./Resources/Audio/Boss/kBossRush.mp3");
 
@@ -43,8 +46,34 @@ bool BaseAudio::Loading() {
 	// 斬撃音
 	kBossSlash = Novice::LoadAudio("./Resources/Audio/Boss/kBossSlash.wav");
 
+	// 壁にぶつかった時の音
+	kBossStrike = Novice::LoadAudio("./Resources/Audio/Boss/kBossStrike.mp3");
+
+	// 再起動音
+	kBossReboot = Novice::LoadAudio("./Resources/Audio/Boss/kBossReboot.wav");
+
+	// ボスのチャージ音
+	kBossCharge = Novice::LoadAudio("./Resources/Audio/Boss/kBossCharge.mp3");
+
+	// 振動音
+	kBossVibration = Novice::LoadAudio("./Resources/Audio/Boss/kBossVib.wav");
+
+	// 地鳴り音
+	kBossRumbleEarth = Novice::LoadAudio("./Resources/Audio/Boss/kBossRumbleEarth.mp3");
+
 	// ダメージ音
-	kBossDamage = Novice::LoadAudio("./Resources/Audio/Boss/kBossDamage.wav");
+	kBossDamage = Novice::LoadAudio("./Resources/Audio/Boss/kBossDamage.mp3");
+
+	// ボスが左右に引っ張られる音
+	kBossPull = Novice::LoadAudio("./Resources/Audio/Boss/kBossPull.mp3");
+	// ボスが弱点をさらす時の音
+	kBossHardOpen = Novice::LoadAudio("./Resources/Audio/Boss/kBossHardOpen.mp3");
+
+	// ボスのコアと核が分離する音
+	kBossSeparateCore = Novice::LoadAudio("./Resources/Audio/Boss/kBossSeparateCore.mp3");
+
+	// ボスを消去する音
+	kBossDelete = Novice::LoadAudio("./Resources/Audio/Boss/kBossDelete.mp3");
 
 #pragma endregion
 
@@ -104,6 +133,9 @@ int BaseAudio::kBossOpen;
 // 閉じる音
 int BaseAudio::kBossClose;
 
+// 咆哮音
+int BaseAudio::kBossScream;
+
 // 突進する音
 int BaseAudio::kBossRush;
 
@@ -112,13 +144,39 @@ int BaseAudio::kBossDeployBlade;
 // ブレード斬撃音
 int BaseAudio::kBossSlash;
 
+// 壁にぶつかった時の音
+int BaseAudio::kBossStrike;
+
 // 銃を取り出す音
 int BaseAudio::kBossPickGun;
 // 射撃音
 int BaseAudio::kBossShot;
 
+// ボスの再起動音
+int BaseAudio::kBossReboot;
+
+// ボスのチャージ音
+int BaseAudio::kBossCharge;
+
+// ボスの振動音
+int BaseAudio::kBossVibration;
+
+// ボスの地鳴り音
+int BaseAudio::kBossRumbleEarth;
+
+// ボスにダメージが入った時の音
 int BaseAudio::kBossDamage;
 
+// ボスが左右に引っ張られる音
+int BaseAudio::kBossPull;
+// ボスが弱点をさらす時の音
+int BaseAudio::kBossHardOpen;
+
+// ボスのコアと核が分離する音
+int BaseAudio::kBossSeparateCore;
+
+// ボスを消去する音
+int BaseAudio::kBossDelete;
 
 #pragma endregion
 

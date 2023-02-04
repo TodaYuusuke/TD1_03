@@ -55,6 +55,9 @@ public: // 静的なオーディオの変数
 	// 閉じる音
 	static int kBossClose;
 
+	// 咆哮音
+	static int kBossScream;
+
 	// 突進する音
 	static int kBossRush;
 
@@ -63,13 +66,39 @@ public: // 静的なオーディオの変数
 	// ブレード斬撃音
 	static int kBossSlash;
 
+	// 壁にぶつかった時の音
+	static int kBossStrike;
+
 	// 銃を取り出す音
 	static int kBossPickGun;
 	// 射撃音
 	static int kBossShot;
 	
+	// ボスのチャージ音
+	static int kBossCharge;
+
+	// ボスの振動の音
+	static int kBossVibration;
+
+	// ボスの起動音
+	static int kBossReboot;
+
+	// ボスの地鳴り音
+	static int kBossRumbleEarth;
+
+	// ボスが左右に引っ張られる音
+	static int kBossPull;
+	// ボスが弱点をさらす時の音
+	static int kBossHardOpen;
+
 	// ダメージ音
 	static int kBossDamage;
+
+	// ボスのコアと核が分離する音
+	static int kBossSeparateCore;
+
+	// ボス消滅時の音
+	static int kBossDelete;
 
 #pragma endregion
 

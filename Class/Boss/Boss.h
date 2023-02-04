@@ -494,6 +494,9 @@ private:
 	// バイブレーション初期化の際に用いられる変数
 	bool vibInit;
 
+	// 振動音再生を管理する
+	bool isVibPlaySound;
+
 	// 戦闘が開始しているか
 	bool isBattleStart;
 
@@ -561,5 +564,19 @@ private:
 
 	// 核の色
 	unsigned int coreColor;
+
+	// 音
+
+	// 引く時の音
+	int PullSoundHundle;
+	int PullVoiceHundle;
+
+	// 咆哮音
+	int screamSoundHundle;
+	int screamVoiceHundle;
+
+	// 地鳴り音
+	int RumbleEarthSoundHundle;
+	int RumbleEarthVoiceHundle;
 
 };
