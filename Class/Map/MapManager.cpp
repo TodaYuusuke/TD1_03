@@ -31,7 +31,7 @@ void MapManager::BossInitialize() {
 }
 // 更新
 void MapManager::Update() {
-    if (isBoss) {
+    /*if (isBoss) {
         for (int y = 0; y < BaseConst::kBossStageSizeHeight; y++) {
             for (int x = 0; x < BaseConst::kBossStageSizeWidth; x++) {
                 bossMap[y][x].Update();
@@ -44,7 +44,7 @@ void MapManager::Update() {
                 tutorialMap[y][x].Update();
             }
         }
-    }
+    }*/
 }
 // 描画
 void MapManager::Draw() {
@@ -159,7 +159,9 @@ int MapManager::GetMapChipType(int y, int x) {
         }
         // 下が同じチップかを確認
         else {
-            if (bossMap[y][x].type == bossMap[y + 1][x].type) {
+            if (bossMap[y][x].type == bossMap[y + 1][x].type ||
+                (bossMap[y][x].type == kTypeNormal && bossMap[y + 1][x].type == kTypeWall) ||
+                (bossMap[y][x].type == kTypeWall && bossMap[y + 1][x].type == kTypeNormal)) {
                 down = true;
             }
             else {
@@ -174,7 +176,9 @@ int MapManager::GetMapChipType(int y, int x) {
         }
         // 左が同じチップかを確認
         else {
-            if (bossMap[y][x].type == bossMap[y][x - 1].type) {
+            if (bossMap[y][x].type == bossMap[y][x - 1].type ||
+                (bossMap[y][x].type == kTypeNormal && bossMap[y][x - 1].type == kTypeWall) ||
+                (bossMap[y][x].type == kTypeWall && bossMap[y][x - 1].type == kTypeNormal)) {
                 left = true;
             }
             else {
@@ -189,7 +193,9 @@ int MapManager::GetMapChipType(int y, int x) {
         }
         // 右が同じチップかを確認
         else {
-            if (bossMap[y][x].type == bossMap[y][x + 1].type) {
+            if (bossMap[y][x].type == bossMap[y][x + 1].type ||
+                (bossMap[y][x].type == kTypeNormal && bossMap[y][x + 1].type == kTypeWall) ||
+                (bossMap[y][x].type == kTypeWall && bossMap[y][x + 1].type == kTypeNormal)) {
                 right = true;
             }
             else {
@@ -205,7 +211,9 @@ int MapManager::GetMapChipType(int y, int x) {
         }
         // 上が同じチップかを確認
         else {
-            if (tutorialMap[y][x].type == tutorialMap[y - 1][x].type) {
+            if (tutorialMap[y][x].type == tutorialMap[y - 1][x].type ||
+                (tutorialMap[y][x].type == kTypeNormal && tutorialMap[y - 1][x].type == kTypeWall) ||
+                (tutorialMap[y][x].type == kTypeWall && tutorialMap[y - 1][x].type == kTypeNormal)) {
                 up = true;
             }
             else {
@@ -220,7 +228,9 @@ int MapManager::GetMapChipType(int y, int x) {
         }
         // 下が同じチップかを確認
         else {
-            if (tutorialMap[y][x].type == tutorialMap[y + 1][x].type) {
+            if (tutorialMap[y][x].type == tutorialMap[y + 1][x].type ||
+                (tutorialMap[y][x].type == kTypeNormal && tutorialMap[y + 1][x].type == kTypeWall) ||
+                (tutorialMap[y][x].type == kTypeWall && tutorialMap[y + 1][x].type == kTypeNormal)) {
                 down = true;
             }
             else {
@@ -235,7 +245,9 @@ int MapManager::GetMapChipType(int y, int x) {
         }
         // 左が同じチップかを確認
         else {
-            if (tutorialMap[y][x].type == tutorialMap[y][x - 1].type) {
+            if (tutorialMap[y][x].type == tutorialMap[y][x - 1].type ||
+                (tutorialMap[y][x].type == kTypeNormal && tutorialMap[y][x - 1].type == kTypeWall) ||
+                (tutorialMap[y][x].type == kTypeWall && tutorialMap[y][x - 1].type == kTypeNormal)) {
                 left = true;
             }
             else {
@@ -250,7 +262,9 @@ int MapManager::GetMapChipType(int y, int x) {
         }
         // 右が同じチップかを確認
         else {
-            if (tutorialMap[y][x].type == tutorialMap[y][x + 1].type) {
+            if (tutorialMap[y][x].type == tutorialMap[y][x + 1].type ||
+                (tutorialMap[y][x].type == kTypeNormal && tutorialMap[y][x + 1].type == kTypeWall) ||
+                (tutorialMap[y][x].type == kTypeWall && tutorialMap[y][x + 1].type == kTypeNormal)) {
                 right = true;
             }
             else {

@@ -46,10 +46,11 @@ public: // メンバ関数
 private: // メンバ変数
 
 	// エフェクト配列のサイズ
-	const static int effectArraySize = 1024;
+	const static int effectArraySize = 128;
 
 	// エフェクトの配列
 	static BaseEffect* effects[effectArraySize];
+	\
 
 	// 次に追加するエフェクトの添字
 	static int nextIndex;
