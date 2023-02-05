@@ -172,6 +172,23 @@ Object* ObjectManager::GetSelectObject(ObjectType objecttype) {
 	return NULL;
 }
 
+/// <summary>
+/// 全オブジェクト中にブロックが生成されているかどうかを取得する関数
+/// </summary>
+/// <returns></returns>
+bool ObjectManager::GetIsCreatedBlock() {
+	// 全てのオブジェクトの中からブロックを探す
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeBlock && object[i]->GetisAlive() == true) {
+			// ある場合はtrue
+			return true;
+		}
+	}
+	// ない場合はfalse
+	return false;
+
+}
+
 // プレイヤーの中心座標を受け取る関数
 Point ObjectManager::GetPlayerPosition() {
 	for (int i = 0; i < kMaxObjectSize; i++) {

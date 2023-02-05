@@ -110,6 +110,9 @@
     <ClCompile Include="Class\SceneManager\Scene\BossStage.cpp">
       <Filter>Class\SceneManager\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Class\MiddleBoss\MiddleBoss.cpp">
+      <Filter>Class\MiddleBoss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyBase\Effect\BaseEffect.h">
@@ -292,6 +295,9 @@
     <ClInclude Include="Class\SceneManager\Scene\BossStage.h">
       <Filter>Class\SceneManager\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Class\MiddleBoss\MiddleBoss.h">
+      <Filter>Class\MiddleBoss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="MyBase">
@@ -365,6 +371,9 @@
     </Filter>
     <Filter Include="Class\PublicFlag">
       <UniqueIdentifier>{84d89fa3-dc5e-455c-949a-c3b2f6a32d47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\MiddleBoss">
+      <UniqueIdentifier>{5e0f2194-49f9-4cc3-ad22-b04a42665f39}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

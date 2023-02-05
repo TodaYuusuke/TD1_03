@@ -22,4 +22,6 @@ private: // ƒƒ“ƒo•Ï”
 
 	ObjectManager objectManager;
 	WireManager wireManager;
+
+	MiddleBoss middleBoss;
 };
