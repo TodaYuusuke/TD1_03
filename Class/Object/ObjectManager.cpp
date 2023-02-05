@@ -199,6 +199,33 @@ Point ObjectManager::GetPlayerPosition() {
 
 	return { -10000,-10000 };
 }
+// プレイヤーに範囲制限を切り替える関数
+// 左上座標、右下座標
+bool ObjectManager::SetPlayerMoveLimit(Point leftTop, Point rightBottom) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typePlayer) {
+			Player* p = (Player*)object[i];
+			p->SetIsLimitMove(true);
+			p->SetLimitLeftTop(leftTop);
+			p->SetLimitRightBottom(rightBottom);
+
+			// 成功
+			return true;
+		}
+	}
+
+	// 失敗
+	return false;
+}
+// プレイヤーの範囲制限を消す関数
+void ObjectManager::DeletePlayerMoveLimit() {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typePlayer) {
+			Player* p = (Player*)object[i];
+			p->SetIsLimitMove(false);
+		}
+	}
+}
 
 
 // コアにブロックがヒットしたかを返す関数

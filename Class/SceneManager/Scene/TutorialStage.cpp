@@ -35,7 +35,7 @@ void TutorialStage::Update() {
 	// デバッグ用
 	if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
 		nextScene = sceneBossStage;
-	} 
+	}
 	// 定数のホットリロード
 	if (BaseInput::GetKeyboardState(DIK_F1, Trigger)) {
 		PublicFlag::Initialize();
