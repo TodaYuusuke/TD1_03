@@ -120,7 +120,7 @@ void MiddleBoss::Initialize(ObjectManager* objectManager) {
 void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, WireManager* wireManager) {
 
 	// 画面中央の座標を更新
-	screenCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth / 2) + 300.0f,
+	screenCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth / 2) + 2000.0f,
 		(float)(BaseConst::kMapChipSizeHeight * BaseConst::kTutorialStageSizeHeight / 2) };
 
 	// プレイヤーが一定の距離以上に近づいたらボスとの戦闘を開始する
@@ -399,8 +399,7 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 			isPlayingStartAnim = false;
 
 			// 初期化
-			centerPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth / 2),
-				(float)(BaseConst::kMapChipSizeHeight * BaseConst::kTutorialStageSizeHeight / 2) };;
+			centerPosition = screenCenterPosition;
 
 			shakeVariation = { 0.0f, 0.0f };
 			isBattleStart = true;
@@ -637,6 +636,9 @@ void MiddleBoss::PlayStartAnim(float cameraMoveTime, float appearTime, float roa
 		// 演出中の状態に
 		PublicFlag::kisStaging = true;
 		isPlayingStartAnim = true;
+
+		// 中心の座表を動かす
+		centerPosition.x = screenCenterPosition.x;
 
 		// スクリーン座標記録
 		prevScreenPosition = BaseDraw::GetScreenPosition();
