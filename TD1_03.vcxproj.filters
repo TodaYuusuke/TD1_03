@@ -351,9 +351,6 @@
     <Filter Include="Class\Object\Player">
       <UniqueIdentifier>{7fd75e9c-3d41-4696-a85f-d19860eaf8a2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Class\Object\Enemy">
-      <UniqueIdentifier>{ef356951-2f3c-4677-9299-039dc1c3e3b5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Class\AttackHitBox">
       <UniqueIdentifier>{234ad5f3-ae41-46ea-a673-7cb61b74b43c}</UniqueIdentifier>
     </Filter>
@@ -374,6 +371,9 @@
     </Filter>
     <Filter Include="Class\MiddleBoss">
       <UniqueIdentifier>{5e0f2194-49f9-4cc3-ad22-b04a42665f39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Object\Enemy">
+      <UniqueIdentifier>{ef356951-2f3c-4677-9299-039dc1c3e3b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

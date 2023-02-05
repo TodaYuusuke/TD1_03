@@ -28,7 +28,10 @@ void Map::Draw(Point drawPosition, int drawImageNum) {
         case kTypeAir:
             break;
         case kTypeNormal:
-            BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChipSample[drawImageNum], { 1,1 }, 0, WHITE);
+            BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChip[drawImageNum], { 1,1 }, 0, WHITE);
+            break;
+        case kTypeWall:
+            BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChip[drawImageNum], { 1,1 }, 0, 0xAAAAAAFF);
             break;
         case kTypeFloor:
             BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChipFloor, { 1,1 }, 0, WHITE);
@@ -54,6 +57,9 @@ bool Map::CheckHitBox(Point hitPosition) {
             return false;
         case kTypeNormal:
             return true;
+        case kTypeWall:
+            return false;
+            break;
         case kTypeFloor:
             // “_‚ªã•Ó‚æ‚è‰º‚Å
             if (hitPosition.y > 12) {

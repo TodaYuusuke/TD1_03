@@ -6,6 +6,8 @@ enum MapChipType {
 	kTypeAir,
 	// 通常マス
 	kTypeNormal,
+	// 背景マス（当たり判定無し）
+	kTypeWall,
 	// 下に抜けられるマス
 	kTypeFloor
 };
