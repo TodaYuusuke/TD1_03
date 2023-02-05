@@ -85,7 +85,7 @@ void Wire::Update(ObjectManager* objectManager) {
 
 				// オブジェクトが死んだ場合 -> ワイヤーを切る
 				if (!object[i]->GetisAlive()) {
-					Initialize;
+					Initialize();
 					return;
 				}
 
