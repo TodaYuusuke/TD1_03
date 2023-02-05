@@ -41,7 +41,7 @@ void BossStage::Draw() {
 	boss.Draw();
 	objectManager.Draw();
 	wireManager.Draw();
-
+	/*
 	// デバックの操作方法テクスチャ
 	int debugMoveTex = Novice::LoadTexture("./Resources/Texture/Debug/Move.png");
 	int debugShotTex = Novice::LoadTexture("./Resources/Texture/Debug/Shot.png");
@@ -57,5 +57,5 @@ void BossStage::Draw() {
 	Novice::DrawSprite(1280, 42, debugShotTex, 0.25f, 0.25f, 0.0f, WHITE);
 	Novice::DrawSprite(1600, 42, debugAttractTex, 0.25f, 0.25f, 0.0f, WHITE);
 
-	Novice::DrawSprite(620, 10, debugHPTex, 0.5f, 0.5f, 0, WHITE);
+	Novice::DrawSprite(620, 10, debugHPTex, 0.5f, 0.5f, 0, WHITE);*/
 }
