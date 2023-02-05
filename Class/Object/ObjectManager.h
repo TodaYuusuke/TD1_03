@@ -85,6 +85,11 @@ public: // メンバ関数
 
 	// プレイヤーの中心座標を受け取る関数
 	Point GetPlayerPosition();
+	// プレイヤーに範囲制限を設定する関数
+	// 左上座標、右下座標
+	bool SetPlayerMoveLimit(Point, Point);
+	// プレイヤーの範囲制限を消す関数
+	void DeletePlayerMoveLimit();
 
 	// コアにブロックがヒットしたかを返す関数
 	bool isHitCore();
