@@ -50,8 +50,8 @@ public: // 静的なテクスチャの変数
 	// 5,6,7,8 ... 右上,右下,左下,左上
 	// 9,10,11,12 ... 下以外,左以外,上以外,右以外
 	// 13 ... 全部
-	static int kTextureMapChipSample[];
-	static const int kTextureMapChipSampleSize = 14;
+	static const int kTextureMapChipSize = 14;
+	static int kTextureMapChip[kTextureMapChipSize];
 
 	// 抜けられる床
 	static int kTextureMapChipFloor;
