@@ -124,7 +124,7 @@ void MyBase::Draw() {
 			BaseTexture::kUserInterfaceSkip[1], 100 / 60.0f * longPressedFrame / 100.0f, 1.0f, 0.0f, WHITE
 		);
 		// A ƒ{ƒ^ƒ“
-		if (BaseInput::GetControllerState(kControllerButtonA, Press)) {
+		if (BaseInput::GetControllerState(kControllerButtonX, Press)) {
 			Novice::DrawSpriteRect(
 				skipPosition[1].x, skipPosition[1].y, 0, 0, 100, 100,
 				BaseTexture::kUserInterfaceA[1], 1.0f, 1.0f, 0.0f, WHITE

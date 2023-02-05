@@ -334,7 +334,7 @@ void Player::ReticleMove() {
 // ジャンプ
 void Player::Jump() {
 	// スペースキー || A || L || R が押されたとき
-	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger) || BaseInput::GetControllerState(kControllerButtonA, Trigger) || BaseInput::GetControllerState(kControllerButtonL1, Trigger) || BaseInput::GetControllerState(kControllerButtonR1, Trigger)) {
+	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger) || BaseInput::GetControllerState(kControllerButtonX, Trigger) || BaseInput::GetControllerState(kControllerButtonL1, Trigger) || BaseInput::GetControllerState(kControllerButtonR1, Trigger)) {
 		if (!isFlying) {
 			// 速度Yがマイナスのとき -> 0にリセットしてから
 			if (velocity.y < 0) {
