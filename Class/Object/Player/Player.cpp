@@ -48,12 +48,18 @@ void Player::SuccessorInitialize() {
 
 
 	// プレイヤーの移動制限
-	isLimitMove = false;
+	isLimitMove = true;
 
 	// 制限する左上座標
-	limitLeftTop = { 0,(float)BaseConst::kWindowHeight};
+	limitLeftTop = { 0,(float)BaseConst::kTutorialStageSizeHeight * BaseConst::kMapChipSizeHeight };
 	// 制限する右下座標
-	limitRightBottom = { (float)BaseConst::kWindowWidth,0 };
+	limitRightBottom = { (float)BaseConst::kTutorialStageSizeWidth * BaseConst::kMapChipSizeWidth,0 };
+
+	resqawnPosition = { -1000,-1000 };
+	preCenterPosition = { -1000,-1000 };
+	preIsFlying = isFlying;
+	isRespawn = false;
+
 }
 // 更新
 void Player::SuccessorUpdate() {
@@ -77,6 +83,7 @@ void Player::SuccessorUpdate() {
 		Jump();
 		ShotWire();
 		LimitMovement();
+		Respawn();
 	}
 
 	// 前のフレームの分のマウス座標の取得
@@ -189,6 +196,8 @@ void Player::SuccessorUpdate() {
 
 		//////////　　　ここまで　　　　//////////
 	}
+	preIsFlying = isFlying;
+	preCenterPosition = centerPosition;
 }
 // 描画
 void Player::Draw() {
@@ -415,20 +424,23 @@ void Player::LimitMovement() {
 			}
 		}
 		// プレイヤーから下の点
+		// 瞬時にリスポーン
 		checkPoint = { centerPosition.x,centerPosition.y - height / 2 };
-		if (checkPoint.y < limitRightBottom.y) {
-			// 速度は0に
-			velocity.y = 0;
-			// 飛んでいないのでフラグを戻す
-			isFlying = false;
+		if (checkPoint.y + height * 2.0f < limitRightBottom.y) {
+			// リスポーン
+			isRespawn = true;
+			//// 速度は0に
+			//velocity.y = 0;
+			//// 飛んでいないのでフラグを戻す
+			//isFlying = false;
 
-			// ヒットしなくなるまで上へ補正する
-			while (checkPoint.y < limitRightBottom.y) {
-				// 座標を上に
-				centerPosition.y += 1;
-				// 再計算
-				checkPoint.y += 1;
-			}
+			//// ヒットしなくなるまで上へ補正する
+			//while (checkPoint.y < limitRightBottom.y) {
+			//	// 座標を上に
+			//	centerPosition.y += 1;
+			//	// 再計算
+			//	checkPoint.y += 1;
+			//}
 		}
 		// プレイヤーから左の点
 		checkPoint = { centerPosition.x - width / 2,centerPosition.y };
@@ -466,6 +478,41 @@ void Player::LimitMovement() {
 	////////////////////////////////
 
 }
+
+void Player::Respawn() {
+	// 地面から離れた瞬間の座標を保存
+	if (isFlying != preIsFlying && preIsFlying == false) {
+		
+		resqawnPosition.x = (int)(preCenterPosition.x / BaseConst::kMapChipSizeWidth) * BaseConst::kMapChipSizeWidth + BaseConst::kMapChipSizeWidth / 2.0f;
+		resqawnPosition.y = (int)(preCenterPosition.y / BaseConst::kMapChipSizeHeight) * BaseConst::kMapChipSizeHeight + BaseConst::kMapChipSizeHeight / 2.0f;
+		
+	}
+	/*
+	Point r = BaseDraw::WorldtoScreen({ resqawnPosition.x - width / 2.0f,resqawnPosition.y + height / 2.0f });
+	Point r1 = BaseDraw::WorldtoScreen({ (centerPosition.x) / BaseConst::kMapChipSizeWidth * BaseConst::kMapChipSizeWidth - width / 2.0f,centerPosition.y / BaseConst::kMapChipSizeHeight * BaseConst::kMapChipSizeHeight + height / 2.0f });
+	Point r2 = BaseDraw::WorldtoScreen({ (preCenterPosition.x) / BaseConst::kMapChipSizeWidth * BaseConst::kMapChipSizeWidth - width / 2.0f,preCenterPosition.y / BaseConst::kMapChipSizeHeight * BaseConst::kMapChipSizeHeight + height / 2.0f });
+	Novice::DrawBox(r.x, r.y, width, height, 0.0f, GREEN, kFillModeWireFrame);
+	Novice::DrawBox(r1.x, r1.y, width, height, 0.0f, 0xFF0000FF, kFillModeWireFrame);
+	Novice::DrawBox(r2.x, r2.y, width, height, 0.0f, 0x0000FFFF, kFillModeWireFrame);
+	Novice::ScreenPrintf(10, 20, "%d", isRespawn);
+	Novice::ScreenPrintf(10, 40, "%d  %d", BaseConst::kMapChipSizeWidth, BaseConst::kMapChipSizeHeight);
+	Novice::ScreenPrintf(10, 60, "%.2f  %.2f", preCenterPosition.x, preCenterPosition.y);
+	Novice::ScreenPrintf(10, 80, "%.2f  %.2f", resqawnPosition.x, resqawnPosition.y);
+	Novice::ScreenPrintf(10, 100, "%d  %d", (int)(resqawnPosition.x / BaseConst::kMapChipSizeWidth), (int)(resqawnPosition.y / BaseConst::kMapChipSizeHeight));
+	Novice::ScreenPrintf(10, 120, "%.2f  %.2f", (int)(resqawnPosition.x / BaseConst::kMapChipSizeWidth) * (float)BaseConst::kMapChipSizeWidth, (int)(resqawnPosition.y / (float)BaseConst::kMapChipSizeHeight) * BaseConst::kMapChipSizeHeight);
+	if (BaseInput::GetKeyboardState(DIK_P, Trigger)) {
+		isRespawn = !isRespawn;
+	}*/
+	if (isRespawn) {
+		centerPosition = resqawnPosition;
+		velocity = { 0,0 };
+		acceleration = { 0,0 };
+		wireManager->Initialize();
+		isFlying = false;
+		isRespawn = false;
+	}
+}
+
 
 // 当たり判定をオーバーライド
 
