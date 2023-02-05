@@ -253,6 +253,8 @@ void Wire::Attract() {
 			}
 		}
 
+		object[0]->SetisPulled(true);
+		object[0]->SetisStub(false);
 		object[0]->AddVelocity(p);
 	}
 	// 二つ目のオブジェクトにベクトルを足す
@@ -273,6 +275,8 @@ void Wire::Attract() {
 			}
 		}
 
+		object[0]->SetisPulled(true);
+		object[1]->SetisStub(false);
 		object[1]->AddVelocity(p);
 	}
 
