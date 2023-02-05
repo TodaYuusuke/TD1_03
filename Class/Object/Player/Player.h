@@ -71,6 +71,9 @@ private: // 関数
 	// 移動制限関数
 	void LimitMovement();
 
+	// リスポーン関数
+	void Respawn();
+
 	// 当たり判定をオーバーライド
 
 	// オブジェクト自体の当たり判定をチェックする関数
@@ -123,6 +126,16 @@ private: // メンバ変数
 	// アニメーション
 	int state;
 
+	// リスポーン地点
+	Point resqawnPosition;
 
+	// リスポーン用前フレーム座標
+	Point preCenterPosition;
+
+	// isFlying がfalseになった瞬間の感知
+	bool preIsFlying;
+
+	// リスポーンするか
+	bool isRespawn;
 
 };
