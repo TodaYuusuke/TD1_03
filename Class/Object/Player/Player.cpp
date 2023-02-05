@@ -46,12 +46,17 @@ void Player::SuccessorInitialize() {
 	isLimitMove = false;
 
 	// 制限する左上座標
-	limitLeftTop = { 0,0 };
+	limitLeftTop = { 0,(float)BaseConst::kWindowHeight};
 	// 制限する右下座標
-	limitRightBottom = { (float)BaseConst::kWindowWidth,(float)BaseConst::kWindowHeight };
+	limitRightBottom = { (float)BaseConst::kWindowWidth,0 };
 }
 // 更新
 void Player::SuccessorUpdate() {
+
+	//// テスト
+	//if (BaseInput::GetKeyboardState(DIK_P, Trigger)) {
+	//	isLimitMove = !isLimitMove;
+	//}
 
 	if (invincibleFrame > 0) {
 		invincibleFrame--;
@@ -66,6 +71,7 @@ void Player::SuccessorUpdate() {
 		ReticleMove();
 		Jump();
 		ShotWire();
+		LimitMovement();
 	}
 
 	// 前のフレームの分のマウス座標の取得
@@ -82,6 +88,7 @@ void Player::SuccessorUpdate() {
 		}
 	}
 	// カメラ移動
+	// 演出中以外の時
 	if (!PublicFlag::kisStaging) {
 		Point screenPos = BaseDraw::GetScreenPosition();
 
@@ -122,6 +129,22 @@ void Player::SuccessorUpdate() {
 			else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kTutorialStageSizeHeight) {
 				screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kTutorialStageSizeHeight;
 			}
+		}
+		// 移動制限中
+		if (isLimitMove) {
+			if (screenPos.x < limitLeftTop.x) {
+				screenPos.x = limitLeftTop.x;
+			}
+			else if (limitRightBottom.x < screenPos.x + BaseConst::kWindowWidth) {
+				screenPos.x = limitRightBottom.x - BaseConst::kWindowWidth;
+			}
+			if (screenPos.y - BaseConst::kWindowHeight < limitRightBottom.y) {
+				screenPos.y = limitRightBottom.y + BaseConst::kWindowHeight;
+			}
+			else if (limitLeftTop.y < screenPos.y) {
+				screenPos.y = limitLeftTop.y;
+			}
+
 		}
 		//////////　　ここで線形補完　　//////////
 		// screenPos ... 移動先のカメラ
@@ -351,6 +374,83 @@ void Player::ShotWire() {
 	}
 }
 
+// 移動制限関数
+void Player::LimitMovement() {
+
+	Point checkPoint;
+
+	////////////////////////////////
+	/// 移動制限がある場合の処理 ///
+	////////////////////////////////
+
+
+	if (isLimitMove) {
+		// プレイヤーから上の点
+		checkPoint = { centerPosition.x,centerPosition.y + height / 2 };
+		if (limitLeftTop.y < checkPoint.y) {
+			// 速度は0に
+			velocity.y = 0;
+
+			// ヒットしなくなるまで下へ補正する
+			while (limitLeftTop.y < checkPoint.y) {
+				// 座標を下に
+				centerPosition.y -= 1;
+				// 再計算
+				checkPoint.y -= 1;
+			}
+		}
+		// プレイヤーから下の点
+		checkPoint = { centerPosition.x,centerPosition.y - height / 2 };
+		if (checkPoint.y < limitRightBottom.y) {
+			// 速度は0に
+			velocity.y = 0;
+			// 飛んでいないのでフラグを戻す
+			isFlying = false;
+
+			// ヒットしなくなるまで上へ補正する
+			while (checkPoint.y < limitRightBottom.y) {
+				// 座標を上に
+				centerPosition.y += 1;
+				// 再計算
+				checkPoint.y += 1;
+			}
+		}
+		// プレイヤーから左の点
+		checkPoint = { centerPosition.x - width / 2,centerPosition.y };
+		if (checkPoint.x < limitLeftTop.x) {
+			// 速度は0に
+			velocity.x = 0;
+
+			// ヒットしなくなるまで右へ補正する
+			while (checkPoint.x < limitLeftTop.x) {
+				// 座標を右へ
+				centerPosition.x += 1;
+				// 再計算
+				checkPoint.x += 1;
+			}
+		}
+		// プレイヤーから右の点
+		checkPoint = { centerPosition.x + width / 2,centerPosition.y };
+		if (limitRightBottom.x < checkPoint.x) {
+			// 速度は0に
+			velocity.x = 0;
+
+			// ヒットしなくなるまで左へ補正する
+			while (limitRightBottom.x < checkPoint.x) {
+				// 座標を左に
+				centerPosition.x -= 1;
+				// 再計算
+				checkPoint.x -= 1;
+			}
+		}
+
+	}
+
+	////////////////////////////////
+	///			ここまで		 ///
+	////////////////////////////////
+
+}
 
 // 当たり判定をオーバーライド
 
@@ -682,79 +782,6 @@ void Player::CheckFieldHitBox() {
 	////////////////////////
 	///　　　　ここまで　　　　//
 	////////////////////////
-
-
-
-	////////////////////////////////
-	/// 移動制限がある場合の処理 ///
-	////////////////////////////////
-
-
-	if (isLimitMove) {
-		// プレイヤーから上の点
-		checkPoint = { centerPosition.x,centerPosition.y + height / 2 };
-		if (limitLeftTop.y < checkPoint.y) {
-			// 速度は0に
-			velocity.y = 0;
-
-			// ヒットしなくなるまで下へ補正する
-			while (limitLeftTop.y < checkPoint.y) {
-				// 座標を下に
-				centerPosition.y -= 1;
-				// 再計算
-				checkPoint.y -= 1;
-			}
-		}
-		// プレイヤーから下の点
-		checkPoint = { centerPosition.x,centerPosition.y - height / 2 };
-		if (checkPoint.y < limitRightBottom.y) {
-			// 速度は0に
-			velocity.y = 0;
-			// 飛んでいないのでフラグを戻す
-			isFlying = false;
-
-			// ヒットしなくなるまで上へ補正する
-			while (checkPoint.y < limitRightBottom.y) {
-				// 座標を上に
-				centerPosition.y += 1;
-				// 再計算
-				checkPoint.y += 1;
-			}
-		}
-		// プレイヤーから左の点
-		checkPoint = { centerPosition.x - width / 2,centerPosition.y };
-		if (checkPoint.x < limitLeftTop.x) {
-			// 速度は0に
-			velocity.x = 0;
-
-			// ヒットしなくなるまで右へ補正する
-			while (checkPoint.x < limitLeftTop.x) {
-				// 座標を右へ
-				centerPosition.x += 1;
-				// 再計算
-				checkPoint.x += 1;
-			}
-		}
-		// プレイヤーから右の点
-		checkPoint = { centerPosition.x + width / 2,centerPosition.y };
-		if (limitRightBottom.x < checkPoint.x) {
-			// 速度は0に
-			velocity.x = 0;
-
-			// ヒットしなくなるまで左へ補正する
-			while (limitRightBottom.x < checkPoint.x) {
-				// 座標を左に
-				centerPosition.x -= 1;
-				// 再計算
-				checkPoint.x -= 1;
-			}
-		}
-
-	}
-
-	////////////////////////////////
-	///			ここまで		 ///
-	////////////////////////////////
 
 }
 
