@@ -15,6 +15,19 @@ bool BaseTexture::Loading() {
 
 	kDebugTexture = Novice::LoadTexture("white1x1.png");
 
+#pragma region ”wŒi
+
+	// ”wŒiƒtƒŒ[ƒ€
+	kBackGroundFrame = Novice::LoadTexture("./Resources/Texture/BackGround/back_ground0.png");
+
+	/// ”wŒi
+	// “ss
+	kBackGroundCity = Novice::LoadTexture("./Resources/Texture/BackGround/back_ground2.png");
+	// X
+	kBackGroundForest = Novice::LoadTexture("./Resources/Texture/BackGround/back_ground1.png");
+
+#pragma endregion
+
 #pragma region ƒ}ƒbƒv
 
 	// ƒ}ƒbƒvƒ`ƒbƒvƒTƒ“ƒvƒ‹
@@ -147,6 +160,19 @@ bool BaseTexture::isLoadingComplete;
 
 
 int BaseTexture::kDebugTexture;
+
+#pragma region ”wŒi
+
+// ”wŒiƒtƒŒ[ƒ€
+int BaseTexture::kBackGroundFrame;
+
+/// ”wŒi
+// “ss
+int BaseTexture::kBackGroundCity;
+// X
+int BaseTexture::kBackGroundForest;
+
+#pragma endregion
 
 #pragma region ƒ}ƒbƒv
 

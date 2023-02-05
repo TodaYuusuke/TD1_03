@@ -54,6 +54,17 @@ void TutorialStage::Draw() {
 	// デバッグ用
 	Novice::ScreenPrintf(0, 0, "Push ENTER to Skip Stage");
 
+	Point screenPosition = BaseDraw::GetScreenPosition();
+
+	// 背景
+	BaseDraw::DrawQuad({screenPosition.x + BaseConst::kWindowWidth / 2, screenPosition.y - BaseConst::kWindowHeight / 2 },
+		BaseTexture::kBackGroundCity, {1920, 1080}, 1.1f, 0.0f, 0xFFFFFFFF);
+
+	BaseDraw::DrawQuad({screenPosition.x + BaseConst::kWindowWidth / 2, screenPosition.y - BaseConst::kWindowHeight / 2 },
+		BaseTexture::kBackGroundForest, {1920, 1080}, 1.1f, 0.0f, 0xFFFFFFFF);
+
+	BaseDraw::DrawSprite(screenPosition, BaseTexture::kBackGroundFrame, {1.0f, 1.0f}, 0.0f, 0xFFFFFFFF);
+
 	MapManager::Draw();
 
 	middleBoss.Draw();
