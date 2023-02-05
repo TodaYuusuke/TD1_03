@@ -18,20 +18,20 @@ bool BaseTexture::Loading() {
 #pragma region マップ
 
 	// マップチップサンプル
-	kTextureMapChipSample[0] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample1.png");
-	kTextureMapChipSample[1] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample2.png");
-	kTextureMapChipSample[2] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample3.png");
-	kTextureMapChipSample[3] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample4.png");
-	kTextureMapChipSample[4] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample5.png");
-	kTextureMapChipSample[5] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample6.png");
-	kTextureMapChipSample[6] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample7.png");
-	kTextureMapChipSample[7] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample8.png");
-	kTextureMapChipSample[8] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample9.png");
-	kTextureMapChipSample[9] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample10.png");
-	kTextureMapChipSample[10] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample11.png");
-	kTextureMapChipSample[11] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample12.png");
-	kTextureMapChipSample[12] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample13.png");
-	kTextureMapChipSample[13] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Sample14.png");
+	kTextureMapChip[0] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip1.png");
+	kTextureMapChip[1] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip2.png");
+	kTextureMapChip[2] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip3.png");
+	kTextureMapChip[3] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip4.png");
+	kTextureMapChip[4] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip5.png");
+	kTextureMapChip[5] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip6.png");
+	kTextureMapChip[6] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip7.png");
+	kTextureMapChip[7] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip8.png");
+	kTextureMapChip[8] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip9.png");
+	kTextureMapChip[9] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip10.png");
+	kTextureMapChip[10] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip11.png");
+	kTextureMapChip[11] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip12.png");
+	kTextureMapChip[12] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip13.png");
+	kTextureMapChip[13] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip14.png");
 
 	// 抜けられる床
 	kTextureMapChipFloor = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Floor.png");
@@ -150,7 +150,7 @@ int BaseTexture::kDebugTexture;
 
 #pragma region マップ
 
-int BaseTexture::kTextureMapChipSample[kTextureMapChipSampleSize];
+int BaseTexture::kTextureMapChip[kTextureMapChipSize];
 
 // 抜けられる床
 int BaseTexture::kTextureMapChipFloor;
