@@ -281,7 +281,7 @@ void Wire::Attract() {
 			}
 		}
 
-		object[0]->SetisPulled(true);
+		object[1]->SetisPulled(true);
 		object[1]->SetisStub(false);
 		object[1]->AddVelocity(p);
 	}
