@@ -121,7 +121,7 @@ private: // メンバ変数
 	Point limitRightBottom;
 
 	// アニメーション
-	PlayerState state;
+	int state;
 
 
 
