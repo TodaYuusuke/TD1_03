@@ -360,12 +360,6 @@
     <Filter Include="MyBase\Effect\Inheritance">
       <UniqueIdentifier>{4e7c2685-5a81-4a81-b37b-91e2cc120b29}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Class\SceneManager">
-      <UniqueIdentifier>{7024dcdc-8389-466a-ad65-74bf7a6af8bb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\SceneManager\Scene">
-      <UniqueIdentifier>{4f76a417-29e7-4378-88d6-ee07158e86c5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Class\PublicFlag">
       <UniqueIdentifier>{84d89fa3-dc5e-455c-949a-c3b2f6a32d47}</UniqueIdentifier>
     </Filter>
@@ -374,6 +368,12 @@
     </Filter>
     <Filter Include="Class\Object\Enemy">
       <UniqueIdentifier>{ef356951-2f3c-4677-9299-039dc1c3e3b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\SceneManager">
+      <UniqueIdentifier>{7024dcdc-8389-466a-ad65-74bf7a6af8bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\SceneManager\Scene">
+      <UniqueIdentifier>{4f76a417-29e7-4378-88d6-ee07158e86c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

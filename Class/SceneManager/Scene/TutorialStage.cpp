@@ -25,7 +25,6 @@ void TutorialStage::Initialize() {
 	objectManager.MakeNewObjectPlayer({ 100,700 }, &wireManager);
 
 	middleBoss.Initialize(&objectManager);
-
 }
 // XV
 void TutorialStage::Update() {

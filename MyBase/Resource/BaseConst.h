@@ -128,7 +128,7 @@ public: // 静的な定数
 
 	// チュートリアルステージの大きさ
 	const static int kTutorialStageSizeWidth = 250;
-	const static int kTutorialStageSizeHeight = 35;
+	const static int kTutorialStageSizeHeight = 70;
 	// ボスステージの大きさ
 	const static int kBossStageSizeWidth = 75;
 	const static int kBossStageSizeHeight = 35;
@@ -139,5 +139,4 @@ public: // 静的な定数
 	static int kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
 
 #pragma endregion
-
 };
