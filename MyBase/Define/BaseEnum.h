@@ -85,8 +85,8 @@ enum ControllerButton {
 		kControllerButtonR3,	//!< XInputの場合、R3
 		kControllerButtonL1,	//!< XInputの場合、L1
 		kControllerButtonR1,	//!< XInputの場合、R1
-		kControllerButtonL2,	//!< XInputの場合、L2
-		kControllerButtonR2,	//!< XInputの場合、R2
+		kControllerButtonL2A,	//!< XInputの場合、L2 & A
+		kControllerButtonR2B,	//!< XInputの場合、R2 & B
 		kControllerButtonX,		//!< XInputの場合、A?X,
 		kControllerButtonY,		//!< XInputの場合、B?Y,
 		kControllerButton14,	//!< XInputの場合、X?,
