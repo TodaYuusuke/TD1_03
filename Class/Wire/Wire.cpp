@@ -83,6 +83,12 @@ void Wire::Update(ObjectManager* objectManager) {
 					}
 				}
 
+				// オブジェクトが死んだ場合 -> ワイヤーを切る
+				if (!object[i]->GetisAlive()) {
+					Initialize;
+					return;
+				}
+
 				position[i].x -= prePosition[i].x - object[i]->GetCenterPosition().x;
 				position[i].y -= prePosition[i].y - object[i]->GetCenterPosition().y;
 				prePosition[i].x = object[i]->GetCenterPosition().x;
