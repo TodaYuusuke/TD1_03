@@ -9,6 +9,17 @@
 // いうまでもなくプレイヤー
 class WireManager;
 
+enum PlayerState
+{
+	playerIdle,
+	playerRun,
+	playerJump,
+	playerSky,
+	playerLand,
+	playerShot,
+	playerAtrract
+};
+
 class Player :
 	public Object {
 public: // メンバ関数
@@ -97,7 +108,9 @@ private: // メンバ変数
 	// HP を表示するフレーム数
 	int drawHPFrame;
 
-	// 走るアニメーションのフレーム
+	//////////////
+	///ここまで///
+	//////////////
 
 	// プレイヤーの移動制限
 	bool isLimitMove;
@@ -107,11 +120,8 @@ private: // メンバ変数
 	// 制限する右下座標
 	Point limitRightBottom;
 
-
-	//////////////
-	///ここまで///
-	//////////////
-
+	// アニメーション
+	PlayerState state;
 
 
 
