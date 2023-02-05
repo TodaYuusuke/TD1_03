@@ -28,6 +28,20 @@ public: // メンバ関数
 	// タイプ取得
 	ObjectType GetType() override;
 
+	// 移動制限
+	bool GetIsLimitMove() { return isLimitMove; };
+	// 移動制限左上
+	Point GetLimitLeftTop() { return limitLeftTop; };
+	// 移動制限右下
+	Point GetLimitRightBottom() { return limitRightBottom; };
+
+
+	// 移動制限
+	void SetIsLimitMove(bool a) { isLimitMove = a; };
+	// 移動制限左上
+	void SetLimitLeftTop(Point p) { limitLeftTop = p; };
+	// 移動制限右下
+	void SetLimitRightBottom(Point p) { limitRightBottom = p; };
 
 private: // 関数
 
@@ -44,7 +58,7 @@ private: // 関数
 	void ShotWire();
 
 	// 当たり判定をオーバーライド
-	
+
 	// オブジェクト自体の当たり判定をチェックする関数
 	void CheckFieldHitBox() override;
 
@@ -72,7 +86,7 @@ private: // メンバ変数
 	//////////////
 	/// HP関連 ///
 	//////////////
-	
+
 	// 言わずもがな
 	int HP;
 	// HP を表示するかどうか
@@ -80,6 +94,14 @@ private: // メンバ変数
 	// HP を表示するフレーム数
 	int drawHPFrame;
 
+
+	// プレイヤーの移動制限
+	bool isLimitMove;
+
+	// 制限する左上座標
+	Point limitLeftTop;
+	// 制限する右下座標
+	Point limitRightBottom;
 
 
 	//////////////

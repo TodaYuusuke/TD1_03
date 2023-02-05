@@ -41,6 +41,14 @@ void Player::SuccessorInitialize() {
 	HP = 6;
 	isDrawHP = false;
 	drawHPFrame = 0;
+
+	// プレイヤーの移動制限
+	isLimitMove = false;
+
+	// 制限する左上座標
+	limitLeftTop = { 0,0 };
+	// 制限する右下座標
+	limitRightBottom = { (float)BaseConst::kWindowWidth,(float)BaseConst::kWindowHeight };
 }
 // 更新
 void Player::SuccessorUpdate() {
@@ -168,7 +176,7 @@ void Player::Draw() {
 			for (; i < fullHp; i++) {
 				BaseDraw::DrawSprite({ HPlt.x + i * padding,HPlt.y }, BaseTexture::kPlayerHeart[0], { 20 / 256.0f,20 / 256.0f }, 0.0f, WHITE);
 			}
-			if(HP % 2 == 1){
+			if (HP % 2 == 1) {
 				BaseDraw::DrawSprite({ HPlt.x + i * padding,HPlt.y }, BaseTexture::kPlayerHeart[1], { 20 / 256.0f,20 / 256.0f }, 0.0f, WHITE);
 			}
 		}
@@ -674,6 +682,80 @@ void Player::CheckFieldHitBox() {
 	////////////////////////
 	///　　　　ここまで　　　　//
 	////////////////////////
+
+
+
+	////////////////////////////////
+	/// 移動制限がある場合の処理 ///
+	////////////////////////////////
+
+
+	if (isLimitMove) {
+		// プレイヤーから上の点
+		checkPoint = { centerPosition.x,centerPosition.y + height / 2 };
+		if (limitLeftTop.y < checkPoint.y) {
+			// 速度は0に
+			velocity.y = 0;
+
+			// ヒットしなくなるまで下へ補正する
+			while (limitLeftTop.y < checkPoint.y) {
+				// 座標を下に
+				centerPosition.y -= 1;
+				// 再計算
+				checkPoint.y -= 1;
+			}
+		}
+		// プレイヤーから下の点
+		checkPoint = { centerPosition.x,centerPosition.y - height / 2 };
+		if (checkPoint.y < limitRightBottom.y) {
+			// 速度は0に
+			velocity.y = 0;
+			// 飛んでいないのでフラグを戻す
+			isFlying = false;
+
+			// ヒットしなくなるまで上へ補正する
+			while (checkPoint.y < limitRightBottom.y) {
+				// 座標を上に
+				centerPosition.y += 1;
+				// 再計算
+				checkPoint.y += 1;
+			}
+		}
+		// プレイヤーから左の点
+		checkPoint = { centerPosition.x - width / 2,centerPosition.y };
+		if (checkPoint.x < limitLeftTop.x) {
+			// 速度は0に
+			velocity.x = 0;
+
+			// ヒットしなくなるまで右へ補正する
+			while (checkPoint.x < limitLeftTop.x) {
+				// 座標を右へ
+				centerPosition.x += 1;
+				// 再計算
+				checkPoint.x += 1;
+			}
+		}
+		// プレイヤーから右の点
+		checkPoint = { centerPosition.x + width / 2,centerPosition.y };
+		if (limitRightBottom.x < checkPoint.x) {
+			// 速度は0に
+			velocity.x = 0;
+
+			// ヒットしなくなるまで左へ補正する
+			while (limitRightBottom.x < checkPoint.x) {
+				// 座標を左に
+				centerPosition.x -= 1;
+				// 再計算
+				checkPoint.x -= 1;
+			}
+		}
+
+	}
+
+	////////////////////////////////
+	///			ここまで		 ///
+	////////////////////////////////
+
 }
 
 
