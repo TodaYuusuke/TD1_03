@@ -205,10 +205,20 @@ void Player::Draw() {
 		}
 
 		if (invincibleFrame % 10 == 0) {
-			BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, RED);
+			if (isRight == true) {
+				BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+			}
+			else {
+				BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+			}
 		}
 		else {
-			BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kDebugTexture, { width,height }, 0, 0x550000FF);
+			if (isRight == true) {
+				BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0x550000FF);
+			}
+			else {
+				BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0x550000FF);
+			}
 		}
 
 		if (!PublicFlag::kisStaging) {

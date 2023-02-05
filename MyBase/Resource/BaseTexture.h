@@ -89,6 +89,29 @@ public: // 静的なテクスチャの変数
 	// ハート
 	static int kPlayerHeart[2];
 
+	// 左
+	// アイドル
+	static int kLPlayerIdle;
+	// 走る
+	static int kLPlayerRun[2];
+	// ジャンプ
+	static int kLPlayerJump[4];
+	// ワイヤ射出
+	static int kLPlayerShot;
+	// ワイヤ引き寄せ
+	static int kLPlayerPull;
+
+	// 右
+	// アイドル
+	static int kRPlayerIdle;
+	// 走る
+	static int kRPlayerRun[2];
+	// ジャンプ
+	static int kRPlayerJump[4];
+	// ワイヤ射出
+	static int kRPlayerShot;
+	// ワイヤ引き寄せ
+	static int kRPlayerPull;
 
 #pragma endregion
 

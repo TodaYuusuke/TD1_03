@@ -97,6 +97,7 @@ private: // メンバ変数
 	// HP を表示するフレーム数
 	int drawHPFrame;
 
+	// 走るアニメーションのフレーム
 
 	// プレイヤーの移動制限
 	bool isLimitMove;

@@ -23,5 +23,7 @@ private: // ƒƒ“ƒo•Ï”
 	ObjectManager objectManager;
 	WireManager wireManager;
 
+	Player* player;
+
 	MiddleBoss middleBoss;
 };

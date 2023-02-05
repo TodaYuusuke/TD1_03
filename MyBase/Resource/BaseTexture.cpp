@@ -71,6 +71,37 @@ bool BaseTexture::Loading() {
 	kPlayerHeart[0] = Novice::LoadTexture("./Resources/Texture/Player/HeartFull.png");
 	kPlayerHeart[1] = Novice::LoadTexture("./Resources/Texture/Player/HeartHalf.png");
 
+	// 左
+	// アイドル
+	kLPlayerIdle = Novice::LoadTexture("./Resources/Texture/Player/Left/L_chara_idle.png");
+	// 走る
+	kLPlayerRun[0] = Novice::LoadTexture("./Resources/Texture/Player/Left/L_chara_dash0.png");
+	kLPlayerRun[1] = Novice::LoadTexture("./Resources/Texture/Player/Left/L_chara_dash1.png");
+	// ジャンプ
+	kLPlayerJump[0] = Novice::LoadTexture("./Resources/Texture/Player/Left/L_chara_jump0.png");
+	kLPlayerJump[1] = Novice::LoadTexture("./Resources/Texture/Player/Left/L_chara_jump1.png");
+	kLPlayerJump[2] = Novice::LoadTexture("./Resources/Texture/Player/Left/L_chara_jump2.png");
+	kLPlayerJump[3] = Novice::LoadTexture("./Resources/Texture/Player/Left/L_chara_jump3.png");
+	// ワイヤ射出
+	kLPlayerShot = Novice::LoadTexture("./Resources/Texture/Player/Left/L_chara_shot.png");
+	// ワイヤ引き寄せ
+	kLPlayerPull = Novice::LoadTexture("./Resources/Texture/Player/Left/L_chara_pull.png");
+
+	// 右
+	// アイドル
+	kRPlayerIdle = Novice::LoadTexture("./Resources/Texture/Player/Right/R_chara_idle.png");
+	// 走る
+	kRPlayerRun[0] = Novice::LoadTexture("./Resources/Texture/Player/Right/R_chara_dash0.png");
+	kRPlayerRun[1] = Novice::LoadTexture("./Resources/Texture/Player/Right/R_chara_dash1.png");
+	// ジャンプ
+	kRPlayerJump[0] = Novice::LoadTexture("./Resources/Texture/Player/Right/R_chara_jump0.png");
+	kRPlayerJump[1] = Novice::LoadTexture("./Resources/Texture/Player/Right/R_chara_jump1.png");
+	kRPlayerJump[2] = Novice::LoadTexture("./Resources/Texture/Player/Right/R_chara_jump2.png");
+	kRPlayerJump[3] = Novice::LoadTexture("./Resources/Texture/Player/Right/R_chara_jump3.png");
+	// ワイヤ射出
+	kRPlayerShot = Novice::LoadTexture("./Resources/Texture/Player/Right/R_chara_shot.png");
+	// ワイヤ引き寄せ
+	kRPlayerPull = Novice::LoadTexture("./Resources/Texture/Player/Right/R_chara_pull.png");
 
 #pragma endregion
 
@@ -154,6 +185,29 @@ int BaseTexture::kUserInterfaceSkip[2];
 // ハート
 int BaseTexture::kPlayerHeart[2];
 
+// 左
+// アイドル
+int BaseTexture::kLPlayerIdle;
+// 走る
+int BaseTexture::kLPlayerRun[2];
+// ジャンプ
+int BaseTexture::kLPlayerJump[4];
+// ワイヤ射出
+int BaseTexture::kLPlayerShot;
+// ワイヤ引き寄せ
+int BaseTexture::kLPlayerPull;
+
+// 右
+// アイドル
+int BaseTexture::kRPlayerIdle;
+// 走る
+int BaseTexture::kRPlayerRun[2];
+// ジャンプ
+int BaseTexture::kRPlayerJump[4];
+// ワイヤ射出
+int BaseTexture::kRPlayerShot;
+// ワイヤ引き寄せ
+int BaseTexture::kRPlayerPull;
 
 #pragma endregion
 
