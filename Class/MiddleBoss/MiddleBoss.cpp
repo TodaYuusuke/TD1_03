@@ -120,7 +120,7 @@ void MiddleBoss::Initialize(ObjectManager* objectManager) {
 void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, WireManager* wireManager) {
 
 	// 画面中央の座標を更新
-	screenCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth / 2) + 2000.0f,
+	screenCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth / 2) + 2200.0f,
 		(float)(BaseConst::kMapChipSizeHeight * BaseConst::kTutorialStageSizeHeight / 2) };
 
 	// プレイヤーが一定の距離以上に近づいたらボスとの戦闘を開始する
@@ -156,6 +156,10 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 	}
 
 	Point viewPosition = { centerPosition.x + shakeVariation.x,centerPosition.y + shakeVariation.y };
+
+	if (inDead == true) {
+		objectManager->DeletePlayerMoveLimit();
+	}
 
 	if (isBattleStart == true && inDead == false) {
 
@@ -392,6 +396,10 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 	else if (inDead == false && doBattleStart == true) {
 		// 開始アニメーション再生
 		PlayStartAnim(2.5f, 1.25f, 2.0f, 1.5f);
+
+		// プレイヤーの移動範囲を制限
+		objectManager->SetPlayerMoveLimit({ screenCenterPosition.x - (float)BaseConst::kWindowWidth / 2, screenCenterPosition.y + (float)BaseConst::kWindowHeight / 2 },
+			{ screenCenterPosition.x + (float)BaseConst::kWindowWidth / 2, screenCenterPosition.y - (float)BaseConst::kWindowHeight / 2 });
 
 		if (isPlayingStartAnim == true && PublicFlag::kisStaging == false) {
 			// 演出終了
