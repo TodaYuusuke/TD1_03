@@ -469,11 +469,20 @@ private:
 	Point hookSize;
 
 	/// 武器関連
+
+	// 武器のテクスチャ
+	int weaponTexture;
+
 	// 武器のサイズ
 	Point weaponSize;
 
 	// 武器のテクスチャサイズ
 	Point weaponTextureSize;
+
+	// ブレードのテクスチャサイズ
+	Point bladeTextureSize;
+	// 銃のテクスチャサイズ
+	Point gunTextureSize;
 
 	// 行動前武器サイズ
 	Point prevWeaponSize;

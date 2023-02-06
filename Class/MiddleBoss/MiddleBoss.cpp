@@ -63,7 +63,7 @@ void MiddleBoss::Initialize(ObjectManager* objectManager) {
 
 	// 武器のサイズを指定（仮テクスチャのため、今後変える）
 	this->weaponSize = { 0.0f, 0.0f };
-	this->weaponTextureSize = { 1.0f, 1.0f };
+	this->weaponTextureSize = { 40.0f, 400.0f };
 
 	// 攻撃パターン初期化
 	this->prevAttackPattern[0] = NONE;
@@ -428,7 +428,7 @@ void MiddleBoss::Draw() {
 		BaseDraw::DesignationDrawQuad(
 			GetWeaponPosition(viewPosition),
 			weaponSize,
-			BaseTexture::kDebugTexture,
+			BaseTexture::kBossBlade,
 			weaponTextureSize,
 			degree,
 			0xFFFFFFFF

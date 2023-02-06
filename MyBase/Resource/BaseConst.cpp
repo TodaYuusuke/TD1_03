@@ -46,6 +46,17 @@ bool BaseConst::Loading() {
 		y++;
 	}
 
+	// プレイヤーのアニメーション毎の描画フレームを設定
+	kPlayerAnimationFlame[PlayerState::playerIdle] = 1;
+	kPlayerAnimationFlame[PlayerState::playerRun] = 3;
+	kPlayerAnimationFlame[PlayerState::playerJump] = 2;
+	kPlayerAnimationFlame[PlayerState::playerRase] = 1;
+	kPlayerAnimationFlame[PlayerState::playerFall] = 1;
+	kPlayerAnimationFlame[PlayerState::playerLand] = 2;
+	kPlayerAnimationFlame[PlayerState::playerShot] = 10;
+	kPlayerAnimationFlame[PlayerState::playerPull] = 10;
+
+
 	return true;
 }
 
@@ -115,6 +126,18 @@ int BaseConst::kPlayerReticleRange = 1500;
 
 // 照準のサイズ
 int BaseConst::kPlayerReticleSize = 10;
+
+// 走るアニメーション 2
+int BaseConst::kPlayerTextureRunNum = 2;
+
+// ジャンプアニメーション 4
+int BaseConst::kPlayerTextureJumpNum = 4;
+
+// アニメーション固定経過フレーム
+int BaseConst::kPlayerMaxAnimationFlame = 8;
+
+// アニメーション毎の描画フレーム
+int BaseConst::kPlayerAnimationFlame[PlayerState::kPlayerStateCount];
 
 #pragma endregion
 

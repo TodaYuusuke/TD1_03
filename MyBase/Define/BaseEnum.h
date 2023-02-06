@@ -73,6 +73,29 @@ enum ObjectType {
 	typeCore
 };
 
+// プレイヤーの状態
+enum PlayerState
+{
+	// 待機
+	playerIdle,
+	// ダッシュ
+	playerRun,
+	// ジャンプ
+	playerJump,
+	// 上昇中
+	playerRase,
+	// 落下中
+	playerFall,
+	// 着地
+	playerLand,
+	// 射出
+	playerShot,
+	// 縮小
+	playerPull,
+
+	kPlayerStateCount
+};
+
 // コントローラーボタン
 enum ControllerButton {
 		kControllerButtonUp,	//!< XInputの場合、十字キー上

@@ -177,9 +177,16 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	// フックの画像サイズを設定
 	this->hookTextureSize = { 48.0f, 48.0f };
 
+	// 武器のテクスチャ
+	this->weaponTexture = BaseTexture::kBossBlade;
+
 	// 武器のサイズを指定（仮テクスチャのため、今後変える）
 	this->weaponSize = { 0.0f, 0.0f };
 	this->weaponTextureSize = { 1.0f, 1.0f };
+
+	// 武器ごとのテクスチャサイズを指定
+	this->bladeTextureSize = { 40.0f, 400.0f };
+	this->gunTextureSize = { 40.0f, 250.0f };
 
 	// フックサイズ初期化
 	hookSize = { 96.0f, 96.0f };
@@ -231,9 +238,9 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	}
 
 	// 弾のサイズを指定
-	this->bulletSize = { 20.0f, 20.0f };
+	this->bulletSize = { 25.0f, 25.0f };
 	// 弾の画像サイズを指定（仮テクスチャのため、今後変える)
-	this->bulletTextureSize = { 1.0f, 1.0f };
+	this->bulletTextureSize = { 64.0f, 64.0f };
 
 	// 弾の発射スピードを指定
 	this->bulletSpeed = 7.0f;
@@ -635,7 +642,7 @@ void Boss::Draw() {
 		BaseDraw::DesignationDrawQuad(
 			Boss::GetWeaponPosition(viewPosition),
 			weaponSize,
-			BaseTexture::kDebugTexture,
+			weaponTexture,
 			weaponTextureSize,
 			degree,
 			0xFFFFFFFF
@@ -647,10 +654,10 @@ void Boss::Draw() {
 				BaseDraw::DesignationDrawQuad(
 					bulletCenterPosition[i],
 					bulletSize,
-					BaseTexture::kDebugTexture,
+					BaseTexture::kBossBullet,
 					bulletTextureSize,
 					0.0f,
-					0x000000FF
+					0xFFFFFFFF
 				);
 			}
 		}
@@ -1844,6 +1851,11 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 	{
 	// 初期化
 	case Boss::WAYPOINT0:
+
+		// 武器のテクスチャ変更
+		weaponTexture = BaseTexture::kBossBlade;
+		weaponTextureSize = bladeTextureSize;
+
 		// 中心座標取得
 		prevCenterPosition = centerPosition;
 
@@ -2114,6 +2126,11 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 	{
 		// 初期化
 	case Boss::WAYPOINT0:
+
+		// 武器のテクスチャ変更
+		weaponTexture = BaseTexture::kBossGun;
+		weaponTextureSize = gunTextureSize;
+
 		// 中心座標取得
 		prevCenterPosition = centerPosition;
 		nextCenterPosition = centerPosition;

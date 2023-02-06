@@ -9,16 +9,6 @@
 // いうまでもなくプレイヤー
 class WireManager;
 
-enum PlayerState
-{
-	playerIdle,
-	playerRun,
-	playerJump,
-	playerSky,
-	playerLand,
-	playerShot,
-	playerAtrract
-};
 
 class Player :
 	public Object {
@@ -74,6 +64,10 @@ private: // 関数
 	// リスポーン関数
 	void Respawn();
 
+	// アニメーション
+	void Animation();
+
+
 	// 当たり判定をオーバーライド
 
 	// オブジェクト自体の当たり判定をチェックする関数
@@ -124,7 +118,22 @@ private: // メンバ変数
 	Point limitRightBottom;
 
 	// アニメーション
+	// 今の状態
 	int state;
+	// 前の状態
+	int preState;
+	// 状態が変わってからの状態
+	int buffState;
+
+	// 状態が変わってからのフレーム数
+	int stateChengeFlame;
+
+	// アニメーション用フレームカウント
+	int animationFlameCount;
+
+	// 今のアニメーションフレーム
+	int animationFlame;
+
 
 	// リスポーン地点
 	Point resqawnPosition;

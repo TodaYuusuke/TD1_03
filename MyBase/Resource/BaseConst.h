@@ -1,4 +1,5 @@
 #pragma once
+#include "MyBase/Define/BaseEnum.h"
 #include "MyBase/Define/BaseStruct.h"
 
 #include <string>
@@ -105,6 +106,18 @@ public: // 静的な定数
 
 	// 照準の大きさ
 	static int kPlayerReticleSize;
+
+	// 走るアニメーション
+	static int kPlayerTextureRunNum;
+
+	// ジャンプアニメーション
+	static int kPlayerTextureJumpNum;
+
+	// アニメーション固定経過フレーム
+	static int kPlayerMaxAnimationFlame;
+
+	// アニメーション毎の描画フレーム
+	static int kPlayerAnimationFlame[PlayerState::kPlayerStateCount];
 
 #pragma endregion
 

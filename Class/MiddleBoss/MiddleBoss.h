@@ -336,6 +336,7 @@ private:
 	Point size;
 
 	/// 武器関連
+
 	// 武器のサイズ
 	Point weaponSize;
 
