@@ -63,6 +63,11 @@ bool BaseTexture::Loading() {
 	// ボスのフック
 	kBossLHook = Novice::LoadTexture("./Resources/Texture/Boss/LHook.png");
 	kBossRHook = Novice::LoadTexture("./Resources/Texture/Boss/RHook.png");
+
+	// ボスの武器
+	kBossBlade = Novice::LoadTexture("./Resources/Texture/Boss/Blade.png");
+	kBossGun = Novice::LoadTexture("./Resources/Texture/Boss/Gun.png");
+
 #pragma endregion
 
 #pragma region UI
@@ -195,6 +200,10 @@ int BaseTexture::kBossLCover;
 
 int BaseTexture::kBossLHook;
 int BaseTexture::kBossRHook;
+
+// 武器
+int BaseTexture::kBossBlade;
+int BaseTexture::kBossGun;
 
 #pragma endregion
 

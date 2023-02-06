@@ -85,6 +85,10 @@ public: // 静的なテクスチャの変数
 	static int kBossLHook;
 	static int kBossRHook;
 
+	// 武器
+	static int kBossBlade;
+	static int kBossGun;
+
 #pragma endregion
 
 #pragma region UI
