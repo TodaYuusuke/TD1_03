@@ -70,8 +70,6 @@ void Player::SuccessorInitialize() {
 // 更新
 void Player::SuccessorUpdate() {
 
-	preIsFlying = isFlying;
-	preCenterPosition = centerPosition;
 	preState = state;
 	//// テスト
 	//if (BaseInput::GetKeyboardState(DIK_P, Trigger)) {
@@ -206,6 +204,8 @@ void Player::SuccessorUpdate() {
 
 		//////////　　　ここまで　　　　//////////
 	}
+	preIsFlying = isFlying;
+	preCenterPosition = centerPosition;
 }
 // 描画
 void Player::Draw() {
@@ -653,7 +653,8 @@ void Player::Respawn() {
 	Novice::ScreenPrintf(10, 120, "%.2f  %.2f", (int)(resqawnPosition.x / BaseConst::kMapChipSizeWidth) * (float)BaseConst::kMapChipSizeWidth, (int)(resqawnPosition.y / (float)BaseConst::kMapChipSizeHeight) * BaseConst::kMapChipSizeHeight);
 	if (BaseInput::GetKeyboardState(DIK_P, Trigger)) {
 		isRespawn = !isRespawn;
-	}*/
+	}
+	//*/
 	if (isRespawn) {
 		centerPosition = resqawnPosition;
 		velocity = { 0,0 };
