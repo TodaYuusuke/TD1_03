@@ -42,6 +42,20 @@ public: // 静的なテクスチャの変数
 	// デバッグ用テクスチャ
 	static int kDebugTexture;
 
+#pragma region 背景
+
+	// 背景フレーム
+	static int kBackGroundFrame;
+	
+	/// 背景
+	// 都市
+	static int kBackGroundCity;
+	// 森
+	static int kBackGroundForest;
+
+#pragma endregion
+
+
 #pragma region マップ
 
 	// マップチップサンプル

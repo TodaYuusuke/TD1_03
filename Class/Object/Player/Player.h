@@ -9,6 +9,17 @@
 // いうまでもなくプレイヤー
 class WireManager;
 
+enum PlayerState
+{
+	playerIdle,
+	playerRun,
+	playerJump,
+	playerSky,
+	playerLand,
+	playerShot,
+	playerAtrract
+};
+
 class Player :
 	public Object {
 public: // メンバ関数
@@ -60,6 +71,9 @@ private: // 関数
 	// 移動制限関数
 	void LimitMovement();
 
+	// リスポーン関数
+	void Respawn();
+
 	// 当たり判定をオーバーライド
 
 	// オブジェクト自体の当たり判定をチェックする関数
@@ -97,7 +111,9 @@ private: // メンバ変数
 	// HP を表示するフレーム数
 	int drawHPFrame;
 
-	// 走るアニメーションのフレーム
+	//////////////
+	///ここまで///
+	//////////////
 
 	// プレイヤーの移動制限
 	bool isLimitMove;
@@ -107,12 +123,19 @@ private: // メンバ変数
 	// 制限する右下座標
 	Point limitRightBottom;
 
+	// アニメーション
+	int state;
 
-	//////////////
-	///ここまで///
-	//////////////
+	// リスポーン地点
+	Point resqawnPosition;
 
+	// リスポーン用前フレーム座標
+	Point preCenterPosition;
 
+	// isFlying がfalseになった瞬間の感知
+	bool preIsFlying;
 
+	// リスポーンするか
+	bool isRespawn;
 
 };

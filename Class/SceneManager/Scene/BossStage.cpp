@@ -37,6 +37,27 @@ void BossStage::Update() {
 // •`‰æ
 void BossStage::Draw() {
 
+	Point screenPosition = BaseDraw::GetScreenPosition();
+	Point playerPosition = objectManager.GetPlayerPosition();
+
+	Point screenSubtraction1 = { -(float)BaseConst::kWindowWidth / 2 - playerPosition.x / 8.0f ,0.0f };
+	Point screenSubtraction2 = { -(float)BaseConst::kWindowWidth / 2 - playerPosition.x / 2.0f ,0.0f };
+
+	// ”wŒi
+
+	for (int i = 0; i < 2; i++) {
+		BaseDraw::DrawQuad({ (float)BaseConst::kWindowWidth / 2 + ((float)BaseConst::kWindowWidth * i) + screenSubtraction1.x, screenPosition.y - BaseConst::kWindowHeight / 2 },
+			BaseTexture::kBackGroundCity, { 1920, 1080 }, 1.0f, 0.0f, 0xFFFFFFFF);
+	}
+
+	for (int i = 0; i < 3; i++) {
+		BaseDraw::DrawQuad({ (float)BaseConst::kWindowWidth / 2 + ((float)BaseConst::kWindowWidth * i) + screenSubtraction2.x, screenPosition.y - BaseConst::kWindowHeight / 2 },
+			BaseTexture::kBackGroundForest, { 1920, 1080 }, 1.0f, 0.0f, 0xFFFFFFFF);
+	}
+
+	BaseDraw::DrawQuad({ screenPosition.x + BaseConst::kWindowWidth / 2, screenPosition.y - BaseConst::kWindowHeight / 2 },
+		BaseTexture::kBackGroundFrame, { 1920, 1080 }, 1.35f, 0.0f, 0xFFFFFFFF);
+
 	MapManager::Draw();
 	boss.Draw();
 	objectManager.Draw();

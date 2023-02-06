@@ -78,7 +78,7 @@ void MyBase::Update() {
 		width = BaseDraw::Ease_Out(easingT, 0, BaseConst::kWindowWidth, 0.5f);
 
 		// スキップ用の処理
-		if (BaseInput::GetKeyboardState(DIK_SPACE, Press)) {
+		if (BaseInput::GetKeyboardState(DIK_SPACE, Press) || BaseInput::GetControllerState(kControllerButtonL2A, Press)) {
 			longPressedFrame++;
 
 			if (longPressedFrame > 60) {
@@ -124,7 +124,7 @@ void MyBase::Draw() {
 			BaseTexture::kUserInterfaceSkip[1], 100 / 60.0f * longPressedFrame / 100.0f, 1.0f, 0.0f, WHITE
 		);
 		// A ボタン
-		if (BaseInput::GetControllerState(kControllerButtonX, Press)) {
+		if (BaseInput::GetControllerState(kControllerButtonL2A, Press)) {
 			Novice::DrawSpriteRect(
 				skipPosition[1].x, skipPosition[1].y, 0, 0, 100, 100,
 				BaseTexture::kUserInterfaceA[1], 1.0f, 1.0f, 0.0f, WHITE
