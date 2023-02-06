@@ -78,13 +78,38 @@ void MapManager::Draw() {
                     if (drawPosition.y < BaseConst::kWindowHeight + BaseConst::kMapChipSizeHeight) {
                         if (drawPosition.x > 0 - BaseConst::kMapChipSizeWidth) {
                             if (drawPosition.x < BaseConst::kWindowWidth + BaseConst::kMapChipSizeWidth) {
+                                //if (tutorialMap[y][x].type == kTypeSummonEnemy) {
+                                //    tutorialMap[y][x].type = kTypeAir;
+                                //}
+                                //else {
                                 tutorialMap[y][x].Draw(BaseDraw::ScreentoWorld(drawPosition), GetMapChipType(y, x));
+                                //}
                             }
                         }
                     }
                 }
             }
         }
+        //int startY = BaseConst::kTutorialStageSizeHeight - (BaseDraw::GetScreenPosition().y / BaseConst::kMapChipSizeHeight);
+        //int startX = BaseDraw::GetScreenPosition().x / BaseConst::kMapChipSizeWidth;
+
+        //for (int y = startY; y < BaseConst::kTutorialStageSizeHeight && y < startY + (BaseConst::kWindowHeight / BaseConst::kMapChipSizeHeight) + 3; y++) {
+        //    for (int x = startX; x < BaseConst::kTutorialStageSizeWidth && x < startX + BaseConst::kWindowWidth / BaseConst::kMapChipSizeWidth; x++) {
+        //        // ‚à‚µ‰æ–ÊŠO‚Ìê‡‚Í•`‰æ‚µ‚È‚¢
+        //        Point drawPosition = { (float)x * BaseConst::kMapChipSizeWidth, (float)(BaseConst::kTutorialStageSizeHeight - y) * BaseConst::kMapChipSizeHeight };
+        //        drawPosition = BaseDraw::WorldtoScreen(drawPosition);
+
+        //        if (drawPosition.y > 0 - BaseConst::kMapChipSizeHeight) {
+        //            if (drawPosition.y < BaseConst::kWindowHeight + BaseConst::kMapChipSizeHeight) {
+        //                if (drawPosition.x > 0 - BaseConst::kMapChipSizeWidth) {
+        //                    if (drawPosition.x < BaseConst::kWindowWidth + BaseConst::kMapChipSizeWidth) {
+        //                        tutorialMap[y][x].Draw(BaseDraw::ScreentoWorld(drawPosition), GetMapChipType(y, x));
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
 

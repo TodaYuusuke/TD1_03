@@ -132,10 +132,6 @@ float BaseConst::kWireMaxLength = 1500.0f;
 
 #pragma region マップ
 
-// マップチップのサイズ
-int BaseConst::kMapChipSizeWidth = 32;
-int BaseConst::kMapChipSizeHeight = 32;
-
 // マップデータ
 int BaseConst::kTutorialStageData[kTutorialStageSizeHeight][kTutorialStageSizeWidth];
 int BaseConst::kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];

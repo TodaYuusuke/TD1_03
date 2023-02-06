@@ -123,12 +123,12 @@ public: // 静的な定数
 #pragma region マップ
 
 	// マップチップのサイズ
-	static int kMapChipSizeWidth;
-	static int kMapChipSizeHeight;
+	const static int kMapChipSizeWidth = 32;
+	const static int kMapChipSizeHeight = 32;
 
 	// チュートリアルステージの大きさ
-	const static int kTutorialStageSizeWidth = 250;
-	const static int kTutorialStageSizeHeight = 70;
+	const static int kTutorialStageSizeWidth = 500;
+	const static int kTutorialStageSizeHeight = 35;
 	// ボスステージの大きさ
 	const static int kBossStageSizeWidth = 75;
 	const static int kBossStageSizeHeight = 35;

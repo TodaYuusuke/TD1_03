@@ -32,7 +32,7 @@ void WireManager::Draw() {
 
 int WireManager::Shot(Point shotPosition, float shotAngle, Player* _player) {
 	// Œp‘±ƒtƒ‰ƒO
-	bool contineFlag = false;
+	int contineFlag = 0;
 	
 	do {
 		switch (wires[index]->Shot(shotPosition, shotAngle, _player))
@@ -46,7 +46,11 @@ int WireManager::Shot(Point shotPosition, float shotAngle, Player* _player) {
 				if (index >= BaseConst::kWireMaxAmount) {
 					index = 0;
 				}
-				contineFlag = true;
+				contineFlag++;
+				if (contineFlag >= BaseConst::kWireMaxAmount) {
+					return -2;
+				}
+
 				break;
 		}
 	} while (contineFlag);
