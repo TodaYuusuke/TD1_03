@@ -89,6 +89,9 @@ public: // 静的なテクスチャの変数
 	static int kBossBlade;
 	static int kBossGun;
 
+	// ボスの発射する弾
+	static int kBossBullet;
+
 #pragma endregion
 
 #pragma region UI

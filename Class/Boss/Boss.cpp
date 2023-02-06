@@ -238,9 +238,9 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	}
 
 	// 弾のサイズを指定
-	this->bulletSize = { 20.0f, 20.0f };
+	this->bulletSize = { 25.0f, 25.0f };
 	// 弾の画像サイズを指定（仮テクスチャのため、今後変える)
-	this->bulletTextureSize = { 1.0f, 1.0f };
+	this->bulletTextureSize = { 64.0f, 64.0f };
 
 	// 弾の発射スピードを指定
 	this->bulletSpeed = 7.0f;
@@ -654,10 +654,10 @@ void Boss::Draw() {
 				BaseDraw::DesignationDrawQuad(
 					bulletCenterPosition[i],
 					bulletSize,
-					BaseTexture::kDebugTexture,
+					BaseTexture::kBossBullet,
 					bulletTextureSize,
 					0.0f,
-					0x000000FF
+					0xFFFFFFFF
 				);
 			}
 		}

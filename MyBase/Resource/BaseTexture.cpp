@@ -68,6 +68,9 @@ bool BaseTexture::Loading() {
 	kBossBlade = Novice::LoadTexture("./Resources/Texture/Boss/Blade.png");
 	kBossGun = Novice::LoadTexture("./Resources/Texture/Boss/Gun.png");
 
+	// É{ÉXÇÃíe
+	kBossBullet = Novice::LoadTexture("./Resources/Texture/Boss/Bullet.png");
+
 #pragma endregion
 
 #pragma region UI
@@ -204,6 +207,9 @@ int BaseTexture::kBossRHook;
 // ïêäÌ
 int BaseTexture::kBossBlade;
 int BaseTexture::kBossGun;
+
+// íe
+int BaseTexture::kBossBullet;
 
 #pragma endregion
 
