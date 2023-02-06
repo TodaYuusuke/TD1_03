@@ -47,6 +47,9 @@ public: // メンバ関数
 
 private: // メンバ変数
 
+	// 現在のインデックス
+	int index;
+
 	Wire* wires[BaseConst::kWireMaxAmount];
 
 };

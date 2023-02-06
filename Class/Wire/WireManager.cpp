@@ -14,6 +14,7 @@ void WireManager::Initialize() {
 		wires[i]->Initialize();
 	}
 
+	index = 0;
 }
 
 void WireManager::Update(ObjectManager* objectManager) {
@@ -29,18 +30,27 @@ void WireManager::Draw() {
 	}
 }
 
-int WireManager::Shot(Point shotPosition, float shotAngle,Player* _player) {
-	for (int i = 0; i < BaseConst::kWireMaxAmount; i++) {
-		switch (wires[i]->Shot(shotPosition, shotAngle, _player))
+int WireManager::Shot(Point shotPosition, float shotAngle, Player* _player) {
+	// Œp‘±ƒtƒ‰ƒO
+	bool contineFlag = false;
+	
+	do {
+		switch (wires[index]->Shot(shotPosition, shotAngle, _player))
 		{
 			case 1:
 				return 1;
 			case -1:
 				return -1;
 			case -2:
+				index++;
+				if (index >= BaseConst::kWireMaxAmount) {
+					index = 0;
+				}
+				contineFlag = true;
 				break;
 		}
-	}
+	} while (contineFlag);
+
 	return -2;
 }
 

@@ -37,6 +37,10 @@ void Enemy::SuccessorInitialize() {
 }
 
 void Enemy::SuccessorUpdate() {
+	// ‰ñ“]‚ğí‚É‰Šú‰»
+	angle = 0;
+	angleVelocity = 0;
+
 	if (!isFlying) {
 		if (object->GetCenterPosition().x < centerPosition.x) {
 			direct = -1;
@@ -63,6 +67,11 @@ void Enemy::SuccessorUpdate() {
 		else {
 
 		}
+	}
+
+	// “–‚½‚è”»’è -> ƒqƒbƒg€–S
+	if (isStub) {
+		isAlive = false;
 	}
 }
 

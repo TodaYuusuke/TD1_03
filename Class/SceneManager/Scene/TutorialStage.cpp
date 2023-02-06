@@ -35,6 +35,10 @@ void TutorialStage::Update() {
 	if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
 		nextScene = sceneBossStage;
 	}
+	// デバッグ用
+	if (BaseInput::GetKeyboardState(DIK_E, Trigger)) {
+		objectManager.MakeNewObjectEnemy(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 64,64 });
+	}
 	// 定数のホットリロード
 	if (BaseInput::GetKeyboardState(DIK_F1, Trigger)) {
 		PublicFlag::Initialize();
