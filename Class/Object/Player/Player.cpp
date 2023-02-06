@@ -700,7 +700,7 @@ void Player::Animation() {
 		animationFlame = 0;
 		break;
 	case playerRun:
-		if (BaseConst::kPlayerTextureRun < animationFlame) {
+		if (BaseConst::kPlayerTextureRunNum <= animationFlame) {
 			animationFlame = 0;
 		}
 		break;
@@ -725,6 +725,7 @@ void Player::Animation() {
 	default:
 		break;
 	}
+	//*
 	Novice::ScreenPrintf(10, 20, "state  pre    buff");
 	Novice::ScreenPrintf(10, 60, "%d", animationFlame);
 	int a = 10, b = a + 50, c = b + 50;
@@ -815,6 +816,7 @@ void Player::Animation() {
 	default:
 		break;
 	}
+	//*/
 }
 
 // 当たり判定をオーバーライド

@@ -108,10 +108,10 @@ public: // 静的な定数
 	static int kPlayerReticleSize;
 
 	// 走るアニメーション
-	static int kPlayerTextureRun;
+	static int kPlayerTextureRunNum;
 
 	// ジャンプアニメーション
-	static int kPlayerTextureJump;
+	static int kPlayerTextureJumpNum;
 
 	// アニメーション固定経過フレーム
 	static int kPlayerMaxAnimationFlame;

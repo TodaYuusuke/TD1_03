@@ -127,14 +127,14 @@ int BaseConst::kPlayerReticleRange = 1500;
 // 照準のサイズ
 int BaseConst::kPlayerReticleSize = 10;
 
-// 走るアニメーション
-int BaseConst::kPlayerTextureRun = 2;
+// 走るアニメーション 2
+int BaseConst::kPlayerTextureRunNum = 2;
 
-// ジャンプアニメーション
-int BaseConst::kPlayerTextureJump = 4;
+// ジャンプアニメーション 4
+int BaseConst::kPlayerTextureJumpNum = 4;
 
 // アニメーション固定経過フレーム
-int BaseConst::kPlayerMaxAnimationFlame = 4;
+int BaseConst::kPlayerMaxAnimationFlame = 8;
 
 // アニメーション毎の描画フレーム
 int BaseConst::kPlayerAnimationFlame[PlayerState::kPlayerStateCount];
