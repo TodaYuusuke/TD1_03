@@ -725,7 +725,7 @@ void Player::Animation() {
 	default:
 		break;
 	}
-	//*
+	/*
 	Novice::ScreenPrintf(10, 20, "state  pre    buff");
 	Novice::ScreenPrintf(10, 60, "%d", animationFlame);
 	int a = 10, b = a + 50, c = b + 50;
