@@ -580,18 +580,12 @@ void Player::LimitMovement() {
 		if (checkPoint.y + height * 2.0f < limitRightBottom.y) {
 			// リスポーン
 			isRespawn = true;
-			//// 速度は0に
-			//velocity.y = 0;
-			//// 飛んでいないのでフラグを戻す
-			//isFlying = false;
-
-			//// ヒットしなくなるまで上へ補正する
-			//while (checkPoint.y < limitRightBottom.y) {
-			//	// 座標を上に
-			//	centerPosition.y += 1;
-			//	// 再計算
-			//	checkPoint.y += 1;
-			//}
+			HP--;
+			invincibleFrame = 30;
+			isDrawHP = true;
+			drawHPFrame = invincibleFrame + 180;
+			// SEを再生
+			//Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, 0.5f);
 		}
 		// プレイヤーから左の点
 		checkPoint = { centerPosition.x - width / 2,centerPosition.y };
