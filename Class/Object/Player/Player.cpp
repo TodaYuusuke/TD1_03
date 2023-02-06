@@ -70,8 +70,6 @@ void Player::SuccessorInitialize() {
 // 更新
 void Player::SuccessorUpdate() {
 
-	preIsFlying = isFlying;
-	preCenterPosition = centerPosition;
 	preState = state;
 	//// テスト
 	//if (BaseInput::GetKeyboardState(DIK_P, Trigger)) {
@@ -206,6 +204,8 @@ void Player::SuccessorUpdate() {
 
 		//////////　　　ここまで　　　　//////////
 	}
+	preIsFlying = isFlying;
+	preCenterPosition = centerPosition;
 }
 // 描画
 void Player::Draw() {
@@ -580,18 +580,12 @@ void Player::LimitMovement() {
 		if (checkPoint.y + height * 2.0f < limitRightBottom.y) {
 			// リスポーン
 			isRespawn = true;
-			//// 速度は0に
-			//velocity.y = 0;
-			//// 飛んでいないのでフラグを戻す
-			//isFlying = false;
-
-			//// ヒットしなくなるまで上へ補正する
-			//while (checkPoint.y < limitRightBottom.y) {
-			//	// 座標を上に
-			//	centerPosition.y += 1;
-			//	// 再計算
-			//	checkPoint.y += 1;
-			//}
+			HP--;
+			invincibleFrame = 30;
+			isDrawHP = true;
+			drawHPFrame = invincibleFrame + 180;
+			// SEを再生
+			//Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, 0.5f);
 		}
 		// プレイヤーから左の点
 		checkPoint = { centerPosition.x - width / 2,centerPosition.y };
@@ -653,7 +647,8 @@ void Player::Respawn() {
 	Novice::ScreenPrintf(10, 120, "%.2f  %.2f", (int)(resqawnPosition.x / BaseConst::kMapChipSizeWidth) * (float)BaseConst::kMapChipSizeWidth, (int)(resqawnPosition.y / (float)BaseConst::kMapChipSizeHeight) * BaseConst::kMapChipSizeHeight);
 	if (BaseInput::GetKeyboardState(DIK_P, Trigger)) {
 		isRespawn = !isRespawn;
-	}*/
+	}
+	//*/
 	if (isRespawn) {
 		centerPosition = resqawnPosition;
 		velocity = { 0,0 };
@@ -725,7 +720,7 @@ void Player::Animation() {
 	default:
 		break;
 	}
-	//*
+	/*
 	Novice::ScreenPrintf(10, 20, "state  pre    buff");
 	Novice::ScreenPrintf(10, 60, "%d", animationFlame);
 	int a = 10, b = a + 50, c = b + 50;
