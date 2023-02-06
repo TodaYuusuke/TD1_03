@@ -8,8 +8,6 @@ enum MapChipType {
 	kTypeNormal,
 	// 背景マス（当たり判定無し）
 	kTypeWall,
-	// 敵召喚マス
-	kTypeSummonEnemy,
 	// 下に抜けられるマス
 	kTypeFloor
 };
