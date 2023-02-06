@@ -44,8 +44,13 @@ void Player::SuccessorInitialize() {
 
 	// アニメーション
 	state = playerIdle;
+	preState = state;
+	buffState = state;
 
+	stateChengeFlame = 0;
 
+	animationFlameCount = 0;
+	animationFlame = 0;
 
 	// プレイヤーの移動制限
 	isLimitMove = true;
@@ -61,9 +66,13 @@ void Player::SuccessorInitialize() {
 	isRespawn = false;
 
 }
+
 // 更新
 void Player::SuccessorUpdate() {
 
+	preIsFlying = isFlying;
+	preCenterPosition = centerPosition;
+	preState = state;
 	//// テスト
 	//if (BaseInput::GetKeyboardState(DIK_P, Trigger)) {
 	//	isLimitMove = !isLimitMove;
@@ -84,6 +93,7 @@ void Player::SuccessorUpdate() {
 		ShotWire();
 		LimitMovement();
 		Respawn();
+		Animation();
 	}
 
 	// 前のフレームの分のマウス座標の取得
@@ -196,8 +206,6 @@ void Player::SuccessorUpdate() {
 
 		//////////　　　ここまで　　　　//////////
 	}
-	preIsFlying = isFlying;
-	preCenterPosition = centerPosition;
 }
 // 描画
 void Player::Draw() {
@@ -218,20 +226,145 @@ void Player::Draw() {
 			}
 		}
 
+		Point lt = { centerPosition.x - width / 2.0f, centerPosition.y + height / 2.0f };
 		if (invincibleFrame % 10 == 0) {
-			if (isRight == true) {
+			/*if (isRight == true) {
 				BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
 			}
 			else {
 				BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+			}*/
+			if (isRight) {
+				switch (state)
+				{
+				case playerIdle:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerRun:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerRun[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerJump:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerRase:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerFall:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerLand:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerShot:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerShot, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerPull:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerPull, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				default:
+					break;
+				}
+			}
+			else {
+				switch (state)
+				{
+				case playerIdle:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerRun:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerRun[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerJump:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerRase:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerFall:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerLand:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerShot:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerShot, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				case playerPull:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerPull, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+					break;
+				default:
+					break;
+				}
 			}
 		}
 		else {
-			if (isRight == true) {
+			/*if (isRight == true) {
 				BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0x550000FF);
 			}
 			else {
 				BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0x550000FF);
+			}*/
+			if (isRight) {
+				switch (state)
+				{
+				case playerIdle:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerRun:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerRun[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerJump:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerRase:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerFall:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerLand:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerShot:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerShot, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerPull:
+					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerPull, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				default:
+					break;
+				}
+			}
+			else {
+				switch (state)
+				{
+				case playerIdle:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerRun:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerRun[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerJump:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerRase:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerFall:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerLand:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerShot:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerShot, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				case playerPull:
+					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerPull, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+					break;
+				default:
+					break;
+				}
 			}
 		}
 
@@ -302,6 +435,15 @@ void Player::Move() {
 	else if (velocity.x > 0) {
 		velocity.x -= 0.1f;
 	}
+	if (!isFlying && velocity.x != 0.0f) {
+		state = playerRun;
+	}
+	else if (!isFlying && velocity.x == 0.0f) {
+		state = playerIdle;
+	}
+	else {
+		state = playerRase;
+	}
 }
 
 // 照準移動
@@ -347,6 +489,12 @@ void Player::ReticleMove() {
 
 // ジャンプ
 void Player::Jump() {
+	if (0 < velocity.y) {
+		state = playerRase;
+	}
+	else if (velocity.y < 0) {
+		state = playerFall;
+	}
 	// スペースキー || X || Y || L || R が押されたとき
 	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger) || BaseInput::GetControllerState(kControllerButtonX, Trigger) || BaseInput::GetControllerState(kControllerButtonY, Trigger) || BaseInput::GetControllerState(kControllerButtonL1, Trigger) || BaseInput::GetControllerState(kControllerButtonR1, Trigger)) {
 		if (!isFlying) {
@@ -358,6 +506,7 @@ void Player::Jump() {
 			velocity.y += 9.8f * 1.2f;
 			// SEを再生
 			Novice::PlayAudio(BaseAudio::kPlayerJump, 0, 0.5f);
+			state = playerJump;
 		}
 	}
 }
@@ -378,11 +527,12 @@ void Player::ShotWire() {
 			// 射出方向と反対方向のベクトルを足す
 			p = BaseMath::TurnPoint(p, BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition) + 180);
 			if (isFlying) {
-				velocity.x = p.x;
-				velocity.y = p.y;
+				velocity.x += p.x;
+				velocity.y += p.y;
 			}
 			// SEを再生
 			Novice::PlayAudio(BaseAudio::kPlayerShoot, 0, 0.5f);
+			state = playerShot;
 			break;
 			// 射出失敗
 		case -1:
@@ -395,6 +545,7 @@ void Player::ShotWire() {
 	// 右クリック || LT
 	if (BaseInput::GetMouseState(RightClick, Trigger) || BaseInput::GetControllerState(kControllerButtonL2A, Trigger)) {
 		wireManager->Attract();
+		state = playerPull;
 	}
 }
 
@@ -482,10 +633,10 @@ void Player::LimitMovement() {
 void Player::Respawn() {
 	// 地面から離れた瞬間の座標を保存
 	if (isFlying != preIsFlying && preIsFlying == false) {
-		
+
 		resqawnPosition.x = (int)(preCenterPosition.x / BaseConst::kMapChipSizeWidth) * BaseConst::kMapChipSizeWidth + BaseConst::kMapChipSizeWidth / 2.0f;
 		resqawnPosition.y = (int)(preCenterPosition.y / BaseConst::kMapChipSizeHeight) * BaseConst::kMapChipSizeHeight + BaseConst::kMapChipSizeHeight / 2.0f;
-		
+
 	}
 	/*
 	Point r = BaseDraw::WorldtoScreen({ resqawnPosition.x - width / 2.0f,resqawnPosition.y + height / 2.0f });
@@ -513,6 +664,158 @@ void Player::Respawn() {
 	}
 }
 
+// アニメーション
+void Player::Animation() {
+	stateChengeFlame++;
+	if (100 < stateChengeFlame) {
+		stateChengeFlame = BaseConst::kPlayerAnimationFlame[buffState] + 1;
+	}
+	else if (stateChengeFlame < BaseConst::kPlayerAnimationFlame[buffState]) {
+		state = buffState;
+	}
+	// 前のフレームと今のフレームが違い、
+	// 変わってからの状態と今の状態が違う時
+	if (buffState != state) {
+		// 状態が変わったとする
+		animationFlame = 0;
+		animationFlameCount = 0;
+		stateChengeFlame = 0;
+		buffState = state;
+	}
+	else {
+		if (buffState != state) {
+			buffState = state;
+		}
+	}
+	animationFlameCount++;
+	if (BaseConst::kPlayerMaxAnimationFlame < animationFlameCount) {
+		animationFlame++;
+		animationFlameCount = 0;
+
+	}
+	// 状態を取得
+	switch (state)
+	{
+	case playerIdle:
+		animationFlame = 0;
+		break;
+	case playerRun:
+		if (BaseConst::kPlayerTextureRun < animationFlame) {
+			animationFlame = 0;
+		}
+		break;
+	case playerJump:
+		animationFlame = 0;
+		break;
+	case playerRase:
+		animationFlame = 1;
+		break;
+	case playerFall:
+		animationFlame = 2;
+		break;
+	case playerLand:
+		animationFlame = 3;
+		break;
+	case playerShot:
+		animationFlame = 0;
+		break;
+	case playerPull:
+		animationFlame = 0;
+		break;
+	default:
+		break;
+	}
+	Novice::ScreenPrintf(10, 20, "state  pre    buff");
+	Novice::ScreenPrintf(10, 60, "%d", animationFlame);
+	int a = 10, b = a + 50, c = b + 50;
+	switch (state)
+	{
+	case playerIdle:
+		Novice::ScreenPrintf(a, 40, "Idle");
+		break;
+	case playerRun:
+		Novice::ScreenPrintf(a, 40, "Run");
+		break;
+	case playerJump:
+		Novice::ScreenPrintf(a, 40, "Jump");
+		break;
+	case playerRase:
+		Novice::ScreenPrintf(a, 40, "Rase");
+		break;
+	case playerFall:
+		Novice::ScreenPrintf(a, 40, "Fall");
+		break;
+	case playerLand:
+		Novice::ScreenPrintf(a, 40, "Land");
+		break;
+	case playerShot:
+		Novice::ScreenPrintf(a, 40, "Shot");
+		break;
+	case playerPull:
+		Novice::ScreenPrintf(a, 40, "Pull");
+		break;
+	default:
+		break;
+	}
+	switch (preState)
+	{
+	case playerIdle:
+		Novice::ScreenPrintf(b, 40, "Idle");
+		break;
+	case playerRun:
+		Novice::ScreenPrintf(b, 40, "Run");
+		break;
+	case playerJump:
+		Novice::ScreenPrintf(b, 40, "Jump");
+		break;
+	case playerRase:
+		Novice::ScreenPrintf(b, 40, "Rase");
+		break;
+	case playerFall:
+		Novice::ScreenPrintf(b, 40, "Fall");
+		break;
+	case playerLand:
+		Novice::ScreenPrintf(b, 40, "Land");
+		break;
+	case playerShot:
+		Novice::ScreenPrintf(b, 40, "Shot");
+		break;
+	case playerPull:
+		Novice::ScreenPrintf(b, 40, "Pull");
+		break;
+	default:
+		break;
+	}
+	switch (buffState)
+	{
+	case playerIdle:
+		Novice::ScreenPrintf(c, 40, "Idle");
+		break;
+	case playerRun:
+		Novice::ScreenPrintf(c, 40, "Run");
+		break;
+	case playerJump:
+		Novice::ScreenPrintf(c, 40, "Jump");
+		break;
+	case playerRase:
+		Novice::ScreenPrintf(c, 40, "Rase");
+		break;
+	case playerFall:
+		Novice::ScreenPrintf(c, 40, "Fall");
+		break;
+	case playerLand:
+		Novice::ScreenPrintf(c, 40, "Land");
+		break;
+	case playerShot:
+		Novice::ScreenPrintf(c, 40, "Shot");
+		break;
+	case playerPull:
+		Novice::ScreenPrintf(c, 40, "Pull");
+		break;
+	default:
+		break;
+	}
+}
 
 // 当たり判定をオーバーライド
 
@@ -521,6 +824,9 @@ void Player::CheckFieldHitBox() {
 
 	// 当たり判定をチェックする座標
 	Point checkPoint;
+
+#pragma region 上下左右
+
 
 	// プレイヤーから上の点
 	checkPoint = { centerPosition.x,centerPosition.y + height / 2 };
@@ -546,7 +852,7 @@ void Player::CheckFieldHitBox() {
 		velocity.y = 0;
 		// 飛んでいないのでフラグを戻す
 		isFlying = false;
-
+		state = playerLand;
 		// ヒットしなくなるまで上へ補正する
 		while (MapManager::CheckHitBox(checkPoint)) {
 			// 座標を上に
@@ -558,6 +864,15 @@ void Player::CheckFieldHitBox() {
 	// 一個下のマスがヒットしていないときは空中ということなのでフラグをtrueに
 	else if (!MapManager::CheckHitBox({ checkPoint.x ,checkPoint.y - 1 })) {
 		isFlying = true;
+		if (0 < velocity.y) {
+			state = playerRase;
+		}
+		else if (velocity.y == 0.0f) {
+			state = playerIdle;
+		}
+		else {
+			state = playerFall;
+		}
 	}
 
 	// プレイヤーから左の点
@@ -592,6 +907,11 @@ void Player::CheckFieldHitBox() {
 			checkPoint.x -= 1;
 		}
 	}
+
+#pragma endregion
+
+
+#pragma region 四隅
 
 
 
@@ -661,7 +981,7 @@ void Player::CheckFieldHitBox() {
 			}
 			// 飛んでいないのでフラグを戻す
 			isFlying = false;
-
+			state = playerLand;
 			// 補正を実行
 			centerPosition.y += correctionPos.y;
 		}
@@ -682,6 +1002,7 @@ void Player::CheckFieldHitBox() {
 		if (MapManager::CheckHitBox({ checkPoint.x,checkPoint.y - 1 })) {
 			// ヒットしていないときは空中ということなのでフラグをtrueに
 			isFlying = false;
+			state = playerIdle;
 		}
 	}
 
@@ -753,7 +1074,7 @@ void Player::CheckFieldHitBox() {
 			}
 			// 飛んでいないのでフラグを戻す
 			isFlying = false;
-
+			state = playerLand;
 			// 補正を実行
 			centerPosition.y += correctionPos.y;
 		}
@@ -774,8 +1095,11 @@ void Player::CheckFieldHitBox() {
 		if (MapManager::CheckHitBox({ checkPoint.x,checkPoint.y - 1 })) {
 			// ヒットしていないときは空中ということなのでフラグをtrueに
 			isFlying = false;
+			state = playerIdle;
 		}
 	}
+
+#pragma endregion
 
 	//////////////////////////
 	///　　当たり判定チェック　　//
