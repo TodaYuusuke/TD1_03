@@ -52,7 +52,6 @@ private: // メンバ変数
 
 	// エフェクトの配列
 	static BaseEffect* effects[effectArraySize];
-	\
 
 	// 次に追加するエフェクトの添字
 	static int nextIndex;
