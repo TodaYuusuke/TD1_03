@@ -56,12 +56,6 @@ void Core::Update() {
 void Core::Draw() {
 	if (isAlive) {
 		Point temp = BaseDraw::WorldtoScreen({ centerPosition.x - width / 2.0f, centerPosition.y + height / 2.0f });
-		if (isPulled) {
-			//Novice::DrawBox(temp.x, temp.y, width, height, 0.0f, 0xAA0000FF, kFillModeWireFrame);
-		}
-		else {
-			//Novice::DrawBox(temp.x, temp.y, width, height, 0.0f, 0xFFFFFFFF, kFillModeWireFrame);
-		}
 	}
 }
 

@@ -40,6 +40,11 @@ void Wire::Update(ObjectManager* objectManager) {
 
 	// ‚à‚µƒƒCƒ„[‚Ì’·‚³‚ªˆê’èˆÈã‚É‚È‚Á‚½ê‡ ... ‰Šú‰»
 	if (BaseMath::GetLength({ position[1].x - position[0].x, position[1].y - position[0].y }) >= BaseConst::kWireMaxLength) {
+		for (int i = 0; i < 2; i++) {
+			if (object[i] != NULL) {
+				object[i]->SetisStub(false);
+			}
+		}
 		Initialize();
 	}
 
@@ -246,8 +251,8 @@ void Wire::Attract() {
 		// ˆø‚«Šñ‚¹‚é‹­‚³‚ðŒˆ’è
 		Point p = { 20,0 };
 
-		if (object[0]->GetType() == typeBlock) {
-			p = { 40,0 };
+		if (object[0]->GetType() == typeBlock || object[0]->GetType() == typeIronBalloon) {
+			p = { 30,0 };
 		}
 
 		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(position[0], position[1]));
@@ -268,8 +273,8 @@ void Wire::Attract() {
 		// ˆø‚«Šñ‚¹‚é‹­‚³‚ðŒˆ’è
 		Point p = { 20,0 };
 
-		if (object[1]->GetType() == typeBlock) {
-			p = { 40,0 };
+		if (object[1]->GetType() == typeBlock || object[1]->GetType() == typeIronBalloon) {
+			p = { 30,0 };
 		}
 
 		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(position[1], position[0]));

@@ -520,9 +520,13 @@ void Player::Move() {
 			isRight = false;
 		}
 	}
-	else if (velocity.x < 0) {
+	else if (velocity.x < 0 && isFlying) {
 		velocity.x += 0.1f;
 	}
+	else if (velocity.x < 0) {
+		velocity.x += 0.5f;
+	}
+
 	// ‰EˆÚ“®
 	if (BaseInput::GetKeyboardState(DIK_D, Press)) {
 		if (velocity.x < BaseConst::kPlayerVelocityLimit) {
@@ -542,6 +546,8 @@ void Player::Move() {
 	else if (velocity.x > 0) {
 		velocity.x -= 0.5f;
 	}
+
+
 	if (!isFlying && velocity.x != 0.0f) {
 		state = playerRun;
 	}

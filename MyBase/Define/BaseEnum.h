@@ -66,7 +66,8 @@ enum ObjectType {
 	// フック
 	typeHook,
 	// 敵
-	typeEnemy,
+	typeBalloon,
+	typeIronBalloon,
 	// 壁（ワイヤーの識別用）
 	typeWall,
 	// ボスの中心部

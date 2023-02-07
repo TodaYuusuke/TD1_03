@@ -1,17 +1,17 @@
 #include "Class/SceneManager/Scene/BossStage.h"
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 BossStage::BossStage() {
 	Initialize();
 }
-// ƒfƒXƒgƒ‰ƒNƒ^
+// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 BossStage::~BossStage() {
 
 }
 
 
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void BossStage::Initialize() {
 	nextScene = sceneNone;
 
@@ -27,12 +27,12 @@ void BossStage::Initialize() {
 	gameOverColor = 0x00000000;
 	gameOverT = BaseConst::kGameOverFirstValue;
 }
-// XV
+// æ›´æ–°
 void BossStage::Update() {
 	if (!objectManager.GetPlayerisAlive()) {
 		isGameOver = true;
 	}
-	// “–‚½‚è”»’è‚ªXV
+	// å½“ãŸã‚Šåˆ¤å®šã®åˆæœŸåŒ–
 	EnemyAttackHitBox::Initialize();
 
 	MapManager::Update();
@@ -47,7 +47,7 @@ void BossStage::Update() {
 		GameOverUpdate();
 	}
 }
-// •`‰æ
+// æç”»
 void BossStage::Draw() {
 
 	Point screenPosition = BaseDraw::GetScreenPosition();
@@ -56,7 +56,7 @@ void BossStage::Draw() {
 	Point screenSubtraction1 = { -(float)BaseConst::kWindowWidth / 2 - playerPosition.x / 8.0f ,0.0f };
 	Point screenSubtraction2 = { -(float)BaseConst::kWindowWidth / 2 - playerPosition.x / 2.0f ,0.0f };
 
-	// ”wŒi
+	// èƒŒæ™¯
 
 	for (int i = 0; i < 2; i++) {
 		BaseDraw::DrawQuad({ (float)BaseConst::kWindowWidth / 2 + ((float)BaseConst::kWindowWidth * i) + screenSubtraction1.x, screenPosition.y - BaseConst::kWindowHeight / 2 },
@@ -83,7 +83,7 @@ void BossStage::Draw() {
 		GameOverDraw();
 	}
 	/*
-	// ƒfƒoƒbƒN‚Ì‘€ì•û–@ƒeƒNƒXƒ`ƒƒ
+	// ãƒ‡ãƒãƒƒã‚¯ã®æ“ä½œæ–¹æ³•ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	int debugMoveTex = Novice::LoadTexture("./Resources/Texture/Debug/Move.png");
 	int debugShotTex = Novice::LoadTexture("./Resources/Texture/Debug/Shot.png");
 	int debugJumpTex = Novice::LoadTexture("./Resources/Texture/Debug/Jump.png");
@@ -92,7 +92,7 @@ void BossStage::Draw() {
 	int debugHPTex = Novice::LoadTexture("./Resources/Texture/Debug/HP.png");
 
 	Novice::DrawSprite(1280, 10, debugBGTex, 10, 0.5f, 0, WHITE);
-	// “®ì•û–@
+	// å‹•ä½œæ–¹æ³•
 	Novice::DrawSprite(1280, 10, debugMoveTex, 0.25f, 0.25f, 0.0f, WHITE);
 	Novice::DrawSprite(1600, 10, debugJumpTex, 0.25f, 0.25f, 0.0f, WHITE);
 	Novice::DrawSprite(1280, 42, debugShotTex, 0.25f, 0.25f, 0.0f, WHITE);
@@ -101,7 +101,7 @@ void BossStage::Draw() {
 	Novice::DrawSprite(620, 10, debugHPTex, 0.5f, 0.5f, 0, WHITE);*/
 }
 
-// ƒQ[ƒ€ƒI[ƒo[‚Ìˆ—
+// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼æ™‚ã®å‡¦ç†
 void BossStage::GameOverUpdate() {
 	if (gameOverT < 1.0f) {
 		gameOverT += BaseConst::kGameOverFlame;
@@ -110,9 +110,9 @@ void BossStage::GameOverUpdate() {
 		gameOverT = 1.0f;
 	}
 	gameOverColor = gameOverT * 0xCC;
-	// ƒ[ƒ‹ƒhÀ•W‚É–ß‚³‚¸ŒvZ
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã«æˆ»ã•ãšè¨ˆç®—
 	Point mp = BaseInput::GetMousePosition();
-	// uƒ^ƒCƒgƒ‹‚Ö–ß‚év‚Ì’†‚Éƒ}ƒEƒX‚ª‚ ‚éê‡
+	// ã€Œã‚¿ã‚¤ãƒˆãƒ«ã¸æˆ»ã‚‹ã€ã®ä¸­ã«ãƒã‚¦ã‚¹ãŒã‚ã‚‹å ´åˆ
 	if (BaseConst::kGameOverTitleLeftTop.x < mp.x && mp.x < BaseConst::kGameOverTitleRightBottom.x &&
 		BaseConst::kGameOverTitleLeftTop.y < mp.y && mp.y < BaseConst::kGameOverTitleRightBottom.y) {
 		if (BaseInput::GetMouseState(LeftClick, Trigger)) {
@@ -127,7 +127,7 @@ void BossStage::GameOverUpdate() {
 	}
 
 }
-// ƒQ[ƒ€ƒI[ƒo[‚Ìˆ—
+// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼æ™‚ã®å‡¦ç†
 void BossStage::GameOverDraw() {
 	Novice::DrawBox(0, 0, BaseConst::kWindowWidth, BaseConst::kWindowHeight, 0.0f, gameOverColor, kFillModeSolid);
 	Novice::DrawSprite(

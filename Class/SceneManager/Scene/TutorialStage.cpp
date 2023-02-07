@@ -1,17 +1,17 @@
 #include "Class/SceneManager/Scene/TutorialStage.h"
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 TutorialStage::TutorialStage() {
 	Initialize();
 }
-// ƒfƒXƒgƒ‰ƒNƒ^
+// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 TutorialStage::~TutorialStage() {
 
 }
 
 
 
-// ‰Šú‰»
+// åˆæœŸåŒ–
 void TutorialStage::Initialize() {
 	nextScene = sceneNone;
 
@@ -31,23 +31,33 @@ void TutorialStage::Initialize() {
 	gameOverColor = 0x00000000;
 	gameOverT = BaseConst::kGameOverFirstValue;
 }
-// XV
+// æ›´æ–°
 void TutorialStage::Update() {
 	if (!objectManager.GetPlayerisAlive()) {
 		isGameOver = true;
 	}
-	// “–‚½‚è”»’è‚Ì‰Šú‰»
+	// å½“ãŸã‚Šåˆ¤å®šã®åˆæœŸåŒ–
 	EnemyAttackHitBox::Initialize();
 
-	// ƒfƒoƒbƒO—p
-	if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
-		nextScene = sceneBossStage;
+	//// ãƒ‡ãƒãƒƒã‚°ç”¨
+	//if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
+	//	nextScene = sceneBossStage;
+	//}
+	// ãƒ‡ãƒãƒƒã‚°ç”¨
+	if (BaseInput::GetKeyboardState(DIK_R, Trigger)) {
+		Initialize();
 	}
-	// ƒfƒoƒbƒO—p
+	
+	// ãƒ‡ãƒãƒƒã‚°ç”¨
 	if (BaseInput::GetKeyboardState(DIK_E, Trigger)) {
-		objectManager.MakeNewObjectEnemy(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 64,64 });
+		objectManager.MakeNewObjectBalloon(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()));
 	}
-	// ’è”‚ÌƒzƒbƒgƒŠƒ[ƒh
+	// ãƒ‡ãƒãƒƒã‚°ç”¨
+	if (BaseInput::GetKeyboardState(DIK_I, Trigger)) {
+		objectManager.MakeNewObjectIronBalloon(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()));
+	}
+
+	// å®šæ•°ã®ãƒ›ãƒƒãƒˆãƒªãƒ­ãƒ¼ãƒ‰
 	if (BaseInput::GetKeyboardState(DIK_F1, Trigger)) {
 		PublicFlag::Initialize();
 
@@ -66,12 +76,12 @@ void TutorialStage::Update() {
 		p->Update();
 		GameOverUpdate();
 	}
-	// ƒvƒŒƒCƒ„[‚Ìi’»ƒ`ƒFƒbƒN
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®é€²æ—ãƒã‚§ãƒƒã‚¯
 	CheckPlayerProgress();
 }
-// •`‰æ
+// æç”»
 void TutorialStage::Draw() {
-	// ƒfƒoƒbƒO—p
+	// ãƒ‡ãƒãƒƒã‚°ç”¨
 	Novice::ScreenPrintf(0, 0, "Push ENTER to Skip Stage");
 
 	Point screenPosition = BaseDraw::GetScreenPosition();
@@ -80,7 +90,7 @@ void TutorialStage::Draw() {
 	Point screenSubtraction1 = { playerPosition.x / 8.0f ,0.0f };
 	Point screenSubtraction2 = { -(float)BaseConst::kWindowWidth / 2 - playerPosition.x / 2.0f ,0.0f };
 
-	// ”wŒi
+	// èƒŒæ™¯
 
 	for (int i = 0; i < 7; i++) {
 		BaseDraw::DrawQuad({ 
@@ -102,15 +112,16 @@ void TutorialStage::Draw() {
 
 	middleBoss.Draw();
 
+	objectManager.Draw();
 	if (!isGameOver) {
-		objectManager.Draw();
 		wireManager.Draw();
 	}
 	else {
-		Player* p = (Player*)objectManager.GetSelectObject(typePlayer);
-		p->Draw();
 		GameOverDraw();
 	}
+
+
+	Novice::ScreenPrintf(0, 20, "x = %6.0f, y = %6.0f", BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()).x, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()).y);
 }
 
 
@@ -119,6 +130,16 @@ void TutorialStage::CheckPlayerProgress() {
 	switch (playerProgress)
 	{
 		case 0:
+			if (objectManager.GetPlayerPosition().x > 6500) {
+				playerProgress = 1;
+
+				// æ•µã‚’å¬å–š
+				objectManager.MakeNewObjectBalloon({ 7714,283 });
+				objectManager.MakeNewObjectBalloon({ 8037,283 });
+				objectManager.MakeNewObjectBalloon({ 8358,283 });
+				objectManager.MakeNewObjectBalloon({ 7872,509 });
+				objectManager.MakeNewObjectBalloon({ 8197,509 });
+			}
 			break;
 		case 1:
 			break;
@@ -138,7 +159,7 @@ void TutorialStage::CheckPlayerProgress() {
 
 }
 
-// ƒQ[ƒ€ƒI[ƒo[‚Ìˆ—
+// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼æ™‚ã®å‡¦ç†
 void TutorialStage::GameOverUpdate() {
 	if (gameOverT < 1.0f) {
 		gameOverT += BaseConst::kGameOverFlame;
@@ -147,9 +168,9 @@ void TutorialStage::GameOverUpdate() {
 		gameOverT = 1.0f;
 	}
 	gameOverColor = gameOverT * 0xCC;
-	// ƒ[ƒ‹ƒhÀ•W‚É–ß‚³‚¸ŒvZ
+	// ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™ã«æˆ»ã•ãšè¨ˆç®—
 	Point mp = BaseInput::GetMousePosition();
-	// uƒ^ƒCƒgƒ‹‚Ö–ß‚év‚Ì’†‚Éƒ}ƒEƒX‚ª‚ ‚éê‡
+	// ã€Œã‚¿ã‚¤ãƒˆãƒ«ã¸æˆ»ã‚‹ã€ã®ä¸­ã«ãƒã‚¦ã‚¹ãŒã‚ã‚‹å ´åˆ
 	if (BaseConst::kGameOverTitleLeftTop.x < mp.x && mp.x < BaseConst::kGameOverTitleRightBottom.x &&
 		BaseConst::kGameOverTitleLeftTop.y < mp.y && mp.y < BaseConst::kGameOverTitleRightBottom.y) {
 		if (BaseInput::GetMouseState(LeftClick, Trigger)) {
@@ -164,7 +185,7 @@ void TutorialStage::GameOverUpdate() {
 	}
 
 }
-// ƒQ[ƒ€ƒI[ƒo[‚Ìˆ—
+// ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼æ™‚ã®å‡¦ç†
 void TutorialStage::GameOverDraw() {
 	Novice::DrawBox(0, 0, BaseConst::kWindowWidth, BaseConst::kWindowHeight, 0.0f, gameOverColor, kFillModeSolid);
 	Novice::DrawSprite(

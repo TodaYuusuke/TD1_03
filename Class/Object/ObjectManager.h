@@ -4,7 +4,8 @@
 
 #include "Class/Object/Block/Block.h"
 #include "Class/Object/Player/Player.h"
-#include "Class/Object/Enemy/Enemy.h"
+#include "Class/Object/Enemy/Balloon.h"
+#include "Class/Object/Enemy/IronBalloon.h"
 #include "Class/Object/Hook/Hook.h"
 #include "Class/Object/Core/Core.h"
 
@@ -46,7 +47,8 @@ public: // メンバ関数
 	Object* MakeNewObjectCore(Point position, Point size);
 
 	// Enemy
-	void MakeNewObjectEnemy(Point position, Point size);
+	void MakeNewObjectBalloon(Point position);
+	void MakeNewObjectIronBalloon(Point position);
 
 	// オブジェクトの当たり判定をチェックする関数
 	// 返り値：そのオブジェクトのポインタ

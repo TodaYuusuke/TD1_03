@@ -12,10 +12,14 @@ void ObjectManager::Initialize() {
 // 全てのオブジェクトを更新（Updateを呼び出す）
 void ObjectManager::Update() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
-		if (object[i]->GetType() != typeObject) {
+		if (object[i]->GetType() != typeObject && object[i]->GetType() != typePlayer) {
 			object[i]->Update();
 		}
 	}
+
+	// プレイヤーの更新は最後に行う
+	Player* p = (Player*)GetSelectObject(typePlayer);
+	p->Update();
 }
 // 描画
 // 全てのオブジェクトを描画（Drawを呼び出す）
@@ -35,7 +39,7 @@ void ObjectManager::Draw() {
 // Block
 void ObjectManager::MakeNewObjectBlock(Point position, Point size) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
-		if (object[i]->GetType() == typeObject && !object[i]->GetisAlive()) {
+		if (!object[i]->GetisAlive()) {
 			object[i] = new Block(position, size);
 			object[i]->Initialize();
 			break;
@@ -50,7 +54,7 @@ void ObjectManager::MakeNewObjectPlayer(Point position, WireManager* wireManager
 		if (object[i]->GetType() == typePlayer) {
 			break;
 		}
-		if (object[i]->GetType() == typeObject && !object[i]->GetisAlive()) {
+		if (!object[i]->GetisAlive()) {
 			object[i] = new Player(position, wireManager);
 			object[i]->Initialize();
 			break;
@@ -62,7 +66,7 @@ void ObjectManager::MakeNewObjectPlayer(Point position, WireManager* wireManager
 // Hook
 Object* ObjectManager::MakeNewObjectHook(Point position, Point size) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
-		if (object[i]->GetType() == typeObject && !object[i]->GetisAlive()) {
+		if (!object[i]->GetisAlive()) {
 			object[i] = new Hook(position, size);
 			object[i]->Initialize();
 			return object[i];
@@ -75,7 +79,7 @@ Object* ObjectManager::MakeNewObjectHook(Point position, Point size) {
 // Core
 Object* ObjectManager::MakeNewObjectCore(Point position, Point size) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
-		if (object[i]->GetType() == typeObject && !object[i]->GetisAlive()) {
+		if (!object[i]->GetisAlive()) {
 			object[i] = new Core(position, size);
 			object[i]->Initialize();
 			return object[i];
@@ -87,10 +91,19 @@ Object* ObjectManager::MakeNewObjectCore(Point position, Point size) {
 
 
 // Enemy
-void ObjectManager::MakeNewObjectEnemy(Point position,Point size) {
+void ObjectManager::MakeNewObjectBalloon(Point position) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
-		if (object[i]->GetType() == typeObject && !object[i]->GetisAlive()) {
-			object[i] = new Enemy(position, { 50,50 }, GetSelectObject(typePlayer));
+		if (!object[i]->GetisAlive()) {
+			object[i] = new Balloon(position, { 50,50 }, GetSelectObject(typePlayer));
+			object[i]->Initialize();
+			break;
+		}
+	}
+}
+void ObjectManager::MakeNewObjectIronBalloon(Point position) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (!object[i]->GetisAlive()) {
+			object[i] = new IronBalloon(position, { 50,50 }, GetSelectObject(typePlayer));
 			object[i]->Initialize();
 			break;
 		}

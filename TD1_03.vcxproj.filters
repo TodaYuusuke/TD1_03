@@ -68,7 +68,7 @@
     <ClCompile Include="Class\Object\Block\Block.cpp">
       <Filter>Class\Object\Block</Filter>
     </ClCompile>
-    <ClCompile Include="Class\Object\Enemy\Enemy.cpp">
+    <ClCompile Include="Class\Object\Enemy\Balloon.cpp">
       <Filter>Class\Object\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Class\Object\Hook\Hook.cpp">
@@ -112,6 +112,9 @@
     </ClCompile>
     <ClCompile Include="Class\MiddleBoss\MiddleBoss.cpp">
       <Filter>Class\MiddleBoss</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Object\Enemy\IronBalloon.cpp">
+      <Filter>Class\Object\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -250,7 +253,7 @@
     <ClInclude Include="Class\Object\Block\Block.h">
       <Filter>Class\Object\Block</Filter>
     </ClInclude>
-    <ClInclude Include="Class\Object\Enemy\Enemy.h">
+    <ClInclude Include="Class\Object\Enemy\Balloon.h">
       <Filter>Class\Object\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Class\Object\Hook\Hook.h">
@@ -297,6 +300,9 @@
     </ClInclude>
     <ClInclude Include="Class\MiddleBoss\MiddleBoss.h">
       <Filter>Class\MiddleBoss</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Object\Enemy\IronBalloon.h">
+      <Filter>Class\Object\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
