@@ -33,13 +33,17 @@ void TutorialStage::Update() {
 	// 当たり判定の初期化
 	EnemyAttackHitBox::Initialize();
 
+	//// デバッグ用
+	//if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
+	//	nextScene = sceneBossStage;
+	//}
 	// デバッグ用
-	if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
-		nextScene = sceneBossStage;
+	if (BaseInput::GetKeyboardState(DIK_R, Trigger)) {
+		Initialize();
 	}
 	// デバッグ用
 	if (BaseInput::GetKeyboardState(DIK_E, Trigger)) {
-		objectManager.MakeNewObjectEnemy(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 64,64 });
+		objectManager.MakeNewObjectEnemy(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()));
 	}
 	// 定数のホットリロード
 	if (BaseInput::GetKeyboardState(DIK_F1, Trigger)) {
@@ -94,6 +98,7 @@ void TutorialStage::Draw() {
 	objectManager.Draw();
 	wireManager.Draw();
 
+	Novice::ScreenPrintf(0, 20, "x = %6.0f, y = %6.0f", BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()).x, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()).y);
 }
 
 
@@ -102,6 +107,16 @@ void TutorialStage::CheckPlayerProgress() {
 	switch (playerProgress)
 	{
 		case 0:
+			if (objectManager.GetPlayerPosition().x > 6500) {
+				playerProgress = 1;
+
+				// 敵を召喚
+				objectManager.MakeNewObjectEnemy({ 7714,283 });
+				objectManager.MakeNewObjectEnemy({ 8037,283 });
+				objectManager.MakeNewObjectEnemy({ 8358,283 });
+				objectManager.MakeNewObjectEnemy({ 7872,509 });
+				objectManager.MakeNewObjectEnemy({ 8197,509 });
+			}
 			break;
 		case 1:
 			break;

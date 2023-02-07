@@ -73,6 +73,8 @@ void Enemy::SuccessorUpdate() {
 	if (isStub) {
 		isAlive = false;
 	}
+
+	EnemyAttackHitBox::MakeNewHitBox(centerPosition, width, height, 0, 1);	
 }
 
 void Enemy::Draw() {

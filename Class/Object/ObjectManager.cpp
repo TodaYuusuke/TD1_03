@@ -12,10 +12,14 @@ void ObjectManager::Initialize() {
 // 全てのオブジェクトを更新（Updateを呼び出す）
 void ObjectManager::Update() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
-		if (object[i]->GetType() != typeObject) {
+		if (object[i]->GetType() != typeObject && object[i]->GetType() != typePlayer) {
 			object[i]->Update();
 		}
 	}
+
+	// プレイヤーの更新は最後に行う
+	Player* p = (Player*)GetSelectObject(typePlayer);
+	p->Update();
 }
 // 描画
 // 全てのオブジェクトを描画（Drawを呼び出す）
@@ -87,7 +91,7 @@ Object* ObjectManager::MakeNewObjectCore(Point position, Point size) {
 
 
 // Enemy
-void ObjectManager::MakeNewObjectEnemy(Point position,Point size) {
+void ObjectManager::MakeNewObjectEnemy(Point position) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() == typeObject && !object[i]->GetisAlive()) {
 			object[i] = new Enemy(position, { 50,50 }, GetSelectObject(typePlayer));

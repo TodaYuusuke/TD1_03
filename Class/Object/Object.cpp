@@ -272,15 +272,9 @@ void Object::CheckFieldHitBox() {
 			}
 		}
 	}
-	// 下方向に飛び出したとき
-	while (centerPosition.y - height / 2 < BaseConst::kMapChipSizeHeight) {
-		// 座標を上に
-		centerPosition.y += 1;
-		// 再計算
-		for (int i = 0; i < 4; i++) {
-			checkQuadPoint[i].y += 1;
-			checkRhombusPoint[i].y += 1;
-		}
+	// 下方向に飛び出したとき -> 死ぬ
+	if (centerPosition.y + height < 0) {
+		isAlive = false;
 	}
 	// 上方向に飛び出したとき
 	if (MapManager::GetisBoss() == true) {

@@ -26,7 +26,7 @@ void BossStage::Initialize() {
 }
 // 更新
 void BossStage::Update() {
-	// 当たり判定が更新
+	// 当たり判定の初期化
 	EnemyAttackHitBox::Initialize();
 
 	MapManager::Update();

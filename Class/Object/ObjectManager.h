@@ -46,7 +46,7 @@ public: // メンバ関数
 	Object* MakeNewObjectCore(Point position, Point size);
 
 	// Enemy
-	void MakeNewObjectEnemy(Point position, Point size);
+	void MakeNewObjectEnemy(Point position);
 
 	// オブジェクトの当たり判定をチェックする関数
 	// 返り値：そのオブジェクトのポインタ

@@ -2,7 +2,7 @@
 #include "MyBase/MyBase.h"
 #include "Class/Object/Object.h"
 
-
+#include "Class/AttackHitBox/EnemyAttackHitBox.h"
 
 class Enemy :public Object
 {
