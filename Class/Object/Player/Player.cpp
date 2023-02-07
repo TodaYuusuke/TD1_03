@@ -473,7 +473,7 @@ void Player::Draw() {
 		}
 	}
 
-	if (!PublicFlag::kisStaging) {
+	if (!PublicFlag::kisStaging && isAlive) {
 
 		// Ëoæ‚Ìü—\‘ªü‚ğ•`‰æ
 		Point p1 = BaseDraw::WorldtoScreen(centerPosition);

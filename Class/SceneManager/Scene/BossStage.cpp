@@ -23,9 +23,14 @@ void BossStage::Initialize() {
 
 	objectManager.MakeNewObjectPlayer({ 100,200 }, &wireManager);
 	boss.Initialize(&objectManager);
+
+	reticlePosition = { 1000,500 };
+	preMousePosition = BaseInput::GetMousePosition();
 	isGameOver = false;
 	gameOverColor = 0x00000000;
 	gameOverT = BaseConst::kGameOverFirstValue;
+	isToTitle = false;
+	isToRetry = false;
 }
 // 更新
 void BossStage::Update() {
@@ -120,21 +125,71 @@ void BossStage::GameOverUpdate() {
 	}
 	gameOverColor = gameOverT * 0xCC;
 	// ワールド座標に戻さず計算
-	Point mp = BaseInput::GetMousePosition();
+	Point rightStick;
+	BaseInput::GetControllerRightJoysState(&rightStick);
+	int x, y;
+	Novice::GetMousePosition(&x, &y);
+	// マウスが動いている時
+	if (preMousePosition.x != x || preMousePosition.y != y) {
+		reticlePosition = BaseInput::GetMousePosition();
+	}
+	// スティックが入力されている時
+	if (BaseMath::GetLength(rightStick) != 0.0f) {
+		reticlePosition.x += 20 * rightStick.x;
+		reticlePosition.y += 20 * rightStick.y;
+	}
+	// 照準を画面内に収める
+	if (reticlePosition.x < BaseConst::kPlayerReticleSize) {
+		reticlePosition.x = BaseConst::kPlayerReticleSize;
+	}
+	else if (BaseConst::kWindowWidth - BaseConst::kPlayerReticleSize < reticlePosition.x) {
+		reticlePosition.x = BaseConst::kWindowWidth - BaseConst::kPlayerReticleSize;
+	}
+	if (reticlePosition.y < BaseConst::kPlayerReticleSize) {
+		reticlePosition.y = BaseConst::kPlayerReticleSize;
+	}
+	else if (BaseConst::kWindowHeight - BaseConst::kPlayerReticleSize < reticlePosition.y) {
+		reticlePosition.y = BaseConst::kWindowHeight - BaseConst::kPlayerReticleSize;
+	}
+
 	// 「タイトルへ戻る」の中にマウスがある場合
-	if (BaseConst::kGameOverTitleLeftTop.x < mp.x && mp.x < BaseConst::kGameOverTitleRightBottom.x &&
-		BaseConst::kGameOverTitleLeftTop.y < mp.y && mp.y < BaseConst::kGameOverTitleRightBottom.y) {
-		if (BaseInput::GetMouseState(LeftClick, Trigger)) {
+	if (BaseConst::kGameOverTitleLeftTop.x < reticlePosition.x && reticlePosition.x < BaseConst::kGameOverTitleRightBottom.x &&
+		BaseConst::kGameOverTitleLeftTop.y < reticlePosition.y && reticlePosition.y < BaseConst::kGameOverTitleRightBottom.y) {
+		isToTitle = true;
+		if (BaseInput::GetMouseState(LeftClick, Trigger) ||
+			BaseInput::GetControllerState(kControllerButtonL1, Trigger) ||
+			BaseInput::GetControllerState(kControllerButtonL2A, Trigger) ||
+			BaseInput::GetControllerState(kControllerButtonR2B, Trigger) ||
+			BaseInput::GetControllerState(kControllerButtonLeft, Trigger)) {
 			nextScene = sceneTitle;
 		}
 	}
-	else if (BaseConst::kGameOverRetryLeftTop.x < mp.x && mp.x < BaseConst::kGameOverRetryRightBottom.x &&
-		BaseConst::kGameOverRetryLeftTop.y < mp.y && mp.y < BaseConst::kGameOverRetryRightBottom.y) {
-		if (BaseInput::GetMouseState(LeftClick, Trigger)) {
+	else {
+		isToTitle = false;
+	}
+	if (BaseConst::kGameOverRetryLeftTop.x < reticlePosition.x && reticlePosition.x < BaseConst::kGameOverRetryRightBottom.x &&
+		BaseConst::kGameOverRetryLeftTop.y < reticlePosition.y && reticlePosition.y < BaseConst::kGameOverRetryRightBottom.y) {
+		isToRetry = true;
+		if (BaseInput::GetMouseState(LeftClick, Trigger) ||
+			BaseInput::GetControllerState(kControllerButtonR1, Trigger) ||
+			BaseInput::GetControllerState(kControllerButtonL2A, Trigger) ||
+			BaseInput::GetControllerState(kControllerButtonR2B, Trigger) ||
+			BaseInput::GetControllerState(kControllerButtonRight, Trigger)) {
 			Initialize();
 		}
 	}
-
+	else {
+		isToRetry = false;
+	}
+	if (BaseInput::GetControllerState(kControllerButtonL1, Trigger) ||
+		BaseInput::GetControllerState(kControllerButtonLeft, Trigger)) {
+		nextScene = sceneTitle;
+	}
+	if (BaseInput::GetControllerState(kControllerButtonR1, Trigger) ||
+		BaseInput::GetControllerState(kControllerButtonRight, Trigger)) {
+		Initialize();
+	}
+	preMousePosition = BaseInput::GetMousePosition();
 }
 // ゲームオーバー時の処理
 void BossStage::GameOverDraw() {
@@ -144,7 +199,30 @@ void BossStage::GameOverDraw() {
 		(BaseConst::kWindowHeight / 2.0f) - gameOverT * (BaseConst::kWindowHeight / 2.0f),
 		BaseTexture::kUserInterfaceGameOver, gameOverT, gameOverT, 0.0f, WHITE
 	);
-	Point mp = BaseInput::GetMousePosition();
-	Novice::DrawEllipse(mp.x, mp.y, 10, 10, 0.0f, 0x00FF00FF, kFillModeWireFrame);
-	Novice::DrawEllipse(mp.x, mp.y, 13, 13, 0.0f, 0x00FF00FF, kFillModeWireFrame);
+	Novice::SetBlendMode(kBlendModeAdd);
+	if (isToTitle) {
+		Novice::DrawBox(
+			BaseConst::kGameOverTitleLeftTop.x - BaseConst::kGameOverPadding, BaseConst::kGameOverTitleLeftTop.y - BaseConst::kGameOverPadding,
+			BaseConst::kGameOverTitleRightBottom.x - BaseConst::kGameOverTitleLeftTop.x + BaseConst::kGameOverPadding * 2,
+			BaseConst::kGameOverTitleRightBottom.y - BaseConst::kGameOverTitleLeftTop.y + BaseConst::kGameOverPadding * 2,
+			0.0f, 0x00AAAAFF, kFillModeSolid
+		);
+	}
+	if (isToRetry) {
+		Novice::DrawBox(
+			BaseConst::kGameOverRetryLeftTop.x - BaseConst::kGameOverPadding, BaseConst::kGameOverRetryLeftTop.y - BaseConst::kGameOverPadding,
+			BaseConst::kGameOverRetryRightBottom.x - BaseConst::kGameOverRetryLeftTop.x + BaseConst::kGameOverPadding * 2,
+			BaseConst::kGameOverRetryRightBottom.y - BaseConst::kGameOverRetryLeftTop.y + BaseConst::kGameOverPadding * 2,
+			0.0f, 0x00AAAAFF, kFillModeSolid
+		);
+	}
+	Novice::SetBlendMode(kBlendModeNormal);
+	if (isToTitle || isToRetry) {
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 10, 10, 0.0f, 0xFF0000FF, kFillModeWireFrame);
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 13, 13, 0.0f, 0xFF0000FF, kFillModeWireFrame);
+	}
+	else {
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 10, 10, 0.0f, 0x00FF00FF, kFillModeWireFrame);
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 13, 13, 0.0f, 0x00FF00FF, kFillModeWireFrame);
+	}
 }

@@ -46,6 +46,10 @@ private: // メンバ変数
 	// プレイヤーの進行度フラグ
 	int playerProgress;
 
+	// コントローラを含めた座標
+	Point reticlePosition;
+	Point preMousePosition;
+
 	// ゲームオーバーかどうか
 	bool isGameOver;
 	// ゲームオーバー時の背景
@@ -53,5 +57,10 @@ private: // メンバ変数
 	// 中心から大きくなるための変数
 	// 0 ～ 1
 	float gameOverT;
+	// タイトルへ～を選択しているか
+	bool isToTitle;
+	// リトライを選択しているか
+	bool isToRetry;
+
 
 };
