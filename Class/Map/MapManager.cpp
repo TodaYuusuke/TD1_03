@@ -159,7 +159,27 @@ bool MapManager::CheckHitBox(Point hitPosition, bool isBlock) {
         hitPosition.x -= x * BaseConst::kMapChipSizeWidth;
         hitPosition.y -= (BaseConst::kTutorialStageSizeHeight - y - 1) * BaseConst::kMapChipSizeHeight;
 
-        return tutorialMap[y][x].CheckHitBox(hitPosition, isBlock);
+        // ブロックのときのみ
+        if (isBlock) {
+            if (tutorialMap[y][x].CheckHitBox(hitPosition, isBlock)) {
+                // 周囲のブロックをまとめて破壊
+                if (tutorialMap[y - 1][x - 1].type == kTypeWeak) { tutorialMap[y - 1][x - 1].type = kTypeAir; }
+                if (tutorialMap[y - 1][x].type == kTypeWeak) { tutorialMap[y - 1][x].type = kTypeAir; }
+                if (tutorialMap[y - 1][x + 1].type == kTypeWeak) { tutorialMap[y - 1][x + 1].type = kTypeAir; }
+                if (tutorialMap[y][x - 1].type == kTypeWeak) { tutorialMap[y][x - 1].type = kTypeAir; }
+                if (tutorialMap[y][x + 1].type == kTypeWeak) { tutorialMap[y][x + 1].type = kTypeAir; }
+                if (tutorialMap[y + 1][x - 1].type == kTypeWeak) { tutorialMap[y + 1][x - 1].type = kTypeAir; }
+                if (tutorialMap[y + 1][x].type == kTypeWeak) { tutorialMap[y + 1][x].type = kTypeAir; }
+                if (tutorialMap[y + 1][x + 1].type == kTypeWeak) { tutorialMap[y + 1][x + 1].type = kTypeAir; }
+
+                return true;
+            }
+            
+            return false;
+        }
+        else {
+            return tutorialMap[y][x].CheckHitBox(hitPosition, isBlock);
+        }
     }
 }
 

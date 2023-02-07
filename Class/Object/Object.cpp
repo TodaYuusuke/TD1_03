@@ -584,7 +584,10 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 
 bool Object::isHit(Point hitPosition) {
 	// ブロックのときのみ処理を変える
-	bool b = (GetType() == typeBlock);
+	bool b = false;
+	if (GetType() == typeBlock && (BaseMath::GetLength(velocity) > 20 || BaseMath::GetLength(velocity) < -20)) {
+		b = true;
+	}
 
 	// マップにヒットしているかどうか
 	if (MapManager::CheckHitBox(hitPosition, b)) {
