@@ -160,3 +160,18 @@ int BaseConst::kTutorialStageData[kTutorialStageSizeHeight][kTutorialStageSizeWi
 int BaseConst::kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
 
 #pragma endregion
+
+#pragma region GameOver
+
+// あらかじめ描画する完成度
+float BaseConst::kGameOverFirstValue = 0.2f;
+float BaseConst::kGameOverFlame = (1 - BaseConst::kGameOverFirstValue) / (float)BaseConst::kGameOverMaxFlame;
+
+// 「タイトルへ戻る」各種座標
+Point BaseConst::kGameOverTitleLeftTop = { 96,880 };
+Point BaseConst::kGameOverTitleRightBottom = { 743,983 };
+
+Point BaseConst::kGameOverRetryLeftTop = { 1210,880 };
+Point BaseConst::kGameOverRetryRightBottom = { 1559,975 };
+
+#pragma endregion

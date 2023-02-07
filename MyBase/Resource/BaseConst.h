@@ -152,4 +152,24 @@ public: // 静的な定数
 	static int kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
 
 #pragma endregion
+
+#pragma region GameOver
+
+	// あらかじめ描画する完成度
+	static float kGameOverFirstValue;
+	// ゲームオーバー時の演出にかかるフレーム
+	const static int kGameOverMaxFlame = 10;
+	// ゲームオーバー演出に 1 フレーム単位での必要な時間
+	static float kGameOverFlame;
+
+	// 「タイトルへ戻る」各種座標
+	static Point kGameOverTitleLeftTop;
+	static Point kGameOverTitleRightBottom;
+	// 「リトライ」各種座標
+	static Point kGameOverRetryLeftTop;
+	static Point kGameOverRetryRightBottom;
+
+#pragma endregion
+
+
 };

@@ -22,6 +22,11 @@ private: // 関数
 
 	void CheckPlayerProgress();
 
+	// ゲームオーバー時の処理
+	void GameOverUpdate();
+	// ゲームオーバー時の処理
+	void GameOverDraw();
+
 private: // メンバ変数
 
 	ObjectManager objectManager;
@@ -34,4 +39,13 @@ private: // メンバ変数
 
 	// プレイヤーの進行度フラグ
 	int playerProgress;
+
+	// ゲームオーバーかどうか
+	bool isGameOver;
+	// ゲームオーバー時の背景
+	int gameOverColor;
+	// 中心から大きくなるための変数
+	// 0 ～ 1
+	float gameOverT;
+
 };
