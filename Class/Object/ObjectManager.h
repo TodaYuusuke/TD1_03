@@ -91,6 +91,10 @@ public: // メンバ関数
 	// プレイヤーの範囲制限を消す関数
 	void DeletePlayerMoveLimit();
 
+	// プレイヤーの生存フラグを取得
+	bool GetPlayerisAlive();
+
+
 	// コアにブロックがヒットしたかを返す関数
 	bool isHitCore();
 

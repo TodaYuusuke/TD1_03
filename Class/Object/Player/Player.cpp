@@ -68,329 +68,430 @@ void Player::SuccessorInitialize() {
 }
 
 // 更新
-void Player::SuccessorUpdate() {
+void Player::Update() {
+	acceleration = { 0,0 };
 
-	preState = state;
-	//// テスト
-	//if (BaseInput::GetKeyboardState(DIK_P, Trigger)) {
-	//	isLimitMove = !isLimitMove;
-	//}
+	// 加速度や速度を継承先で変更
+	SuccessorUpdate();
 
-	if (invincibleFrame > 0) {
-		invincibleFrame--;
+	// 加速度に重力を追加
+	if (isFlying) {
+		if (velocity.y < -(BaseConst::kPlayerVelocityLimit)) {
+
+		}
+		// 速度制限にかかっているときは追加しない
+		else {
+			acceleration.y -= BaseConst::kPlayerGravitationalAcceleration;
+		}
 	}
 
-	// 回転を常に初期化
+	// 加速度を追加
+	velocity.x += acceleration.x;
+	velocity.y += acceleration.y;
+
+	// トンネリング防止のため分割
+	for (int i = 0; i < 10; i++) {
+
+		// 速度を追加
+		centerPosition.x += velocity.x * 0.1f;
+		centerPosition.y += velocity.y * 0.1f;
+
+		CheckFieldHitBox();
+	}
+
+	// 回転速度を追加
+	angle += angleVelocity;
+
+	if (angleVelocity > 0) {
+		centerPosition.x -= 0.5f * angleVelocity;
+	}
+	else if (angleVelocity < 0) {
+		centerPosition.x -= 0.5f * angleVelocity;
+	}
+
+
+	// 速度を少しずつ減速させる
+	if (velocity.x > 0) {
+		velocity.x -= 0.02f;
+		if (velocity.x < 0) {
+			velocity.x = 0;
+		}
+	}
+	else if (velocity.x < 0) {
+		velocity.x += 0.02f;
+		if (velocity.x > 0) {
+			velocity.x = 0;
+		}
+	}
+
+	if (velocity.y > 0) {
+		velocity.y -= 0.02f;
+		if (velocity.y < 0) {
+			velocity.y = 0;
+		}
+	}
+	else if (velocity.y < 0) {
+		velocity.y += 0.02f;
+		if (velocity.y > 0) {
+			velocity.y = 0;
+		}
+	}
+
+	// 回転速度を減速させていく
+	/*if (angleVelocity > BaseConst::kPlayerVelocityLimit) {
+		angleVelocity -= 0.05f;
+		if (angleVelocity < 0) {
+			angleVelocity = 0;
+		}
+	}
+	else if (angleVelocity < -BaseConst::kPlayerVelocityLimit) {
+		angleVelocity += 0.05f;
+		if (angleVelocity > 0) {
+			angleVelocity = 0;
+		}
+	}*/
+}
+
+
+// 更新
+void Player::SuccessorUpdate() {
 	angle = 0;
 	angleVelocity = 0;
-
-	if (!PublicFlag::kisStaging) {
-		Move();
-		ReticleMove();
-		Jump();
-		ShotWire();
-		LimitMovement();
-		Respawn();
-		Animation();
-	}
-
-	// 前のフレームの分のマウス座標の取得
-	int x, y;
-	Novice::GetMousePosition(&x, &y);
-	preMousePosition = { (float)x,(float)y };
-
-	/// HP の描画の調整
-	if (isDrawHP) {
-		drawHPFrame--;
-		if (drawHPFrame < 0) {
-			drawHPFrame = 0;
-			isDrawHP = false;
-		}
-	}
-	// カメラ移動
-	// 演出中以外の時
-	if (!PublicFlag::kisStaging) {
-		Point screenPos = BaseDraw::GetScreenPosition();
-
-		/// x座標の調整 ///
-
-		screenPos.x = centerPosition.x - BaseConst::kWindowWidth / 2.0f;
-
-		/// y座標の調整 ///
-
-		screenPos.y = centerPosition.y + 400;
+	preReticlePosition = reticlePosition;
+	if (isAlive) {
+		preState = state;
+		//// テスト
+		//if (BaseInput::GetKeyboardState(DIK_P, Trigger)) {
+		//	isLimitMove = !isLimitMove;
+		//}
 
 
-		// スクリーン座標が画面外に行かないように調整
-		if (MapManager::GetisBoss()) {
-			if (screenPos.x < 0) {
-				screenPos.x = 0;
-			}
-			else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth) {
-				screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth - BaseConst::kWindowWidth;
-			}
-			if (screenPos.y - BaseConst::kWindowHeight < 0) {
-				screenPos.y = BaseConst::kWindowHeight;
-			}
-			else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight) {
-				screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight;
-			}
+		// 回転を常に初期化
+
+		if (!PublicFlag::kisStaging) {
+			Move();
+			ReticleMove();
+			Jump();
+			ShotWire();
+			LimitMovement();
+			Respawn();
 		}
 		else {
-			if (screenPos.x < 0) {
-				screenPos.x = 0;
-			}
-			else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth) {
-				screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth - BaseConst::kWindowWidth;
-			}
-			if (screenPos.y - BaseConst::kWindowHeight < 0) {
-				screenPos.y = BaseConst::kWindowHeight;
-			}
-			else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kTutorialStageSizeHeight) {
-				screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kTutorialStageSizeHeight;
+			reticlePosition = preReticlePosition;
+			velocity.x = 0;
+		}
+
+		Animation();
+
+		// 前のフレームの分のマウス座標の取得
+		int x, y;
+		Novice::GetMousePosition(&x, &y);
+		preMousePosition = { (float)x,(float)y };
+
+		/// HP の描画の調整
+		if (isDrawHP) {
+			drawHPFrame--;
+			if (drawHPFrame < 0) {
+				drawHPFrame = 0;
+				isDrawHP = false;
 			}
 		}
-		// 移動制限中
-		if (isLimitMove) {
-			if (screenPos.x < limitLeftTop.x) {
-				screenPos.x = limitLeftTop.x;
-			}
-			else if (limitRightBottom.x < screenPos.x + BaseConst::kWindowWidth) {
-				screenPos.x = limitRightBottom.x - BaseConst::kWindowWidth;
-			}
-			if (screenPos.y - BaseConst::kWindowHeight < limitRightBottom.y) {
-				screenPos.y = limitRightBottom.y + BaseConst::kWindowHeight;
-			}
-			else if (limitLeftTop.y < screenPos.y) {
-				screenPos.y = limitLeftTop.y;
-			}
 
+		// カメラ移動
+		// 演出中以外の時
+		if (!PublicFlag::kisStaging) {
+			Point screenPos = BaseDraw::GetScreenPosition();
+
+			/// x座標の調整 ///
+
+			screenPos.x = centerPosition.x - BaseConst::kWindowWidth / 2.0f;
+
+			/// y座標の調整 ///
+
+			screenPos.y = centerPosition.y + 400;
+
+
+			// スクリーン座標が画面外に行かないように調整
+			if (MapManager::GetisBoss()) {
+				if (screenPos.x < 0) {
+					screenPos.x = 0;
+				}
+				else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth) {
+					screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth - BaseConst::kWindowWidth;
+				}
+				if (screenPos.y - BaseConst::kWindowHeight < 0) {
+					screenPos.y = BaseConst::kWindowHeight;
+				}
+				else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight) {
+					screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight;
+				}
+			}
+			else {
+				if (screenPos.x < 0) {
+					screenPos.x = 0;
+				}
+				else if (screenPos.x + BaseConst::kWindowWidth > BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth) {
+					screenPos.x = BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth - BaseConst::kWindowWidth;
+				}
+				if (screenPos.y - BaseConst::kWindowHeight < 0) {
+					screenPos.y = BaseConst::kWindowHeight;
+				}
+				else if (screenPos.y > BaseConst::kMapChipSizeHeight * BaseConst::kTutorialStageSizeHeight) {
+					screenPos.y = BaseConst::kMapChipSizeHeight * BaseConst::kTutorialStageSizeHeight;
+				}
+			}
+			// 移動制限中
+			if (isLimitMove) {
+				if (screenPos.x < limitLeftTop.x) {
+					screenPos.x = limitLeftTop.x;
+				}
+				else if (limitRightBottom.x < screenPos.x + BaseConst::kWindowWidth) {
+					screenPos.x = limitRightBottom.x - BaseConst::kWindowWidth;
+				}
+				if (screenPos.y - BaseConst::kWindowHeight < limitRightBottom.y) {
+					screenPos.y = limitRightBottom.y + BaseConst::kWindowHeight;
+				}
+				else if (limitLeftTop.y < screenPos.y) {
+					screenPos.y = limitLeftTop.y;
+				}
+
+			}
+			//////////　　ここで線形補完　　//////////
+			// screenPos ... 移動先のカメラ
+			// BaseDraw::GetScreenPosition ... このフレームでの現在のカメラ座標
+
+			/*
+			//// 前のフレームの、移動する先のカメラ座標を取得
+			//static Point prevScreenPos = BaseDraw::GetScreenPosition();
+
+			//// 線形補間中のカメラ位置
+			//Point linerScreenPos = BaseDraw::GetScreenPosition();
+
+			//// GetScreenPosition関数呼び出すのが面倒なので変数に入れます
+			//Point nowScreenPos = linerScreenPos;
+
+			//if (prevScreenPos.x != screenPos.x || prevScreenPos.y != screenPos.y) {
+			//	screenT = 0.0f;
+			//}
+
+			//else if (nowScreenPos.x == screenPos.x && nowScreenPos.y == screenPos.y) {
+			//	screenT = 0.0f;
+			//}
+
+			//screenT += 0.005f;
+
+			//BaseMath::Clamp(screenT, 0.0f, 1.0f);
+
+			//linerScreenPos = {
+			//	(1 - screenT) * nowScreenPos.x + screenT * screenPos.x,
+			//	(1 - screenT) * nowScreenPos.y + screenT * screenPos.y
+			//};
+			//// 次の移動先座標を保存
+			//prevScreenPos = screenPos;
+			// 最終的にカメラを設定する
+			*/
+			BaseDraw::SetScreenPosition(screenPos);
+
+			//////////　　　ここまで　　　　//////////
 		}
-		//////////　　ここで線形補完　　//////////
-		// screenPos ... 移動先のカメラ
-		// BaseDraw::GetScreenPosition ... このフレームでの現在のカメラ座標
-
-		/*
-		//// 前のフレームの、移動する先のカメラ座標を取得
-		//static Point prevScreenPos = BaseDraw::GetScreenPosition();
-
-		//// 線形補間中のカメラ位置
-		//Point linerScreenPos = BaseDraw::GetScreenPosition();
-
-		//// GetScreenPosition関数呼び出すのが面倒なので変数に入れます
-		//Point nowScreenPos = linerScreenPos;
-
-		//if (prevScreenPos.x != screenPos.x || prevScreenPos.y != screenPos.y) {
-		//	screenT = 0.0f;
-		//}
-
-		//else if (nowScreenPos.x == screenPos.x && nowScreenPos.y == screenPos.y) {
-		//	screenT = 0.0f;
-		//}
-
-		//screenT += 0.005f;
-
-		//BaseMath::Clamp(screenT, 0.0f, 1.0f);
-
-		//linerScreenPos = {
-		//	(1 - screenT) * nowScreenPos.x + screenT * screenPos.x,
-		//	(1 - screenT) * nowScreenPos.y + screenT * screenPos.y
-		//};
-		//// 次の移動先座標を保存
-		//prevScreenPos = screenPos;
-		// 最終的にカメラを設定する
-		*/
-		BaseDraw::SetScreenPosition(screenPos);
-
-		//////////　　　ここまで　　　　//////////
+		preIsFlying = isFlying;
+		preCenterPosition = centerPosition;
 	}
-	preIsFlying = isFlying;
-	preCenterPosition = centerPosition;
+	if (0 < invincibleFrame) {
+		invincibleFrame--;
+	}
+	// HP管理
+	if (HP <= 0) {
+		HP = 0;
+		isAlive = false;
+		ReticleMove();
+		if (invincibleFrame < 5) {
+			invincibleFrame = 65;
+		}
+	}
 }
 // 描画
 void Player::Draw() {
-	if (isAlive) {
-		// HP の描画
-		if (isDrawHP) {
-			Point HPlt = {
-				centerPosition.x - 20.0f * 2,centerPosition.y + width / 3.0f * 4.5f
-			};
-			float padding = 30;
-			int fullHp = HP / 2;
-			int i = 0;
-			for (; i < fullHp; i++) {
-				BaseDraw::DrawSprite({ HPlt.x + i * padding,HPlt.y }, BaseTexture::kPlayerHeart[0], { 20 / 256.0f,20 / 256.0f }, 0.0f, WHITE);
-			}
-			if (HP % 2 == 1) {
-				BaseDraw::DrawSprite({ HPlt.x + i * padding,HPlt.y }, BaseTexture::kPlayerHeart[1], { 20 / 256.0f,20 / 256.0f }, 0.0f, WHITE);
-			}
+	// HP の描画
+	if (isDrawHP) {
+		Point HPlt = {
+			centerPosition.x - 20.0f * 2,centerPosition.y + width / 3.0f * 4.5f
+		};
+		float padding = 30;
+		int fullHp = HP / 2;
+		int i = 0;
+		for (; i < fullHp; i++) {
+			BaseDraw::DrawSprite({ HPlt.x + i * padding,HPlt.y }, BaseTexture::kPlayerHeart[0], { 20 / 256.0f,20 / 256.0f }, 0.0f, WHITE);
 		}
+		if (HP % 2 == 1) {
+			BaseDraw::DrawSprite({ HPlt.x + i * padding,HPlt.y }, BaseTexture::kPlayerHeart[1], { 20 / 256.0f,20 / 256.0f }, 0.0f, WHITE);
+		}
+	}
 
-		Point lt = { centerPosition.x - width / 2.0f, centerPosition.y + height / 2.0f };
-		if (invincibleFrame % 10 == 0) {
-			/*if (isRight == true) {
-				BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-			}
-			else {
-				BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-			}*/
-			if (isRight) {
-				switch (state)
-				{
-				case playerIdle:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerRun:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerRun[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerJump:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerRase:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerFall:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerLand:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerShot:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerShot, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerPull:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerPull, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				default:
-					break;
-				}
-			}
-			else {
-				switch (state)
-				{
-				case playerIdle:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerRun:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerRun[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerJump:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerRase:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerFall:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerLand:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerShot:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerShot, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				case playerPull:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerPull, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
-					break;
-				default:
-					break;
-				}
+	Point lt = { centerPosition.x - width / 2.0f, centerPosition.y + height / 2.0f };
+	if (invincibleFrame % 10 == 0) {
+		/*if (isRight == true) {
+			BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+		}
+		else {
+			BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+		}*/
+		if (isRight) {
+			switch (state)
+			{
+			case playerIdle:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerRun:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerRun[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerJump:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerRase:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerFall:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerLand:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerShot:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerShot, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerPull:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerPull, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			default:
+				break;
 			}
 		}
 		else {
-			/*if (isRight == true) {
-				BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0x550000FF);
-			}
-			else {
-				BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0x550000FF);
-			}*/
-			if (isRight) {
-				switch (state)
-				{
-				case playerIdle:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerRun:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerRun[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerJump:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerRase:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerFall:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerLand:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerShot:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerShot, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerPull:
-					BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerPull, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				default:
-					break;
-				}
-			}
-			else {
-				switch (state)
-				{
-				case playerIdle:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerRun:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerRun[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerJump:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerRase:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerFall:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerLand:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerShot:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerShot, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				case playerPull:
-					BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerPull, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
-					break;
-				default:
-					break;
-				}
+			switch (state)
+			{
+			case playerIdle:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerRun:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerRun[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerJump:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerRase:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerFall:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerLand:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerShot:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerShot, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			case playerPull:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerPull, { 1.0f,1.0f }, 0, 0xFFFFFFFF);
+				break;
+			default:
+				break;
 			}
 		}
-
-		if (!PublicFlag::kisStaging) {
-
-			// 射出先の線予測線を描画
-			Point p1 = BaseDraw::WorldtoScreen(centerPosition);
-			Point p2 = reticlePosition;
-			// 射程を一定以下にする
-			Point range = BaseMath::GetVector(p1, p2);
-			// 最大射程より遠かったら
-			float diff = BaseMath::GetLength(range) - BaseConst::kPlayerReticleRange;
-			if (0.0f < diff) {
-				Point e = BaseMath::GetNormalize(range);
-				p2.x = p1.x + e.x * BaseConst::kWireMaxLength;
-				p2.y = p1.y + e.y * BaseConst::kWireMaxLength;
-			}
-			//Point p2 = BaseMath::TurnPoint({ 2000, 0 }, -BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition));
-			Novice::DrawLine(p1.x, p1.y, p2.x, p2.y, RED);
-
-			// レティクルを描画
-			Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 2, 2, 0, GREEN, kFillModeWireFrame);
-			Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 10, 10, 0, GREEN, kFillModeWireFrame);
-			Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 11, 11, 0, GREEN, kFillModeWireFrame);
-			Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 12, 12, 0, GREEN, kFillModeWireFrame);
+	}
+	else {
+		/*if (isRight == true) {
+			BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0x550000FF);
 		}
+		else {
+			BaseDraw::DrawSprite({ centerPosition.x - width / 2, centerPosition.y + height / 2 }, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0x550000FF);
+		}*/
+		if (isRight) {
+			switch (state)
+			{
+			case playerIdle:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerIdle, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerRun:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerRun[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerJump:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerRase:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerFall:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerLand:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerShot:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerShot, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerPull:
+				BaseDraw::DrawSprite(lt, BaseTexture::kRPlayerPull, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			default:
+				break;
+			}
+		}
+		else {
+			switch (state)
+			{
+			case playerIdle:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerIdle, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerRun:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerRun[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerJump:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerRase:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerFall:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerLand:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerJump[animationFlame], { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerShot:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerShot, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			case playerPull:
+				BaseDraw::DrawSprite(lt, BaseTexture::kLPlayerPull, { 1.0f,1.0f }, 0, 0xFFAAAAFF);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	if (!PublicFlag::kisStaging) {
+
+		// 射出先の線予測線を描画
+		Point p1 = BaseDraw::WorldtoScreen(centerPosition);
+		Point p2 = reticlePosition;
+		// 射程を一定以下にする
+		Point range = BaseMath::GetVector(p1, p2);
+		// 最大射程より遠かったら
+		float diff = BaseMath::GetLength(range) - BaseConst::kPlayerReticleRange;
+		if (0.0f < diff) {
+			Point e = BaseMath::GetNormalize(range);
+			p2.x = p1.x + e.x * BaseConst::kWireMaxLength;
+			p2.y = p1.y + e.y * BaseConst::kWireMaxLength;
+		}
+		//Point p2 = BaseMath::TurnPoint({ 2000, 0 }, -BaseMath::GetDegree(BaseDraw::WorldtoScreen(centerPosition), reticlePosition));
+		Novice::DrawLine(p1.x, p1.y, p2.x, p2.y, RED);
+
+		// レティクルを描画
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 2, 2, 0, GREEN, kFillModeWireFrame);
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 10, 10, 0, GREEN, kFillModeWireFrame);
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 11, 11, 0, GREEN, kFillModeWireFrame);
+		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 12, 12, 0, GREEN, kFillModeWireFrame);
 	}
 }
 

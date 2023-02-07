@@ -50,7 +50,7 @@ enum SceneState {
 	// ゲームクリア
 	sceneGameClear,
 	// ゲームオーバー
-	sceneGameOVer,
+	sceneGameOver,
 	// ゲーム終了（プログラム終了）
 	sceneEnd
 };
