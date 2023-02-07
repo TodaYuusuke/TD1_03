@@ -22,6 +22,8 @@ public: // メンバ関数
 	// 初期化
 	void SuccessorInitialize() override;
 	// 更新
+	void Update() override;
+	// 更新
 	void SuccessorUpdate() override;
 	// 描画
 	void Draw() override;
@@ -79,6 +81,8 @@ private: // メンバ変数
 
 	// 照準の座標
 	Point reticlePosition;
+	// 前の照準の座標
+	Point preReticlePosition;
 	// 前のフレームのマウス座標
 	Point preMousePosition;
 

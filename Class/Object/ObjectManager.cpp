@@ -227,6 +227,11 @@ void ObjectManager::DeletePlayerMoveLimit() {
 	}
 }
 
+// プレイヤーの生存フラグを取得
+bool ObjectManager::GetPlayerisAlive() {
+	Player* p = (Player*)GetSelectObject(typePlayer);
+	return p->GetisAlive();
+}
 
 // コアにブロックがヒットしたかを返す関数
 bool ObjectManager::isHitCore() {
