@@ -169,6 +169,9 @@ public: // Ã“I‚È’è”
 	static Point kGameOverRetryLeftTop;
 	static Point kGameOverRetryRightBottom;
 
+	// —]”’
+	const static int kGameOverPadding = 10;
+
 #pragma endregion
 
 
