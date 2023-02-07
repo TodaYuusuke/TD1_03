@@ -4,8 +4,6 @@
 #include "Class/Map/MapManager.h"
 #include "Class/AttackHitBox/ObjectHitBox.h"
 
-class MapManager;
-
 class Object {
 public: // メンバ関数
 
