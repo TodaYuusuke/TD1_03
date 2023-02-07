@@ -25,6 +25,8 @@ void TutorialStage::Initialize() {
 	objectManager.MakeNewObjectPlayer({ 100,700 }, &wireManager);
 
 	middleBoss.Initialize(&objectManager);
+
+	playerProgress = 0;
 }
 // 更新
 void TutorialStage::Update() {
@@ -51,6 +53,10 @@ void TutorialStage::Update() {
 	//middleBoss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
 	objectManager.Update();
 	wireManager.Update(&objectManager);
+
+
+	// プレイヤーの進捗チェック
+	CheckPlayerProgress();
 }
 // 描画
 void TutorialStage::Draw() {
@@ -87,5 +93,10 @@ void TutorialStage::Draw() {
 
 	objectManager.Draw();
 	wireManager.Draw();
+
+}
+
+
+void CheckPlayerProgress() {
 
 }

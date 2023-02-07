@@ -432,8 +432,11 @@ void Player::Move() {
 			isRight = true;
 		}
 	}
-	else if (velocity.x > 0) {
+	else if (velocity.x > 0 && isFlying) {
 		velocity.x -= 0.1f;
+	}
+	else if (velocity.x > 0) {
+		velocity.x -= 0.5f;
 	}
 	if (!isFlying && velocity.x != 0.0f) {
 		state = playerRun;

@@ -18,6 +18,10 @@ public: // メンバ関数
 	// 描画
 	void Draw() override;
 
+private: // 関数
+
+	void CheckPlayerProgress();
+
 private: // メンバ変数
 
 	ObjectManager objectManager;
@@ -26,4 +30,8 @@ private: // メンバ変数
 	Player* player;
 
 	MiddleBoss middleBoss;
+
+
+	// プレイヤーの進行度フラグ
+	int playerProgress;
 };

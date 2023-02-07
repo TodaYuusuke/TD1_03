@@ -1,6 +1,5 @@
 #pragma once
 #include "MyBase/MyBase.h"
-
 #include "Class/Map/Map.h"
 
 // マップを管理するクラス
