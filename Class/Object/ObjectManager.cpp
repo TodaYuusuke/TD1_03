@@ -39,7 +39,7 @@ void ObjectManager::Draw() {
 // Block
 void ObjectManager::MakeNewObjectBlock(Point position, Point size) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
-		if (object[i]->GetType() == typeObject && !object[i]->GetisAlive()) {
+		if (!object[i]->GetisAlive()) {
 			object[i] = new Block(position, size);
 			object[i]->Initialize();
 			break;
@@ -54,7 +54,7 @@ void ObjectManager::MakeNewObjectPlayer(Point position, WireManager* wireManager
 		if (object[i]->GetType() == typePlayer) {
 			break;
 		}
-		if (object[i]->GetType() == typeObject && !object[i]->GetisAlive()) {
+		if (!object[i]->GetisAlive()) {
 			object[i] = new Player(position, wireManager);
 			object[i]->Initialize();
 			break;
@@ -66,7 +66,7 @@ void ObjectManager::MakeNewObjectPlayer(Point position, WireManager* wireManager
 // Hook
 Object* ObjectManager::MakeNewObjectHook(Point position, Point size) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
-		if (object[i]->GetType() == typeObject && !object[i]->GetisAlive()) {
+		if (!object[i]->GetisAlive()) {
 			object[i] = new Hook(position, size);
 			object[i]->Initialize();
 			return object[i];
@@ -79,7 +79,7 @@ Object* ObjectManager::MakeNewObjectHook(Point position, Point size) {
 // Core
 Object* ObjectManager::MakeNewObjectCore(Point position, Point size) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
-		if (object[i]->GetType() == typeObject && !object[i]->GetisAlive()) {
+		if (!object[i]->GetisAlive()) {
 			object[i] = new Core(position, size);
 			object[i]->Initialize();
 			return object[i];
@@ -91,10 +91,19 @@ Object* ObjectManager::MakeNewObjectCore(Point position, Point size) {
 
 
 // Enemy
-void ObjectManager::MakeNewObjectEnemy(Point position) {
+void ObjectManager::MakeNewObjectBalloon(Point position) {
 	for (int i = 0; i < kMaxObjectSize; i++) {
-		if (object[i]->GetType() == typeObject && !object[i]->GetisAlive()) {
-			object[i] = new Enemy(position, { 50,50 }, GetSelectObject(typePlayer));
+		if (!object[i]->GetisAlive()) {
+			object[i] = new Balloon(position, { 50,50 }, GetSelectObject(typePlayer));
+			object[i]->Initialize();
+			break;
+		}
+	}
+}
+void ObjectManager::MakeNewObjectIronBalloon(Point position) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (!object[i]->GetisAlive()) {
+			object[i] = new IronBalloon(position, { 50,50 }, GetSelectObject(typePlayer));
 			object[i]->Initialize();
 			break;
 		}

@@ -107,7 +107,8 @@
     <ClCompile Include="Class\MiddleBoss\MiddleBoss.cpp" />
     <ClCompile Include="Class\Object\Block\Block.cpp" />
     <ClCompile Include="Class\Object\Core\Core.cpp" />
-    <ClCompile Include="Class\Object\Enemy\Enemy.cpp" />
+    <ClCompile Include="Class\Object\Enemy\Balloon.cpp" />
+    <ClCompile Include="Class\Object\Enemy\IronBalloon.cpp" />
     <ClCompile Include="Class\Object\Hook\Hook.cpp" />
     <ClCompile Include="Class\Object\Object.cpp" />
     <ClCompile Include="Class\Object\ObjectManager.cpp" />
@@ -168,7 +169,8 @@
     <ClInclude Include="Class\MiddleBoss\MiddleBoss.h" />
     <ClInclude Include="Class\Object\Block\Block.h" />
     <ClInclude Include="Class\Object\Core\Core.h" />
-    <ClInclude Include="Class\Object\Enemy\Enemy.h" />
+    <ClInclude Include="Class\Object\Enemy\Balloon.h" />
+    <ClInclude Include="Class\Object\Enemy\IronBalloon.h" />
     <ClInclude Include="Class\Object\Hook\Hook.h" />
     <ClInclude Include="Class\Object\Object.h" />
     <ClInclude Include="Class\Object\ObjectManager.h" />

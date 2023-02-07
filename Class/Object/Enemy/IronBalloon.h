@@ -4,13 +4,13 @@
 
 #include "Class/AttackHitBox/EnemyAttackHitBox.h"
 
-class Enemy :public Object
+class IronBalloon :public Object
 {
 public:
 	// コンストラクタ
-	Enemy(Point centerPosition, Point size, Object* _object);
+	IronBalloon(Point centerPosition, Point size, Object* _object);
 	// デストラクタ
-	~Enemy();
+	~IronBalloon();
 
 	// 初期化
 	void SuccessorInitialize() override;

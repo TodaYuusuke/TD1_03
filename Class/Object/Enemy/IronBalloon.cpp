@@ -1,7 +1,7 @@
-#include "Class/Object/Enemy/Enemy.h"
+#include "Class/Object/Enemy/IronBalloon.h"
 
 // コンストラクタ
-Enemy::Enemy(Point _centerPosition, Point size,Object* _object) {
+IronBalloon::IronBalloon(Point _centerPosition, Point size,Object* _object) {
 
 	centerPosition = _centerPosition;
 	width = size.x;
@@ -12,11 +12,11 @@ Enemy::Enemy(Point _centerPosition, Point size,Object* _object) {
 	Initialize();
 }
 
-Enemy::~Enemy() {
+IronBalloon::~IronBalloon() {
 
 }
 
-void Enemy::SuccessorInitialize() {
+void IronBalloon::SuccessorInitialize() {
 
 	// 速度
 	velocity = { 0,0 };
@@ -36,7 +36,7 @@ void Enemy::SuccessorInitialize() {
 
 }
 
-void Enemy::SuccessorUpdate() {
+void IronBalloon::SuccessorUpdate() {
 	// 回転を常に初期化
 	angle = 0;
 	angleVelocity = 0;
@@ -69,25 +69,20 @@ void Enemy::SuccessorUpdate() {
 		}
 	}
 
-	// 当たり判定 -> ヒット時死亡
-	if (isStub) {
-		isAlive = false;
-	}
-
-	EnemyAttackHitBox::MakeNewHitBox(centerPosition, width, height, 0, 1);	
+	EnemyAttackHitBox::MakeNewHitBox(centerPosition, width, height, 0, 1);
 }
 
-void Enemy::Draw() {
+void IronBalloon::Draw() {
 	if (isAlive) {
 		if (BaseMath::CheckHitBox(centerPosition, width, height, angle, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()))) {
 			BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, RED);
 		}
 		else {
-			BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, 0x770000FF);
+			BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, 0x808080FF);
 		}
 	}
 }
 
-ObjectType Enemy::GetType() {
-	return typeEnemy;
+ObjectType IronBalloon::GetType() {
+	return typeIronBalloon;
 }

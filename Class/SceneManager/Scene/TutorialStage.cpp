@@ -41,10 +41,16 @@ void TutorialStage::Update() {
 	if (BaseInput::GetKeyboardState(DIK_R, Trigger)) {
 		Initialize();
 	}
+	
 	// デバッグ用
 	if (BaseInput::GetKeyboardState(DIK_E, Trigger)) {
-		objectManager.MakeNewObjectEnemy(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()));
+		objectManager.MakeNewObjectBalloon(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()));
 	}
+	// デバッグ用
+	if (BaseInput::GetKeyboardState(DIK_I, Trigger)) {
+		objectManager.MakeNewObjectIronBalloon(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()));
+	}
+
 	// 定数のホットリロード
 	if (BaseInput::GetKeyboardState(DIK_F1, Trigger)) {
 		PublicFlag::Initialize();
@@ -111,11 +117,11 @@ void TutorialStage::CheckPlayerProgress() {
 				playerProgress = 1;
 
 				// 敵を召喚
-				objectManager.MakeNewObjectEnemy({ 7714,283 });
-				objectManager.MakeNewObjectEnemy({ 8037,283 });
-				objectManager.MakeNewObjectEnemy({ 8358,283 });
-				objectManager.MakeNewObjectEnemy({ 7872,509 });
-				objectManager.MakeNewObjectEnemy({ 8197,509 });
+				objectManager.MakeNewObjectBalloon({ 7714,283 });
+				objectManager.MakeNewObjectBalloon({ 8037,283 });
+				objectManager.MakeNewObjectBalloon({ 8358,283 });
+				objectManager.MakeNewObjectBalloon({ 7872,509 });
+				objectManager.MakeNewObjectBalloon({ 8197,509 });
 			}
 			break;
 		case 1:

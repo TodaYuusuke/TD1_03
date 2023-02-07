@@ -575,15 +575,17 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 		}
 	}
 
-	if (preIsAlive != isAlive && GetType() == typeBlock) {
-		BaseEffectManager::MakeNewEffectBlockBreak(centerPosition);
+	if (preIsAlive != isAlive) {
+		if (GetType() == typeBlock) {
+			BaseEffectManager::MakeNewEffectBlockBreak(centerPosition);
+		}
 	}
 }
 
 bool Object::isHit(Point hitPosition) {
 	// マップにヒットしているかどうか
 	if (MapManager::CheckHitBox(hitPosition)) {
-		if (GetType() == typeBlock) {
+		if (GetType() == typeBlock || GetType() == typeIronBalloon) {
 			if (BaseMath::GetLength(velocity) > 20 || BaseMath::GetLength(velocity) < -20) {
 				isAlive = false;
 			}
