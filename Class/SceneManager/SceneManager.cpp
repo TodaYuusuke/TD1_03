@@ -33,9 +33,9 @@ void SceneManager::Update() {
 			currentScene = new BossStage();
 			break;
 		case sceneGameClear:
-			break;
-		case sceneGameOVer:
 			currentScene = new GameClear();
+			break;
+		case sceneGameOver:
 			break;
 		case sceneEnd:
 			break;
