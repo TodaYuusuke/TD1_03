@@ -179,6 +179,7 @@ void Player::SuccessorUpdate() {
 		else {
 			reticlePosition = preReticlePosition;
 			velocity.x = 0;
+			state = playerIdle;
 		}
 
 		Animation();
@@ -304,7 +305,9 @@ void Player::SuccessorUpdate() {
 	if (HP <= 0) {
 		HP = 0;
 		isAlive = false;
+		velocity.x = 0;
 		ReticleMove();
+		Animation();
 		if (invincibleFrame < 5) {
 			invincibleFrame = 65;
 		}
@@ -765,6 +768,9 @@ void Player::Respawn() {
 
 // アニメーション
 void Player::Animation() {
+	if (!isAlive) {
+		state = playerIdle;
+	}
 	stateChengeFlame++;
 	if (100 < stateChengeFlame) {
 		stateChengeFlame = BaseConst::kPlayerAnimationFlame[buffState] + 1;

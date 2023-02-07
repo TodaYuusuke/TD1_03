@@ -18,9 +18,25 @@ public: // メンバ関数
 	// 描画
 	void Draw() override;
 
+private: // メンバ関数
+
+	// ゲームオーバー時の処理
+	void GameOverUpdate();
+	// ゲームオーバー時の処理
+	void GameOverDraw();
+
+
 private: // メンバ変数
 
 	ObjectManager objectManager;
 	WireManager wireManager;
 	Boss boss;
+
+	// ゲームオーバーかどうか
+	bool isGameOver;
+	// ゲームオーバー時の背景
+	int gameOverColor;
+	// 中心から大きくなるための変数
+	// 0 ～ 1
+	float gameOverT;
 };

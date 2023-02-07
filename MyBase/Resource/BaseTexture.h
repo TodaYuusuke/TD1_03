@@ -103,6 +103,9 @@ public: // 静的なテクスチャの変数
 	// Skip
 	static int kUserInterfaceSkip[2];
 
+	// GameOver
+	static int kUserInterfaceGameOver;
+
 #pragma endregion
 
 #pragma region プレイヤー
