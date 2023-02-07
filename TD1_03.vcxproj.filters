@@ -116,6 +116,9 @@
     <ClCompile Include="Class\Object\Enemy\IronBalloon.cpp">
       <Filter>Class\Object\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="MyBase\Effect\Inheritance\ConcreteDust.cpp">
+      <Filter>MyBase\Effect\Inheritance</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyBase\Effect\BaseEffect.h">
@@ -303,6 +306,9 @@
     </ClInclude>
     <ClInclude Include="Class\Object\Enemy\IronBalloon.h">
       <Filter>Class\Object\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\Effect\Inheritance\ConcreteDust.h">
+      <Filter>MyBase\Effect\Inheritance</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -152,6 +152,8 @@ bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager) {
 	else if (MapManager::CheckHitBox(_position, false)) {
 		// ヒットしていた場合
 		type[i] = typeWall;
+		// エフェクトを生成
+		BaseEffectManager::MakeNewEffectConcreteDust(_position);
 		// SEを再生
 		Novice::PlayAudio(BaseAudio::kWireHit, 0, 0.5f);
 		return true;

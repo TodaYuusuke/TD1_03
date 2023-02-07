@@ -6,6 +6,7 @@
 
 #include "MyBase/Effect/Inheritance/WhirlWind.h"
 #include "MyBase/Effect/Inheritance/BlockBreak.h"
+#include "MyBase/Effect/Inheritance/ConcreteDust.h"
 
 
 class BaseEffectManager
@@ -28,6 +29,7 @@ public: // メンバ関数
 	// 引数：それぞれ
 	static int MakeNewEffectWhirlWind();
 	static int MakeNewEffectBlockBreak(Point);
+	static int MakeNewEffectConcreteDust(Point);
 
 
 	// エフェクトを終了させる関数
@@ -50,7 +52,6 @@ private: // メンバ変数
 
 	// エフェクトの配列
 	static BaseEffect* effects[effectArraySize];
-	\
 
 	// 次に追加するエフェクトの添字
 	static int nextIndex;
