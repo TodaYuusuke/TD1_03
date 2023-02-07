@@ -46,30 +46,39 @@ void BossStage::Update() {
 		p->Update();
 		GameOverUpdate();
 	}
+
+
+	// 背景スクロール用
+	backGroundPositionY[0] -= (BaseDraw::GetScreenPosition().y - preScrollPositionY) * 1.4;
+	backGroundPositionY[1] -= (BaseDraw::GetScreenPosition().y - preScrollPositionY) * 1.2;
+	backGroundPositionY[2] -= (BaseDraw::GetScreenPosition().y - preScrollPositionY) * 1;
+
+	for (int i = 1; i <= 3; i++) {
+		while (true) {
+			if (backGroundPositionY[i - 1] > 0) {
+				backGroundPositionY[i - 1] -= 1920;
+				continue;
+			}
+			else if (backGroundPositionY[i - 1] < -1920) {
+				backGroundPositionY[i - 1] += 1920;
+				continue;
+			}
+			break;
+
+		}
+	}
+	// 前回の座標を更新
+	preScrollPositionY = BaseDraw::GetScreenPosition().y;
 }
 // 描画
 void BossStage::Draw() {
 
-	Point screenPosition = BaseDraw::GetScreenPosition();
-	Point playerPosition = objectManager.GetPlayerPosition();
-
-	Point screenSubtraction1 = { -(float)BaseConst::kWindowWidth / 2 - playerPosition.x / 8.0f ,0.0f };
-	Point screenSubtraction2 = { -(float)BaseConst::kWindowWidth / 2 - playerPosition.x / 2.0f ,0.0f };
-
-	// 背景
-
-	for (int i = 0; i < 2; i++) {
-		BaseDraw::DrawQuad({ (float)BaseConst::kWindowWidth / 2 + ((float)BaseConst::kWindowWidth * i) + screenSubtraction1.x, screenPosition.y - BaseConst::kWindowHeight / 2 },
-			BaseTexture::kBackGroundCity, { 1920, 1080 }, 1.0f, 0.0f, 0xFFFFFFFF);
+	// 背景の描画
+	for (int i = 1; i <= 3; i++) {
+		BaseDraw::DrawSprite({ 0, backGroundPositionY[i - 1] + (BaseDraw::GetScreenPosition().y / 1920) * 1920 }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
+		BaseDraw::DrawSprite({ 0, backGroundPositionY[i - 1] - 1920 + (BaseDraw::GetScreenPosition().y / 1920) * 1920 }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
+		BaseDraw::DrawSprite({ 0, backGroundPositionY[i - 1] + 1920 + (BaseDraw::GetScreenPosition().y / 1920) * 1920 }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
 	}
-
-	for (int i = 0; i < 3; i++) {
-		BaseDraw::DrawQuad({ (float)BaseConst::kWindowWidth / 2 + ((float)BaseConst::kWindowWidth * i) + screenSubtraction2.x, screenPosition.y - BaseConst::kWindowHeight / 2 },
-			BaseTexture::kBackGroundForest, { 1920, 1080 }, 1.0f, 0.0f, 0xFFFFFFFF);
-	}
-
-	BaseDraw::DrawQuad({ screenPosition.x + BaseConst::kWindowWidth / 2, screenPosition.y - BaseConst::kWindowHeight / 2 },
-		BaseTexture::kBackGroundFrame, { 1920, 1080 }, 1.35f, 0.0f, 0xFFFFFFFF);
 
 	MapManager::Draw();
 	boss.Draw();

@@ -44,14 +44,8 @@ public: // Ã“I‚ÈƒeƒNƒXƒ`ƒƒ‚Ì•Ï”
 
 #pragma region ”wŒi
 
-	// ”wŒiƒtƒŒ[ƒ€
-	static int kBackGroundFrame;
-	
-	/// ”wŒi
-	// “ss
-	static int kBackGroundCity;
-	// X
-	static int kBackGroundForest;
+	// ”wŒi
+	static int kBackGround[3];
 
 #pragma endregion
 
@@ -66,9 +60,8 @@ public: // Ã“I‚ÈƒeƒNƒXƒ`ƒƒ‚Ì•Ï”
 	// 13 ... ‘S•”
 	static const int kTextureMapChipSize = 14;
 	static int kTextureMapChip[kTextureMapChipSize];
-
-	// ”²‚¯‚ç‚ê‚é°
-	static int kTextureMapChipFloor;
+	// ƒqƒr
+	static int kTextureMapChipWeak;
 
 #pragma endregion
 

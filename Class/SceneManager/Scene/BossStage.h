@@ -32,6 +32,11 @@ private: // メンバ変数
 	WireManager wireManager;
 	Boss boss;
 
+	// 前回のスクリーン座標
+	float preScrollPositionY;
+	// 背景スクロール用
+	float backGroundPositionY[3];
+
 	// ゲームオーバーかどうか
 	bool isGameOver;
 	// ゲームオーバー時の背景

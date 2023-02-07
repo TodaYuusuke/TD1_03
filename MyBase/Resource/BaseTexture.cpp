@@ -18,13 +18,9 @@ bool BaseTexture::Loading() {
 #pragma region îwåi
 
 	// îwåiÉtÉåÅ[ÉÄ
-	kBackGroundFrame = Novice::LoadTexture("./Resources/Texture/BackGround/back_ground0.png");
-
-	/// îwåi
-	// ìsés
-	kBackGroundCity = Novice::LoadTexture("./Resources/Texture/BackGround/back_ground2.png");
-	// êX
-	kBackGroundForest = Novice::LoadTexture("./Resources/Texture/BackGround/back_ground1.png");
+	kBackGround[0] = Novice::LoadTexture("./Resources/Texture/BackGround/back_ground2.png");
+	kBackGround[1] = Novice::LoadTexture("./Resources/Texture/BackGround/back_ground1.png");
+	kBackGround[2] = Novice::LoadTexture("./Resources/Texture/BackGround/back_ground0.png");
 
 #pragma endregion
 
@@ -45,9 +41,8 @@ bool BaseTexture::Loading() {
 	kTextureMapChip[11] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip12.png");
 	kTextureMapChip[12] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip13.png");
 	kTextureMapChip[13] = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip14.png");
-
-	// î≤ÇØÇÁÇÍÇÈè∞
-	kTextureMapChipFloor = Novice::LoadTexture("./Resources/Texture/MapChip/MapChip_Floor.png");
+	// ÉqÉr
+	kTextureMapChipWeak = Novice::LoadTexture("./Resources/Texture/MapChip/Weak.png");
 
 #pragma endregion
 
@@ -173,23 +168,17 @@ int BaseTexture::kDebugTexture;
 
 #pragma region îwåi
 
-// îwåiÉtÉåÅ[ÉÄ
-int BaseTexture::kBackGroundFrame;
-
-/// îwåi
-// ìsés
-int BaseTexture::kBackGroundCity;
-// êX
-int BaseTexture::kBackGroundForest;
+// îwåi
+int BaseTexture::kBackGround[3];
 
 #pragma endregion
 
 #pragma region É}ÉbÉv
 
+// É}ÉbÉvÉ`ÉbÉv
 int BaseTexture::kTextureMapChip[kTextureMapChipSize];
-
-// î≤ÇØÇÁÇÍÇÈè∞
-int BaseTexture::kTextureMapChipFloor;
+// ÉqÉr
+int BaseTexture::kTextureMapChipWeak;
 
 #pragma endregion
 

@@ -37,6 +37,12 @@ private: // メンバ変数
 	MiddleBoss middleBoss;
 
 
+	// 前回のスクリーン座標
+	float preScrollPositionX;
+	// 背景スクロール用
+	float backGroundPositionX[3];
+
+
 	// プレイヤーの進行度フラグ
 	int playerProgress;
 

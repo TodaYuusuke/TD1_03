@@ -944,12 +944,12 @@ void Player::CheckFieldHitBox() {
 	// プレイヤーから上の点
 	checkPoint = { centerPosition.x,centerPosition.y + height / 2 };
 	// 上がヒットしたとき
-	if (MapManager::CheckHitBox(checkPoint)) {
+	if (MapManager::CheckHitBox(checkPoint, false)) {
 		// 速度は0に
 		velocity.y = 0;
 
 		// ヒットしなくなるまで下へ補正する
-		while (MapManager::CheckHitBox(checkPoint)) {
+		while (MapManager::CheckHitBox(checkPoint, false)) {
 			// 座標を下に
 			centerPosition.y -= 1;
 			// 再計算
@@ -960,14 +960,14 @@ void Player::CheckFieldHitBox() {
 	// プレイヤーから下の点
 	checkPoint = { centerPosition.x,centerPosition.y - height / 2 };
 	// 下がヒットしたとき
-	if (MapManager::CheckHitBox(checkPoint)) {
+	if (MapManager::CheckHitBox(checkPoint, false)) {
 		// 速度は0に
 		velocity.y = 0;
 		// 飛んでいないのでフラグを戻す
 		isFlying = false;
 		state = playerLand;
 		// ヒットしなくなるまで上へ補正する
-		while (MapManager::CheckHitBox(checkPoint)) {
+		while (MapManager::CheckHitBox(checkPoint, false)) {
 			// 座標を上に
 			centerPosition.y += 1;
 			// 再計算
@@ -975,7 +975,7 @@ void Player::CheckFieldHitBox() {
 		}
 	}
 	// 一個下のマスがヒットしていないときは空中ということなのでフラグをtrueに
-	else if (!MapManager::CheckHitBox({ checkPoint.x ,checkPoint.y - 1 })) {
+	else if (!MapManager::CheckHitBox({ checkPoint.x ,checkPoint.y - 1 }, false)) {
 		isFlying = true;
 		if (0 < velocity.y) {
 			state = playerRase;
@@ -991,12 +991,12 @@ void Player::CheckFieldHitBox() {
 	// プレイヤーから左の点
 	checkPoint = { centerPosition.x - width / 2,centerPosition.y };
 	// 左がヒットしたとき
-	if (MapManager::CheckHitBox(checkPoint)) {
+	if (MapManager::CheckHitBox(checkPoint, false)) {
 		// 速度は0に
 		velocity.x = 0;
 
 		// ヒットしなくなるまで右へ補正する
-		while (MapManager::CheckHitBox(checkPoint)) {
+		while (MapManager::CheckHitBox(checkPoint, false)) {
 
 			// 座標を右に
 			centerPosition.x += 1;
@@ -1008,12 +1008,12 @@ void Player::CheckFieldHitBox() {
 	// プレイヤーから右の点
 	checkPoint = { centerPosition.x + width / 2,centerPosition.y };
 	// 右がヒットしたとき
-	if (MapManager::CheckHitBox(checkPoint)) {
+	if (MapManager::CheckHitBox(checkPoint, false)) {
 		// 速度は0に
 		velocity.x = 0;
 
 		// ヒットしなくなるまで左へ補正する
-		while (MapManager::CheckHitBox(checkPoint)) {
+		while (MapManager::CheckHitBox(checkPoint, false)) {
 			// 座標を左に
 			centerPosition.x -= 1;
 			// 再計算
@@ -1031,12 +1031,12 @@ void Player::CheckFieldHitBox() {
 	// プレイヤーから左上の点
 	checkPoint = { centerPosition.x - width / 2,centerPosition.y + height / 2 };
 	// 左上がヒットしたとき -> 補正する
-	if (MapManager::CheckHitBox(checkPoint)) {
+	if (MapManager::CheckHitBox(checkPoint, false)) {
 		// 補正分の座標
 		Point correctionPos = { 0,0 };
 
 		// 右下に補正する
-		while (MapManager::CheckHitBox(checkPoint)) {
+		while (MapManager::CheckHitBox(checkPoint, false)) {
 			correctionPos.x += 1;
 			correctionPos.y -= 1;
 			checkPoint.x += 1;
@@ -1072,12 +1072,12 @@ void Player::CheckFieldHitBox() {
 	// プレイヤーから左下の点
 	checkPoint = { centerPosition.x - width / 2,centerPosition.y - height / 2 };
 	// 左下がヒットしたとき -> 補正する
-	if (MapManager::CheckHitBox(checkPoint)) {
+	if (MapManager::CheckHitBox(checkPoint, false)) {
 		// 補正分の座標
 		Point correctionPos = { 0,0 };
 
 		// 右上に補正する
-		while (MapManager::CheckHitBox(checkPoint)) {
+		while (MapManager::CheckHitBox(checkPoint, false)) {
 			correctionPos.x += 1;
 			correctionPos.y += 1;
 			checkPoint.x += 1;
@@ -1112,7 +1112,7 @@ void Player::CheckFieldHitBox() {
 	// もし空中判定された後の場合
 	else if (isFlying) {
 		// 一個下のマスがヒットしているときは空中ではないということなのでフラグをfalseに
-		if (MapManager::CheckHitBox({ checkPoint.x,checkPoint.y - 1 })) {
+		if (MapManager::CheckHitBox({ checkPoint.x,checkPoint.y - 1 }, false)) {
 			// ヒットしていないときは空中ということなのでフラグをtrueに
 			isFlying = false;
 			state = playerIdle;
@@ -1124,12 +1124,12 @@ void Player::CheckFieldHitBox() {
 	// プレイヤーから右上の点
 	checkPoint = { centerPosition.x + width / 2,centerPosition.y + height / 2 };
 	// 右上がヒットしたとき -> 補正する
-	if (MapManager::CheckHitBox(checkPoint)) {
+	if (MapManager::CheckHitBox(checkPoint, false)) {
 		// 補正分の座標
 		Point correctionPos = { 0,0 };
 
 		// 左下に補正する
-		while (MapManager::CheckHitBox(checkPoint)) {
+		while (MapManager::CheckHitBox(checkPoint, false)) {
 			correctionPos.x -= 1;
 			correctionPos.y -= 1;
 			checkPoint.x -= 1;
@@ -1165,12 +1165,12 @@ void Player::CheckFieldHitBox() {
 	// プレイヤーから右下の点
 	checkPoint = { centerPosition.x + width / 2,centerPosition.y - height / 2 };
 	// 右下がヒットしたとき -> 補正する
-	if (MapManager::CheckHitBox(checkPoint)) {
+	if (MapManager::CheckHitBox(checkPoint, false)) {
 		// 補正分の座標
 		Point correctionPos = { 0,0 };
 
 		// 左上に補正する
-		while (MapManager::CheckHitBox(checkPoint)) {
+		while (MapManager::CheckHitBox(checkPoint, false)) {
 			correctionPos.x -= 1;
 			correctionPos.y += 1;
 			checkPoint.x -= 1;
@@ -1205,7 +1205,7 @@ void Player::CheckFieldHitBox() {
 	// もし空中判定された後の場合
 	else if (isFlying) {
 		// 一個下のマスがヒットしているときは空中ではないということなのでフラグをfalseに
-		if (MapManager::CheckHitBox({ checkPoint.x,checkPoint.y - 1 })) {
+		if (MapManager::CheckHitBox({ checkPoint.x,checkPoint.y - 1 }, false)) {
 			// ヒットしていないときは空中ということなのでフラグをtrueに
 			isFlying = false;
 			state = playerIdle;

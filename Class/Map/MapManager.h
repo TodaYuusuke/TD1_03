@@ -27,8 +27,9 @@ public: // メンバ関数
 	/// 指定した座標がマップにヒットしているかどうか
 	/// </summary>
 	/// <param name="hitPosition 当たり判定を確認する座標"></param>
+	/// <param name="isBlock ヒットするのがBlockかどうか"></param>
 	/// <returns>ヒットしていた場合 ... true、ヒットしていなかった場合 ... false</returns>
-	static bool CheckHitBox(Point hitPosition);
+	static bool CheckHitBox(Point hitPosition, bool isBlock);
 
 	// 現在ボスステージなのかを受け取る関数
 	static bool GetisBoss() { return isBoss; }

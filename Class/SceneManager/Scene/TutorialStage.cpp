@@ -26,6 +26,14 @@ void TutorialStage::Initialize() {
 
 	middleBoss.Initialize(&objectManager);
 
+	BaseDraw::SetScreenPosition({ 0,1080 });
+
+	preScrollPositionX = 1080;
+	for (int i = 0; i < 3; i++) {
+		backGroundPositionX[i] = 0;
+	}
+
+
 	playerProgress = 0;
 	isGameOver = false;
 	gameOverColor = 0x00000000;
@@ -56,6 +64,10 @@ void TutorialStage::Update() {
 	if (BaseInput::GetKeyboardState(DIK_I, Trigger)) {
 		objectManager.MakeNewObjectIronBalloon(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()));
 	}
+	// デバッグ用
+	if (BaseInput::GetKeyboardState(DIK_B, Trigger)) {
+		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 64,64 });
+	}
 
 	// 定数のホットリロード
 	if (BaseInput::GetKeyboardState(DIK_F1, Trigger)) {
@@ -76,40 +88,46 @@ void TutorialStage::Update() {
 		p->Update();
 		GameOverUpdate();
 	}
+
+
+
+	// 背景スクロール用
+	backGroundPositionX[0] -= (BaseDraw::GetScreenPosition().x - preScrollPositionX) * 0.6f;
+	backGroundPositionX[1] -= (BaseDraw::GetScreenPosition().x - preScrollPositionX) * 0.5f;
+	backGroundPositionX[2] -= (BaseDraw::GetScreenPosition().x - preScrollPositionX) * 0.3f;
+
+	for (int i = 1; i <= 3; i++) {
+		while (true) {
+			if (backGroundPositionX[i - 1] > 0) {
+				backGroundPositionX[i - 1] -= 1920;
+				continue;
+			}
+			else if (backGroundPositionX[i - 1] < -1920) {
+				backGroundPositionX[i - 1] += 1920;
+				continue;
+			}
+			break;
+
+		}
+	}
+	// 前回の座標を更新
+	preScrollPositionX = BaseDraw::GetScreenPosition().x;
+
+
 	// プレイヤーの進捗チェック
 	CheckPlayerProgress();
 }
 // 描画
 void TutorialStage::Draw() {
-	// デバッグ用
-	Novice::ScreenPrintf(0, 0, "Push ENTER to Skip Stage");
-
-	Point screenPosition = BaseDraw::GetScreenPosition();
-	Point playerPosition = objectManager.GetPlayerPosition();
-
-	Point screenSubtraction1 = { playerPosition.x / 8.0f ,0.0f };
-	Point screenSubtraction2 = { -(float)BaseConst::kWindowWidth / 2 - playerPosition.x / 2.0f ,0.0f };
-
-	// 背景
-
-	for (int i = 0; i < 7; i++) {
-		BaseDraw::DrawQuad({ 
-			(float)BaseConst::kWindowWidth / 2 + ((float)BaseConst::kWindowWidth * 1.25f * i) + screenSubtraction1.x, 
-			screenPosition.y - (float)BaseConst::kWindowHeight / 2 },
-			BaseTexture::kBackGroundCity, { 1920, 1080 }, 1.25f, 0.0f, 0xFFFFFFFF);
+	// 背景の描画
+	for (int i = 1; i <= 3; i++) {
+		BaseDraw::DrawSprite({ backGroundPositionX[i - 1] + (BaseDraw::GetScreenPosition().x / 1920) * 1920,  BaseDraw::GetScreenPosition().y}, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
+		BaseDraw::DrawSprite({ backGroundPositionX[i - 1] + 1920 + (BaseDraw::GetScreenPosition().x / 1920) * 1920, BaseDraw::GetScreenPosition().y }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
+		BaseDraw::DrawSprite({ backGroundPositionX[i - 1] - 1920 + (BaseDraw::GetScreenPosition().x / 1920) * 1920, BaseDraw::GetScreenPosition().y }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
 	}
 
-	for (int i = 0; i < 10; i++) {
-		BaseDraw::DrawQuad({ (float)BaseConst::kWindowWidth / 2 + ((float)BaseConst::kWindowWidth * 1.25f * i) + screenSubtraction2.x,
-			screenPosition.y - (float)BaseConst::kWindowHeight / 2 },
-			BaseTexture::kBackGroundForest, { 1920, 1080 }, 1.25f, 0.0f, 0xFFFFFFFF);
-	}
-
-	BaseDraw::DrawQuad({ screenPosition.x + BaseConst::kWindowWidth / 2, screenPosition.y - BaseConst::kWindowHeight / 2 },
-		BaseTexture::kBackGroundFrame, { 1920, 1080 }, 1.35f, 0.0f, 0xFFFFFFFF);
 
 	MapManager::Draw();
-
 	middleBoss.Draw();
 
 	objectManager.Draw();

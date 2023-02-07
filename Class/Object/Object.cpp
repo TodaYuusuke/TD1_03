@@ -583,8 +583,11 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 }
 
 bool Object::isHit(Point hitPosition) {
+	// ブロックのときのみ処理を変える
+	bool b = (GetType() == typeBlock);
+
 	// マップにヒットしているかどうか
-	if (MapManager::CheckHitBox(hitPosition)) {
+	if (MapManager::CheckHitBox(hitPosition, b)) {
 		if (GetType() == typeBlock || GetType() == typeIronBalloon) {
 			if (BaseMath::GetLength(velocity) > 20 || BaseMath::GetLength(velocity) < -20) {
 				isAlive = false;

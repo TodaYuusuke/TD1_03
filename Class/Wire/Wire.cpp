@@ -134,7 +134,13 @@ bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager) {
 
 	// オブジェクトにヒットしているか検証
 	object[i] = objectManager->CheckObjectHitBox(_position);
-	if(object[i] != NULL && object[i]->GetType() != typePlayer && object[i] != object[!i] && !(object[i]->GetType() == typeHook && type[!i] == typeHook)) {
+	// 風船の雑魚敵にヒットしていた場合 -> ヒット判定のみだして処理を継続する
+	if (object[i] != NULL && object[i]->GetType() == typeBalloon) {
+		object[i]->SetisStub(true);
+		object[i] = NULL;
+		return false;
+	}
+	else if(object[i] != NULL && object[i]->GetType() != typePlayer && object[i] != object[!i] && !(object[i]->GetType() == typeHook && type[!i] == typeHook)) {
 		// ヒットしていた場合 -> 戻る
 		type[i] = object[i]->GetType();
 		object[i]->SetisStub(true);
@@ -143,7 +149,7 @@ bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager) {
 		return true;
 	}
 	// 壁にヒットしているか検証
-	else if (MapManager::CheckHitBox(_position)) {
+	else if (MapManager::CheckHitBox(_position, false)) {
 		// ヒットしていた場合
 		type[i] = typeWall;
 		// SEを再生

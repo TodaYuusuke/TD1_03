@@ -51,6 +51,10 @@ void MapManager::Draw() {
     if (isBoss) {
         for (int y = 0; y < BaseConst::kBossStageSizeHeight; y++) {
             for (int x = 0; x < BaseConst::kBossStageSizeWidth; x++) {
+                if (bossMap[y][x].type == kTypeAir) {
+                    continue;
+                }
+
                 // もし画面外の場合は描画しない
                 Point drawPosition = { (float)x * BaseConst::kMapChipSizeWidth, (float)(BaseConst::kBossStageSizeHeight - y) * BaseConst::kMapChipSizeHeight };
                 drawPosition = BaseDraw::WorldtoScreen(drawPosition);
@@ -70,6 +74,10 @@ void MapManager::Draw() {
     else {
         for (int y = 0; y < BaseConst::kTutorialStageSizeHeight; y++) {
             for (int x = 0; x < BaseConst::kTutorialStageSizeWidth; x++) {
+                if (tutorialMap[y][x].type == kTypeAir) {
+                    continue;
+                }
+
                 // もし画面外の場合は描画しない
                 Point drawPosition = { (float)x * BaseConst::kMapChipSizeWidth, (float)(BaseConst::kTutorialStageSizeHeight - y) * BaseConst::kMapChipSizeHeight };
                 drawPosition = BaseDraw::WorldtoScreen(drawPosition);
@@ -118,8 +126,9 @@ void MapManager::Draw() {
 /// 指定した座標がマップにヒットしているかどうか
 /// </summary>
 /// <param name="hitPosition 当たり判定を確認するワールド座標"></param>
+/// <param name="isBlock ヒットするのがBlockかどうか"></param>
 /// <returns>ヒットしていた場合 ... true、ヒットしていなかった場合 ... false</returns>
-bool MapManager::CheckHitBox(Point hitPosition) {
+bool MapManager::CheckHitBox(Point hitPosition, bool isBlock) {
     if (isBoss) {
         int y = BaseConst::kBossStageSizeHeight - (hitPosition.y / BaseConst::kMapChipSizeHeight);
         int x = hitPosition.x / BaseConst::kMapChipSizeWidth;
@@ -134,7 +143,7 @@ bool MapManager::CheckHitBox(Point hitPosition) {
         hitPosition.x -= x * BaseConst::kMapChipSizeWidth;
         hitPosition.y -= (BaseConst::kBossStageSizeHeight - y - 1) * BaseConst::kMapChipSizeHeight;
 
-        return bossMap[y][x].CheckHitBox(hitPosition);
+        return bossMap[y][x].CheckHitBox(hitPosition, isBlock);
     }
     else {
         int y = BaseConst::kTutorialStageSizeHeight - (hitPosition.y / BaseConst::kMapChipSizeHeight);
@@ -150,13 +159,13 @@ bool MapManager::CheckHitBox(Point hitPosition) {
         hitPosition.x -= x * BaseConst::kMapChipSizeWidth;
         hitPosition.y -= (BaseConst::kTutorialStageSizeHeight - y - 1) * BaseConst::kMapChipSizeHeight;
 
-        return tutorialMap[y][x].CheckHitBox(hitPosition);
+        return tutorialMap[y][x].CheckHitBox(hitPosition, isBlock);
     }
 }
 
 
 // マップチップの形を決定する関数
-int MapManager::GetMapChipType(int y, int x) {
+ int MapManager::GetMapChipType(int y, int x) {
 
     // 上下左右が同じチップかを記録する変数
     bool up, down, left, right;
@@ -228,6 +237,7 @@ int MapManager::GetMapChipType(int y, int x) {
             }
         }
     }
+    // ここより下はチュートリアル
     else {
         // 場外じゃないかチェック
         if (y - 1 < 0) {
@@ -236,9 +246,11 @@ int MapManager::GetMapChipType(int y, int x) {
         }
         // 上が同じチップかを確認
         else {
-            if (tutorialMap[y][x].type == tutorialMap[y - 1][x].type ||
-                (tutorialMap[y][x].type == kTypeNormal && tutorialMap[y - 1][x].type == kTypeWall) ||
-                (tutorialMap[y][x].type == kTypeWall && tutorialMap[y - 1][x].type == kTypeNormal)) {
+            if (tutorialMap[y][x].type == tutorialMap[y - 1][x].type) {
+                up = true;
+            }
+            else if ((tutorialMap[y][x].type == kTypeNormal || tutorialMap[y][x].type == kTypeWall || tutorialMap[y][x].type == kTypeWeak) &&
+                     (tutorialMap[y - 1][x].type == kTypeNormal || tutorialMap[y - 1][x].type == kTypeWall || tutorialMap[y - 1][x].type == kTypeWeak)) {
                 up = true;
             }
             else {
@@ -253,9 +265,11 @@ int MapManager::GetMapChipType(int y, int x) {
         }
         // 下が同じチップかを確認
         else {
-            if (tutorialMap[y][x].type == tutorialMap[y + 1][x].type ||
-                (tutorialMap[y][x].type == kTypeNormal && tutorialMap[y + 1][x].type == kTypeWall) ||
-                (tutorialMap[y][x].type == kTypeWall && tutorialMap[y + 1][x].type == kTypeNormal)) {
+            if (tutorialMap[y][x].type == tutorialMap[y + 1][x].type) {
+                down = true;
+            }
+            else if ((tutorialMap[y][x].type == kTypeNormal || tutorialMap[y][x].type == kTypeWall || tutorialMap[y][x].type == kTypeWeak) &&
+                     (tutorialMap[y + 1][x].type == kTypeNormal || tutorialMap[y + 1][x].type == kTypeWall || tutorialMap[y + 1][x].type == kTypeWeak)) {
                 down = true;
             }
             else {
@@ -270,9 +284,11 @@ int MapManager::GetMapChipType(int y, int x) {
         }
         // 左が同じチップかを確認
         else {
-            if (tutorialMap[y][x].type == tutorialMap[y][x - 1].type ||
-                (tutorialMap[y][x].type == kTypeNormal && tutorialMap[y][x - 1].type == kTypeWall) ||
-                (tutorialMap[y][x].type == kTypeWall && tutorialMap[y][x - 1].type == kTypeNormal)) {
+            if (tutorialMap[y][x].type == tutorialMap[y][x - 1].type) {
+                left = true;
+            }
+            else if ((tutorialMap[y][x].type == kTypeNormal || tutorialMap[y][x].type == kTypeWall || tutorialMap[y][x].type == kTypeWeak) &&
+                     (tutorialMap[y][x - 1].type == kTypeNormal || tutorialMap[y][x - 1].type == kTypeWall || tutorialMap[y][x - 1].type == kTypeWeak)) {
                 left = true;
             }
             else {
@@ -287,9 +303,11 @@ int MapManager::GetMapChipType(int y, int x) {
         }
         // 右が同じチップかを確認
         else {
-            if (tutorialMap[y][x].type == tutorialMap[y][x + 1].type ||
-                (tutorialMap[y][x].type == kTypeNormal && tutorialMap[y][x + 1].type == kTypeWall) ||
-                (tutorialMap[y][x].type == kTypeWall && tutorialMap[y][x + 1].type == kTypeNormal)) {
+            if (tutorialMap[y][x].type == tutorialMap[y][x + 1].type) {
+                right = true;
+            }
+            else if ((tutorialMap[y][x].type == kTypeNormal || tutorialMap[y][x].type == kTypeWall || tutorialMap[y][x].type == kTypeWeak) &&
+                     (tutorialMap[y][x + 1].type == kTypeNormal || tutorialMap[y][x + 1].type == kTypeWall || tutorialMap[y][x + 1].type == kTypeWeak)) {
                 right = true;
             }
             else {

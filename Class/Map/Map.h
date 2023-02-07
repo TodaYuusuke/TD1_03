@@ -8,8 +8,8 @@ enum MapChipType {
 	kTypeNormal,
 	// 背景マス（当たり判定無し）
 	kTypeWall,
-	// 下に抜けられるマス
-	kTypeFloor
+	// 壊れるマス
+	kTypeWeak,
 };
 
 class Map {
@@ -31,8 +31,9 @@ public: // メンバ関数
 	/// 指定した座標がマップにヒットしているかどうか
 	/// </summary>
 	/// <param name="hitPosition 当たり判定を確認する座標"></param>
+	/// <param name="isBlock ヒットするのがBlockかどうか"></param>
 	/// <returns></returns>
-	bool CheckHitBox(Point hitPosition);
+	bool CheckHitBox(Point hitPosition, bool isBlock);
 
 	// パブリック変数
 	MapChipType type;

@@ -33,8 +33,9 @@ void Map::Draw(Point drawPosition, int drawImageNum) {
         case kTypeWall:
             BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChip[drawImageNum], { 1,1 }, 0, 0xAAAAAAFF);
             break;
-        case kTypeFloor:
-            BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChipFloor, { 1,1 }, 0, WHITE);
+        case kTypeWeak:
+            BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChip[drawImageNum], { 1,1 }, 0, WHITE);
+            BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChipWeak, { 1,1 }, 0, WHITE);
             break;
         default:
             break;
@@ -45,11 +46,9 @@ void Map::Draw(Point drawPosition, int drawImageNum) {
 /// 指定した座標がマップにヒットしているかどうか
 /// </summary>
 /// <param name="hitPosition 当たり判定を確認する座標"></param>
+/// <param name="isBlock ヒットするのがBlockかどうか"></param>
 /// <returns></returns>
-bool Map::CheckHitBox(Point hitPosition) {
-
-
-
+bool Map::CheckHitBox(Point hitPosition, bool isBlock) {
     // とりあえず（後で特殊な形のマップチップを実装する場合は処理を追記する）
     switch (type)
     {
@@ -59,22 +58,11 @@ bool Map::CheckHitBox(Point hitPosition) {
             return true;
         case kTypeWall:
             return false;
-            break;
-        case kTypeFloor:
-            // 点が上辺より下で
-            if (hitPosition.y > 12) {
-                // 点が下辺より上で
-                if (hitPosition.y < 19) {
-                    // 点が左辺より右で
-                    if (hitPosition.x > 0) {
-                        // 点が右辺より左の場合 -> ヒットしている
-                        if (hitPosition.x < 32) {
-                            return true;
-                        }
-                    }
-                }
+        case kTypeWeak:
+            if (isBlock) {
+                type = kTypeAir;
             }
-            return false;
+            return true;
         default:
             return false;
     }
