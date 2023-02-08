@@ -85,10 +85,10 @@ void TutorialStage::Update() {
 	// 当たり判定の初期化
 	EnemyAttackHitBox::Initialize();
 
-	////// デバッグ用
-	//if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
-	//	nextScene = sceneBossStage;
-	//}
+	//// デバッグ用
+	if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
+		nextScene = sceneBossStage;
+	}
 	// デバッグ用
 	if (BaseInput::GetKeyboardState(DIK_R, Trigger)) {
 		Initialize();
