@@ -24,9 +24,12 @@ public: // メンバ関数
 	// 　　　　　　　　　　する場合 ... 変更先のシーン
 	SceneState isGoNextScene() override {
 		if (nextScene != sceneNone) {
-			Novice::StopAudio(bgmHandle);
+			if (BaseEffectManager::isEndEffect(fadeEnd)) {
+				Novice::StopAudio(bgmHandle);
+				return nextScene;
+			}
 		}
-		return nextScene;
+		return sceneNone;
 	}
 
 private: // 関数
@@ -77,7 +80,8 @@ private: // メンバ変数
 	// リトライを選択しているか
 	bool isToRetry;
 
-
+	// フェードインアウト確認用フラグ
+	int fadeEnd;
 	// bgmハンドル
 	static int bgmHandle;
 };

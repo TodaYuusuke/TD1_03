@@ -18,6 +18,18 @@ public: // メンバ関数
 	// 描画
 	void Draw() override;
 
+	// シーン変更を告げる関数
+	// 返り値：シーン変更しない場合 ... None
+	// 　　　　　　　　　　する場合 ... 変更先のシーン
+	SceneState isGoNextScene() override {
+		if (nextScene != sceneNone) {
+			if (BaseEffectManager::isEndEffect(fadeEnd)) {
+				return nextScene;
+			}
+		}
+		return sceneNone;
+	}
+
 private: // メンバ関数
 
 	// ゲームオーバー時の処理
@@ -52,4 +64,7 @@ private: // メンバ変数
 	bool isToTitle;
 	// リトライを選択しているか
 	bool isToRetry;
+
+	// フェードインアウト確認用フラグ
+	int fadeEnd;
 };

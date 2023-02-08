@@ -67,6 +67,18 @@ int BaseEffectManager::MakeNewEffectIronBalloonDead(Point p, bool b) {
 	effects[nextIndex] = new effect::IronBalloonDead(p, b);
 	return nextIndex;
 }
+int BaseEffectManager::MakeNewEffectIronFadeIn() {
+	GetEmptyID();
+
+	effects[nextIndex] = new effect::FadeIn();
+	return nextIndex;
+}
+int BaseEffectManager::MakeNewEffectIronFadeOut() {
+	GetEmptyID();
+
+	effects[nextIndex] = new effect::FadeOut();
+	return nextIndex;
+}
 
 
 // エフェクトを終了させる関数

@@ -129,6 +129,8 @@
     <ClCompile Include="MyBase\Effect\Inheritance\BalloonDead.cpp" />
     <ClCompile Include="MyBase\Effect\Inheritance\BlockBreak.cpp" />
     <ClCompile Include="MyBase\Effect\Inheritance\ConcreteDust.cpp" />
+    <ClCompile Include="MyBase\Effect\Inheritance\FadeIn.cpp" />
+    <ClCompile Include="MyBase\Effect\Inheritance\FadeOut.cpp" />
     <ClCompile Include="MyBase\Effect\Inheritance\IronBalloonDead.cpp" />
     <ClCompile Include="MyBase\MyBase.cpp" />
     <ClCompile Include="MyBase\Other\BaseDraw.cpp" />
@@ -197,6 +199,8 @@
     <ClInclude Include="MyBase\Effect\Inheritance\BalloonDead.h" />
     <ClInclude Include="MyBase\Effect\Inheritance\BlockBreak.h" />
     <ClInclude Include="MyBase\Effect\Inheritance\ConcreteDust.h" />
+    <ClInclude Include="MyBase\Effect\Inheritance\FadeIn.h" />
+    <ClInclude Include="MyBase\Effect\Inheritance\FadeOut.h" />
     <ClInclude Include="MyBase\Effect\Inheritance\IronBalloonDead.h" />
     <ClInclude Include="MyBase\MyBase.h" />
     <ClInclude Include="MyBase\Other\BaseDraw.h" />

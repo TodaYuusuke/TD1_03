@@ -128,6 +128,12 @@
     <ClCompile Include="Class\SceneManager\Scene\Start.cpp">
       <Filter>Class\SceneManager\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="MyBase\Effect\Inheritance\FadeIn.cpp">
+      <Filter>MyBase\Effect\Inheritance</Filter>
+    </ClCompile>
+    <ClCompile Include="MyBase\Effect\Inheritance\FadeOut.cpp">
+      <Filter>MyBase\Effect\Inheritance</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyBase\Effect\BaseEffect.h">
@@ -327,6 +333,12 @@
     </ClInclude>
     <ClInclude Include="Class\SceneManager\Scene\Start.h">
       <Filter>Class\SceneManager\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\Effect\Inheritance\FadeIn.h">
+      <Filter>MyBase\Effect\Inheritance</Filter>
+    </ClInclude>
+    <ClInclude Include="MyBase\Effect\Inheritance\FadeOut.h">
+      <Filter>MyBase\Effect\Inheritance</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

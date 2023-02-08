@@ -4,7 +4,7 @@
 TutorialStage::TutorialStage() {
 	Initialize();
 	// デバッグ用
-	//Initialize(2);
+	Initialize(2);
 }
 // デストラクタ
 TutorialStage::~TutorialStage() {
@@ -46,10 +46,14 @@ void TutorialStage::Initialize() {
 	isToTitle = false;
 	isToRetry = false;
 
+	// フェードイン終了確認用フラグ
+	fadeEnd = -1;
+
 	// BGM再生
 	if (Novice::IsPlayingAudio(bgmHandle) == 0 || bgmHandle == -1) {
 		bgmHandle = Novice::PlayAudio(BaseAudio::kBGMTutorial, true, 0.03f);
 	}
+	BaseEffectManager::MakeNewEffectIronFadeIn();
 }
 // 初期化
 void TutorialStage::Initialize(int respawnProgress) {
@@ -85,6 +89,9 @@ void TutorialStage::Initialize(int respawnProgress) {
 	isToTitle = false;
 	isToRetry = false;
 
+	// フェードイン終了確認用フラグ
+	fadeEnd = -1;
+
 	// BGM再生
 	if (Novice::IsPlayingAudio(bgmHandle) == 0 || bgmHandle == -1) {
 		bgmHandle = Novice::PlayAudio(BaseAudio::kBGMTutorial, true, 0.03f);
@@ -99,39 +106,39 @@ void TutorialStage::Update() {
 	// 当たり判定の初期化
 	EnemyAttackHitBox::Initialize();
 
+	////// デバッグ用
+	//if (BaseInput::GetKeyboardState(DIK_BACKSPACE, Trigger)) {
+	//	nextScene = sceneBossStage;
+	//}
 	//// デバッグ用
-	if (BaseInput::GetKeyboardState(DIK_BACKSPACE, Trigger)) {
-		nextScene = sceneBossStage;
-	}
-	// デバッグ用
-	if (BaseInput::GetKeyboardState(DIK_R, Trigger)) {
-		Initialize();
-	}
+	//if (BaseInput::GetKeyboardState(DIK_R, Trigger)) {
+	//	Initialize();
+	//}
 
-	// デバッグ用
-	if (BaseInput::GetKeyboardState(DIK_E, Trigger)) {
-		objectManager.MakeNewObjectBalloon(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()));
-	}
-	// デバッグ用
-	if (BaseInput::GetKeyboardState(DIK_I, Trigger)) {
-		objectManager.MakeNewObjectIronBalloon(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()));
-	}
+	//// デバッグ用
+	//if (BaseInput::GetKeyboardState(DIK_E, Trigger)) {
+	//	objectManager.MakeNewObjectBalloon(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()));
+	//}
+	//// デバッグ用
+	//if (BaseInput::GetKeyboardState(DIK_I, Trigger)) {
+	//	objectManager.MakeNewObjectIronBalloon(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()));
+	//}
 	// デバッグ用
 	if (BaseInput::GetKeyboardState(DIK_B, Trigger)) {
 		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 64,64 });
 	}
-	// デバッグ用
-	if (BaseInput::GetKeyboardState(DIK_F, Trigger)) {
-		objectManager.MakeNewObjectFallBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), false);
-	}
+	//// デバッグ用
+	//if (BaseInput::GetKeyboardState(DIK_F, Trigger)) {
+	//	objectManager.MakeNewObjectFallBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), false);
+	//}
 
-	// 定数のホットリロード
-	if (BaseInput::GetKeyboardState(DIK_F1, Trigger)) {
-		PublicFlag::Initialize();
+	//// 定数のホットリロード
+	//if (BaseInput::GetKeyboardState(DIK_F1, Trigger)) {
+	//	PublicFlag::Initialize();
 
-		ObjectHitBox::Initialize();
-		MapManager::TutorialInitialize();
-	}
+	//	ObjectHitBox::Initialize();
+	//	MapManager::TutorialInitialize();
+	//}
 
 	MapManager::Update();
 	middleBoss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
@@ -185,7 +192,8 @@ void TutorialStage::Update() {
 
 	// プレイヤーがドアに触れたかを検知 -> シーン切り替え
 	Point pos = objectManager.GetPlayerPosition();
-	if (BaseMath::CheckHitBox({ 17088, 144 }, 192, 224, 0, pos)) {
+	if (BaseMath::CheckHitBox({ 17088, 144 }, 192, 224, 0, pos) && nextScene == sceneNone) {
+		fadeEnd = BaseEffectManager::MakeNewEffectIronFadeOut();
 		nextScene = sceneBossStage;
 	}
 

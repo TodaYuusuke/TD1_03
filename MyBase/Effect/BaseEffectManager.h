@@ -8,6 +8,8 @@
 #include "MyBase/Effect/Inheritance/ConcreteDust.h"
 #include "MyBase/Effect/Inheritance/BalloonDead.h"
 #include "MyBase/Effect/Inheritance/IronBalloonDead.h"
+#include "MyBase/Effect/Inheritance/FadeIn.h"
+#include "MyBase/Effect/Inheritance/FadeOut.h"
 
 
 class BaseEffectManager
@@ -32,6 +34,8 @@ public: // メンバ関数
 	static int MakeNewEffectConcreteDust(Point);
 	static int MakeNewEffectBalloonDead(Point, bool);
 	static int MakeNewEffectIronBalloonDead(Point, bool);
+	static int MakeNewEffectIronFadeIn();
+	static int MakeNewEffectIronFadeOut();
 
 
 	// エフェクトを終了させる関数

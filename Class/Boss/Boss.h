@@ -33,6 +33,9 @@ public:
 	// 描画処理
 	void Draw();
 
+	// 死亡アニメーションが終了しているか
+	bool GetisEndDeadAnim() { return inDead; }
+
 	// ボス自体の当たり判定を返す関数
 	// 返り値：当たっている ... true 当たっていない ... false
 	// 引数：

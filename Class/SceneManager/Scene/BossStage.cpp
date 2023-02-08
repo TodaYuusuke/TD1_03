@@ -38,9 +38,17 @@ void BossStage::Initialize() {
 	gameOverT = BaseConst::kGameOverFirstValue;
 	isToTitle = false;
 	isToRetry = false;
+	// フェードイン終了確認用フラグ
+	fadeEnd = -1;
+
+	BaseEffectManager::MakeNewEffectIronFadeIn();
 }
 // 更新
 void BossStage::Update() {
+	if (BaseInput::GetKeyboardState(DIK_B, Trigger)) {
+		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 64,64 });
+	}
+
 	if (!objectManager.GetPlayerisAlive()) {
 		isGameOver = true;
 	}
@@ -86,6 +94,11 @@ void BossStage::Update() {
 	}
 	// 前回の座標を更新
 	preScrollPositionX = BaseDraw::GetScreenPosition().x;
+
+	if (boss.GetisEndDeadAnim() && nextScene == sceneNone) {
+		fadeEnd = BaseEffectManager::MakeNewEffectIronFadeOut();
+		nextScene = sceneTitle;
+	}
 }
 // 描画
 void BossStage::Draw() {
