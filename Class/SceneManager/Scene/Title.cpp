@@ -31,7 +31,7 @@ void Title::Initialize() {
 	feedInFlame = kFeedInMax;
 	feedOutFlame = kFeedOutMax;
 
-	//Novice::PlayAudio(BaseAudio::)
+	//Novice::PlayAudio(BaseAudio::, 1, BaseAudio::BGMvolume);
 
 }
 // 更新
@@ -72,12 +72,16 @@ void Title::Update() {
 		// 「スタート」の中にマウスがある場合
 		if (BaseConst::kTitletoPlayLeftTop.x < reticlePosition.x && reticlePosition.x < BaseConst::kTitletoPlayRightBottom.x &&
 			BaseConst::kTitletoPlayLeftTop.y < reticlePosition.y && reticlePosition.y < BaseConst::kTitletoPlayRightBottom.y) {
+			if (!Novice::IsPlayingAudio(BaseAudio::kSelect) && !isToPlay) {
+				Novice::PlayAudio(BaseAudio::kSelect, 0, BaseAudio::SEvolume);
+			}
 			isToPlay = true;
 			if (BaseInput::GetMouseState(LeftClick, Trigger) ||
 				BaseInput::GetControllerState(kControllerButtonL2A, Trigger) ||
 				BaseInput::GetControllerState(kControllerButtonR2B, Trigger)) {
 				isSelected = true;
 				feedOutFlame = kFeedOutMax;
+				Novice::PlayAudio(BaseAudio::kSpecialDecide, 0, BaseAudio::SEvolume);
 			}
 		}
 		else {
@@ -85,12 +89,16 @@ void Title::Update() {
 		}
 		if (BaseConst::kTitletoEndLeftTop.x < reticlePosition.x && reticlePosition.x < BaseConst::kTitletoEndRightBottom.x &&
 			BaseConst::kTitletoEndLeftTop.y < reticlePosition.y && reticlePosition.y < BaseConst::kTitletoEndRightBottom.y) {
+			if (!Novice::IsPlayingAudio(BaseAudio::kSelect) && !isToEnd) {
+				Novice::PlayAudio(BaseAudio::kSelect, 0, BaseAudio::SEvolume);
+			}
 			isToEnd = true;
 			if (BaseInput::GetMouseState(LeftClick, Trigger) ||
 				BaseInput::GetControllerState(kControllerButtonL2A, Trigger) ||
 				BaseInput::GetControllerState(kControllerButtonR2B, Trigger)) {
 				isSelected = true;
 				feedOutFlame = kFeedOutMax;
+				Novice::PlayAudio(BaseAudio::kDecide, 0, BaseAudio::SEvolume);
 			}
 		}
 		else {
@@ -114,9 +122,9 @@ void Title::Update() {
 
 
 
-	if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger)) {
-		nextScene = sceneTutorialStage;
-	}
+	//if (BaseInput::GetKeyboardState(DIK_SPACE, Trigger)) {
+	//	nextScene = sceneTutorialStage;
+	//}
 
 }
 // 描画
@@ -164,6 +172,8 @@ void Title::Draw() {
 		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 10, 10, 0.0f, 0x00FF00FF, kFillModeWireFrame);
 		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 13, 13, 0.0f, 0x00FF00FF, kFillModeWireFrame);
 	}
-	//Novice::ScreenPrintf(1920 / 2, 1080 / 2, "Title");
-	//Novice::ScreenPrintf(1920 / 2, 1080 / 2 + 20, "Push Space to next");
+
+	Novice::DrawBox(0, 0, BaseConst::kWindowWidth, BaseConst::kWindowHeight, 0.0f, 0xFFFFFF00 + (255 / kFeedOutMax * (kFeedOutMax - feedOutFlame)), kFillModeSolid);
+	Novice::DrawBox(0, 0, BaseConst::kWindowWidth, BaseConst::kWindowHeight, 0.0f, 0xFFFFFF00 + (255 / kFeedInMax * feedInFlame), kFillModeSolid);
+
 }
