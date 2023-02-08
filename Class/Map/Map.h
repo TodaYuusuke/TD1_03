@@ -1,5 +1,6 @@
 #pragma once
 #include "MyBase/MyBase.h"
+#include "Class/PublicFlag/PublicFlag.h"
 
 enum MapChipType {
 	// ‹ó”’i‰½‚à‚È‚¢j

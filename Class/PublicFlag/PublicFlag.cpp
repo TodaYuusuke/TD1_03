@@ -3,3 +3,4 @@
 // À‘ÔéŒ¾
 bool PublicFlag::kisStaging;
 bool PublicFlag::kBossisTurningAndCutWire;
+bool PublicFlag::kBrokenConcretePlaySE;
