@@ -162,5 +162,21 @@ public: // 静的なオーディオの変数
 
 #pragma endregion
 
+#pragma region UI
+
+	// 決定音
+	static int kDecide;
+
+	// キャンセル音
+	static int kCancel;
+
+	// カーソルを合わせた時の音
+	static int kSelect;
+
+	// 特別なクリック音(タイトルからゲームシーンへ移行するときなど)
+	static int kSpecialDecide;
+
+#pragma endregion
+
 
 };

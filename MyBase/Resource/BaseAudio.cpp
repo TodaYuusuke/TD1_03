@@ -133,6 +133,21 @@ bool BaseAudio::Loading() {
 	kConcreteBreak = Novice::LoadAudio("./Resources/Audio/Other/ConcreteBreak.wav");
 #pragma endregion
 
+#pragma region UI
+
+	// 決定音
+	kDecide = Novice::LoadAudio("./Resources/Audio/Other/Decide.wav");
+
+	// キャンセル音
+	kCancel = Novice::LoadAudio("./Resources/Audio/Other/Cancel.wav");
+
+	// カーソルを合わせた時の音
+	kSelect = Novice::LoadAudio("./Resources/Audio/Other/Select.wav");
+
+	// 特別なクリック音(タイトルからゲームシーンへ移行するときなど)
+	kSpecialDecide = Novice::LoadAudio("./Resources/Audio/Other/SpecialDecide.wav");
+
+#pragma endregion
 
 	return true;
 }
@@ -270,5 +285,21 @@ int BaseAudio::kBlockBreak;
 
 // 壁破壊
 int BaseAudio::kConcreteBreak;
+
+#pragma endregion
+
+#pragma region UI
+
+// 決定音
+int BaseAudio::kDecide;
+
+// キャンセル音
+int BaseAudio::kCancel;
+
+// カーソルを合わせた時の音
+int BaseAudio::kSelect;
+
+// 特別なクリック音(タイトルからゲームシーンへ移行するときなど)
+int BaseAudio::kSpecialDecide;
 
 #pragma endregion
