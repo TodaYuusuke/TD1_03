@@ -3,6 +3,7 @@
 #include "Class/Object/Object.h"
 
 #include "Class/Object/Block/Block.h"
+#include "Class/Object/Block/FallBlock.h"
 #include "Class/Object/Player/Player.h"
 #include "Class/Object/Enemy/Balloon.h"
 #include "Class/Object/Enemy/IronBalloon.h"
@@ -36,6 +37,7 @@ public: // ÉÅÉìÉoä÷êî
 
 	// Block
 	void MakeNewObjectBlock(Point position, Point size);
+	void MakeNewObjectFallBlock(Point position, bool isCanStub);
 
 	// Player
 	void MakeNewObjectPlayer(Point position, WireManager* wireManager);

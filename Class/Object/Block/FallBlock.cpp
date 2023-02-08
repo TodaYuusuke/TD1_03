@@ -1,7 +1,7 @@
-#include "Class/Object/Block/Block.h"
+#include "Class/Object/Block/FallBlock.h"
 
 // コンストラクタ
-Block::Block(Point _centerPosition, Point size) {
+FallBlock::FallBlock(Point _centerPosition, bool isCanStub) {
 
 	centerPosition = _centerPosition;
 	//width = size.x;
@@ -12,19 +12,20 @@ Block::Block(Point _centerPosition, Point size) {
 	//if (height < 64) {
 	height = 64;
 	//}
+	this->isCanStub = isCanStub;
 
 	Initialize();
 }
 // デストラクタ
-Block::~Block() {
+FallBlock::~FallBlock() {
 
 }
 
 // 初期化
-void Block::SuccessorInitialize() {
+void FallBlock::SuccessorInitialize() {
 
 	// 速度
-	velocity = { 0,0 };
+	velocity = { 0,-22 };
 	// 加速度
 	acceleration = { 0,0 };
 
@@ -44,25 +45,31 @@ void Block::SuccessorInitialize() {
 	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle, &isAlive);
 }
 // 更新
-void Block::SuccessorUpdate() {
+void FallBlock::SuccessorUpdate() {
 	if (!isAlive) {
 		return;
 	}
+
 	// ワイヤーが刺さったら初期化
 	if (isStub) {
 		vanishFlame = BaseConst::kBlockVanishFlame;
+		// ワイヤーが刺さらない場合の処理
+		if (!isCanStub) {
+			isStub = false;
+		}
 	}
 	// 刺さってなかったら減らす
 	else {
 		vanishFlame--;
 	}
+
 	if (vanishFlame < 0) {
 		isAlive = false;
 	}
 
 }
 // 描画
-void Block::Draw() {
+void FallBlock::Draw() {
 	if (!isAlive) {
 		return;
 	}
@@ -76,6 +83,6 @@ void Block::Draw() {
 }
 
 // タイプを取得
-ObjectType Block::GetType() {
-	return typeBlock;
+ObjectType FallBlock::GetType() {
+	return typeFallBlock;
 }

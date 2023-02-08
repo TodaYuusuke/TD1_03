@@ -106,6 +106,7 @@
     <ClCompile Include="Class\Map\MapManager.cpp" />
     <ClCompile Include="Class\MiddleBoss\MiddleBoss.cpp" />
     <ClCompile Include="Class\Object\Block\Block.cpp" />
+    <ClCompile Include="Class\Object\Block\FallBlock.cpp" />
     <ClCompile Include="Class\Object\Core\Core.cpp" />
     <ClCompile Include="Class\Object\Enemy\Balloon.cpp" />
     <ClCompile Include="Class\Object\Enemy\IronBalloon.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Class\Map\MapManager.h" />
     <ClInclude Include="Class\MiddleBoss\MiddleBoss.h" />
     <ClInclude Include="Class\Object\Block\Block.h" />
+    <ClInclude Include="Class\Object\Block\FallBlock.h" />
     <ClInclude Include="Class\Object\Core\Core.h" />
     <ClInclude Include="Class\Object\Enemy\Balloon.h" />
     <ClInclude Include="Class\Object\Enemy\IronBalloon.h" />

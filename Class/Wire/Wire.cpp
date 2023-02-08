@@ -47,6 +47,19 @@ void Wire::Update(ObjectManager* objectManager) {
 		}
 		Initialize();
 	}
+	// もしオブジェクト側がisStubをfalseにした場合
+	else {
+		for (int i = 0; i < 2; i++) {
+			if (object[i] != NULL) {
+				if (!object[i]->GetisStub() && type[i] != typePlayer) {
+					if (object[!i] != NULL) {
+						object[!i]->SetisStub(false);
+					}
+					Initialize();
+				}
+			}
+		}
+	}
 
 	for (int i = 0; i < 2; i++) {
 

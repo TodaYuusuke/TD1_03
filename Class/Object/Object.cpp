@@ -276,33 +276,33 @@ void Object::CheckFieldHitBox() {
 	if (centerPosition.y + height < 0) {
 		isAlive = false;
 	}
-	// 上方向に飛び出したとき
-	if (MapManager::GetisBoss() == true) {
-		while (centerPosition.y + height / 2 > (BaseConst::kBossStageSizeHeight - 1) * BaseConst::kMapChipSizeHeight) {
-			// 座標を下に
-			centerPosition.y -= 1;
-			// 速度を0に
-			velocity.y = 0;
-			// 再計算
-			for (int i = 0; i < 4; i++) {
-				checkQuadPoint[i].y -= 1;
-				checkRhombusPoint[i].y -= 1;
-			}
-		}
-	}
-	else {
-		while (centerPosition.y + height / 2 > (BaseConst::kTutorialStageSizeHeight - 1) * BaseConst::kMapChipSizeHeight) {
-			// 座標を下に
-			centerPosition.y -= 1;
-			// 速度を0に
-			velocity.y = 0;
-			// 再計算
-			for (int i = 0; i < 4; i++) {
-				checkQuadPoint[i].y -= 1;
-				checkRhombusPoint[i].y -= 1;
-			}
-		}
-	}
+	//// 上方向に飛び出したとき
+	//if (MapManager::GetisBoss() == true) {
+	//	while (centerPosition.y + height / 2 > (BaseConst::kBossStageSizeHeight - 1) * BaseConst::kMapChipSizeHeight) {
+	//		// 座標を下に
+	//		centerPosition.y -= 1;
+	//		// 速度を0に
+	//		velocity.y = 0;
+	//		// 再計算
+	//		for (int i = 0; i < 4; i++) {
+	//			checkQuadPoint[i].y -= 1;
+	//			checkRhombusPoint[i].y -= 1;
+	//		}
+	//	}
+	//}
+	//else {
+	//	while (centerPosition.y + height / 2 > (BaseConst::kTutorialStageSizeHeight - 1) * BaseConst::kMapChipSizeHeight) {
+	//		// 座標を下に
+	//		centerPosition.y -= 1;
+	//		// 速度を0に
+	//		velocity.y = 0;
+	//		// 再計算
+	//		for (int i = 0; i < 4; i++) {
+	//			checkQuadPoint[i].y -= 1;
+	//			checkRhombusPoint[i].y -= 1;
+	//		}
+	//	}
+	//}
 }
 
 // 上下左右の当たり判定の関数
@@ -576,7 +576,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 	}
 
 	if (preIsAlive != isAlive) {
-		if (GetType() == typeBlock) {
+		if (GetType() == typeBlock || GetType() == typeFallBlock) {
 			BaseEffectManager::MakeNewEffectBlockBreak(centerPosition);
 		}
 	}
@@ -585,13 +585,13 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 bool Object::isHit(Point hitPosition) {
 	// ブロックのときのみ処理を変える
 	bool b = false;
-	if (GetType() == typeBlock && (BaseMath::GetLength(velocity) > 20 || BaseMath::GetLength(velocity) < -20)) {
+	if ((GetType() == typeBlock || GetType() == typeFallBlock) && (BaseMath::GetLength(velocity) > 20 || BaseMath::GetLength(velocity) < -20)) {
 		b = true;
 	}
 
 	// マップにヒットしているかどうか
 	if (MapManager::CheckHitBox(hitPosition, b)) {
-		if (GetType() == typeBlock || GetType() == typeIronBalloon) {
+		if (GetType() == typeBlock || GetType() == typeFallBlock || GetType() == typeIronBalloon) {
 			if (BaseMath::GetLength(velocity) > 20 || BaseMath::GetLength(velocity) < -20) {
 				isAlive = false;
 			}

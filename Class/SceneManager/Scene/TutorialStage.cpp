@@ -73,6 +73,10 @@ void TutorialStage::Update() {
 	if (BaseInput::GetKeyboardState(DIK_B, Trigger)) {
 		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 64,64 });
 	}
+	// デバッグ用
+	if (BaseInput::GetKeyboardState(DIK_F, Trigger)) {
+		objectManager.MakeNewObjectFallBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), false);
+	}
 
 	// 定数のホットリロード
 	if (BaseInput::GetKeyboardState(DIK_F1, Trigger)) {
@@ -165,6 +169,12 @@ void TutorialStage::CheckPlayerProgress() {
 		}
 		break;
 	case 1:
+		if (objectManager.GetPlayerPosition().x > 9100) {
+			playerProgress = 2;
+
+			// 落ちてくる箱を召喚
+			objectManager.MakeNewObjectFallBlock({ 9570,1200 }, false);
+		}
 		break;
 	case 2:
 		break;

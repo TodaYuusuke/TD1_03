@@ -61,6 +61,7 @@ enum ObjectType {
 	typeObject,
 	// ブロック
 	typeBlock,
+	typeFallBlock,
 	// プレイヤー
 	typePlayer,
 	// フック
