@@ -184,6 +184,9 @@ public: // 静的なオーディオの変数
 	// ゲームオーバー音
 	static int kGameOver;
 
+	// 掲示板が着いた時の音
+	static int kNeonOn;
+
 #pragma endregion
 
 

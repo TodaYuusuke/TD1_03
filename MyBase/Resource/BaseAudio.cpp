@@ -155,6 +155,9 @@ bool BaseAudio::Loading() {
 	// ゲームオーバー音
 	kGameOver = Novice::LoadAudio("./Resources/Audio/Other/GameOver.wav");
 
+	// 掲示板が着いた時の音
+	kNeonOn = Novice::LoadAudio("./Resources/Audio/Other/NeonOn.wav");
+
 #pragma endregion
 
 	return true;
@@ -316,5 +319,8 @@ int BaseAudio::kSpecialDecide;
 
 // ゲームオーバー音
 int BaseAudio::kGameOver;
+
+// 掲示板が着いた時の音
+int BaseAudio::kNeonOn;
 
 #pragma endregion
