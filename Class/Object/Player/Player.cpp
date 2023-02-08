@@ -255,7 +255,6 @@ void Player::SuccessorUpdate() {
 				else if (limitLeftTop.y < screenPos.y) {
 					screenPos.y = limitLeftTop.y;
 				}
-
 			}
 			//////////　　ここで線形補完　　//////////
 			// screenPos ... 移動先のカメラ
@@ -1218,66 +1217,97 @@ void Player::CheckFieldHitBox() {
 	///　　当たり判定チェック　　//
 	//////////////////////////
 
-	// 無敵時間の場合 -> 当たり判定を検証しない
-	while (invincibleFrame <= 0) {
-		int atk;
-		// 攻撃に対する当たり判定を実装
-		atk = EnemyAttackHitBox::CheckHitBox(centerPosition);
-		if (atk != -1) {
-			// ノックバック
-			Point p = { 10,0 };
+	// 当たり判定の横幅、縦幅
+	float w = 34 / 2;
+	float h = 70 / 2;
+	// 当たり判定の点
+	// 0--1--2
+	// |  |  |
+	// 3--4--5
+	// |  |  |
+	// 6--7--8
 
-			if (isRight) {
-				p = BaseMath::TurnPoint(p, 90 + 45);
-			}
-			else {
-				p = BaseMath::TurnPoint(p, 45);
-			}
-
-			velocity.x = p.x;
-			velocity.y = p.y;
-			// 無敵時間を設定
-			invincibleFrame = 60;
-			// SEを再生
-			Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, BaseAudio::SEvolume);
-			// HP を減らす
-			HP -= atk;
-			// HP 表示
-			isDrawHP = true;
-			drawHPFrame = invincibleFrame + 180;
-
-			break;
-		}
-		// 外殻に対する当たり判定
-		atk = EnemyAttackHitBox::CheckHitEllipse(centerPosition);
-		if (atk != -1) {
-			// ノックバック
-			Point p = { 20,0 };
-
-			if (isRight) {
-				p = BaseMath::TurnPoint(p, 90 + 45);
-			}
-			else {
-				p = BaseMath::TurnPoint(p, 45);
-			}
-
-			velocity.x = p.x;
-			velocity.y = p.y;
-			// 無敵時間を設定
-			invincibleFrame = 30;
-			// SEを再生
-			Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, BaseAudio::SEvolume);
-			// HP を減らす
-			HP -= atk;
-			// HP 表示
-			isDrawHP = true;
-			drawHPFrame = invincibleFrame + 180;
-
-			break;
-		}
-		break;
+	Point checkP[9];
+	for (int i = 0; i < 9; i++) {
+		checkP[i] = centerPosition;
 	}
+	checkP[0].x -= w;
+	checkP[3].x -= w;
+	checkP[6].x -= w;
+	checkP[2].x += w;
+	checkP[5].x += w;
+	checkP[8].x += w;
+	
+	checkP[0].y += h;
+	checkP[1].y += h;
+	checkP[2].y += h;
+	checkP[6].y -= h;
+	checkP[7].y -= h;
+	checkP[8].y -= h;
 
+
+
+	// 無敵時間の場合 -> 当たり判定を検証しない
+	for (int i = 0; i < 9; i++) {
+		while (invincibleFrame <= 0) {
+			int atk;
+			// 攻撃に対する当たり判定を実装
+			atk = EnemyAttackHitBox::CheckHitBox(checkP[i]);
+			if (atk != -1) {
+				// ノックバック
+				Point p = { 10,0 };
+
+				if (isRight) {
+					p = BaseMath::TurnPoint(p, 90 + 45);
+				}
+				else {
+					p = BaseMath::TurnPoint(p, 45);
+				}
+
+				velocity.x = p.x;
+				velocity.y = p.y;
+				// 無敵時間を設定
+				invincibleFrame = 60;
+				// SEを再生
+				Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, BaseAudio::SEvolume);
+				// HP を減らす
+				HP -= atk;
+				// HP 表示
+				isDrawHP = true;
+				drawHPFrame = invincibleFrame + 180;
+
+				break;
+			}
+			// 外殻に対する当たり判定
+			atk = EnemyAttackHitBox::CheckHitEllipse(checkP[i]);
+			if (atk != -1) {
+				// ノックバック
+				Point p = { 20,0 };
+
+				if (isRight) {
+					p = BaseMath::TurnPoint(p, 90 + 45);
+				}
+				else {
+					p = BaseMath::TurnPoint(p, 45);
+				}
+
+				velocity.x = p.x;
+				velocity.y = p.y;
+				// 無敵時間を設定
+				invincibleFrame = 30;
+				// SEを再生
+				Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, BaseAudio::SEvolume);
+				// HP を減らす
+				HP -= atk;
+				// HP 表示
+				isDrawHP = true;
+				drawHPFrame = invincibleFrame + 180;
+
+				break;
+			}
+			break;
+		}
+	}
 	////////////////////////
 	///　　　　ここまで　　　　//
 	////////////////////////
