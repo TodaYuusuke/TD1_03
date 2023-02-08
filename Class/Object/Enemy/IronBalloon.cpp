@@ -1,6 +1,6 @@
 #include "Class/Object/Enemy/IronBalloon.h"
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 IronBalloon::IronBalloon(Point _centerPosition, Point size,Object* _object) {
 
 	centerPosition = _centerPosition;
@@ -21,23 +21,23 @@ void IronBalloon::SuccessorInitialize() {
 	elapsedFrame = 0;
 	degree = 0;
 
-	// ‘¬“x
+	// é€Ÿåº¦
 	velocity = { 0,0 };
-	// ‰Á‘¬“x
+	// åŠ é€Ÿåº¦
 	acceleration = { 0,0 };
 
-	// ‰ñ“]Šp“xiDegreej
+	// å›è»¢è§’åº¦ï¼ˆDegreeï¼‰
 	angle = 0.0f;
-	// ‰ñ“]‘¬“xiDegreej
+	// å›è»¢é€Ÿåº¦ï¼ˆDegreeï¼‰
 	angleVelocity = 0;
 
-	//‹ó’†‚É‚¢‚é‚©‚Ç‚¤‚©
+	//ç©ºä¸­ã«ã„ã‚‹ã‹ã©ã†ã‹
 	isFlying = true;
 	isAlive = true;
 
 	direct = -1;
 
-	// “–‚½‚è”»’è‚ğŠO•”‚É“n‚·
+	// å½“ãŸã‚Šåˆ¤å®šã‚’å¤–éƒ¨ã«æ¸¡ã™
 	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle, &isAlive, false);
 }
 
@@ -47,7 +47,7 @@ void IronBalloon::SuccessorUpdate() {
 	if (degree > 360) {
 		degree = 0;
 	}
-	// ‰ñ“]‚ğí‚É‰Šú‰»
+	// å›è»¢ã‚’å¸¸ã«åˆæœŸåŒ–
 	angle = 0;
 	angleVelocity = 0;
 
@@ -65,14 +65,14 @@ void IronBalloon::SuccessorUpdate() {
 			angle = 0;
 		}
 
-		// ¶ˆÚ“®
+		// å·¦ç§»å‹•
 		if (direct < 0) {
 			if (velocity.x > -BaseConst::kPlayerVelocityLimit) {
 				acceleration.x -= 0.5f;
 			}
 		}
 		else if (0 < direct) {
-			// ‰EˆÚ“®
+			// å³ç§»å‹•
 			if (velocity.x < BaseConst::kPlayerVelocityLimit) {
 				acceleration.x += 0.5f;
 			}
