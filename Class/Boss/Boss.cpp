@@ -111,6 +111,7 @@ Boss::Boss() {
 
 	// オブジェクト生成間隔
 	this->generatedBlockInterval = 0.0f;
+
 }
 
 // デストラクタ
@@ -297,15 +298,15 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	currentState = kStateProduction;
 	prevState = kStateProduction;
 
-	checkNormalBGM = -1;
-	checkChanceBGM = -1;
-
 	isChangeBGM = false;
 
 	Novice::StopAudio(checkNormalBGM);
 	Novice::StopAudio(checkChanceBGM);
 	Novice::StopAudio(BaseAudio::kBGMBoss);
 	Novice::StopAudio(BaseAudio::kBGMChance);
+	checkNormalBGM = -1;
+	checkChanceBGM = -1;
+
 }
 
 // 更新処理
@@ -707,9 +708,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 	if (currentState == kStateProduction) {
 		Novice::StopAudio(checkNormalBGM);
-		Novice::StopAudio(checkNormalBGM);
-		Novice::StopAudio(BaseAudio::kBGMBoss);
-		Novice::StopAudio(BaseAudio::kBGMChance);
+		Novice::StopAudio(checkChanceBGM);
 	}
 	// 曲開始
 	if (currentState == kStateNormal && prevState == kStateProduction) {
@@ -753,8 +752,6 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 	if (currentState == kStateEnd) {
 		Novice::StopAudio(checkNormalBGM);
 		Novice::StopAudio(checkChanceBGM);
-		Novice::StopAudio(BaseAudio::kBGMBoss);
-		Novice::StopAudio(BaseAudio::kBGMChance);
 		Novice::SetAudioVolume(checkNormalBGM, 0);
 		Novice::SetAudioVolume(checkChanceBGM, 0);
 		//objectManager->DeleteAllEnemy();
@@ -794,7 +791,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			Novice::SetAudioVolume(checkNormalBGM, BaseAudio::BGMvolume * 0.4f * volumeFeedIn);
 			Novice::SetAudioVolume(checkChanceBGM, BaseAudio::BGMvolume * volumeFeedOut);
 		}
-	}
+	}/*
 	if (isChangeBGM) {
 		Novice::ScreenPrintf(10, 10, "FeedIn : %.4f", volumeFeedIn);
 		Novice::ScreenPrintf(10, 30, "FeedOut: %.4f", volumeFeedOut);
@@ -815,7 +812,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		break;
 	default:
 		break;
-	}
+	}*/
 	prevState = currentState;
 }
 
@@ -3222,3 +3219,6 @@ void Boss::playTakeDamageAnim(float animTime, float shakeStrength) {
 		inDamage = false;
 	}
 }
+
+int Boss::checkNormalBGM;
+int Boss::checkChanceBGM;

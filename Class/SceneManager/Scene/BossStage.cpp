@@ -38,8 +38,6 @@ void BossStage::Initialize() {
 	gameOverT = BaseConst::kGameOverFirstValue;
 	isToTitle = false;
 	isToRetry = false;
-	Novice::StopAudio(BaseAudio::kBGMBoss);
-	Novice::StopAudio(BaseAudio::kBGMChance);
 }
 // 更新
 void BossStage::Update() {
@@ -61,6 +59,8 @@ void BossStage::Update() {
 		if (p != NULL) {
 			p->Update();
 		}
+		Novice::StopAudio(Boss::checkNormalBGM);
+		Novice::StopAudio(Boss::checkChanceBGM);
 		GameOverUpdate();
 	}
 

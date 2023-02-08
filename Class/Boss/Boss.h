@@ -609,8 +609,6 @@ private:
 	int currentState = kStateProduction;
 	int prevState = kStateProduction;
 
-	int checkNormalBGM = -1;
-	int checkChanceBGM = -1;
 
 	// 音量フェード
 	float volumeFeedOut = 1.0f;
@@ -619,5 +617,7 @@ private:
 	bool isChangeBGM = false;
 
 	bool isDead = false;
-
+public:
+	static int checkNormalBGM;
+	static int checkChanceBGM;
 };
