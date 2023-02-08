@@ -225,7 +225,17 @@ bool ObjectManager::GetIsCreatedBlock() {
 	}
 	// ない場合はfalse
 	return false;
-
+}
+bool ObjectManager::GetIsCreatedIronBalloon() {
+	// 全てのオブジェクトの中からブロックを探す
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeIronBalloon && object[i]->GetisAlive() == true) {
+			// ある場合はtrue
+			return true;
+		}
+	}
+	// ない場合はfalse
+	return false;
 }
 
 // プレイヤーの中心座標を受け取る関数

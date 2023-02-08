@@ -31,6 +31,8 @@ private:
 	//  0 : 停止
 	int direct;
 
+	// 上下のフワフワ感
+	float degree;
 
 	// プレイヤーの座標を参照
 	Object* object;

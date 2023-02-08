@@ -128,6 +128,7 @@
     <ClCompile Include="MyBase\Effect\Inheritance\BalloonDead.cpp" />
     <ClCompile Include="MyBase\Effect\Inheritance\BlockBreak.cpp" />
     <ClCompile Include="MyBase\Effect\Inheritance\ConcreteDust.cpp" />
+    <ClCompile Include="MyBase\Effect\Inheritance\IronBalloonDead.cpp" />
     <ClCompile Include="MyBase\MyBase.cpp" />
     <ClCompile Include="MyBase\Other\BaseDraw.cpp" />
     <ClCompile Include="MyBase\Other\BaseInput.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="MyBase\Effect\Inheritance\BalloonDead.h" />
     <ClInclude Include="MyBase\Effect\Inheritance\BlockBreak.h" />
     <ClInclude Include="MyBase\Effect\Inheritance\ConcreteDust.h" />
+    <ClInclude Include="MyBase\Effect\Inheritance\IronBalloonDead.h" />
     <ClInclude Include="MyBase\MyBase.h" />
     <ClInclude Include="MyBase\Other\BaseDraw.h" />
     <ClInclude Include="MyBase\Other\BaseInput.h" />

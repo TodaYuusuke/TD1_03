@@ -162,5 +162,8 @@ public: // 静的なテクスチャの変数
 	const static int kBlockScrapAmount = 12;
 	static int kBlockScrap[12];
 
+	// パイプ
+	static int kPipe;
+
 #pragma endregion
 };

@@ -122,6 +122,17 @@ void TutorialStage::Update() {
 	MapManager::Update();
 	//middleBoss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
 	if (!isGameOver) {
+
+		// 一定時間ごとに敵と箱を生成
+		if (gimmickProgress == 4) {
+			if (!objectManager.GetIsCreatedBlock()) {
+				objectManager.MakeNewObjectBlock({ 9885,1080 }, { 0,0 });
+			}
+			if (!objectManager.GetIsCreatedIronBalloon()) {
+				objectManager.MakeNewObjectIronBalloon({ 10747,1080 });
+			}
+		}
+
 		objectManager.Update();
 		wireManager.Update(&objectManager);
 	}
@@ -172,13 +183,19 @@ void TutorialStage::Draw() {
 	middleBoss.Draw();
 
 	objectManager.Draw();
+
+	// パイプ描画
+	Point p = BaseDraw::WorldtoScreen({ 9824, 1080 + 100 });
+	Novice::DrawSprite(p.x, p.y, BaseTexture::kPipe, 1.5f, 1.5f, 0, WHITE);
+	p = BaseDraw::WorldtoScreen({ 10688, 1080 + 100 });
+	Novice::DrawSprite(p.x, p.y, BaseTexture::kPipe, 1.5f, 1.5f, 0, WHITE);
+
 	if (!isGameOver) {
 		wireManager.Draw();
 	}
 	else {
 		GameOverDraw();
 	}
-
 
 	Novice::ScreenPrintf(0, 20, "x = %6.0f, y = %6.0f", BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()).x, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()).y);
 }

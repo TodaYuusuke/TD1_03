@@ -61,6 +61,12 @@ int BaseEffectManager::MakeNewEffectBalloonDead(Point p, bool b) {
 	effects[nextIndex] = new effect::BalloonDead(p, b);
 	return nextIndex;
 }
+int BaseEffectManager::MakeNewEffectIronBalloonDead(Point p, bool b) {
+	GetEmptyID();
+
+	effects[nextIndex] = new effect::IronBalloonDead(p, b);
+	return nextIndex;
+}
 
 
 // エフェクトを終了させる関数

@@ -89,6 +89,7 @@ public: // メンバ関数
 	/// 全オブジェクト中にブロックが生成されているかどうかを取得する関数
 	/// </summary>
 	bool GetIsCreatedBlock();
+	bool GetIsCreatedIronBalloon();
 
 	// プレイヤーの中心座標を受け取る関数
 	Point GetPlayerPosition();

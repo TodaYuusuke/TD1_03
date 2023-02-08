@@ -581,7 +581,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 bool Object::isHit(Point hitPosition) {
 	// ƒuƒƒbƒN‚Ì‚Æ‚«‚Ì‚Ýˆ—‚ð•Ï‚¦‚é
 	bool b = false;
-	if ((GetType() == typeBlock || GetType() == typeFallBlock) && (BaseMath::GetLength(velocity) > 20 || BaseMath::GetLength(velocity) < -20)) {
+	if ((GetType() == typeBlock || GetType() == typeFallBlock || GetType() == typeIronBalloon) && (BaseMath::GetLength(velocity) > 20 || BaseMath::GetLength(velocity) < -20)) {
 		b = true;
 	}
 
@@ -592,6 +592,12 @@ bool Object::isHit(Point hitPosition) {
 				if (isAlive) {
 					isAlive = false;
 					if (GetType() == typeIronBalloon) {
+						if (angle == 0) {
+							BaseEffectManager::MakeNewEffectIronBalloonDead(centerPosition, false);
+						}
+						else if (angle == 90) {
+							BaseEffectManager::MakeNewEffectIronBalloonDead(centerPosition, true);
+						}
 						Novice::PlayAudio(BaseAudio::kEnemyIronBallonDead, 0, BaseAudio::SEvolume);
 					}
 				}

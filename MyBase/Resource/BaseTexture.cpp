@@ -189,6 +189,9 @@ bool BaseTexture::Loading() {
 	kBlockScrap[10] = Novice::LoadTexture("./Resources/Texture/Block/Scrap10.png");
 	kBlockScrap[11] = Novice::LoadTexture("./Resources/Texture/Block/Scrap11.png");
 
+	// パイプ
+	kPipe = Novice::LoadTexture("./Resources/Texture/Other/Pipe.png");
+
 #pragma endregion
 
 	return true;
@@ -319,5 +322,8 @@ int BaseTexture::kEnemyIronBalloonDead[6];
 int BaseTexture::kBlockTexture;
 // ブロックの破片
 int BaseTexture::kBlockScrap[kBlockScrapAmount];
+
+// パイプ
+int BaseTexture::kPipe;
 
 #pragma endregion

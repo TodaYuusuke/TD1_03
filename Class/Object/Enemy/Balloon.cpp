@@ -53,7 +53,7 @@ void Balloon::Update() {
 			}
 			// ë¨ìxêßå¿Ç…Ç©Ç©Ç¡ÇƒÇ¢ÇÈÇ∆Ç´ÇÕí«â¡ÇµÇ»Ç¢
 			else {
-				acceleration.y -= BaseConst::kPlayerGravitationalAcceleration;
+				acceleration.y -= BaseConst::kPlayerGravitationalAcceleration / 3;
 			}
 		}
 
