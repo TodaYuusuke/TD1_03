@@ -3,8 +3,6 @@
 // コンストラクタ
 TutorialStage::TutorialStage() {
 	Initialize();
-	// デバッグ用
-	Initialize(2);
 }
 // デストラクタ
 TutorialStage::~TutorialStage() {
@@ -122,11 +120,11 @@ void TutorialStage::Update() {
 	//// デバッグ用
 	//if (BaseInput::GetKeyboardState(DIK_I, Trigger)) {
 	//	objectManager.MakeNewObjectIronBalloon(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()));
+	////}
+	//// デバッグ用
+	//if (BaseInput::GetKeyboardState(DIK_B, Trigger)) {
+	//	objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 64,64 });
 	//}
-	// デバッグ用
-	if (BaseInput::GetKeyboardState(DIK_B, Trigger)) {
-		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 64,64 });
-	}
 	//// デバッグ用
 	//if (BaseInput::GetKeyboardState(DIK_F, Trigger)) {
 	//	objectManager.MakeNewObjectFallBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), false);

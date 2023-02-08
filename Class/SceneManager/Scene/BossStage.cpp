@@ -45,10 +45,6 @@ void BossStage::Initialize() {
 }
 // 更新
 void BossStage::Update() {
-	if (BaseInput::GetKeyboardState(DIK_B, Trigger)) {
-		objectManager.MakeNewObjectBlock(BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()), { 64,64 });
-	}
-
 	if (!objectManager.GetPlayerisAlive()) {
 		isGameOver = true;
 	}
