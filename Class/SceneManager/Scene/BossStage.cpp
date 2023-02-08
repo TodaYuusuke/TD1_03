@@ -15,6 +15,8 @@ BossStage::~BossStage() {
 void BossStage::Initialize() {
 	nextScene = sceneNone;
 
+	BaseDraw::SetScreenPosition({ 0,1080 });
+
 	PublicFlag::Initialize();
 	ObjectHitBox::Initialize();
 	MapManager::BossInitialize();
@@ -48,6 +50,7 @@ void BossStage::Update() {
 	EnemyAttackHitBox::Initialize();
 
 	MapManager::Update();
+
 	boss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
 	if (!isGameOver) {
 		objectManager.Update();
@@ -95,6 +98,12 @@ void BossStage::Draw() {
 	}
 
 	MapManager::Draw();
+	// 演出時に下がスケスケなのが気になるので修正
+	for (int y = 0; y < 5; y++) {
+		for (int x = 0; x < BaseConst::kBossStageSizeWidth; x++) {
+			BaseDraw::DrawSprite({ (float)x * BaseConst::kMapChipSizeWidth, (float)y * -BaseConst::kMapChipSizeHeight }, BaseTexture::kTextureMapChip[0], { 1,1 }, 0, WHITE);
+		}
+	}
 	boss.Draw();
 	if (!isGameOver) {
 		objectManager.Draw();

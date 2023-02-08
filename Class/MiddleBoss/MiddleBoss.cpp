@@ -838,6 +838,10 @@ void MiddleBoss::PlayDeadAnim(float cameraMoveTime, float moveTime, float runAwa
 		isPlayingDeadAnim = true;
 		// 雑魚敵を全滅させる
 		objectManager->DeleteAllEnemy();
+		// ボスの当たり判定を消す
+		core->SetisAlive(false);
+
+
 		wireManager->Initialize();
 
 		// スクリーン座標記録

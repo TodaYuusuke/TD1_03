@@ -288,9 +288,13 @@ bool ObjectManager::GetPlayerisAlive() {
 bool ObjectManager::isHitCore() {
 	int i = 0;
 	for (i = 0; i < kMaxObjectSize; i++) {
-		if (object[i]->GetType() == typeCore) {
+		if (object[i]->GetType() == typeCore && object[i]->GetisAlive()) {
 			break;
 		}
+	}
+
+	if (i >= 256) {
+		return false;
 	}
 
 	// コアのサイズ

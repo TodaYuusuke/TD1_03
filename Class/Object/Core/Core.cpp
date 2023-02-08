@@ -70,6 +70,10 @@ ObjectType Core::GetType() {
 // 返り値：ヒットしていた場合 ... true
 // 引数：チェックするPoint
 bool Core::CheckHitBox(Point hitPosition) {
+	if (!isAlive) {
+		return false;
+	}
+
 	float f = BaseMath::GetLength(BaseMath::GetVector(centerPosition, hitPosition));
 
 	if (f <= width / 2) {
