@@ -67,6 +67,12 @@ public: // 静的なテクスチャの変数
 
 #pragma region ボス
 
+	// 中ボス画像
+	static int kMiddleBoss;
+
+	// 中ボス武器画像
+	static int kMiddleBossBlade;
+
 	// ボスの核
 	static int kBossCore;
 

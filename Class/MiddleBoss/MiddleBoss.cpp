@@ -471,7 +471,7 @@ void MiddleBoss::Draw() {
 		BaseDraw::DesignationDrawQuad(
 			GetWeaponPosition(viewPosition),
 			weaponSize,
-			BaseTexture::kBossBlade,
+			BaseTexture::kMiddleBossBlade,
 			weaponTextureSize,
 			degree,
 			0xFFFFFFFF
@@ -480,7 +480,7 @@ void MiddleBoss::Draw() {
 		// É{ÉXç∂ë§âÊëú
 		BaseDraw::DrawQuad(
 			viewPosition,
-			BaseTexture::kBossCore,
+			BaseTexture::kMiddleBoss,
 			textureSize,
 			1.0f,
 			degree,
