@@ -13,8 +13,10 @@ Title::~Title() {
 
 // 初期化
 void Title::Initialize() {
+
 	nextScene = sceneNone;
 	Novice::SetWindowMode(kFullscreen);
+	BaseInput::Initialize();
 
 	PublicFlag::Initialize();
 	BaseDraw::SetScreenPosition({ 0,1080 });
@@ -26,6 +28,7 @@ void Title::Initialize() {
 }
 // 更新
 void Title::Update() {
+	BaseInput::Update();
 
 	// ワールド座標に戻さず計算
 	Point rightStick;
