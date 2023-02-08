@@ -135,7 +135,6 @@ void TutorialStage::Draw() {
 		BaseDraw::DrawSprite({ backGroundPositionX[i - 1] - 1920 + (BaseDraw::GetScreenPosition().x / 1920) * 1920, BaseDraw::GetScreenPosition().y }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
 	}
 
-
 	MapManager::Draw();
 	middleBoss.Draw();
 
