@@ -16,7 +16,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// カーソルの非表示
 	Novice::SetMouseCursorVisibility(false);
 	// デフォルトでフルスクリーン
-	//BaseDraw::ChangeFullScreen();
+	BaseDraw::ChangeFullScreen();
 	// スクリーン座標をset
 	BaseDraw::SetScreenPosition({ 0,1080 });
 
