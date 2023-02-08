@@ -15,8 +15,6 @@ Title::~Title() {
 void Title::Initialize() {
 
 	nextScene = sceneNone;
-	Novice::SetWindowMode(kFullscreen);
-	BaseInput::Initialize();
 
 	PublicFlag::Initialize();
 	BaseDraw::SetScreenPosition({ 0,1080 });
@@ -31,12 +29,13 @@ void Title::Initialize() {
 	feedInFlame = kFeedInMax;
 	feedOutFlame = kFeedOutMax;
 
-	//Novice::PlayAudio(BaseAudio::, 1, BaseAudio::BGMvolume);
-
+	// BGM再生
+	if (Novice::IsPlayingAudio(bgmHandle) == 0 || bgmHandle == -1) {
+		bgmHandle = Novice::PlayAudio(BaseAudio::kBGMTitle, true, 0.1f);
+	}
 }
 // 更新
 void Title::Update() {
-	BaseInput::Update();
 	if (0 < feedInFlame) {
 		feedInFlame--;
 	}
@@ -177,3 +176,7 @@ void Title::Draw() {
 	Novice::DrawBox(0, 0, BaseConst::kWindowWidth, BaseConst::kWindowHeight, 0.0f, 0xFFFFFF00 + (255 / kFeedInMax * feedInFlame), kFillModeSolid);
 
 }
+
+
+// bgmハンドル
+int Title::bgmHandle = -1;

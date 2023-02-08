@@ -2,6 +2,7 @@
 #include "MyBase/MyBase.h"
 
 #include "Class/SceneManager/Scene/BaseScene.h"
+#include "Class/SceneManager/Scene/Start.h"
 #include "Class/SceneManager/Scene/Title.h"
 #include "Class/SceneManager/Scene/TutorialStage.h"
 #include "Class/SceneManager/Scene/BossStage.h"

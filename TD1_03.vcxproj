@@ -118,6 +118,7 @@
     <ClCompile Include="Class\SceneManager\SceneManager.cpp" />
     <ClCompile Include="Class\SceneManager\Scene\BossStage.cpp" />
     <ClCompile Include="Class\SceneManager\Scene\GameClear.cpp" />
+    <ClCompile Include="Class\SceneManager\Scene\Start.cpp" />
     <ClCompile Include="Class\SceneManager\Scene\Title.cpp" />
     <ClCompile Include="Class\SceneManager\Scene\TutorialStage.cpp" />
     <ClCompile Include="Class\Wire\Wire.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="Class\SceneManager\Scene\BaseScene.h" />
     <ClInclude Include="Class\SceneManager\Scene\BossStage.h" />
     <ClInclude Include="Class\SceneManager\Scene\GameClear.h" />
+    <ClInclude Include="Class\SceneManager\Scene\Start.h" />
     <ClInclude Include="Class\SceneManager\Scene\Title.h" />
     <ClInclude Include="Class\SceneManager\Scene\TutorialStage.h" />
     <ClInclude Include="Class\Wire\Wire.h" />

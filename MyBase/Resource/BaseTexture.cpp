@@ -96,10 +96,6 @@ bool BaseTexture::Loading() {
 	kNumbers[3] = Novice::LoadTexture("./Resources/Texture/UI/3.png");
 	kNumbers[4] = Novice::LoadTexture("./Resources/Texture/UI/4.png");
 	kNumbers[5] = Novice::LoadTexture("./Resources/Texture/UI/5.png");
-	kNumbers[6] = Novice::LoadTexture("./Resources/Texture/UI/6.png");
-	kNumbers[7] = Novice::LoadTexture("./Resources/Texture/UI/7.png");
-	kNumbers[8] = Novice::LoadTexture("./Resources/Texture/UI/8.png");
-	kNumbers[9] = Novice::LoadTexture("./Resources/Texture/UI/9.png");
 
 #pragma endregion
 
@@ -291,7 +287,7 @@ int BaseTexture:: kUserInterfaceTitle[2];
 int BaseTexture:: kUserInterfaceGameOver;
 
 // êî
-int BaseTexture::kNumbers[10];
+int BaseTexture::kNumbers[6];
 
 #pragma endregion
 

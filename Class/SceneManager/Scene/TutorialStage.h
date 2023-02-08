@@ -19,6 +19,16 @@ public: // メンバ関数
 	// 描画
 	void Draw() override;
 
+	// シーン変更を告げる関数
+	// 返り値：シーン変更しない場合 ... None
+	// 　　　　　　　　　　する場合 ... 変更先のシーン
+	SceneState isGoNextScene() override {
+		if (nextScene != sceneNone) {
+			Novice::StopAudio(bgmHandle);
+		}
+		return nextScene;
+	}
+
 private: // 関数
 
 	void CheckPlayerProgress();
@@ -68,4 +78,6 @@ private: // メンバ変数
 	bool isToRetry;
 
 
+	// bgmハンドル
+	static int bgmHandle;
 };

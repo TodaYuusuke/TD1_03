@@ -125,6 +125,9 @@
     <ClCompile Include="MyBase\Effect\Inheritance\IronBalloonDead.cpp">
       <Filter>MyBase\Effect\Inheritance</Filter>
     </ClCompile>
+    <ClCompile Include="Class\SceneManager\Scene\Start.cpp">
+      <Filter>Class\SceneManager\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyBase\Effect\BaseEffect.h">
@@ -321,6 +324,9 @@
     </ClInclude>
     <ClInclude Include="MyBase\Effect\Inheritance\IronBalloonDead.h">
       <Filter>MyBase\Effect\Inheritance</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\SceneManager\Scene\Start.h">
+      <Filter>Class\SceneManager\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

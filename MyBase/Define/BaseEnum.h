@@ -39,6 +39,8 @@ enum InputState {
 enum SceneState {
 	// 無し（シーン切り替え無し）
 	sceneNone,
+	// 始まり
+	sceneStart,
 	// タイトル
 	sceneTitle,
 	// OP

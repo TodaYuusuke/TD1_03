@@ -11,7 +11,7 @@ SceneManager::~SceneManager() {
 
 // ‰Šú‰»
 void SceneManager::Initialize() {
-	currentScene = new Title();
+	currentScene = new Start();
 	isEnd = false;
 }
 // XV

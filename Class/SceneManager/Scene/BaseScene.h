@@ -32,7 +32,7 @@ public: // メンバ関数
 	// シーン変更を告げる関数
 	// 返り値：シーン変更しない場合 ... None
 	// 　　　　　　　　　　する場合 ... 変更先のシーン
-	SceneState isGoNextScene() {
+	virtual SceneState isGoNextScene() {
 		return nextScene;
 	}
 

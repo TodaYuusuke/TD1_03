@@ -18,6 +18,16 @@ public: // メンバ関数
 	// 描画
 	void Draw() override;
 
+	// シーン変更を告げる関数
+	// 返り値：シーン変更しない場合 ... None
+	// 　　　　　　　　　　する場合 ... 変更先のシーン
+	SceneState isGoNextScene() override {
+		if (nextScene != sceneNone) {
+			Novice::StopAudio(bgmHandle);
+		}
+		return nextScene;
+	}
+
 private: // メンバ変数
 
 	// コントローラを含めた座標
@@ -36,4 +46,7 @@ private: // メンバ変数
 	const int kFeedInMax = 60;
 	const int kFeedOutMax = 60;
 
+
+	// bgmハンドル
+	static int bgmHandle;
 };

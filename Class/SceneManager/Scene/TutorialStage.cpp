@@ -2,9 +2,9 @@
 
 // コンストラクタ
 TutorialStage::TutorialStage() {
-	//Initialize();
+	Initialize();
 	// デバッグ用
-	Initialize(2);
+	//Initialize(2);
 }
 // デストラクタ
 TutorialStage::~TutorialStage() {
@@ -45,6 +45,11 @@ void TutorialStage::Initialize() {
 	gameOverT = BaseConst::kGameOverFirstValue;
 	isToTitle = false;
 	isToRetry = false;
+
+	// BGM再生
+	if (Novice::IsPlayingAudio(bgmHandle) == 0 || bgmHandle == -1) {
+		bgmHandle = Novice::PlayAudio(BaseAudio::kBGMTutorial, true, 0.03f);
+	}
 }
 // 初期化
 void TutorialStage::Initialize(int respawnProgress) {
@@ -79,11 +84,17 @@ void TutorialStage::Initialize(int respawnProgress) {
 	gameOverT = BaseConst::kGameOverFirstValue;
 	isToTitle = false;
 	isToRetry = false;
+
+	// BGM再生
+	if (Novice::IsPlayingAudio(bgmHandle) == 0 || bgmHandle == -1) {
+		bgmHandle = Novice::PlayAudio(BaseAudio::kBGMTutorial, true, 0.03f);
+	}
 }
 // 更新
 void TutorialStage::Update() {
 	if (!objectManager.GetPlayerisAlive()) {
 		isGameOver = true;
+		Novice::StopAudio(bgmHandle);
 	}
 	// 当たり判定の初期化
 	EnemyAttackHitBox::Initialize();
@@ -281,8 +292,6 @@ void TutorialStage::CheckPlayerProgress() {
 			}
 		}
 	}
-
-	Novice::ScreenPrintf(0, 0, "%d", gimmickProgress);
 }
 
 // ゲームオーバー時の処理
@@ -406,3 +415,7 @@ void TutorialStage::GameOverDraw() {
 		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 13, 13, 0.0f, 0x00FF00FF, kFillModeWireFrame);
 	}
 }
+
+
+// bgmハンドル
+int TutorialStage::bgmHandle = -1;
