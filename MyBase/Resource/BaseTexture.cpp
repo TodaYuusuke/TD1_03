@@ -48,6 +48,12 @@ bool BaseTexture::Loading() {
 
 #pragma region ボス
 
+	// 中ボス画像
+	kMiddleBoss = Novice::LoadTexture("./Resources/Texture/Boss/MiddleBoss.png");
+
+	// 中ボス武器画像
+	kMiddleBossBlade = Novice::LoadTexture("./Resources/Texture/Boss/MiddleBossBlade.png");
+
 	// ボスの核
 	kBossCore = Novice::LoadTexture("./Resources/Texture/Boss/Kernel.png");
 
@@ -225,6 +231,12 @@ int BaseTexture::kTextureMapChipWeak;
 #pragma endregion
 
 #pragma region ボス
+
+// 中ボス画像
+int BaseTexture::kMiddleBoss;
+
+// 中ボス武器画像
+int BaseTexture::kMiddleBossBlade;
 
 // ボスの核
 int BaseTexture::kBossCore;
