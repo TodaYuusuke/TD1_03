@@ -11,8 +11,8 @@ void BaseAudio::Initialize() {
 
 // BGM‚ÆSE‚Ìvolume‚ğ‰Šúİ’è‚É–ß‚·
 void BaseAudio::InitializeVolume() {
-	BGMvolume = 0.3f;
-	SEvolume = 0.5f;
+	BGMvolume = 0.1f;
+	SEvolume = 0.1f;
 }
 
 

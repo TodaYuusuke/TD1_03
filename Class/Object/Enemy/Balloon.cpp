@@ -4,8 +4,8 @@
 Balloon::Balloon(Point _centerPosition, Point size,Object* _object) {
 
 	centerPosition = _centerPosition;
-	width = size.x;
-	height = size.y;
+	width = 50;
+	height = 50;
 
 	object = _object;
 

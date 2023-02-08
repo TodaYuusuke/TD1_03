@@ -618,7 +618,7 @@ void Player::Jump() {
 			// ジャンプ分の速度を足す
 			velocity.y += 9.8f * 1.2f;
 			// SEを再生
-			Novice::PlayAudio(BaseAudio::kPlayerJump, 0, 0.5f);
+			Novice::PlayAudio(BaseAudio::kPlayerJump, 0, BaseAudio::SEvolume);
 			state = playerJump;
 		}
 	}
@@ -644,7 +644,7 @@ void Player::ShotWire() {
 				velocity.y += p.y;
 			}
 			// SEを再生
-			Novice::PlayAudio(BaseAudio::kPlayerShoot, 0, 0.5f);
+			Novice::PlayAudio(BaseAudio::kPlayerShoot, 0, BaseAudio::SEvolume);
 			state = playerShot;
 			break;
 			// 射出失敗
@@ -1239,7 +1239,7 @@ void Player::CheckFieldHitBox() {
 			// 無敵時間を設定
 			invincibleFrame = 60;
 			// SEを再生
-			Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, 0.5f);
+			Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, BaseAudio::SEvolume);
 			// HP を減らす
 			HP -= atk;
 			// HP 表示
@@ -1266,7 +1266,7 @@ void Player::CheckFieldHitBox() {
 			// 無敵時間を設定
 			invincibleFrame = 30;
 			// SEを再生
-			Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, 0.5f);
+			Novice::PlayAudio(BaseAudio::kPlayerDamage, 0, BaseAudio::SEvolume);
 			// HP を減らす
 			HP -= atk;
 			// HP 表示

@@ -578,6 +578,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 	if (preIsAlive != isAlive) {
 		if (GetType() == typeBlock || GetType() == typeFallBlock) {
 			BaseEffectManager::MakeNewEffectBlockBreak(centerPosition);
+			Novice::PlayAudio(BaseAudio::kBlockBreak, 0, BaseAudio::SEvolume);
 		}
 	}
 }

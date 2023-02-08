@@ -54,7 +54,10 @@ int ObjectHitBox::CheckHitBox(Point _centerPosition, int noCheck) {
 				if (i != noCheck) {
 					if (BaseMath::CheckHitBox(*centerPosition[i], *width[i], *height[i], *angle[i], _centerPosition)) {
 						*isAlive[i] = false;
+						// エフェクトを実装
 						BaseEffectManager::MakeNewEffectBlockBreak(*centerPosition[i]);
+						// SEを再生
+						Novice::PlayAudio(BaseAudio::kBlockBreak, 0, BaseAudio::SEvolume);
 						return true;
 					}
 				}
