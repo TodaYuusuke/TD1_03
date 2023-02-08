@@ -339,9 +339,6 @@
     <Filter Include="Class\Boss">
       <UniqueIdentifier>{90beeacd-5086-464e-8a17-4c8663f59ba4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Class\Map">
-      <UniqueIdentifier>{be68f683-2361-4668-8b2d-8be8b7318dbc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Class\Object">
       <UniqueIdentifier>{7c4b2ad3-8216-4b1c-992d-4cf61b29df82}</UniqueIdentifier>
     </Filter>
@@ -378,12 +375,6 @@
     <Filter Include="MyBase\Effect\Inheritance">
       <UniqueIdentifier>{4e7c2685-5a81-4a81-b37b-91e2cc120b29}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Class\PublicFlag">
-      <UniqueIdentifier>{84d89fa3-dc5e-455c-949a-c3b2f6a32d47}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Class\MiddleBoss">
-      <UniqueIdentifier>{5e0f2194-49f9-4cc3-ad22-b04a42665f39}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Class\Object\Enemy">
       <UniqueIdentifier>{ef356951-2f3c-4677-9299-039dc1c3e3b5}</UniqueIdentifier>
     </Filter>
@@ -392,6 +383,15 @@
     </Filter>
     <Filter Include="Class\SceneManager\Scene">
       <UniqueIdentifier>{4f76a417-29e7-4378-88d6-ee07158e86c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\Map">
+      <UniqueIdentifier>{be68f683-2361-4668-8b2d-8be8b7318dbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\MiddleBoss">
+      <UniqueIdentifier>{5e0f2194-49f9-4cc3-ad22-b04a42665f39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Class\PublicFlag">
+      <UniqueIdentifier>{84d89fa3-dc5e-455c-949a-c3b2f6a32d47}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

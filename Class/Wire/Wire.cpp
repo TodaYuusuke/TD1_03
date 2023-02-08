@@ -92,7 +92,6 @@ void Wire::Update(ObjectManager* objectManager) {
 		// 発射されている状態ではない　かつ　壁ではなくオブジェクトにヒットしている場合
 		else if (object[i] != NULL) {
 			if (type[i] != typeWall) {
-
 				// ワイヤーを切る処理を行っている場合 -> objectがHookの場合切る
 				if (PublicFlag::kBossisTurningAndCutWire) {
 					if (type[i] == typeHook) {
@@ -266,50 +265,29 @@ void Wire::Attract() {
 		}
 	}
 
+	for (int i = 0; i < 2; i++) {
+		// 一つ目のオブジェクトにベクトルを足す
+		if (object[i] != NULL) {
+			// 引き寄せる強さを決定
+			Point p = { 20,0 };
 
-	// 一つ目のオブジェクトにベクトルを足す
-	if (object[0] != NULL ) {
-		// 引き寄せる強さを決定
-		Point p = { 20,0 };
-
-		if (object[0]->GetType() == typeBlock || object[0]->GetType() == typeIronBalloon) {
-			p = { 30,0 };
-		}
-
-		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(position[0], position[1]));
-
-		// ベクトルが下方向の場合 -> すこし上方向に補正
-		if (type[0] != typePlayer) {
-			if (p.y < 3) {
-				p.y = 3;
+			if (object[i]->GetType() == typeBlock || object[i]->GetType() == typeIronBalloon) {
+				p = { 30,0 };
 			}
-		}
 
-		object[0]->SetisPulled(true);
-		object[0]->SetisStub(false);
-		object[0]->AddVelocity(p);
-	}
-	// 二つ目のオブジェクトにベクトルを足す
-	if (object[1] != NULL) {
-		// 引き寄せる強さを決定
-		Point p = { 20,0 };
+			p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(position[i], position[!i]));
 
-		if (object[1]->GetType() == typeBlock || object[1]->GetType() == typeIronBalloon) {
-			p = { 30,0 };
-		}
-
-		p = BaseMath::TurnPoint(p, -BaseMath::GetDegree(position[1], position[0]));
-
-		// ベクトルが下方向の場合 -> すこし上方向に補正
-		if (type[1] != typePlayer) {
-			if (p.y < 3) {
-				p.y = 3;
+			// ベクトルが下方向の場合 -> すこし上方向に補正
+			if (type[i] != typePlayer && (object[i]->GetVelocity().y < 1 && object[i]->GetVelocity().y > -1)) {
+				if (p.y < 3) {
+					p.y = 3;
+				}
 			}
-		}
 
-		object[1]->SetisPulled(true);
-		object[1]->SetisStub(false);
-		object[1]->AddVelocity(p);
+			object[i]->SetisPulled(true);
+			object[i]->SetisStub(false);
+			object[i]->AddVelocity(p);
+		}
 	}
 
 	// ワイヤーを初期化

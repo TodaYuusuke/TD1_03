@@ -594,7 +594,12 @@ bool Object::isHit(Point hitPosition) {
 	if (MapManager::CheckHitBox(hitPosition, b)) {
 		if (GetType() == typeBlock || GetType() == typeFallBlock || GetType() == typeIronBalloon) {
 			if (BaseMath::GetLength(velocity) > 20 || BaseMath::GetLength(velocity) < -20) {
-				isAlive = false;
+				if (isAlive) {
+					isAlive = false;
+					if (GetType() == typeIronBalloon) {
+						Novice::PlayAudio(BaseAudio::kEnemyIronBallonDead, 0, BaseAudio::SEvolume);
+					}
+				}
 			}
 		}
 		return true;
