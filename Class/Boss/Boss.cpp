@@ -6,7 +6,7 @@
  * ボス関連の行動すべてを管理するクラス
  *********************************************/
 
-// コンストラクタ
+ // コンストラクタ
 Boss::Boss() {
 	// ボスの位置を画面中央に持っていく
 	this->centerPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
@@ -137,10 +137,10 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	this->coreShakeVariation = { 0.0f, 0.0f };
 
 	// カットシーン用カメラ移動前座標
-	this->prevScreenPosition = {0.0f, 0.0f};
+	this->prevScreenPosition = { 0.0f, 0.0f };
 
 	// カットシーン用カメラ移動後座標
-	this->nextScreenPosition = {0.0f, 0.0f};
+	this->nextScreenPosition = { 0.0f, 0.0f };
 
 	// バイブレーション初期化
 	vibInit = false;
@@ -193,7 +193,7 @@ void Boss::Initialize(ObjectManager* objectManager) {
 
 	for (int i = 0; i < kmaxWireHang; i++) {
 		this->wireHangPosition[i] = { 0.0f, 0.0f };
-		hook[i] = objectManager->MakeNewObjectHook(wireHangPosition[i], {hookSize.x -20.0f, hookSize.y -20.0f});
+		hook[i] = objectManager->MakeNewObjectHook(wireHangPosition[i], { hookSize.x - 20.0f, hookSize.y - 20.0f });
 	}
 
 
@@ -293,6 +293,19 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	RumbleEarthSoundHundle = BaseAudio::kBossRumbleEarth;
 	RumbleEarthVoiceHundle = -1;
 
+	// BGM関係
+	currentState = kStateProduction;
+	prevState = kStateProduction;
+
+	checkNormalBGM = -1;
+	checkChanceBGM = -1;
+
+	isChangeBGM = false;
+
+	Novice::StopAudio(checkNormalBGM);
+	Novice::StopAudio(checkNormalBGM);
+	Novice::StopAudio(BaseAudio::kBGMBoss);
+	Novice::StopAudio(BaseAudio::kBGMChance);
 }
 
 // 更新処理
@@ -322,7 +335,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 				inDebug = false;
 		}
 	}
-	
+
 	// デバッグ関数の実行
 	if (inDebug == true) {
 		Debug();
@@ -457,7 +470,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		}
 
 		// 行動の実行処理
-		if (inAction == true && inStun == false && canTakeDamage == false && isPlayingDeadAnim ==false) {
+		if (inAction == true && inStun == false && canTakeDamage == false && isPlayingDeadAnim == false) {
 			switch (attackPattern)
 			{
 			case Boss::NONE:
@@ -676,6 +689,132 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			actionWayPoint = WAYPOINT0;
 		}
 	}
+
+
+	// 曲関係の処理
+	if (isPlayingStartAnim) {
+		currentState = kStateProduction;
+	}
+	else if (canTakeDamage) {
+		currentState = kStateChance;
+	}
+	else if (inDead) {
+		currentState = kStateEnd;
+	}
+	else {
+		currentState = kStateNormal;
+	}
+
+	if (currentState == kStateProduction) {
+		Novice::StopAudio(checkNormalBGM);
+		Novice::StopAudio(checkNormalBGM);
+		Novice::StopAudio(BaseAudio::kBGMBoss);
+		Novice::StopAudio(BaseAudio::kBGMChance);
+	}
+	// 曲開始
+	if (currentState == kStateNormal && prevState == kStateProduction) {
+		isChangeBGM = true;
+		if (!Novice::IsPlayingAudio(checkNormalBGM) || checkNormalBGM == -1) {
+			checkNormalBGM = Novice::PlayAudio(BaseAudio::kBGMBoss, 1, BaseAudio::BGMvolume * 0.3f * volumeFeedIn);
+		}/*
+		if (!Novice::IsPlayingAudio(checkChanceBGM) || checkChanceBGM == -1) {
+			checkChanceBGM = Novice::PlayAudio(BaseAudio::kBGMChance, 1, BaseAudio::BGMvolume);
+		}
+		Novice::PauseAudio(checkChanceBGM);*/
+	}
+	// 通常
+	else if (currentState == kStateNormal && prevState != currentState) {
+		isChangeBGM = true;
+		/*
+		Novice::StopAudio(checkChanceBGM);
+		Novice::ResumeAudio(checkNormalBGM);*/
+		//if (!Novice::IsPlayingAudio(checkNormalBGM) || checkNormalBGM == -1) {
+		//	checkNormalBGM = Novice::PlayAudio(BaseAudio::kBGMBoss, 1, BaseAudio::BGMvolume);
+		//	//Novice::StopAudio(checkNormalBGM);
+		//	//Novice::PauseAudio(checkNormalBGM);
+		//	//Novice::ResumeAudio(checkChanceBGM);
+		//	//checkNormalBGM = Novice::PlayAudio(BaseAudio::kBGMBoss, 1, BaseAudio::BGMvolume);
+		//}
+	}
+	// チャンス
+	else if (currentState == kStateChance && prevState != currentState) {
+		isChangeBGM = true;
+
+		//Novice::PauseAudio(checkNormalBGM);
+		////Novice::ResumeAudio(checkChanceBGM);
+		//if (!Novice::IsPlayingAudio(checkChanceBGM) || checkChanceBGM == -1) {
+		//	//	//Novice::PauseAudio(checkChanceBGM);
+		//	//	//Novice::ResumeAudio(checkNormalBGM);
+		//	//	//Novice::StopAudio(BaseAudio::kBGMBoss);
+		//	//	//Novice::StopAudio(checkNormalBGM);
+		//	checkChanceBGM = Novice::PlayAudio(BaseAudio::kBGMChance, 1, BaseAudio::BGMvolume);
+		//}
+	}
+	else if (currentState == kStateEnd && prevState != currentState) {
+		Novice::StopAudio(checkNormalBGM);
+		Novice::StopAudio(checkNormalBGM);
+		Novice::StopAudio(BaseAudio::kBGMBoss);
+		Novice::StopAudio(BaseAudio::kBGMChance);
+		//objectManager->DeleteAllEnemy();
+	}
+	if(!isChangeBGM) {
+		volumeFeedIn = 0.0f;
+		volumeFeedOut = 1.0f;
+		isChangeBGM = false;
+	}
+	else {
+		if (volumeFeedIn < 1.0f && 0.0f < volumeFeedOut) {
+			volumeFeedIn += 0.05f;
+			volumeFeedOut -= 0.05f;
+		}
+		// フェードインアウト終了
+		else {
+			volumeFeedIn = 1.0f;
+			volumeFeedOut = 0.0f;
+			if (currentState == kStateChance) {
+				Novice::PauseAudio(checkNormalBGM);
+				if (!Novice::IsPlayingAudio(checkChanceBGM) || checkChanceBGM == -1) {
+					checkChanceBGM = Novice::PlayAudio(BaseAudio::kBGMChance, 1, BaseAudio::BGMvolume * volumeFeedIn);
+				}
+			}
+			else if (currentState = kStateNormal) {
+				Novice::StopAudio(checkChanceBGM);
+				Novice::ResumeAudio(checkNormalBGM);
+			}
+			isChangeBGM = false;
+		}
+		// 値を設定
+		if (currentState == kStateChance) {
+			Novice::SetAudioVolume(checkNormalBGM, BaseAudio::BGMvolume * 0.4f * volumeFeedOut);
+			Novice::SetAudioVolume(checkChanceBGM, BaseAudio::BGMvolume * volumeFeedIn);
+		}
+		else if (currentState = kStateNormal) {
+			Novice::SetAudioVolume(checkNormalBGM, BaseAudio::BGMvolume * 0.4f * volumeFeedIn);
+			Novice::SetAudioVolume(checkChanceBGM, BaseAudio::BGMvolume * volumeFeedOut);
+		}
+	}/*
+	if (isChangeBGM) {
+		Novice::ScreenPrintf(10, 10, "FeedIn : %.4f", volumeFeedIn);
+		Novice::ScreenPrintf(10, 30, "FeedOut: %.4f", volumeFeedOut);
+	}
+	switch (currentState)
+	{
+	case Boss::kStateProduction:
+		Novice::ScreenPrintf(10, 50, "Production");
+		break;
+	case Boss::kStateNormal:
+		Novice::ScreenPrintf(10, 50, "Normal");
+		break;
+	case Boss::kStateChance:
+		Novice::ScreenPrintf(10, 50, "Chance");
+		break;
+	case Boss::kStateEnd:
+		Novice::ScreenPrintf(10, 50, "End");
+		break;
+	default:
+		break;
+	}*/
+	prevState = currentState;
 }
 
 // 描画処理
@@ -773,7 +912,7 @@ void Boss::Draw() {
 // hitPosition ... 当たった座標
 // 引数で指定したPointがボスの外殻に命中しているかどうかを返す関数
 bool Boss::GetBossCollision(Point hitPosition) {
-	
+
 	// 距離を求める
 	float x = centerPosition.x - hitPosition.x;
 	float y = centerPosition.y - hitPosition.y;
@@ -795,7 +934,7 @@ bool Boss::GetBossCollision(Point hitPosition) {
 }
 
 // ボス左画像の相対座標を求める
-Point Boss::GetLCoverPosition(Point centerPosition) { 
+Point Boss::GetLCoverPosition(Point centerPosition) {
 	// 回転中心からの差異ベクトル作成
 	Point p = { -textureSize.x / 2 - offset, 0 };
 	// ベクトル計算
@@ -804,7 +943,7 @@ Point Boss::GetLCoverPosition(Point centerPosition) {
 	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
 }
 // ボス右画像の相対座標を求める
-Point Boss::GetRCoverPosition(Point centerPosition) { 
+Point Boss::GetRCoverPosition(Point centerPosition) {
 	// 回転中心からの差異ベクトル作成
 	Point p = { textureSize.x / 2 + offset, 0 };
 	// ベクトル計算
@@ -913,7 +1052,7 @@ void Boss::Debug() {
 		}
 	}
 
-	 // ボスをスタンさせる
+	// ボスをスタンさせる
 	if (BaseInput::GetKeyboardState(DIK_8, Trigger)) {
 		actionWayPoint = WAYPOINT0;
 		inStun = true;
@@ -954,7 +1093,7 @@ void Boss::Debug() {
 	if (BaseInput::GetKeyboardState(DIK_O, Press)) {
 		weaponSize.x -= 1.0f;
 	}
-	else if(BaseInput::GetKeyboardState(DIK_P, Press)) {
+	else if (BaseInput::GetKeyboardState(DIK_P, Press)) {
 		weaponSize.x += 1.0f;
 	}
 	// y
@@ -1075,7 +1214,7 @@ void Boss::vibration(int shakeStrength, float vibTime, float vibRate, int vibVal
 			vibrating = false;
 		}
 	}
-	
+
 }
 
 /// <summary>
@@ -1183,7 +1322,7 @@ void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, 
 			t = 0.0f;
 			actionWayPoint++;
 		}
-		
+
 		break;
 		// 完全に閉じる
 	case Boss::WAYPOINT4:
@@ -1264,7 +1403,7 @@ void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, 
 /// <param name="vibTime">振動しながら縮む時間</param>
 /// <param name="explosiveTime">サイズを大きくして爆発する</param>
 /// <param name="cameraBackTime">カメラが元の位置に帰るまでの時間</param>
-void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime, WireManager* wireManager){
+void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
 		// 初期化
@@ -1497,7 +1636,7 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 
 			// 初期化
 			isEndDeadAnim = true;
-			
+
 			inDead = true;
 
 			t = 0.0f;
@@ -1605,7 +1744,7 @@ void Boss::Separation(Point playerPosition, float moveTime, float afterWaitTime,
 	case Boss::WAYPOINT0:
 		// 中心座標取得
 		prevCenterPosition = centerPosition;
-		
+
 		// プレイヤーの座標を取得
 		prePlayerPosition = playerPosition;
 
@@ -1777,9 +1916,9 @@ void Boss::Rush(Point playerPosition, float readyTime, float chargeTime, float r
 		break;
 		// 溜め
 	case Boss::WAYPOINT2:
-		
+
 		if (t <= chargeTime) {
-			
+
 			// ボスを取得したプレイヤーの向きに向かって突進させる
 			centerPosition.x = BaseDraw::Ease_Out(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, rushTime);
 			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, rushTime);
@@ -1900,7 +2039,7 @@ void Boss::Rush(Point playerPosition, float readyTime, float chargeTime, float r
 void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float preparationTime, float slashTime, float backTime, float afterWaitTime, float damage, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
-	// 初期化
+		// 初期化
 	case Boss::WAYPOINT0:
 
 		// 武器のテクスチャ変更
@@ -1918,7 +2057,7 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 		weaponSize = { 40, 0 };
 		prevWeaponSize = weaponSize;
 		nextWeaponSize = { weaponSize.x, 400.0f };
-		
+
 		// t初期化
 		t = 0.0f;
 
@@ -1928,7 +2067,7 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 		//次の段階へ
 		actionWayPoint++;
 		break;
-	// 事前動作(震えてボスが開く)
+		// 事前動作(震えてボスが開く)
 	case Boss::WAYPOINT1:
 		if (t <= readyTime) {
 			// 指定された秒数振動する
@@ -2075,7 +2214,7 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 
 			// ボスを回転させる
 			degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, slashTime);
-			
+
 			// ボスを取得した角度を元に突進させる
 			centerPosition.x = BaseDraw::Ease_Out(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, slashTime);
 			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, slashTime);
@@ -2107,7 +2246,7 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			actionWayPoint++;
 		}
 		break;
-	// 元の場所に戻る
+		// 元の場所に戻る
 	case Boss::WAYPOINT5:
 		if (t <= backTime) {
 			// 位置や角度、武器のサイズを元に戻す
@@ -2326,7 +2465,7 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 				break;
 				// 追従射撃
 			case Boss::Pattern3:
-				
+
 				break;
 			default:
 				break;
@@ -2672,7 +2811,7 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 
 		// 念のため一度初期化
 		// 座標取得
-		prevCenterPosition = {0.0f, 0.0f};
+		prevCenterPosition = { 0.0f, 0.0f };
 		nextCenterPosition = { 0.0f, 0.0f };
 
 		// 角度取得
