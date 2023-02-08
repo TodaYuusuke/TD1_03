@@ -141,4 +141,15 @@ public: // 静的なオーディオの変数
 
 #pragma endregion
 
+#pragma region その他
+
+	// ブロック破壊
+	static int kBlockBreak;
+
+	// 壁破壊
+	static int kConcreteBreak;
+
+#pragma endregion
+
+
 };

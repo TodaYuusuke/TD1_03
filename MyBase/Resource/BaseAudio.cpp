@@ -115,6 +115,15 @@ bool BaseAudio::Loading() {
 
 #pragma endregion
 
+#pragma region その他
+	// ブロック破壊
+	kBlockBreak = Novice::LoadAudio("./Resources/Audio/Other/BlockBreak.wav");
+
+	// 壁破壊
+	kConcreteBreak = Novice::LoadAudio("./Resources/Audio/Other/ConcreteBreak.wav");
+#pragma endregion
+
+
 	return true;
 }
 
@@ -231,5 +240,15 @@ int BaseAudio::kPlayerEjection;
 int BaseAudio::kWireHit;
 // ワイヤーが切れる
 int BaseAudio::kWireCut;
+
+#pragma endregion
+
+#pragma region その他
+
+// ブロック破壊
+int BaseAudio::kBlockBreak;
+
+// 壁破壊
+int BaseAudio::kConcreteBreak;
 
 #pragma endregion
