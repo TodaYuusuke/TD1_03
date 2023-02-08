@@ -83,6 +83,18 @@ bool BaseTexture::Loading() {
 
 	kUserInterfaceGameOver = Novice::LoadTexture("./Resources/Texture/UI/GameOver.png");
 
+	// êî
+	kNumbers[0] = Novice::LoadTexture("./Resources/Texture/UI/0.png");
+	kNumbers[1] = Novice::LoadTexture("./Resources/Texture/UI/1.png");
+	kNumbers[2] = Novice::LoadTexture("./Resources/Texture/UI/2.png");
+	kNumbers[3] = Novice::LoadTexture("./Resources/Texture/UI/3.png");
+	kNumbers[4] = Novice::LoadTexture("./Resources/Texture/UI/4.png");
+	kNumbers[5] = Novice::LoadTexture("./Resources/Texture/UI/5.png");
+	kNumbers[6] = Novice::LoadTexture("./Resources/Texture/UI/6.png");
+	kNumbers[7] = Novice::LoadTexture("./Resources/Texture/UI/7.png");
+	kNumbers[8] = Novice::LoadTexture("./Resources/Texture/UI/8.png");
+	kNumbers[9] = Novice::LoadTexture("./Resources/Texture/UI/9.png");
+
 #pragma endregion
 
 #pragma region ÉvÉåÉCÉÑÅ[
@@ -214,6 +226,9 @@ int BaseTexture::kUserInterfaceSkip[2];
 
 int BaseTexture:: kUserInterfaceTitle[2];
 int BaseTexture:: kUserInterfaceGameOver;
+
+// êî
+int BaseTexture::kNumbers[10];
 
 #pragma endregion
 

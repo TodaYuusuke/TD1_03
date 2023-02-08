@@ -101,6 +101,9 @@ public: // 静的なテクスチャの変数
 	// GameOver
 	static int kUserInterfaceGameOver;
 
+	// 数
+	static int kNumbers[10];
+
 #pragma endregion
 
 #pragma region プレイヤー
