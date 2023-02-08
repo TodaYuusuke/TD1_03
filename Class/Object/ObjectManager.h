@@ -52,6 +52,9 @@ public: // メンバ関数
 	void MakeNewObjectBalloon(Point position);
 	void MakeNewObjectIronBalloon(Point position);
 
+	// 全ての雑魚敵を消去する
+	void DeleteAllEnemy();
+
 	// オブジェクトの当たり判定をチェックする関数
 	// 返り値：そのオブジェクトのポインタ
 	// 引数：チェックするPoint

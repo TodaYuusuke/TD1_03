@@ -121,6 +121,17 @@ void ObjectManager::MakeNewObjectIronBalloon(Point position) {
 }
 
 
+// 全ての雑魚敵を消去する
+void ObjectManager::DeleteAllEnemy() {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeBalloon || object[i]->GetType() == typeIronBalloon) {
+			object[i]->SetisAlive(false);
+			break;
+		}
+	}
+}
+
+
 // オブジェクトの当たり判定をチェックする関数
 // 返り値：そのオブジェクトのポインタ
 // 引数：チェックするPoint
@@ -272,7 +283,12 @@ bool ObjectManager::isHitCore() {
 	float height = 256;
 
 	// 8つ角の座標を含めた9点
-	Point hitPos[9] = {
+	//  0-- 1-- 2-- 3-- 4
+	//  5-- 6-- 7-- 8-- 9
+	// 10--11--12--13--14
+	// 15--16--17--18--19
+	// 20--21--22--23--24
+	Point hitPos[25] = {
 		// 左上
 		{p.x - width / 2, p.y + height / 2},
 		// 左
