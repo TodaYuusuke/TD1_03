@@ -303,7 +303,7 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	isChangeBGM = false;
 
 	Novice::StopAudio(checkNormalBGM);
-	Novice::StopAudio(checkNormalBGM);
+	Novice::StopAudio(checkChanceBGM);
 	Novice::StopAudio(BaseAudio::kBGMBoss);
 	Novice::StopAudio(BaseAudio::kBGMChance);
 }
