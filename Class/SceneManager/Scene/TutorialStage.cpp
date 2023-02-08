@@ -2,7 +2,9 @@
 
 // コンストラクタ
 TutorialStage::TutorialStage() {
-	Initialize();
+	//Initialize();
+	// デバッグ用
+	Initialize(2);
 }
 // デストラクタ
 TutorialStage::~TutorialStage() {
@@ -170,6 +172,12 @@ void TutorialStage::Update() {
 	preScrollPositionX = BaseDraw::GetScreenPosition().x;
 
 
+	// プレイヤーがドアに触れたかを検知
+	Point pos = objectManager.GetPlayerPosition();
+	if (BaseMath::CheckHitBox({ 16896, 144 }, 192, 224, 0, pos)) {
+		nextScene = sceneBossStage;
+	}
+
 	// プレイヤーの進捗チェック
 	CheckPlayerProgress();
 }
@@ -200,13 +208,17 @@ void TutorialStage::Draw() {
 		BaseDraw::DrawSprite({ 10000,750 }, BaseTexture::kTutorialSecondShot[0], { 1,1 }, 0, WHITE);
 	}
 
+	// ボス戦用のドア描画
+	Point p = BaseDraw::WorldtoScreen({ 16992,256 });
+	Novice::DrawBox(p.x, p.y, 192, 224, 0, BLACK, kFillModeSolid);
+
 	MapManager::Draw();
 	middleBoss.Draw();
 
 	objectManager.Draw();
 
 	// パイプ描画
-	Point p = BaseDraw::WorldtoScreen({ 9824, 1080 + 100 });
+	p = BaseDraw::WorldtoScreen({ 9824, 1080 + 100 });
 	Novice::DrawSprite(p.x, p.y, BaseTexture::kPipe, 1.5f, 1.5f, 0, WHITE);
 	p = BaseDraw::WorldtoScreen({ 10688, 1080 + 100 });
 	Novice::DrawSprite(p.x, p.y, BaseTexture::kPipe, 1.5f, 1.5f, 0, WHITE);

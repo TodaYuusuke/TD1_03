@@ -43,6 +43,7 @@ void IronBalloon::SuccessorInitialize() {
 
 void IronBalloon::SuccessorUpdate() {
 	elapsedFrame++;
+
 	degree += 5;
 	if (degree > 360) {
 		degree = 0;
