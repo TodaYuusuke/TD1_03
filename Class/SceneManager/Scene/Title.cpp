@@ -154,6 +154,8 @@ void Title::Draw() {
 	}
 	Novice::SetBlendMode(kBlendModeNormal);
 
+	// ÉçÉS
+	Novice::DrawSprite(350, 230, BaseTexture::kUserInterfaceTitle[1], 1, 1, 0.0f, WHITE);
 
 
 	BaseDraw::DrawSprite({ 100,200 - 64 * 3 }, BaseTexture::kBlockTexture, { 1,1 }, 0.0f, WHITE);
