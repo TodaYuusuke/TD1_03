@@ -161,7 +161,7 @@ int BaseConst::kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
 
 #pragma endregion
 
-#pragma region GameOver
+#pragma region Scene
 
 // あらかじめ描画する完成度
 float BaseConst::kGameOverFirstValue = 0.2f;
@@ -173,5 +173,12 @@ Point BaseConst::kGameOverTitleRightBottom = { 743,983 };
 
 Point BaseConst::kGameOverRetryLeftTop = { 1210,880 };
 Point BaseConst::kGameOverRetryRightBottom = { 1559,975 };
+
+// 「スタート」各種座標
+Point BaseConst::kTitletoPlayLeftTop = {1060,750};
+Point BaseConst::kTitletoPlayRightBottom = { 1319,829 };
+// 「エンド」各種座標
+Point BaseConst::kTitletoEndLeftTop = { 1060,900 };
+Point BaseConst::kTitletoEndRightBottom = {1249,978};
 
 #pragma endregion

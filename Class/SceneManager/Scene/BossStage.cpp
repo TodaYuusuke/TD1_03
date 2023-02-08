@@ -202,17 +202,17 @@ void BossStage::GameOverDraw() {
 	Novice::SetBlendMode(kBlendModeAdd);
 	if (isToTitle) {
 		Novice::DrawBox(
-			BaseConst::kGameOverTitleLeftTop.x - BaseConst::kGameOverPadding, BaseConst::kGameOverTitleLeftTop.y - BaseConst::kGameOverPadding,
-			BaseConst::kGameOverTitleRightBottom.x - BaseConst::kGameOverTitleLeftTop.x + BaseConst::kGameOverPadding * 2,
-			BaseConst::kGameOverTitleRightBottom.y - BaseConst::kGameOverTitleLeftTop.y + BaseConst::kGameOverPadding * 2,
+			BaseConst::kGameOverTitleLeftTop.x - BaseConst::kSelectPadding, BaseConst::kGameOverTitleLeftTop.y - BaseConst::kSelectPadding,
+			BaseConst::kGameOverTitleRightBottom.x - BaseConst::kGameOverTitleLeftTop.x + BaseConst::kSelectPadding * 2,
+			BaseConst::kGameOverTitleRightBottom.y - BaseConst::kGameOverTitleLeftTop.y + BaseConst::kSelectPadding * 2,
 			0.0f, 0x00AAAAFF, kFillModeSolid
 		);
 	}
 	if (isToRetry) {
 		Novice::DrawBox(
-			BaseConst::kGameOverRetryLeftTop.x - BaseConst::kGameOverPadding, BaseConst::kGameOverRetryLeftTop.y - BaseConst::kGameOverPadding,
-			BaseConst::kGameOverRetryRightBottom.x - BaseConst::kGameOverRetryLeftTop.x + BaseConst::kGameOverPadding * 2,
-			BaseConst::kGameOverRetryRightBottom.y - BaseConst::kGameOverRetryLeftTop.y + BaseConst::kGameOverPadding * 2,
+			BaseConst::kGameOverRetryLeftTop.x - BaseConst::kSelectPadding, BaseConst::kGameOverRetryLeftTop.y - BaseConst::kSelectPadding,
+			BaseConst::kGameOverRetryRightBottom.x - BaseConst::kGameOverRetryLeftTop.x + BaseConst::kSelectPadding * 2,
+			BaseConst::kGameOverRetryRightBottom.y - BaseConst::kGameOverRetryLeftTop.y + BaseConst::kSelectPadding * 2,
 			0.0f, 0x00AAAAFF, kFillModeSolid
 		);
 	}
