@@ -93,6 +93,16 @@ bool BaseAudio::Loading() {
 
 #pragma endregion
 
+#pragma region G‹›“G
+
+	// •—‘D‚Ì“G‚Ì€–S‰¹
+	kEnemyBallonDead = Novice::LoadAudio("./Resources/Audio/Enemy/BallonDead.wav");
+
+	// ‹à‘®•—‘D‚Ì“G‚Ì€–S‰¹
+	kEnemyIronBallonDead = Novice::LoadAudio("./Resources/Audio/Enemy/IronBallonDead.wav");;
+
+#pragma endregion
+
 #pragma region Player
 
 	// ƒWƒƒƒ“ƒv
@@ -218,6 +228,16 @@ int BaseAudio::kBossSeparateCore;
 
 // ƒ{ƒX‚ğÁ‹‚·‚é‰¹
 int BaseAudio::kBossDelete;
+
+#pragma endregion
+
+#pragma region G‹›“G
+
+// •—‘D‚Ì“G‚Ì€–S‰¹
+int BaseAudio::kEnemyBallonDead;
+
+// ‹à‘®•—‘D‚Ì“G‚Ì€–S‰¹
+int BaseAudio::kEnemyIronBallonDead;
 
 #pragma endregion
 

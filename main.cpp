@@ -55,7 +55,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		///
 
 		// プログラム終了
-		if (BaseInput::GetKeyboardState(DIK_ESCAPE, Trigger)) {
+		if (BaseInput::GetKeyboardState(DIK_ESCAPE, Trigger) || scene.GetisEnd()) {
 			break;
 		}
 		

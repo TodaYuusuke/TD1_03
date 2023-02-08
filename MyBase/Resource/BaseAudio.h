@@ -118,6 +118,17 @@ public: // 静的なオーディオの変数
 
 #pragma endregion
 
+#pragma region 雑魚敵
+
+	// 風船の敵の死亡音
+	static int kEnemyBallonDead;
+
+	// 金属風船の敵の死亡音
+	static int kEnemyIronBallonDead;
+
+#pragma endregion
+
+
 #pragma region Player
 
 	// ジャンプ
