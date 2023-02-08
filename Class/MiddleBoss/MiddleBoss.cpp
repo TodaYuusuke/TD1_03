@@ -390,6 +390,10 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 
 		if (isPlayingDeadAnim == true && isEndDeadAnim == false) {
 			PlayDeadAnim(5.0f, 1.0f, 0.75f, 2.5f, wireManager);
+			if (isPlayingDeadAnim == true && PublicFlag::kisStaging == false) {
+				color = 0x00000000;
+				inDead = true;
+			}
 		}
 
 	}

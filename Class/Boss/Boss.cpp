@@ -608,6 +608,14 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 		if (isPlayingDeadAnim == true && isEndDeadAnim == false) {
 			PlayDeadAnim(5.0f, 3.0f, 5.0f, 0.45f, 2.0f, wireManager);
+
+			if (isPlayingDeadAnim == true && PublicFlag::kisStaging == false) {
+				Novice::StopAudio(RumbleEarthVoiceHundle);
+				color = 0x00000000;
+				coreColor = 0x00000000;
+				inDead = true;
+			}
+
 		}
 
 	}

@@ -8,7 +8,7 @@ ConcreteDust::ConcreteDust(Point startPos) {
 
 		float p = rand() % 5 + 5;
 		vel[i] = BaseMath::TurnPoint({ p,0 }, rand() % 360);
-		size[i] = rand() % 3 + 1;
+		size[i] = rand() % 3 + 3;
 	}
 
 	BaseInitialize(startPos);
@@ -27,7 +27,7 @@ void ConcreteDust::Initialize() {
 void ConcreteDust::Update() {
 	for (int i = 0; i < BaseConst::kConcreteDustNum; i++) {
 		vel[i].y -= 9.8f / 30.0f;
-		
+
 		pos[i].x += vel[i].x;
 		// ƒ}ƒbƒv‚É“–‚½‚Á‚Ä‚é‚©‚Ç‚¤‚©
 		if (MapManager::CheckHitBox(pos[i], false)) {
@@ -49,5 +49,6 @@ void ConcreteDust::Update() {
 void ConcreteDust::Draw() {
 	for (int i = 0; i < BaseTexture::kBlockScrapAmount; i++) {
 		BaseDraw::DrawQuad(pos[i], BaseTexture::kDebugTexture, { 1,1 }, size[i], 0.0f, 0x222222FF);
+		BaseDraw::DrawQuad(pos[i], BaseTexture::kDebugTexture, {1,1}, size[i] - 2, 0.0f, 0xFFFFFFFF);
 	}
 };
