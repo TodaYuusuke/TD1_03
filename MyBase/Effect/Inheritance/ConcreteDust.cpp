@@ -28,27 +28,28 @@ void ConcreteDust::Update() {
 	for (int i = 0; i < BaseConst::kConcreteDustNum; i++) {
 		vel[i].y -= 9.8f / 30.0f;
 
-		pos[i].x += vel[i].x;
-		// マップに当たってるかどうか
-		if (MapManager::CheckHitBox(pos[i], false)) {
-			vel[i].x = vel[i].x * -0.6f;
-		}
 		pos[i].y += vel[i].y;
 		// マップに当たってるかどうか
 		if (MapManager::CheckHitBox(pos[i], false)) {
 			vel[i].y = vel[i].y * -0.6f;
 		}
-	}
+		pos[i].x += vel[i].x;
+		// マップに当たってるかどうか
+		if (MapManager::CheckHitBox(pos[i], false)) {
+			vel[i].x = vel[i].x * 0.6f;
+		}
 
-	// 終了処理
-	if (elapsedFrame > 60) {
-		isEnd = true;
+		// 終了処理
+		if (elapsedFrame > 60) {
+			isEnd = true;
+		}
 	}
-};
+}
+
 // 描画
 void ConcreteDust::Draw() {
 	for (int i = 0; i < BaseTexture::kBlockScrapAmount; i++) {
 		BaseDraw::DrawQuad(pos[i], BaseTexture::kDebugTexture, { 1,1 }, size[i], 0.0f, 0x222222FF);
-		BaseDraw::DrawQuad(pos[i], BaseTexture::kDebugTexture, {1,1}, size[i] - 2, 0.0f, 0xFFFFFFFF);
+		BaseDraw::DrawQuad(pos[i], BaseTexture::kDebugTexture, { 1,1 }, size[i] - 2, 0.0f, 0xFFFFFFFF);
 	}
 };
