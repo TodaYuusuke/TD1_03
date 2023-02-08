@@ -172,9 +172,9 @@ void TutorialStage::Update() {
 	preScrollPositionX = BaseDraw::GetScreenPosition().x;
 
 
-	// プレイヤーがドアに触れたかを検知
+	// プレイヤーがドアに触れたかを検知 -> シーン切り替え
 	Point pos = objectManager.GetPlayerPosition();
-	if (BaseMath::CheckHitBox({ 16896, 144 }, 192, 224, 0, pos)) {
+	if (BaseMath::CheckHitBox({ 17088, 144 }, 192, 224, 0, pos)) {
 		nextScene = sceneBossStage;
 	}
 
