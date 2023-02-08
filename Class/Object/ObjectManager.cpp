@@ -46,6 +46,16 @@ void ObjectManager::MakeNewObjectBlock(Point position, Point size) {
 		}
 	}
 }
+void ObjectManager::MakeNewObjectFallBlock(Point position, bool isCanStub) {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (!object[i]->GetisAlive()) {
+			object[i] = new FallBlock(position, isCanStub);
+			object[i]->Initialize();
+			break;
+		}
+	}
+}
+
 
 // Player
 void ObjectManager::MakeNewObjectPlayer(Point position, WireManager* wireManager) {

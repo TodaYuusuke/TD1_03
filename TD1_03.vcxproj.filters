@@ -119,6 +119,9 @@
     <ClCompile Include="MyBase\Effect\Inheritance\ConcreteDust.cpp">
       <Filter>MyBase\Effect\Inheritance</Filter>
     </ClCompile>
+    <ClCompile Include="Class\Object\Block\FallBlock.cpp">
+      <Filter>Class\Object\Block</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MyBase\Effect\BaseEffect.h">
@@ -309,6 +312,9 @@
     </ClInclude>
     <ClInclude Include="MyBase\Effect\Inheritance\ConcreteDust.h">
       <Filter>MyBase\Effect\Inheritance</Filter>
+    </ClInclude>
+    <ClInclude Include="Class\Object\Block\FallBlock.h">
+      <Filter>Class\Object\Block</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

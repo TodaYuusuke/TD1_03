@@ -167,15 +167,30 @@ bool MapManager::CheckHitBox(Point hitPosition, bool isBlock) {
         if (isBlock) {
             if (tutorialMap[y][x]->CheckHitBox(hitPosition, isBlock)) {
                 // ŽüˆÍ‚ÌƒuƒƒbƒN‚ð‚Ü‚Æ‚ß‚Ä”j‰ó
-                if (tutorialMap[y - 1][x - 1]->type == kTypeWeak) { tutorialMap[y - 1][x - 1]->type = kTypeAir; }
-                if (tutorialMap[y - 1][x]->type == kTypeWeak) { tutorialMap[y - 1][x]->type = kTypeAir; }
-                if (tutorialMap[y - 1][x + 1]->type == kTypeWeak) { tutorialMap[y - 1][x + 1]->type = kTypeAir; }
-                if (tutorialMap[y][x - 1]->type == kTypeWeak) { tutorialMap[y][x - 1]->type = kTypeAir; }
-                if (tutorialMap[y][x + 1]->type == kTypeWeak) { tutorialMap[y][x + 1]->type = kTypeAir; }
-                if (tutorialMap[y + 1][x - 1]->type == kTypeWeak) { tutorialMap[y + 1][x - 1]->type = kTypeAir; }
-                if (tutorialMap[y + 1][x]->type == kTypeWeak) { tutorialMap[y + 1][x]->type = kTypeAir; }
-                if (tutorialMap[y + 1][x + 1]->type == kTypeWeak) { tutorialMap[y + 1][x + 1]->type = kTypeAir; }
-
+                if (y - 1 >= 0) {
+                    if (tutorialMap[y - 1][x]->type == kTypeWeak) { tutorialMap[y - 1][x]->type = kTypeAir; }
+                    if (x - 1 >= 0) {
+                        if (tutorialMap[y - 1][x - 1]->type == kTypeWeak) { tutorialMap[y - 1][x - 1]->type = kTypeAir; }
+                    }
+                    if (x + 1 < BaseConst::kTutorialStageSizeWidth) {
+                        if (tutorialMap[y - 1][x + 1]->type == kTypeWeak) { tutorialMap[y - 1][x + 1]->type = kTypeAir; }
+                    }
+                }
+                if (x - 1 >= 0) {
+                    if (tutorialMap[y][x - 1]->type == kTypeWeak && x - 1 >= 0) { tutorialMap[y][x - 1]->type = kTypeAir; }
+                }
+                if (x + 1 < BaseConst::kTutorialStageSizeWidth) {
+                    if (tutorialMap[y][x + 1]->type == kTypeWeak && x + 1 < BaseConst::kTutorialStageSizeWidth) { tutorialMap[y][x + 1]->type = kTypeAir; }
+                }
+                if (y + 1 < BaseConst::kTutorialStageSizeHeight) {
+                    if (tutorialMap[y + 1][x]->type == kTypeWeak) { tutorialMap[y + 1][x]->type = kTypeAir; }
+                    if (x - 1 >= 0) {
+                        if (tutorialMap[y + 1][x - 1]->type == kTypeWeak) { tutorialMap[y + 1][x - 1]->type = kTypeAir; }
+                    }
+                    if (x + 1 < BaseConst::kTutorialStageSizeWidth) {
+                        if (tutorialMap[y + 1][x + 1]->type == kTypeWeak) { tutorialMap[y + 1][x + 1]->type = kTypeAir; }
+                    }
+                }
                 return true;
             }
             

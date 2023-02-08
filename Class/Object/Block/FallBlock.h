@@ -4,14 +4,14 @@
 
 // ワイヤーが刺さるブロック
 
-class Block :
+class FallBlock :
 	public Object {
 public: // メンバ関数
 
 	// コンストラクタ
-	Block(Point centerPosition, Point size);
+	FallBlock(Point centerPosition, bool isCanStub);
 	// デストラクタ
-	~Block();
+	~FallBlock();
 
 	// 初期化
 	void SuccessorInitialize() override;
@@ -23,6 +23,9 @@ public: // メンバ関数
 	ObjectType GetType() override;
 
 private: // メンバ変数
+	
+	// ワイヤーをひっかけられるか
+	bool isCanStub;
 
 	// 生成されてから、消えるまでの時間
 	int vanishFlame;
