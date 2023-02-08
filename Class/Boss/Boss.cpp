@@ -293,6 +293,13 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	RumbleEarthSoundHundle = BaseAudio::kBossRumbleEarth;
 	RumbleEarthVoiceHundle = -1;
 
+	// BGM関係
+	currentState = kStateProduction;
+	prevState = kStateProduction;
+
+	checkNormalBGM = -1;
+	checkChanceBGM = -1;
+
 }
 
 // 更新処理
@@ -676,6 +683,57 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			actionWayPoint = WAYPOINT0;
 		}
 	}
+
+
+	if (isPlayingStartAnim) {
+		currentState = kStateProduction;
+	}
+	else if (canTakeDamage) {
+		currentState = kStateChance;
+	}
+	else if (inDead) {
+		currentState = kStateEnd;
+	}
+	else {
+		currentState = kStateNormal;
+	}
+
+
+	if (currentState == kStateNormal && prevState == kStateProduction) {
+		checkNormalBGM = Novice::PlayAudio(BaseAudio::kBGMBoss, 1, BaseAudio::BGMvolume);
+		//checkChanceBGM = Novice::PlayAudio(BaseAudio::kBGMChance, 1, BaseAudio::BGMvolume);
+		//Novice::PauseAudio(checkChanceBGM);
+	}
+	// 通常
+	else if (currentState == kStateNormal && prevState != currentState) {
+		Novice::StopAudio(checkChanceBGM);
+		Novice::ResumeAudio(checkNormalBGM);
+		//if (!Novice::IsPlayingAudio(checkNormalBGM) || checkNormalBGM == -1) {
+		//	checkNormalBGM = Novice::PlayAudio(BaseAudio::kBGMBoss, 1, BaseAudio::BGMvolume);
+		//	//Novice::StopAudio(checkNormalBGM);
+		//	//Novice::PauseAudio(checkNormalBGM);
+		//	//Novice::ResumeAudio(checkChanceBGM);
+		//	//checkNormalBGM = Novice::PlayAudio(BaseAudio::kBGMBoss, 1, BaseAudio::BGMvolume);
+		//}
+	}
+	// チャンス
+	else if (currentState == kStateChance && prevState) {
+		Novice::PauseAudio(checkNormalBGM);
+		Novice::ResumeAudio(checkChanceBGM);
+		//if (!Novice::IsPlayingAudio(checkChanceBGM) || checkChanceBGM == -1) {
+		//	//Novice::PauseAudio(checkChanceBGM);
+		//	//Novice::ResumeAudio(checkNormalBGM);
+		//	//Novice::StopAudio(BaseAudio::kBGMBoss);
+		//	//Novice::StopAudio(checkNormalBGM);
+		//	checkChanceBGM = Novice::PlayAudio(BaseAudio::kBGMChance, 1, BaseAudio::BGMvolume);
+		//}
+	}
+	else if (currentState == kStateEnd && prevState != currentState) {
+		Novice::StopAudio(BaseAudio::kBGMBoss);
+		Novice::StopAudio(BaseAudio::kBGMChance);
+	}
+
+	prevState = currentState;
 }
 
 // 描画処理

@@ -597,4 +597,19 @@ private:
 	int RumbleEarthSoundHundle;
 	int RumbleEarthVoiceHundle;
 
+
+	// BGMŠÖŒW
+	enum BossBattleState
+	{
+		kStateProduction,
+		kStateNormal,
+		kStateChance,
+		kStateEnd
+	};
+	int currentState = kStateProduction;
+	int prevState = kStateProduction;
+
+	int checkNormalBGM = -1;
+	int checkChanceBGM = -1;
+
 };
