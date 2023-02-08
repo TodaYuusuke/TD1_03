@@ -734,7 +734,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		//	//Novice::PauseAudio(checkNormalBGM);
 		//	//Novice::ResumeAudio(checkChanceBGM);
 		//	//checkNormalBGM = Novice::PlayAudio(BaseAudio::kBGMBoss, 1, BaseAudio::BGMvolume);
-		//}
+		//}*/
 	}
 	// チャンス
 	else if (currentState == kStateChance && prevState != currentState) {
