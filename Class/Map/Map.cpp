@@ -2,7 +2,7 @@
 
 // コンストラクタ
 Map::Map() {
-    Initialize(kTypeAir);
+	Initialize(kTypeAir);
 }
 // デストラクタ
 Map::~Map() {
@@ -13,7 +13,7 @@ Map::~Map() {
 
 // 初期化
 void Map::Initialize(MapChipType type) {
-    this->type = type;
+	this->type = type;
 }
 // 更新
 void Map::Update() {
@@ -22,24 +22,24 @@ void Map::Update() {
 // 描画
 void Map::Draw(Point drawPosition, int drawImageNum) {
 
-    // とりあえず（後で特殊な形のマップチップを実装する場合は処理を追記する）
-    switch (type)
-    {
-        case kTypeAir:
-            break;
-        case kTypeNormal:
-            BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChip[drawImageNum], { 1,1 }, 0, WHITE);
-            break;
-        case kTypeWall:
-            BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChip[drawImageNum], { 1,1 }, 0, 0xAAAAAAFF);
-            break;
-        case kTypeWeak:
-            BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChip[drawImageNum], { 1,1 }, 0, WHITE);
-            BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChipWeak, { 1,1 }, 0, WHITE);
-            break;
-        default:
-            break;
-    }
+	// とりあえず（後で特殊な形のマップチップを実装する場合は処理を追記する）
+	switch (type)
+	{
+		case kTypeAir:
+			break;
+		case kTypeNormal:
+			BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChip[drawImageNum], { 1,1 }, 0, WHITE);
+			break;
+		case kTypeWall:
+			BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChip[drawImageNum], { 1,1 }, 0, 0xAAAAAAFF);
+			break;
+		case kTypeWeak:
+			BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChip[drawImageNum], { 1,1 }, 0, WHITE);
+			BaseDraw::DrawSprite(drawPosition, BaseTexture::kTextureMapChipWeak, { 1,1 }, 0, WHITE);
+			break;
+		default:
+			break;
+	}
 }
 
 /// <summary>
@@ -49,21 +49,22 @@ void Map::Draw(Point drawPosition, int drawImageNum) {
 /// <param name="isBlock ヒットするのがBlockかどうか"></param>
 /// <returns></returns>
 bool Map::CheckHitBox(Point hitPosition, bool isBlock) {
-    // とりあえず（後で特殊な形のマップチップを実装する場合は処理を追記する）
-    switch (type)
-    {
-        case kTypeAir:
-            return false;
-        case kTypeNormal:
-            return true;
-        case kTypeWall:
-            return false;
-        case kTypeWeak:
-            if (isBlock) {
-                type = kTypeAir;
-            }
-            return true;
-        default:
-            return false;
-    }
+	// とりあえず（後で特殊な形のマップチップを実装する場合は処理を追記する）
+	switch (type)
+	{
+		case kTypeAir:
+			return false;
+		case kTypeNormal:
+			return true;
+		case kTypeWall:
+			return false;
+		case kTypeWeak:
+			if (isBlock) {
+				type = kTypeAir;
+				PublicFlag::kBrokenConcretePlaySE = true;
+			}
+			return true;
+		default:
+			return false;
+	}
 }
