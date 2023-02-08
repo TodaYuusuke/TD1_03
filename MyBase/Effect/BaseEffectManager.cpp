@@ -43,12 +43,6 @@ void BaseEffectManager::GetEmptyID() {
 // 新規エフェクト登録関数
 // 返り値：エフェクトがセットされた番号
 // 引数：それぞれ
-int BaseEffectManager::MakeNewEffectWhirlWind() {
-	GetEmptyID();
-
-	effects[nextIndex] = new effect::WhirlWind();
-	return nextIndex;
-}
 int BaseEffectManager::MakeNewEffectBlockBreak(Point p) {
 	GetEmptyID();
 
@@ -59,6 +53,12 @@ int BaseEffectManager::MakeNewEffectConcreteDust(Point p) {
 	GetEmptyID();
 
 	effects[nextIndex] = new effect::ConcreteDust(p);
+	return nextIndex;
+}
+int BaseEffectManager::MakeNewEffectBalloonDead(Point p, bool b) {
+	GetEmptyID();
+
+	effects[nextIndex] = new effect::BalloonDead(p, b);
 	return nextIndex;
 }
 

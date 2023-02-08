@@ -18,6 +18,8 @@ IronBalloon::~IronBalloon() {
 
 void IronBalloon::SuccessorInitialize() {
 
+	elapsedFrame = 0;
+
 	// ë¨ìx
 	velocity = { 0,0 };
 	// â¡ë¨ìx
@@ -39,6 +41,7 @@ void IronBalloon::SuccessorInitialize() {
 }
 
 void IronBalloon::SuccessorUpdate() {
+	elapsedFrame++;
 	// âÒì]ÇèÌÇ…èâä˙âª
 	angle = 0;
 	angleVelocity = 0;

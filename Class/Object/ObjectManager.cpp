@@ -25,11 +25,16 @@ void ObjectManager::Update() {
 // 全てのオブジェクトを描画（Drawを呼び出す）
 void ObjectManager::Draw() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
-		if (object[i]->GetType() != typeObject) {
+		if (object[i]->GetType() != typeObject && object[i]->GetType() != typePlayer) {
 			object[i]->Draw();
 		}
 	}
+
+	// プレイヤーの更新は最後に行う
+	Player* p = (Player*)GetSelectObject(typePlayer);
+	p->Draw();
 }
+
 
 
 // 新しいオブジェクトのインスタンスを生成する関数たち

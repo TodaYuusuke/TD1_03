@@ -140,16 +140,19 @@ public: // 静的な定数
 	const static int kMapChipSizeHeight = 32;
 
 	// チュートリアルステージの大きさ
-	const static int kTutorialStageSizeWidth = 500;
+	const static int kTutorialStageSizeWidth = 543;
 	const static int kTutorialStageSizeHeight = 35;
 	// ボスステージの大きさ
 	const static int kBossStageSizeWidth = 75;
 	const static int kBossStageSizeHeight = 35;
 
-
 	// マップデータ
 	static int kTutorialStageData[kTutorialStageSizeHeight][kTutorialStageSizeWidth];
 	static int kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
+
+	// チュートリアルステージの進行度の目安
+	static Point kRespawnProgress[4];
+	static int kGimmickProgress[7];
 
 #pragma endregion
 

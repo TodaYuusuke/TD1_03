@@ -93,7 +93,6 @@ void Object::Update() {
 				velocity.x = 0;
 			}
 		}
-
 		if (velocity.y > 0) {
 			velocity.y -= 0.02f;
 			if (velocity.y < 0) {
@@ -106,7 +105,6 @@ void Object::Update() {
 				velocity.y = 0;
 			}
 		}
-
 		// ‰ñ“]‘¬“x‚ðŒ¸‘¬‚³‚¹‚Ä‚¢‚­
 		/*if (angleVelocity > BaseConst::kPlayerVelocityLimit) {
 			angleVelocity -= 0.05f;
@@ -120,9 +118,6 @@ void Object::Update() {
 				angleVelocity = 0;
 			}
 		}*/
-
-
-
 	}
 }
 

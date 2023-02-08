@@ -3,14 +3,14 @@
 #include "MyBase/Effect/BaseEffect.h"
 
 namespace effect {
-	class WhirlWind :
+	class BalloonDead :
 		public BaseEffect {
 	public: // メンバ関数
 
 		// コンストラクタ
-		WhirlWind();
+		BalloonDead(Point, bool);
 		// デストラクタ
-		~WhirlWind();
+		~BalloonDead();
 
 
 		// 初期化
@@ -21,15 +21,7 @@ namespace effect {
 		void Draw() override;
 
 	private: // メンバ変数
-
-		/* この範囲の変数は既に宣言されているので利用してくれ（ｺﾒﾝﾄｱｳﾄは外さなくてよし）
-		// 描画座標
-		Point position;
-		// 現在の経過フレーム
-		int elapsedFrame;
-
-		// エフェクトが終了したかどうか
-		bool isEnd;
-		*/
+		// 右向きかどうか
+		bool isRight;
 	};
 }

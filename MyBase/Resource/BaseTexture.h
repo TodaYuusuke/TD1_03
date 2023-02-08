@@ -49,7 +49,6 @@ public: // 静的なテクスチャの変数
 
 #pragma endregion
 
-
 #pragma region マップ
 
 	// マップチップサンプル
@@ -136,6 +135,18 @@ public: // 静的なテクスチャの変数
 	static int kRPlayerPull;
 
 #pragma endregion
+
+#pragma region 雑魚
+
+	// 風船
+	static int kEnemyBalloon[4];
+	static int kEnemyBalloonDead[6];
+	// 金属の風船
+	static int kEnemyIronBalloon[4];
+	static int kEnemyIronBalloonDead[6];
+
+#pragma endregion
+
 
 #pragma region その他
 

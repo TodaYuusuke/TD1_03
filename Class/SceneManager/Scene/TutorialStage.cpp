@@ -22,7 +22,7 @@ void TutorialStage::Initialize() {
 	objectManager.Initialize();
 	wireManager.Initialize();
 
-	objectManager.MakeNewObjectPlayer({ 100,700 }, &wireManager);
+	objectManager.MakeNewObjectPlayer({ 100,200 }, &wireManager);
 
 	middleBoss.Initialize(&objectManager);
 
@@ -33,9 +33,42 @@ void TutorialStage::Initialize() {
 		backGroundPositionX[i] = 0;
 	}
 
-
-	playerProgress = 0;
+	respawnProgress = -1;
+	gimmickProgress = -1;
 	
+	reticlePosition = { 1000,500 };
+	preMousePosition = BaseInput::GetMousePosition();
+	isGameOver = false;
+	gameOverColor = 0x00000000;
+	gameOverT = BaseConst::kGameOverFirstValue;
+	isToTitle = false;
+	isToRetry = false;
+}
+// 初期化
+void TutorialStage::Initialize(int respawnProgress) {
+	nextScene = sceneNone;
+
+	PublicFlag::Initialize();
+
+	ObjectHitBox::Initialize();
+	MapManager::TutorialInitialize();
+	objectManager.Initialize();
+	wireManager.Initialize();
+
+	objectManager.MakeNewObjectPlayer(BaseConst::kRespawnProgress[respawnProgress], &wireManager);
+
+	middleBoss.Initialize(&objectManager);
+
+	BaseDraw::SetScreenPosition({ 0,1080 });
+
+	preScrollPositionX = 1080;
+	for (int i = 0; i < 3; i++) {
+		backGroundPositionX[i] = 0;
+	}
+
+	respawnProgress = -1;
+	gimmickProgress = -1;
+
 	reticlePosition = { 1000,500 };
 	preMousePosition = BaseInput::GetMousePosition();
 	isGameOver = false;
@@ -52,10 +85,10 @@ void TutorialStage::Update() {
 	// 当たり判定の初期化
 	EnemyAttackHitBox::Initialize();
 
-	//// デバッグ用
-	if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
-		nextScene = sceneBossStage;
-	}
+	////// デバッグ用
+	//if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
+	//	nextScene = sceneBossStage;
+	//}
 	// デバッグ用
 	if (BaseInput::GetKeyboardState(DIK_R, Trigger)) {
 		Initialize();
@@ -152,43 +185,42 @@ void TutorialStage::Draw() {
 
 
 void TutorialStage::CheckPlayerProgress() {
-
-	switch (playerProgress)
-	{
-	case 0:
-		if (objectManager.GetPlayerPosition().x > 6500) {
-			playerProgress = 1;
-
-			// 敵を召喚
-			objectManager.MakeNewObjectBalloon({ 7714,283 });
-			objectManager.MakeNewObjectBalloon({ 8037,283 });
-			objectManager.MakeNewObjectBalloon({ 8358,283 });
-			objectManager.MakeNewObjectBalloon({ 7872,509 });
-			objectManager.MakeNewObjectBalloon({ 8197,509 });
+	if (respawnProgress < 4 - 1) {
+		if (objectManager.GetPlayerPosition().x > BaseConst::kRespawnProgress[respawnProgress + 1].x) {
+			respawnProgress++;
 		}
-		break;
-	case 1:
-		if (objectManager.GetPlayerPosition().x > 9100) {
-			playerProgress = 2;
-
-			// 落ちてくる箱を召喚
-			objectManager.MakeNewObjectFallBlock({ 9570,1200 }, false);
-		}
-		break;
-	case 2:
-		break;
-	case 3:
-		break;
-	case 4:
-		break;
-	case 5:
-		break;
-	case 6:
-		break;
-	case 7:
-		break;
 	}
 
+	if (gimmickProgress < 7 - 1) {
+		if (objectManager.GetPlayerPosition().x > BaseConst::kGimmickProgress[gimmickProgress + 1]) {
+			gimmickProgress++;
+			switch (gimmickProgress)
+			{
+				case 0: // ジャンプチュートリアル
+					break;
+				case 1: // ワイヤーチュートリアル
+					break;
+				case 2: // 雑魚召喚、チュートリアル
+					objectManager.MakeNewObjectBalloon({ 7714,283 });
+					objectManager.MakeNewObjectBalloon({ 8037,283 });
+					objectManager.MakeNewObjectBalloon({ 8358,283 });
+					objectManager.MakeNewObjectBalloon({ 7872,509 });
+					objectManager.MakeNewObjectBalloon({ 8197,509 });
+					break;
+				case 3: // 箱が降ってくる
+					objectManager.MakeNewObjectFallBlock({ 9570,1200 }, false);
+					break;
+				case 4: // 雑魚召喚
+					break;
+				case 5: // 中ボス召喚
+					break;
+				case 6: // 雑魚ラッシュ開始
+					break;
+			}
+		}
+	}
+
+	Novice::ScreenPrintf(0, 0, "%d", gimmickProgress);
 }
 
 // ゲームオーバー時の処理
@@ -251,7 +283,12 @@ void TutorialStage::GameOverUpdate() {
 			BaseInput::GetControllerState(kControllerButtonL2A, Trigger) ||
 			BaseInput::GetControllerState(kControllerButtonR2B, Trigger) ||
 			BaseInput::GetControllerState(kControllerButtonRight, Trigger)) {
-			Initialize();
+			if (respawnProgress >= 0) {
+				Initialize(respawnProgress);
+			}
+			else {
+				Initialize();
+			}
 		}
 	}
 	else {
@@ -263,7 +300,12 @@ void TutorialStage::GameOverUpdate() {
 	}
 	if (BaseInput::GetControllerState(kControllerButtonR1, Trigger) ||
 		BaseInput::GetControllerState(kControllerButtonRight, Trigger)) {
-		Initialize();
+		if (respawnProgress >= 0) {
+			Initialize(respawnProgress);
+		}
+		else {
+			Initialize();
+		}
 	}
 	preMousePosition = BaseInput::GetMousePosition();
 }

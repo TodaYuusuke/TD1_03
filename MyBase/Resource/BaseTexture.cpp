@@ -137,6 +137,34 @@ bool BaseTexture::Loading() {
 
 #pragma endregion
 
+#pragma region 雑魚
+
+	// 風船
+	kEnemyBalloon[0] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Balloon0.png");
+	kEnemyBalloon[1] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Balloon1.png");
+	kEnemyBalloon[2] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Balloon2.png");
+	kEnemyBalloon[3] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Balloon3.png");
+	kEnemyBalloonDead[0] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Dead/Balloon0.png");
+	kEnemyBalloonDead[1] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Dead/Balloon1.png");
+	kEnemyBalloonDead[2] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Dead/Balloon2.png");
+	kEnemyBalloonDead[3] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Dead/Balloon3.png");
+	kEnemyBalloonDead[4] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Dead/Balloon4.png");
+	kEnemyBalloonDead[5] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Dead/Balloon5.png");
+	// 金属の風船
+	kEnemyIronBalloon[0] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/IronBalloon0.png");
+	kEnemyIronBalloon[1] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/IronBalloon1.png");
+	kEnemyIronBalloon[2] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/IronBalloon2.png");
+	kEnemyIronBalloon[3] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/IronBalloon3.png");
+	kEnemyIronBalloonDead[0] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/Dead/IronBalloon0.png");
+	kEnemyIronBalloonDead[1] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/Dead/IronBalloon1.png");
+	kEnemyIronBalloonDead[2] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/Dead/IronBalloon2.png");
+	kEnemyIronBalloonDead[3] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/Dead/IronBalloon3.png");
+	kEnemyIronBalloonDead[4] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/Dead/IronBalloon4.png");
+	kEnemyIronBalloonDead[5] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/Dead/IronBalloon5.png");
+
+#pragma endregion
+
+
 #pragma region その他
 
 	// ブロック
@@ -195,7 +223,6 @@ int BaseTexture::kTextureMapChip[kTextureMapChipSize];
 int BaseTexture::kTextureMapChipWeak;
 
 #pragma endregion
-
 
 #pragma region ボス
 
@@ -260,6 +287,17 @@ int BaseTexture::kRPlayerJump[4];
 int BaseTexture::kRPlayerShot;
 // ワイヤ引き寄せ
 int BaseTexture::kRPlayerPull;
+
+#pragma endregion
+
+#pragma region 雑魚
+
+// 風船
+int BaseTexture::kEnemyBalloon[4];
+int BaseTexture::kEnemyBalloonDead[6];
+// 金属の風船
+int BaseTexture::kEnemyIronBalloon[4];
+int BaseTexture::kEnemyIronBalloonDead[6];
 
 #pragma endregion
 
