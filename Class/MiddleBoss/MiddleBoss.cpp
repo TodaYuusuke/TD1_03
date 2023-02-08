@@ -331,7 +331,7 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 			// ここで返り値がtrueのときにダメージ判定を行う
 			if (objectManager->isHitCore() == true) {
 				// ダメージを与えた際の効果音再生
-				Novice::PlayAudio(BaseAudio::kBossDamage, 0, 0.5f);
+				Novice::PlayAudio(BaseAudio::kBossDamage, 0, BaseAudio::SEvolume);
 
 				// ダメージアニメーション用のtを初期化する
 				spareT = 0.0f;
@@ -426,6 +426,8 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 		if (isPlayingDeadAnim == true && isEndDeadAnim == false) {
 			PlayDeadAnim(5.0f, 1.0f, 0.75f, 2.5f, wireManager);
 			if (isPlayingDeadAnim == true && PublicFlag::kisStaging == false) {
+				// ワイヤーをちぎれなくする
+				PublicFlag::kBossisTurningAndCutWire = false;
 				color = 0x00000000;
 				inDead = true;
 			}
@@ -443,6 +445,8 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 		if (isPlayingStartAnim == true && PublicFlag::kisStaging == false) {
 			// 演出終了
 			PublicFlag::kisStaging = false;
+			// ワイヤーをちぎれなくする
+			PublicFlag::kBossisTurningAndCutWire = false;
 			isPlayingStartAnim = false;
 
 			// 初期化
@@ -650,7 +654,7 @@ void MiddleBoss::vibration(int shakeStrength, float vibTime, float vibRate, int 
 		if (_vibTime > 0) {
 
 			if (isVibPlaySound == false) {
-				Novice::PlayAudio(BaseAudio::kBossVibration, false, 0.5f);
+				Novice::PlayAudio(BaseAudio::kBossVibration, false, BaseAudio::SEvolume);
 				isVibPlaySound = true;
 			}
 
@@ -719,7 +723,7 @@ void MiddleBoss::PlayStartAnim(float cameraMoveTime, float appearTime, float roa
 		else {
 
 			// 効果音再生
-			Novice::PlayAudio(BaseAudio::kBossRush, false, 0.5f);
+			Novice::PlayAudio(BaseAudio::kBossRush, false, BaseAudio::SEvolume);
 
 			// スクリーン座標記録
 			prevCenterPosition = centerPosition;
@@ -756,7 +760,7 @@ void MiddleBoss::PlayStartAnim(float cameraMoveTime, float appearTime, float roa
 
 				if (Novice::IsPlayingAudio(screamVoiceHundle) == 0 || screamVoiceHundle == -1) {
 					// 効果音再生
-					screamVoiceHundle = Novice::PlayAudio(screamSoundHundle, false, 0.5f);
+					screamVoiceHundle = Novice::PlayAudio(screamSoundHundle, false, BaseAudio::SEvolume);
 				}
 
 				Shake(25);
@@ -785,6 +789,7 @@ void MiddleBoss::PlayStartAnim(float cameraMoveTime, float appearTime, float roa
 
 			BaseDraw::SetScreenPosition(screenPosition);*/
 
+
 			// 元の座標に
 			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, waitTime);
 			shakeVariation.y = BaseDraw::Ease_InOut(t, shakeVariation.y, -shakeVariation.y, waitTime);
@@ -797,6 +802,9 @@ void MiddleBoss::PlayStartAnim(float cameraMoveTime, float appearTime, float roa
 			// 演出終了
 			PublicFlag::kisStaging = false;
 			isPlayingStartAnim = false;
+
+			// ワイヤーをちぎれなくする
+			PublicFlag::kBossisTurningAndCutWire = false;
 
 			// 初期化
 			isBattleStart = true;
@@ -846,7 +854,7 @@ void MiddleBoss::PlayDeadAnim(float cameraMoveTime, float moveTime, float runAwa
 
 		if (Novice::IsPlayingAudio(screamVoiceHundle) == 0 || screamVoiceHundle == -1) {
 			// 効果音再生
-			screamVoiceHundle = Novice::PlayAudio(screamSoundHundle, false, 0.5f);
+			screamVoiceHundle = Novice::PlayAudio(screamSoundHundle, false, BaseAudio::SEvolume);
 		}
 
 		// t初期化
@@ -889,7 +897,7 @@ void MiddleBoss::PlayDeadAnim(float cameraMoveTime, float moveTime, float runAwa
 			nextCenterPosition = { centerPosition.x, centerPosition.y - 150.0f };
 
 			// チャージ音
-			Novice::PlayAudio(BaseAudio::kBossCharge, false, 0.5f);
+			Novice::PlayAudio(BaseAudio::kBossCharge, false, BaseAudio::SEvolume);
 
 			// 初期化
 			t = 0.0f;
@@ -929,7 +937,7 @@ void MiddleBoss::PlayDeadAnim(float cameraMoveTime, float moveTime, float runAwa
 			prevCenterPosition = centerPosition;
 			nextCenterPosition = { centerPosition.x, centerPosition.y + BaseConst::kWindowHeight };
 
-			Novice::PlayAudio(BaseAudio::kBossRush, false, 0.5f);
+			Novice::PlayAudio(BaseAudio::kBossRush, false, BaseAudio::SEvolume);
 
 			// 初期化
 			t = 0.0f;
@@ -987,6 +995,9 @@ void MiddleBoss::PlayDeadAnim(float cameraMoveTime, float moveTime, float runAwa
 
 			// 演出終了
 			PublicFlag::kisStaging = false;
+			// ワイヤーをちぎれなくする
+			PublicFlag::kBossisTurningAndCutWire = false;
+
 			isPlayingDeadAnim = false;
 
 			// 初期化
@@ -1165,7 +1176,7 @@ void MiddleBoss::Rotate(float endDegree, float RotateTime, float afterWaitTime, 
 		startDegree = degree;
 
 		// 効果音再生
-		Novice::PlayAudio(BaseAudio::kBossClose, false, 0.5f);
+		Novice::PlayAudio(BaseAudio::kBossClose, false, BaseAudio::SEvolume);
 
 		init = true;
 	}
@@ -1220,7 +1231,7 @@ void MiddleBoss::Rush(Point playerPosition, float readyTime, float chargeTime, f
 	case MiddleBoss::WAYPOINT0:
 
 		// 効果音再生
-		Novice::PlayAudio(BaseAudio::kBossCharge, false, 0.5f);
+		Novice::PlayAudio(BaseAudio::kBossCharge, false, BaseAudio::SEvolume);
 
 		// 中心座標取得
 		prevCenterPosition = centerPosition;
@@ -1258,7 +1269,7 @@ void MiddleBoss::Rush(Point playerPosition, float readyTime, float chargeTime, f
 			}
 
 			// 効果音再生
-			Novice::PlayAudio(BaseAudio::kBossVibration, false, 0.5f);
+			Novice::PlayAudio(BaseAudio::kBossVibration, false, BaseAudio::SEvolume);
 
 			// 突進する座標を求める
 			nextCenterPosition = {
@@ -1308,7 +1319,7 @@ void MiddleBoss::Rush(Point playerPosition, float readyTime, float chargeTime, f
 			};
 
 			// 効果音再生
-			Novice::PlayAudio(BaseAudio::kBossRush, false, 0.7f);
+			Novice::PlayAudio(BaseAudio::kBossRush, false, BaseAudio::SEvolume);
 
 			// 次へ
 			actionWayPoint++;
@@ -1409,7 +1420,7 @@ void MiddleBoss::Slash(Point playerPosition, float readyTime, float deployTime, 
 		t = 0.0f;
 
 		// 効果音再生
-		Novice::PlayAudio(BaseAudio::kBossOpen, 0, 0.35f);
+		Novice::PlayAudio(BaseAudio::kBossOpen, 0, BaseAudio::SEvolume);
 
 		//次の段階へ
 		actionWayPoint++;
@@ -1428,7 +1439,7 @@ void MiddleBoss::Slash(Point playerPosition, float readyTime, float deployTime, 
 			t = 0.0f;
 
 			// 効果音再生
-			Novice::PlayAudio(BaseAudio::kBossDeployBlade, 0, 0.5f);
+			Novice::PlayAudio(BaseAudio::kBossDeployBlade, 0, BaseAudio::SEvolume);
 
 			//次へ
 			actionWayPoint++;
@@ -1492,7 +1503,7 @@ void MiddleBoss::Slash(Point playerPosition, float readyTime, float deployTime, 
 			t = 0.0f;
 
 			// 効果音再生
-			Novice::PlayAudio(BaseAudio::kBossSlash, 0, 0.25f);
+			Novice::PlayAudio(BaseAudio::kBossSlash, 0, BaseAudio::SEvolume);
 
 			//プレイヤー座標取得
 			prePlayerPosition = playerPosition;
@@ -1511,7 +1522,7 @@ void MiddleBoss::Slash(Point playerPosition, float readyTime, float deployTime, 
 			}
 
 			// 効果音再生
-			Novice::PlayAudio(BaseAudio::kBossRush, 0, 0.6f);
+			Novice::PlayAudio(BaseAudio::kBossRush, 0, BaseAudio::SEvolume);
 
 			// 突進する座標を求める
 			nextCenterPosition = {
@@ -1566,7 +1577,7 @@ void MiddleBoss::Slash(Point playerPosition, float readyTime, float deployTime, 
 			PublicFlag::kBossisTurningAndCutWire = false;
 
 			// 効果音再生
-			Novice::PlayAudio(BaseAudio::kBossClose, 0, 0.35f);
+			Novice::PlayAudio(BaseAudio::kBossClose, 0, BaseAudio::SEvolume);
 
 			// tを初期化
 			t = 0.0f;
@@ -1656,7 +1667,7 @@ void MiddleBoss::Fall(float readyTime, float deployTime, float rushTime, float s
 		else {
 
 			// 効果音再生
-			Novice::PlayAudio(BaseAudio::kBossCharge, false, 0.5f);
+			Novice::PlayAudio(BaseAudio::kBossCharge, false, BaseAudio::SEvolume);
 
 			// tをリセット
 			t = 0.0f;
@@ -1685,7 +1696,7 @@ void MiddleBoss::Fall(float readyTime, float deployTime, float rushTime, float s
 		else {
 
 			// 効果音再生
-			Novice::PlayAudio(BaseAudio::kBossRush, false, 0.5f);
+			Novice::PlayAudio(BaseAudio::kBossRush, false, BaseAudio::SEvolume);
 
 			// tを初期化
 			t = 0.0f;
@@ -1715,9 +1726,9 @@ void MiddleBoss::Fall(float readyTime, float deployTime, float rushTime, float s
 			t = 0.0f;
 
 			// 効果音再生
-			Novice::PlayAudio(BaseAudio::kBossVibration, false, 0.5f);
+			Novice::PlayAudio(BaseAudio::kBossVibration, false, BaseAudio::SEvolume);
 			// 効果音再生
-			Novice::PlayAudio(BaseAudio::kBossStrike, false, 0.5f);
+			Novice::PlayAudio(BaseAudio::kBossStrike, false, BaseAudio::SEvolume);
 
 
 			canGeneratedBlock = true;
