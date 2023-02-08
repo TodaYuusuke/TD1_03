@@ -25,10 +25,21 @@ void Title::Initialize() {
 	preMousePosition = BaseInput::GetMousePosition();
 	isToPlay = false;
 	isToEnd = false;
+
+	isSelected = false;
+
+	feedInFlame = kFeedInMax;
+	feedOutFlame = kFeedOutMax;
+
+	//Novice::PlayAudio(BaseAudio::)
+
 }
 // 更新
 void Title::Update() {
 	BaseInput::Update();
+	if (0 < feedInFlame) {
+		feedInFlame--;
+	}
 
 	// ワールド座標に戻さず計算
 	Point rightStick;
@@ -57,31 +68,46 @@ void Title::Update() {
 	else if (BaseConst::kWindowHeight - BaseConst::kPlayerReticleSize < reticlePosition.y) {
 		reticlePosition.y = BaseConst::kWindowHeight - BaseConst::kPlayerReticleSize;
 	}
-
-	// 「スタート」の中にマウスがある場合
-	if (BaseConst::kTitletoPlayLeftTop.x < reticlePosition.x && reticlePosition.x < BaseConst::kTitletoPlayRightBottom.x &&
-		BaseConst::kTitletoPlayLeftTop.y < reticlePosition.y && reticlePosition.y < BaseConst::kTitletoPlayRightBottom.y) {
-		isToPlay = true;
-		if (BaseInput::GetMouseState(LeftClick, Trigger) ||
-			BaseInput::GetControllerState(kControllerButtonL2A, Trigger) ||
-			BaseInput::GetControllerState(kControllerButtonR2B, Trigger)) {
-			nextScene = sceneTutorialStage;
+	if (!isSelected) {
+		// 「スタート」の中にマウスがある場合
+		if (BaseConst::kTitletoPlayLeftTop.x < reticlePosition.x && reticlePosition.x < BaseConst::kTitletoPlayRightBottom.x &&
+			BaseConst::kTitletoPlayLeftTop.y < reticlePosition.y && reticlePosition.y < BaseConst::kTitletoPlayRightBottom.y) {
+			isToPlay = true;
+			if (BaseInput::GetMouseState(LeftClick, Trigger) ||
+				BaseInput::GetControllerState(kControllerButtonL2A, Trigger) ||
+				BaseInput::GetControllerState(kControllerButtonR2B, Trigger)) {
+				isSelected = true;
+				feedOutFlame = kFeedOutMax;
+			}
+		}
+		else {
+			isToPlay = false;
+		}
+		if (BaseConst::kTitletoEndLeftTop.x < reticlePosition.x && reticlePosition.x < BaseConst::kTitletoEndRightBottom.x &&
+			BaseConst::kTitletoEndLeftTop.y < reticlePosition.y && reticlePosition.y < BaseConst::kTitletoEndRightBottom.y) {
+			isToEnd = true;
+			if (BaseInput::GetMouseState(LeftClick, Trigger) ||
+				BaseInput::GetControllerState(kControllerButtonL2A, Trigger) ||
+				BaseInput::GetControllerState(kControllerButtonR2B, Trigger)) {
+				isSelected = true;
+				feedOutFlame = kFeedOutMax;
+			}
+		}
+		else {
+			isToEnd = false;
 		}
 	}
 	else {
-		isToPlay = false;
-	}
-	if (BaseConst::kTitletoEndLeftTop.x < reticlePosition.x && reticlePosition.x < BaseConst::kTitletoEndRightBottom.x &&
-		BaseConst::kTitletoEndLeftTop.y < reticlePosition.y && reticlePosition.y < BaseConst::kTitletoEndRightBottom.y) {
-		isToEnd = true;
-		if (BaseInput::GetMouseState(LeftClick, Trigger) ||
-			BaseInput::GetControllerState(kControllerButtonL2A, Trigger) ||
-			BaseInput::GetControllerState(kControllerButtonR2B, Trigger)) {
-			nextScene = sceneEnd;
+		feedOutFlame--;
+		if (feedOutFlame <= 0) {
+			
+			if (isToPlay) {
+				nextScene = sceneTutorialStage;
+			}
+			else if (isToEnd) {
+				nextScene = sceneEnd;
+			}
 		}
-	}
-	else {
-		isToEnd = false;
 	}
 
 
