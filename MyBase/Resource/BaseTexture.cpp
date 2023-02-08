@@ -79,6 +79,8 @@ bool BaseTexture::Loading() {
 	kUserInterfaceSkip[0] = Novice::LoadTexture("./Resources/Texture/UI/Skip0.png");
 	kUserInterfaceSkip[1] = Novice::LoadTexture("./Resources/Texture/UI/Skip1.png");
 
+	kUserInterfaceTitle[0] = Novice::LoadTexture("./Resources/Texture/UI/TitleSelect.png");
+
 	kUserInterfaceGameOver = Novice::LoadTexture("./Resources/Texture/UI/GameOver.png");
 
 #pragma endregion
@@ -210,6 +212,7 @@ int BaseTexture::kUserInterfaceA[2];
 int BaseTexture::kUserInterfaceSpace[2];
 int BaseTexture::kUserInterfaceSkip[2];
 
+int BaseTexture:: kUserInterfaceTitle[2];
 int BaseTexture:: kUserInterfaceGameOver;
 
 #pragma endregion

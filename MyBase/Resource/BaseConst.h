@@ -153,7 +153,7 @@ public: // 静的な定数
 
 #pragma endregion
 
-#pragma region GameOver
+#pragma region Scene
 
 	// あらかじめ描画する完成度
 	static float kGameOverFirstValue;
@@ -170,7 +170,14 @@ public: // 静的な定数
 	static Point kGameOverRetryRightBottom;
 
 	// 余白
-	const static int kGameOverPadding = 10;
+	const static int kSelectPadding = 10;
+
+	// 「スタート」各種座標
+	static Point kTitletoPlayLeftTop;
+	static Point kTitletoPlayRightBottom;
+	// 「エンド」各種座標
+	static Point kTitletoEndLeftTop;
+	static Point kTitletoEndRightBottom;
 
 #pragma endregion
 

@@ -19,4 +19,12 @@ public: // メンバ関数
 	void Draw() override;
 
 private: // メンバ変数
+
+	// コントローラを含めた座標
+	Point reticlePosition;
+	Point preMousePosition;
+	// スタートを選択しているか
+	bool isToPlay;
+	bool isToEnd;
+
 };
