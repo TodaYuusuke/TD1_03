@@ -87,7 +87,7 @@ void TutorialStage::Update() {
 	EnemyAttackHitBox::Initialize();
 
 	//// デバッグ用
-	if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
+	if (BaseInput::GetKeyboardState(DIK_BACKSPACE, Trigger)) {
 		nextScene = sceneBossStage;
 	}
 	// デバッグ用
@@ -235,10 +235,13 @@ void TutorialStage::CheckPlayerProgress() {
 			switch (gimmickProgress)
 			{
 				case 0: // ジャンプチュートリアル
+					Novice::PlayAudio(BaseAudio::kNeonOn, 0, BaseAudio::SEvolume);
 					break;
 				case 1: // ワイヤーチュートリアル
+					Novice::PlayAudio(BaseAudio::kNeonOn, 0, BaseAudio::SEvolume);
 					break;
 				case 2: // 雑魚召喚、チュートリアル
+					Novice::PlayAudio(BaseAudio::kNeonOn, 0, BaseAudio::SEvolume);
 					objectManager.MakeNewObjectBalloon({ 7714,283 });
 					objectManager.MakeNewObjectBalloon({ 8037,283 });
 					objectManager.MakeNewObjectBalloon({ 8358,283 });
@@ -249,6 +252,7 @@ void TutorialStage::CheckPlayerProgress() {
 					objectManager.MakeNewObjectFallBlock({ 9570,1200 }, false);
 					break;
 				case 4: // 雑魚召喚
+					Novice::PlayAudio(BaseAudio::kNeonOn, 0, BaseAudio::SEvolume);
 					objectManager.MakeNewObjectBalloon({ 11312,643 });
 					objectManager.MakeNewObjectBalloon({ 11312 - 50,643 });
 					objectManager.MakeNewObjectBalloon({ 11446,392 });

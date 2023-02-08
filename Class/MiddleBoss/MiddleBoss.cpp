@@ -423,12 +423,13 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 		beforeDegree = degree;
 
 		if (isPlayingDeadAnim == true && isEndDeadAnim == false) {
-			PlayDeadAnim(5.0f, 1.0f, 0.75f, 2.5f, wireManager);
+			PlayDeadAnim(5.0f, 1.0f, 0.75f, 2.5f, objectManager ,wireManager);
 			if (isPlayingDeadAnim == true && PublicFlag::kisStaging == false) {
 				// ワイヤーをちぎれなくする
 				PublicFlag::kBossisTurningAndCutWire = false;
 				color = 0x00000000;
 				inDead = true;
+				objectManager->DeleteAllEnemy();
 			}
 		}
 
@@ -828,7 +829,7 @@ void MiddleBoss::PlayStartAnim(float cameraMoveTime, float appearTime, float roa
 /// <param name="moveTime">少し下に行く</param>
 /// <param name="runAwayTime">そして上へ</param>
 /// <param name="cameraBackTime">カメラを戻す</param>
-void MiddleBoss::PlayDeadAnim(float cameraMoveTime, float moveTime, float runAwayTime, float cameraBackTime, WireManager* wireManager) {
+void MiddleBoss::PlayDeadAnim(float cameraMoveTime, float moveTime, float runAwayTime, float cameraBackTime, ObjectManager* objectManager, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
 		// 初期化
@@ -1003,6 +1004,7 @@ void MiddleBoss::PlayDeadAnim(float cameraMoveTime, float moveTime, float runAwa
 			isEndDeadAnim = true;
 
 			inDead = true;
+			objectManager->DeleteAllEnemy();
 
 			t = 0.0f;
 			actionWayPoint = WAYPOINT0;
