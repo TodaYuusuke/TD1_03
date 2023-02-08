@@ -87,7 +87,7 @@ void TutorialStage::Update() {
 	}
 
 	MapManager::Update();
-	middleBoss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
+	//middleBoss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
 	if (!isGameOver) {
 		objectManager.Update();
 		wireManager.Update(&objectManager);
