@@ -97,6 +97,26 @@ bool BaseTexture::Loading() {
 	kNumbers[4] = Novice::LoadTexture("./Resources/Texture/UI/4.png");
 	kNumbers[5] = Novice::LoadTexture("./Resources/Texture/UI/5.png");
 
+	// èÓïÒï\é¶UI
+
+	// îwåi
+	kUIBack = Novice::LoadTexture("./Resources/Texture/UI/Info/InfoBack.png");
+	// ëÄçÏ
+	kUIMouse[0] = Novice::LoadTexture("./Resources/Texture/UI/Info/Controll/mouse0.png");
+	kUIMouse[1] = Novice::LoadTexture("./Resources/Texture/UI/Info/Controll/mouse1.png");
+	kUIMouse[2] = Novice::LoadTexture("./Resources/Texture/UI/Info/Controll/mouse2.png");
+	kUIControllerLT[0] = Novice::LoadTexture("./Resources/Texture/UI/Info/Controll/LT0.png");
+	kUIControllerLT[1] = Novice::LoadTexture("./Resources/Texture/UI/Info/Controll/LT1.png");
+	kUIControllerRT[0] = Novice::LoadTexture("./Resources/Texture/UI/Info/Controll/RT0.png");
+	kUIControllerRT[1] = Novice::LoadTexture("./Resources/Texture/UI/Info/Controll/RT1.png");
+
+	// ÇªÇÃëº
+	kUIHook[0] = Novice::LoadTexture("./Resources/Texture/UI/Info/Neon/Hook0.png");
+	kUIHook[1] = Novice::LoadTexture("./Resources/Texture/UI/Info/Neon/Hook1.png");
+	kUIHook[2] = Novice::LoadTexture("./Resources/Texture/UI/Info/Neon/Hook2.png");
+	kUIShot = Novice::LoadTexture("./Resources/Texture/UI/Info/Neon/Shot.png");
+	kUIAttract = Novice::LoadTexture("./Resources/Texture/UI/Info/Neon/Attract.png");
+
 #pragma endregion
 
 #pragma region ÉvÉåÉCÉÑÅ[
@@ -288,6 +308,21 @@ int BaseTexture:: kUserInterfaceGameOver;
 
 // êî
 int BaseTexture::kNumbers[6];
+
+
+// èÓïÒï\é¶UI
+
+// îwåi
+int BaseTexture::kUIBack;
+// ëÄçÏ
+int BaseTexture::kUIMouse[3];
+int BaseTexture::kUIControllerLT[2];
+int BaseTexture::kUIControllerRT[2];
+
+// ÇªÇÃëº
+int BaseTexture::kUIHook[3];
+int BaseTexture::kUIShot;
+int BaseTexture::kUIAttract;
 
 #pragma endregion
 

@@ -109,6 +109,22 @@ public: // 静的なテクスチャの変数
 	// 数
 	static int kNumbers[6];
 
+
+	// 情報表示UI
+
+	// 背景
+	static int kUIBack;
+	// 操作
+	static int kUIMouse[3];
+	static int kUIControllerLT[2];
+	static int kUIControllerRT[2];
+
+	// その他
+	static int kUIHook[3];
+	static int kUIShot;
+	static int kUIAttract;
+
+
 #pragma endregion
 
 #pragma region プレイヤー

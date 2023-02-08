@@ -240,8 +240,6 @@ void TutorialStage::Draw() {
 	else {
 		GameOverDraw();
 	}
-
-	Novice::ScreenPrintf(0, 20, "x = %6.0f, y = %6.0f", BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()).x, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()).y);
 }
 
 
