@@ -183,10 +183,15 @@ void TutorialStage::Draw() {
 	}
 
 	// チュートリアル用看板描画
+	BaseDraw::DrawSprite({ 614 + 5,300 - 5 }, BaseTexture::kTutorialJump[0], { 1,1 }, 0, 0x000000AA);
 	BaseDraw::DrawSprite({ 614,300 }, BaseTexture::kTutorialJump[gimmickProgress >= 0], { 1,1 }, 0, WHITE);
+	BaseDraw::DrawSprite({ 3300 + 5,300 - 5 }, BaseTexture::kTutorialWire[0], { 1,1 }, 0, 0x000000AA);
 	BaseDraw::DrawSprite({ 3300,300 }, BaseTexture::kTutorialWire[gimmickProgress >= 1], { 1,1 }, 0, WHITE);
+	BaseDraw::DrawSprite({ 3700 + 5,300 - 5 }, BaseTexture::kTutorialAttract[0], { 1,1 }, 0, 0x000000AA);
 	BaseDraw::DrawSprite({ 3700,300 }, BaseTexture::kTutorialAttract[gimmickProgress >= 1], { 1,1 }, 0, WHITE);
+	BaseDraw::DrawSprite({ 6700 + 5,300 - 5 }, BaseTexture::kTutorialShot[0], { 1,1 }, 0, 0x000000AA);
 	BaseDraw::DrawSprite({ 6700,300 }, BaseTexture::kTutorialShot[gimmickProgress >= 2], { 1,1 }, 0, WHITE);
+	BaseDraw::DrawSprite({ 10000 + 5,750 - 5 }, BaseTexture::kTutorialSecondShot[0], { 1,1 }, 0, 0x000000AA);
 	if (gimmickProgress >= 4) {
 		neonFrame++;
 		BaseDraw::DrawSprite({ 10000,750 }, BaseTexture::kTutorialSecondShot[neonFrame % 180 / 60 + 1], { 1,1 }, 0, WHITE);
