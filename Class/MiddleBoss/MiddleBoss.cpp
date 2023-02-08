@@ -128,7 +128,7 @@ void MiddleBoss::Initialize(ObjectManager* objectManager) {
 void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, WireManager* wireManager) {
 
 	// 画面中央の座標を更新
-	screenCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth / 2) + 2200.0f,
+	screenCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth / 2) + 4625.0f,
 		(float)(BaseConst::kMapChipSizeHeight * BaseConst::kTutorialStageSizeHeight / 2) };
 
 	// プレイヤーが一定の距離以上に近づいたらボスとの戦闘を開始する
@@ -304,7 +304,7 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 				Rush(playerPosition, 1.0f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f, wireManager);
 				break;
 			case MiddleBoss::SLASH:
-				Slash(playerPosition, 0.35f, 0.2f, 1.25f, 1.0f, 1.0f, 1.0f, 1.0f, wireManager);
+				Slash(playerPosition, 0.35f, 0.35f, 1.15f, 1.35f, 1.15f, 1.0f, 1.0f, wireManager);
 				break;
 			case MiddleBoss::FALL:
 				Fall(0.35f, 1.0f, 0.15f, 0.75f, 1.0f, 1.0f, 1.0f, wireManager);
