@@ -72,6 +72,7 @@ void Balloon::SuccessorUpdate() {
 	// “–‚½‚è”»’è -> ƒqƒbƒgŽžŽ€–S
 	if (isStub) {
 		isAlive = false;
+		Novice::PlayAudio(BaseAudio::kEnemyBallonDead,0,BaseAudio::SEvolume);
 	}
 
 	EnemyAttackHitBox::MakeNewHitBox(centerPosition, width, height, 0, 1);	
