@@ -170,6 +170,27 @@ bool BaseTexture::Loading() {
 
 #pragma endregion
 
+#pragma region チュートリアル用ネオン
+
+	// ジャンプ
+	kTutorialJump[0] = Novice::LoadTexture("./Resources/Texture/Tutorial/Jump0.png");
+	kTutorialJump[1] = Novice::LoadTexture("./Resources/Texture/Tutorial/Jump1.png");
+	// ワイヤー発射
+	kTutorialWire[0] = Novice::LoadTexture("./Resources/Texture/Tutorial/Wire0.png");
+	kTutorialWire[1] = Novice::LoadTexture("./Resources/Texture/Tutorial/Wire1.png");
+	// 引き寄せ
+	kTutorialAttract[0] = Novice::LoadTexture("./Resources/Texture/Tutorial/Attract0.png");
+	kTutorialAttract[1] = Novice::LoadTexture("./Resources/Texture/Tutorial/Attract1.png");
+	// 撃ち殺す
+	kTutorialShot[0] = Novice::LoadTexture("./Resources/Texture/Tutorial/Shot0.png");
+	kTutorialShot[1] = Novice::LoadTexture("./Resources/Texture/Tutorial/Shot1.png");
+	// 二発目の発射
+	kTutorialSecondShot[0] = Novice::LoadTexture("./Resources/Texture/Tutorial/SecondShot0.png");
+	kTutorialSecondShot[1] = Novice::LoadTexture("./Resources/Texture/Tutorial/SecondShot1.png");
+	kTutorialSecondShot[2] = Novice::LoadTexture("./Resources/Texture/Tutorial/SecondShot2.png");
+	kTutorialSecondShot[3] = Novice::LoadTexture("./Resources/Texture/Tutorial/SecondShot3.png");
+
+#pragma endregion
 
 #pragma region その他
 
@@ -313,6 +334,21 @@ int BaseTexture::kEnemyBalloonDead[6];
 // 金属の風船
 int BaseTexture::kEnemyIronBalloon[4];
 int BaseTexture::kEnemyIronBalloonDead[6];
+
+#pragma endregion
+
+#pragma region チュートリアル用ネオン
+
+// ジャンプ
+int BaseTexture::kTutorialJump[2];
+// ワイヤー発射
+int BaseTexture::kTutorialWire[2];
+// 引き寄せ
+int BaseTexture::kTutorialAttract[2];
+// 撃ち殺す
+int BaseTexture::kTutorialShot[2];
+// 二発目の発射
+int BaseTexture::kTutorialSecondShot[4];
 
 #pragma endregion
 

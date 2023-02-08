@@ -60,16 +60,16 @@ bool BaseConst::Loading() {
 	// チュートリアルステージの進行度の目安
 	kRespawnProgress[0].x = 112 * BaseConst::kMapChipSizeWidth;	// 初ワイヤー
 	kRespawnProgress[0].y = 3 * BaseConst::kMapChipSizeHeight + 50;
-	kRespawnProgress[1].x = 206 * BaseConst::kMapChipSizeWidth;	// 初雑魚敵
+	kRespawnProgress[1].x = 205 * BaseConst::kMapChipSizeWidth;	// 初雑魚敵
 	kRespawnProgress[1].y = 3 * BaseConst::kMapChipSizeHeight + 50;
 	kRespawnProgress[2].x = 383 * BaseConst::kMapChipSizeWidth;	// 中ボス前
 	kRespawnProgress[2].y = 29 * BaseConst::kMapChipSizeHeight + 50;
 	kRespawnProgress[3].x = 458 * BaseConst::kMapChipSizeWidth;	// 雑魚ラッシュ前
 	kRespawnProgress[3].y = 3 * BaseConst::kMapChipSizeHeight + 50;
 	
-	kGimmickProgress[0] = 25 * BaseConst::kMapChipSizeWidth;	// ジャンプチュートリアル
-	kGimmickProgress[1] = 123 * BaseConst::kMapChipSizeWidth;	// ワイヤーチュートリアル
-	kGimmickProgress[2] = 216 * BaseConst::kMapChipSizeWidth;	// 雑魚召喚、チュートリアル
+	kGimmickProgress[0] = 17 * BaseConst::kMapChipSizeWidth;	// ジャンプチュートリアル
+	kGimmickProgress[1] = 115 * BaseConst::kMapChipSizeWidth;	// ワイヤーチュートリアル
+	kGimmickProgress[2] = 208 * BaseConst::kMapChipSizeWidth;	// 雑魚召喚、チュートリアル
 	kGimmickProgress[3] = 290 * BaseConst::kMapChipSizeWidth;	// 箱が降ってくる
 	kGimmickProgress[4] = 308 * BaseConst::kMapChipSizeWidth;	// 雑魚召喚
 	kGimmickProgress[5] = 371 * BaseConst::kMapChipSizeWidth;	// 金属バルーン召喚

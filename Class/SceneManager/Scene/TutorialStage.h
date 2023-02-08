@@ -48,7 +48,9 @@ private: // メンバ変数
 	int respawnProgress;
 	// 演出用のフラグ
 	int gimmickProgress;
-
+	// ネオン用経過フレーム
+	int neonFrame;
+	
 	// コントローラを含めた座標
 	Point reticlePosition;
 	Point preMousePosition;

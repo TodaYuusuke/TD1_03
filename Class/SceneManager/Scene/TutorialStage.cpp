@@ -68,6 +68,7 @@ void TutorialStage::Initialize(int respawnProgress) {
 
 	respawnProgress = -1;
 	gimmickProgress = -1;
+	neonFrame = 0;
 
 	reticlePosition = { 1000,500 };
 	preMousePosition = BaseInput::GetMousePosition();
@@ -181,6 +182,19 @@ void TutorialStage::Draw() {
 		BaseDraw::DrawSprite({ backGroundPositionX[i - 1] - 1920 + (BaseDraw::GetScreenPosition().x / 1920) * 1920, BaseDraw::GetScreenPosition().y }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
 	}
 
+	// チュートリアル用看板描画
+	BaseDraw::DrawSprite({ 614,300 }, BaseTexture::kTutorialJump[gimmickProgress >= 0], { 1,1 }, 0, WHITE);
+	BaseDraw::DrawSprite({ 3300,300 }, BaseTexture::kTutorialWire[gimmickProgress >= 1], { 1,1 }, 0, WHITE);
+	BaseDraw::DrawSprite({ 3700,300 }, BaseTexture::kTutorialAttract[gimmickProgress >= 1], { 1,1 }, 0, WHITE);
+	BaseDraw::DrawSprite({ 6700,300 }, BaseTexture::kTutorialShot[gimmickProgress >= 2], { 1,1 }, 0, WHITE);
+	if (gimmickProgress >= 4) {
+		neonFrame++;
+		BaseDraw::DrawSprite({ 10000,750 }, BaseTexture::kTutorialSecondShot[neonFrame % 180 / 60 + 1], { 1,1 }, 0, WHITE);
+	}
+	else {
+		BaseDraw::DrawSprite({ 10000,750 }, BaseTexture::kTutorialSecondShot[0], { 1,1 }, 0, WHITE);
+	}
+
 	MapManager::Draw();
 	middleBoss.Draw();
 
@@ -231,8 +245,11 @@ void TutorialStage::CheckPlayerProgress() {
 					break;
 				case 4: // 雑魚召喚
 					objectManager.MakeNewObjectBalloon({ 11312,643 });
+					objectManager.MakeNewObjectBalloon({ 11312 - 50,643 });
 					objectManager.MakeNewObjectBalloon({ 11446,392 });
+					objectManager.MakeNewObjectBalloon({ 11446 - 50,392 });
 					objectManager.MakeNewObjectBalloon({ 11575,61 });
+					objectManager.MakeNewObjectBalloon({ 11575 - 50,61 });
 					break;
 				case 5: // 金属バルーン召喚
 					break;

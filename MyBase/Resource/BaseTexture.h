@@ -153,6 +153,20 @@ public: // 静的なテクスチャの変数
 
 #pragma endregion
 
+#pragma region チュートリアル用ネオン
+
+	// ジャンプ
+	static int kTutorialJump[2];
+	// ワイヤー発射
+	static int kTutorialWire[2];
+	// 引き寄せ
+	static int kTutorialAttract[2];
+	// 撃ち殺す
+	static int kTutorialShot[2];
+	// 二発目の発射
+	static int kTutorialSecondShot[4];
+
+#pragma endregion
 
 #pragma region その他
 

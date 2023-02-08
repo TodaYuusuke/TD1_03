@@ -122,7 +122,6 @@ void MiddleBoss::Initialize(ObjectManager* objectManager) {
 	// ‹©‚Ñº
 	screamSoundHundle = BaseAudio::kBossScream;
 	screamVoiceHundle = -1;
-
 }
 
 // XVˆ—
