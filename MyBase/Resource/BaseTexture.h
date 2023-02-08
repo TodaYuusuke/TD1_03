@@ -102,7 +102,10 @@ public: // 静的なテクスチャの変数
 	static int kUserInterfaceSkip[2];
 
 	// Title
+	// セレクト
+	// ロゴ
 	static int kUserInterfaceTitle[2];
+
 	// GameOver
 	static int kUserInterfaceGameOver;
 

@@ -86,6 +86,7 @@ bool BaseTexture::Loading() {
 	kUserInterfaceSkip[1] = Novice::LoadTexture("./Resources/Texture/UI/Skip1.png");
 
 	kUserInterfaceTitle[0] = Novice::LoadTexture("./Resources/Texture/UI/TitleSelect.png");
+	kUserInterfaceTitle[1] = Novice::LoadTexture("./Resources/Texture/UI/TitleLogo.png");
 
 	kUserInterfaceGameOver = Novice::LoadTexture("./Resources/Texture/UI/GameOver.png");
 
