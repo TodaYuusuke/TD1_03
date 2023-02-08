@@ -55,6 +55,12 @@ int BaseEffectManager::MakeNewEffectBlockBreak(Point p) {
 	effects[nextIndex] = new effect::BlockBreak(p);
 	return nextIndex;
 }
+int BaseEffectManager::MakeNewEffectConcreteDust(Point p) {
+	GetEmptyID();
+
+	effects[nextIndex] = new effect::ConcreteDust(p);
+	return nextIndex;
+}
 
 
 // エフェクトを終了させる関数

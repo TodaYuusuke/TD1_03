@@ -1,6 +1,7 @@
 #pragma once
 #include "MyBase/MyBase.h"
-#include "Class/Map/Map.h"
+
+class Map;
 
 // マップを管理するクラス
 
@@ -45,7 +46,7 @@ private: // メンバ変数
 	static bool isBoss;
 
 	// チュートリアルマップの配列
-	static Map tutorialMap[BaseConst::kTutorialStageSizeHeight][BaseConst::kTutorialStageSizeWidth];
+	static Map* tutorialMap[35][500];
 	// ボスマップの配列
-	static Map bossMap[BaseConst::kBossStageSizeHeight][BaseConst::kBossStageSizeWidth];
+	static Map* bossMap[35][75];
 };

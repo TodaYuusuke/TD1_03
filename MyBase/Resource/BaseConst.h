@@ -174,5 +174,14 @@ public: // 静的な定数
 
 #pragma endregion
 
+#pragma region Effect
+
+	// ワイヤーが刺さった時の粉
+	// 粒子数
+	const static int kConcreteDustNum = 20;
+
+
+#pragma endregion
+
 
 };
