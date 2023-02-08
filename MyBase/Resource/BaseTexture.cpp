@@ -48,6 +48,12 @@ bool BaseTexture::Loading() {
 
 #pragma region ボス
 
+	// 中ボス画像
+	kMiddleBoss = Novice::LoadTexture("./Resources/Texture/Boss/MiddleBoss.png");
+
+	// 中ボス武器画像
+	kMiddleBossBlade = Novice::LoadTexture("./Resources/Texture/Boss/MiddleBossBlade.png");
+
 	// ボスの核
 	kBossCore = Novice::LoadTexture("./Resources/Texture/Boss/Kernel.png");
 
@@ -137,6 +143,55 @@ bool BaseTexture::Loading() {
 
 #pragma endregion
 
+#pragma region 雑魚
+
+	// 風船
+	kEnemyBalloon[0] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Balloon0.png");
+	kEnemyBalloon[1] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Balloon1.png");
+	kEnemyBalloon[2] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Balloon2.png");
+	kEnemyBalloon[3] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Balloon3.png");
+	kEnemyBalloonDead[0] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Dead/Balloon0.png");
+	kEnemyBalloonDead[1] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Dead/Balloon1.png");
+	kEnemyBalloonDead[2] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Dead/Balloon2.png");
+	kEnemyBalloonDead[3] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Dead/Balloon3.png");
+	kEnemyBalloonDead[4] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Dead/Balloon4.png");
+	kEnemyBalloonDead[5] = Novice::LoadTexture("./Resources/Texture/Enemy/Balloon/Dead/Balloon5.png");
+	// 金属の風船
+	kEnemyIronBalloon[0] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/IronBalloon0.png");
+	kEnemyIronBalloon[1] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/IronBalloon1.png");
+	kEnemyIronBalloon[2] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/IronBalloon2.png");
+	kEnemyIronBalloon[3] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/IronBalloon3.png");
+	kEnemyIronBalloonDead[0] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/Dead/IronBalloon0.png");
+	kEnemyIronBalloonDead[1] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/Dead/IronBalloon1.png");
+	kEnemyIronBalloonDead[2] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/Dead/IronBalloon2.png");
+	kEnemyIronBalloonDead[3] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/Dead/IronBalloon3.png");
+	kEnemyIronBalloonDead[4] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/Dead/IronBalloon4.png");
+	kEnemyIronBalloonDead[5] = Novice::LoadTexture("./Resources/Texture/Enemy/IronBalloon/Dead/IronBalloon5.png");
+
+#pragma endregion
+
+#pragma region チュートリアル用ネオン
+
+	// ジャンプ
+	kTutorialJump[0] = Novice::LoadTexture("./Resources/Texture/Tutorial/Jump0.png");
+	kTutorialJump[1] = Novice::LoadTexture("./Resources/Texture/Tutorial/Jump1.png");
+	// ワイヤー発射
+	kTutorialWire[0] = Novice::LoadTexture("./Resources/Texture/Tutorial/Wire0.png");
+	kTutorialWire[1] = Novice::LoadTexture("./Resources/Texture/Tutorial/Wire1.png");
+	// 引き寄せ
+	kTutorialAttract[0] = Novice::LoadTexture("./Resources/Texture/Tutorial/Attract0.png");
+	kTutorialAttract[1] = Novice::LoadTexture("./Resources/Texture/Tutorial/Attract1.png");
+	// 撃ち殺す
+	kTutorialShot[0] = Novice::LoadTexture("./Resources/Texture/Tutorial/Shot0.png");
+	kTutorialShot[1] = Novice::LoadTexture("./Resources/Texture/Tutorial/Shot1.png");
+	// 二発目の発射
+	kTutorialSecondShot[0] = Novice::LoadTexture("./Resources/Texture/Tutorial/SecondShot0.png");
+	kTutorialSecondShot[1] = Novice::LoadTexture("./Resources/Texture/Tutorial/SecondShot1.png");
+	kTutorialSecondShot[2] = Novice::LoadTexture("./Resources/Texture/Tutorial/SecondShot2.png");
+	kTutorialSecondShot[3] = Novice::LoadTexture("./Resources/Texture/Tutorial/SecondShot3.png");
+
+#pragma endregion
+
 #pragma region その他
 
 	// ブロック
@@ -154,6 +209,9 @@ bool BaseTexture::Loading() {
 	kBlockScrap[9] = Novice::LoadTexture("./Resources/Texture/Block/Scrap9.png");
 	kBlockScrap[10] = Novice::LoadTexture("./Resources/Texture/Block/Scrap10.png");
 	kBlockScrap[11] = Novice::LoadTexture("./Resources/Texture/Block/Scrap11.png");
+
+	// パイプ
+	kPipe = Novice::LoadTexture("./Resources/Texture/Other/Pipe.png");
 
 #pragma endregion
 
@@ -196,8 +254,13 @@ int BaseTexture::kTextureMapChipWeak;
 
 #pragma endregion
 
-
 #pragma region ボス
+
+// 中ボス画像
+int BaseTexture::kMiddleBoss;
+
+// 中ボス武器画像
+int BaseTexture::kMiddleBossBlade;
 
 // ボスの核
 int BaseTexture::kBossCore;
@@ -263,11 +326,40 @@ int BaseTexture::kRPlayerPull;
 
 #pragma endregion
 
+#pragma region 雑魚
+
+// 風船
+int BaseTexture::kEnemyBalloon[4];
+int BaseTexture::kEnemyBalloonDead[6];
+// 金属の風船
+int BaseTexture::kEnemyIronBalloon[4];
+int BaseTexture::kEnemyIronBalloonDead[6];
+
+#pragma endregion
+
+#pragma region チュートリアル用ネオン
+
+// ジャンプ
+int BaseTexture::kTutorialJump[2];
+// ワイヤー発射
+int BaseTexture::kTutorialWire[2];
+// 引き寄せ
+int BaseTexture::kTutorialAttract[2];
+// 撃ち殺す
+int BaseTexture::kTutorialShot[2];
+// 二発目の発射
+int BaseTexture::kTutorialSecondShot[4];
+
+#pragma endregion
+
 #pragma region その他
 
 // ブロック
 int BaseTexture::kBlockTexture;
 // ブロックの破片
 int BaseTexture::kBlockScrap[kBlockScrapAmount];
+
+// パイプ
+int BaseTexture::kPipe;
 
 #pragma endregion

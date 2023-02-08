@@ -33,9 +33,9 @@ private: // メンバ変数
 	Boss boss;
 
 	// 前回のスクリーン座標
-	float preScrollPositionY;
+	float preScrollPositionX;
 	// 背景スクロール用
-	float backGroundPositionY[3];
+	float backGroundPositionX[3];
 
 	// コントローラを含めた座標
 	Point reticlePosition;

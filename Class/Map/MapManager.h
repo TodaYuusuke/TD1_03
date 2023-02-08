@@ -46,7 +46,7 @@ private: // メンバ変数
 	static bool isBoss;
 
 	// チュートリアルマップの配列
-	static Map* tutorialMap[35][500];
+	static Map* tutorialMap[BaseConst::kTutorialStageSizeHeight][BaseConst::kTutorialStageSizeWidth];
 	// ボスマップの配列
-	static Map* bossMap[35][75];
+	static Map* bossMap[BaseConst::kBossStageSizeHeight][BaseConst::kBossStageSizeWidth];
 };

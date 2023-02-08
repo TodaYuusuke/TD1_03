@@ -24,11 +24,14 @@ bool BaseAudio::Loading() {
 
 #pragma region BGM
 
+	// タイトルBGM
+	kBGMTitle = Novice::LoadAudio("./Resources/Audio/BGM/Title.mp3");
+
 	// チュートリアルBGM
 	kBGMTutorial = Novice::LoadAudio("./Resources/Audio/BGM/Tutorial.mp3");
 
 	// 中ボス戦BGM
-	//kBGMMiniBoss = Novice::LoadAudio("./Resources/Audio/BGM/Tutorial.mp3");
+	kBGMMiniBoss = Novice::LoadAudio("./Resources/Audio/BGM/MiniBoss.mp3");
 
 	// ボス戦BGM
 	kBGMBoss = Novice::LoadAudio("./Resources/Audio/BGM/Boss.mp3");
@@ -113,6 +116,8 @@ bool BaseAudio::Loading() {
 	kPlayerShoot = Novice::LoadAudio("./Resources/Audio/Player/Shoot.mp3");
 	// 排莢
 	kPlayerEjection = Novice::LoadAudio("./Resources/Audio/Player/Ejection.mp3");
+	// 落下音
+	kPlayerFall = Novice::LoadAudio("./Resources/Audio/Player/Fall.mp3");
 
 #pragma endregion
 
@@ -147,6 +152,12 @@ bool BaseAudio::Loading() {
 	// 特別なクリック音(タイトルからゲームシーンへ移行するときなど)
 	kSpecialDecide = Novice::LoadAudio("./Resources/Audio/Other/SpecialDecide.wav");
 
+	// ゲームオーバー音
+	kGameOver = Novice::LoadAudio("./Resources/Audio/Other/GameOver.wav");
+
+	// 掲示板が着いた時の音
+	kNeonOn = Novice::LoadAudio("./Resources/Audio/Other/NeonOn.wav");
+
 #pragma endregion
 
 	return true;
@@ -176,6 +187,9 @@ float BaseAudio::BGMvolume;
 float BaseAudio::SEvolume;
 
 #pragma region BGM
+
+// タイトルBGM
+int BaseAudio::kBGMTitle;
 
 // チュートリアルBGM
 int BaseAudio::kBGMTutorial;
@@ -266,7 +280,8 @@ int BaseAudio::kPlayerDamage;
 int BaseAudio::kPlayerShoot;
 // 排莢
 int BaseAudio::kPlayerEjection;
-
+// 落下音
+int BaseAudio::kPlayerFall;
 #pragma endregion
 
 #pragma region Wire
@@ -301,5 +316,11 @@ int BaseAudio::kSelect;
 
 // 特別なクリック音(タイトルからゲームシーンへ移行するときなど)
 int BaseAudio::kSpecialDecide;
+
+// ゲームオーバー音
+int BaseAudio::kGameOver;
+
+// 掲示板が着いた時の音
+int BaseAudio::kNeonOn;
 
 #pragma endregion

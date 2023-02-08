@@ -29,7 +29,7 @@ void ObjectHitBox::Draw() {
 // width ... ヒットボックスの横幅（左上の点から）
 // height ... ヒットボックスの縦幅（左上の点から）
 // angle ... ヒット対象の四角の回転角度
-int ObjectHitBox::AddHitBox(Point* _centerPosition, float* _width, float* _height, float* _angle, bool* _isAlive) {
+int ObjectHitBox::AddHitBox(Point* _centerPosition, float* _width, float* _height, float* _angle, bool* _isAlive, bool _isBlock) {
 	if (num >= 256) {
 		return -1;
 	}
@@ -39,6 +39,7 @@ int ObjectHitBox::AddHitBox(Point* _centerPosition, float* _width, float* _heigh
 	height[num] = _height;
 	angle[num] = _angle;
 	isAlive[num] = _isAlive;
+	isBlock[num] = _isBlock;
 
 	return num++;
 }
@@ -54,8 +55,18 @@ int ObjectHitBox::CheckHitBox(Point _centerPosition, int noCheck) {
 				if (i != noCheck) {
 					if (BaseMath::CheckHitBox(*centerPosition[i], *width[i], *height[i], *angle[i], _centerPosition)) {
 						*isAlive[i] = false;
-						// エフェクトを実装
-						BaseEffectManager::MakeNewEffectBlockBreak(*centerPosition[i]);
+						if (isBlock[i]) {
+							// エフェクトを実装
+							BaseEffectManager::MakeNewEffectBlockBreak(*centerPosition[i]);
+						}
+						else {
+							if (*angle[i] == 0) {
+								BaseEffectManager::MakeNewEffectIronBalloonDead(*centerPosition[i], false);
+							}
+							else if (*angle[i] == 90) {
+								BaseEffectManager::MakeNewEffectIronBalloonDead(*centerPosition[i], true);
+							}
+						}
 						// SEを再生
 						Novice::PlayAudio(BaseAudio::kBlockBreak, 0, BaseAudio::SEvolume);
 						return true;
@@ -77,3 +88,4 @@ float* ObjectHitBox::width[256];
 float* ObjectHitBox::height[256];
 float* ObjectHitBox::angle[256];
 bool* ObjectHitBox::isAlive[256];
+bool ObjectHitBox::isBlock[256];

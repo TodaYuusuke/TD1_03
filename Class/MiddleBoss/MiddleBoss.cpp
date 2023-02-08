@@ -122,14 +122,13 @@ void MiddleBoss::Initialize(ObjectManager* objectManager) {
 	// 叫び声
 	screamSoundHundle = BaseAudio::kBossScream;
 	screamVoiceHundle = -1;
-
 }
 
 // 更新処理
 void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, WireManager* wireManager) {
 
 	// 画面中央の座標を更新
-	screenCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth / 2) + 2200.0f,
+	screenCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kTutorialStageSizeWidth / 2) + 4625.0f,
 		(float)(BaseConst::kMapChipSizeHeight * BaseConst::kTutorialStageSizeHeight / 2) };
 
 	// プレイヤーが一定の距離以上に近づいたらボスとの戦闘を開始する
@@ -287,7 +286,6 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 				// 行動開始
 				inAction = true;
 				endAction = false;
-
 			}
 		}
 
@@ -305,7 +303,7 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 				Rush(playerPosition, 1.0f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f, wireManager);
 				break;
 			case MiddleBoss::SLASH:
-				Slash(playerPosition, 0.35f, 0.2f, 1.25f, 1.0f, 1.0f, 1.0f, 1.0f, wireManager);
+				Slash(playerPosition, 0.35f, 0.35f, 1.15f, 1.35f, 1.15f, 1.0f, 1.0f, wireManager);
 				break;
 			case MiddleBoss::FALL:
 				Fall(0.35f, 1.0f, 0.15f, 0.75f, 1.0f, 1.0f, 1.0f, wireManager);
@@ -424,7 +422,7 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 		beforeDegree = degree;
 
 		if (isPlayingDeadAnim == true && isEndDeadAnim == false) {
-			PlayDeadAnim(5.0f, 1.0f, 0.75f, 2.5f, wireManager);
+			PlayDeadAnim(5.0f, 1.0f, 0.75f, 2.5f, objectManager ,wireManager);
 			if (isPlayingDeadAnim == true && PublicFlag::kisStaging == false) {
 				// ワイヤーをちぎれなくする
 				PublicFlag::kBossisTurningAndCutWire = false;
@@ -471,7 +469,7 @@ void MiddleBoss::Draw() {
 		BaseDraw::DesignationDrawQuad(
 			GetWeaponPosition(viewPosition),
 			weaponSize,
-			BaseTexture::kBossBlade,
+			BaseTexture::kMiddleBossBlade,
 			weaponTextureSize,
 			degree,
 			0xFFFFFFFF
@@ -480,7 +478,7 @@ void MiddleBoss::Draw() {
 		// ボス左側画像
 		BaseDraw::DrawQuad(
 			viewPosition,
-			BaseTexture::kBossCore,
+			BaseTexture::kMiddleBoss,
 			textureSize,
 			1.0f,
 			degree,
@@ -829,7 +827,7 @@ void MiddleBoss::PlayStartAnim(float cameraMoveTime, float appearTime, float roa
 /// <param name="moveTime">少し下に行く</param>
 /// <param name="runAwayTime">そして上へ</param>
 /// <param name="cameraBackTime">カメラを戻す</param>
-void MiddleBoss::PlayDeadAnim(float cameraMoveTime, float moveTime, float runAwayTime, float cameraBackTime, WireManager* wireManager) {
+void MiddleBoss::PlayDeadAnim(float cameraMoveTime, float moveTime, float runAwayTime, float cameraBackTime, ObjectManager* objectManager, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
 		// 初期化
@@ -838,7 +836,8 @@ void MiddleBoss::PlayDeadAnim(float cameraMoveTime, float moveTime, float runAwa
 		// 演出中の状態に
 		PublicFlag::kisStaging = true;
 		isPlayingDeadAnim = true;
-
+		// 雑魚敵を全滅させる
+		objectManager->DeleteAllEnemy();
 		wireManager->Initialize();
 
 		// スクリーン座標記録

@@ -6,9 +6,9 @@
 #include "Class/PublicFlag/PublicFlag.h"
 
 /*********************************************
- * ƒ{ƒXƒNƒ‰ƒX
+ * ãƒœã‚¹ã‚¯ãƒ©ã‚¹
  *
- * ƒ{ƒXŠÖ˜A‚Ìs“®‚·‚×‚Ä‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+ * ãƒœã‚¹é–¢é€£ã®è¡Œå‹•ã™ã¹ã¦ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
  *********************************************/
 
 class ObjectManager;
@@ -18,41 +18,41 @@ class WireManager;
 class Boss {
 public:
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Boss();
 
-	// ƒfƒXƒgƒ‰ƒNƒ^
+	// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~Boss();
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Initialize(ObjectManager* objectManager);
 
-	// XVˆ—
+	// æ›´æ–°å‡¦ç†
 	void Update(Point playerPosition, ObjectManager* objectManager,WireManager* wireManager);
 
-	// •`‰æˆ—
+	// æç”»å‡¦ç†
 	void Draw();
 
-	// ƒ{ƒX©‘Ì‚Ì“–‚½‚è”»’è‚ğ•Ô‚·ŠÖ”
-	// •Ô‚è’lF“–‚½‚Á‚Ä‚¢‚é ... true “–‚½‚Á‚Ä‚¢‚È‚¢ ... false
-	// ˆø”F
-	// hitPosition ... “–‚½‚Á‚½À•W
-	// ˆø”‚Åw’è‚µ‚½Point‚ªƒ{ƒX‚ÌŠOŠk‚É–½’†‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ•Ô‚·ŠÖ”
+	// ãƒœã‚¹è‡ªä½“ã®å½“ãŸã‚Šåˆ¤å®šã‚’è¿”ã™é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šå½“ãŸã£ã¦ã„ã‚‹ ... true å½“ãŸã£ã¦ã„ãªã„ ... false
+	// å¼•æ•°ï¼š
+	// hitPosition ... å½“ãŸã£ãŸåº§æ¨™
+	// å¼•æ•°ã§æŒ‡å®šã—ãŸPointãŒãƒœã‚¹ã®å¤–æ®»ã«å‘½ä¸­ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™é–¢æ•°
 	bool GetBossCollision(Point hitPosition);
 
 private:
 
 	/*********************************
-		ƒƒ“ƒoŠÖ”
+		ãƒ¡ãƒ³ãƒé–¢æ•°
 	*********************************/
 
-	//ƒC[ƒYƒAƒEƒgiIntŒ^j
+	//ã‚¤ãƒ¼ã‚ºã‚¢ã‚¦ãƒˆï¼ˆIntå‹ï¼‰
 	int IntEaseOut(float t, long int b, long int c, float d) {
 		float easeT = 1.0f - powf(1.0f - t / d, 3.0f);
 		return (1.0f - easeT) * b + easeT * c;
 	}
 
-	// ƒJƒ‰[ƒC[ƒWƒ“ƒO
+	// ã‚«ãƒ©ãƒ¼ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°
 	unsigned int ColorEasing(float t, unsigned int startColor, unsigned int endColor, float easingTime) {
 		unsigned int red = IntEaseOut(t, (((startColor & 0xFF000000) >> 24) & 0xFF), (((endColor & 0xFF000000) >> 24) & 0xFF), easingTime);
 		unsigned int green = IntEaseOut(t, (((startColor & 0x00FF0000) >> 16) & 0xFF), (((endColor & 0x00FF0000) >> 16) & 0xFF), easingTime);
@@ -62,543 +62,543 @@ private:
 		return (red << 24) + (green << 16) + (blue << 8) + alpha;
 	}
 
-	/******** •ÏŠ·ŠÖ” **********/
-	// ƒ{ƒX¶‰æ‘œ‚ÌÀ•W‚ğ‹‚ß‚é
+	/******** å¤‰æ›é–¢æ•° **********/
+	// ãƒœã‚¹å·¦ç”»åƒã®åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 	Point GetLCoverPosition(Point centerPosition);
-	// ƒ{ƒX‰E‰æ‘œ‚ÌÀ•W‚ğ‹‚ß‚é
+	// ãƒœã‚¹å³ç”»åƒã®åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 	Point GetRCoverPosition(Point centerPosition);
 
-	// ƒ{ƒX¶‰æ‘œ‚Ì“–‚½‚è”»’è‚ğ‹‚ß‚é
+	// ãƒœã‚¹å·¦ç”»åƒã®å½“ãŸã‚Šåˆ¤å®šã‚’æ±‚ã‚ã‚‹
 	Point GetLCoverCollision(Point centerPosition);
-	// ƒ{ƒX‰E‰æ‘œ‚Ì“–‚½‚è”»’è‚ğ‹‚ß‚é
+	// ãƒœã‚¹å³ç”»åƒã®å½“ãŸã‚Šåˆ¤å®šã‚’æ±‚ã‚ã‚‹
 	Point GetRCoverCollision(Point centerPosition);
 
-	// •Ší‰æ‘œ‚Ì‘Š‘ÎÀ•W‚ğ‹‚ß‚é
+	// æ­¦å™¨ç”»åƒã®ç›¸å¯¾åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 	Point GetWeaponPosition(Point centerPosition);
 
-	// ”­Ë’n“_‚Ì‘Š‘ÎÀ•W‚ğ‹‚ß‚é
+	// ç™ºå°„åœ°ç‚¹ã®ç›¸å¯¾åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 	Point GetShotPosition(Point centerPosition);
 
-	// ¶‘¤ƒtƒbƒN‚Ì‘Š‘ÎÀ•W‚ğ‹‚ß‚é
+	// å·¦å´ãƒ•ãƒƒã‚¯ã®ç›¸å¯¾åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 	Point GetLHookPosition(Point centerPosition);
 
-	// ‰E‘¤ƒtƒbƒN‚Ì‘Š‘ÎÀ•W‚ğ‹‚ß‚é
+	// å³å´ãƒ•ãƒƒã‚¯ã®ç›¸å¯¾åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 	Point GetRHookPosition(Point centerPosition);
 
-	/******** ƒfƒoƒbƒOŠÖ” **********/
+	/******** ãƒ‡ãƒãƒƒã‚°é–¢æ•° **********/
 	void Debug();
 
-	/******** s“®ŠÖ” **********/
-	// ƒVƒFƒCƒNŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// shakeStrength ... ƒVƒFƒCƒN‚·‚éÛ‚Ì‹­‚³
-	// ƒ{ƒX‚ğƒVƒFƒCƒN‚³‚¹‚éŠÖ”
+	/******** è¡Œå‹•é–¢æ•° **********/
+	// ã‚·ã‚§ã‚¤ã‚¯é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// shakeStrength ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹éš›ã®å¼·ã•
+	// ãƒœã‚¹ã‚’ã‚·ã‚§ã‚¤ã‚¯ã•ã›ã‚‹é–¢æ•°
 	void Shake(int shakeStrength);
 
-	// ƒVƒFƒCƒNŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// shakeStrength ... ƒVƒFƒCƒN‚·‚éÛ‚Ì‹­‚³
-	// ƒ{ƒX‚ğƒVƒFƒCƒN‚³‚¹‚éŠÖ”
+	// ã‚·ã‚§ã‚¤ã‚¯é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// shakeStrength ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹éš›ã®å¼·ã•
+	// ãƒœã‚¹ã‚’ã‚·ã‚§ã‚¤ã‚¯ã•ã›ã‚‹é–¢æ•°
 	void CoreShake(int shakeStrength);
 
-	// ƒVƒFƒCƒNƒC[ƒYƒAƒEƒgŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// shakeStrength ... ƒVƒFƒCƒN‚·‚éÛ‚Ì‹­‚³
-	// ƒ{ƒX‚ğƒVƒFƒCƒN‚Ì‹­‚³‚ğ­‚µ‚¸‚Âã‚­‚µ‚È‚ª‚ç“®‚©‚·ŠÖ”
+	// ã‚·ã‚§ã‚¤ã‚¯ã‚¤ãƒ¼ã‚ºã‚¢ã‚¦ãƒˆé–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// shakeStrength ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹éš›ã®å¼·ã•
+	// ãƒœã‚¹ã‚’ã‚·ã‚§ã‚¤ã‚¯ã®å¼·ã•ã‚’å°‘ã—ãšã¤å¼±ãã—ãªãŒã‚‰å‹•ã‹ã™é–¢æ•°
 	void ShakeEaseOut(int shakeStrength, float shakeTime);
 
-	// ƒVƒFƒCƒNƒC[ƒYƒAƒEƒgŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// shakeStrength ... ƒVƒFƒCƒN‚·‚éÛ‚Ì‹­‚³
-	// ƒ{ƒX‚ğƒVƒFƒCƒN‚Ì‹­‚³‚ğ­‚µ‚¸‚Âã‚­‚µ‚È‚ª‚ç“®‚©‚·ŠÖ”
+	// ã‚·ã‚§ã‚¤ã‚¯ã‚¤ãƒ¼ã‚ºã‚¢ã‚¦ãƒˆé–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// shakeStrength ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹éš›ã®å¼·ã•
+	// ãƒœã‚¹ã‚’ã‚·ã‚§ã‚¤ã‚¯ã®å¼·ã•ã‚’å°‘ã—ãšã¤å¼±ãã—ãªãŒã‚‰å‹•ã‹ã™é–¢æ•°
 	void CoreShakeEaseOut(int shakeStrength, float shakeTime);
 
-	// ƒVƒFƒCƒNƒC[ƒYƒCƒ“ƒAƒEƒgŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// shakeStrength ... ƒVƒFƒCƒN‚·‚éÛ‚Ì‹­‚³
-	// ƒ{ƒX‚ğƒVƒFƒCƒN‚Ì‹­‚³‚ğ­‚µ‚¸‚Âã‚­‚µ‚È‚ª‚ç“®‚©‚·ŠÖ”
+	// ã‚·ã‚§ã‚¤ã‚¯ã‚¤ãƒ¼ã‚ºã‚¤ãƒ³ã‚¢ã‚¦ãƒˆé–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// shakeStrength ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹éš›ã®å¼·ã•
+	// ãƒœã‚¹ã‚’ã‚·ã‚§ã‚¤ã‚¯ã®å¼·ã•ã‚’å°‘ã—ãšã¤å¼±ãã—ãªãŒã‚‰å‹•ã‹ã™é–¢æ•°
 	void ShakeEaseInOut(int shakeStrength, float shakeTime);
 
-	// ƒoƒCƒuƒŒ[ƒVƒ‡ƒ“ŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// shakeStrength ... ƒVƒFƒCƒN‚·‚éÛ‚Ì‹­‚³
-	// vibTime ... U“®‚·‚é•b”
-	// vibRate ... U“®‚·‚éŠÔŠu
-	// vibValue ... U“®‚³‚¹‚½‚¢‰ñ”
-	// ˆê’èŠÔŠu‚ÅAˆê’è•b”U“®‚³‚¹‚éŠÖ”
+	// ãƒã‚¤ãƒ–ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// shakeStrength ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹éš›ã®å¼·ã•
+	// vibTime ... æŒ¯å‹•ã™ã‚‹ç§’æ•°
+	// vibRate ... æŒ¯å‹•ã™ã‚‹é–“éš”
+	// vibValue ... æŒ¯å‹•ã•ã›ãŸã„å›æ•°
+	// ä¸€å®šé–“éš”ã§ã€ä¸€å®šç§’æ•°æŒ¯å‹•ã•ã›ã‚‹é–¢æ•°
 	void vibration(int shakeStrength, float vibTime, float vibRate, int vibValue);
 
 	/// <summary>
-	/// í“¬ŠJn‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚·‚éŠÖ”
+	/// æˆ¦é—˜é–‹å§‹æ™‚ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã™ã‚‹é–¢æ•°
 	/// </summary>
-	/// <param name="cameraMoveTime">U“®‚·‚éŠÔ</param>
-	/// <param name="vibTime">U“®‚·‚éŠÔ</param>
-	/// <param name="closeTime1">ƒ{ƒX‚ª“r’†‚Ü‚Å•Â‚¶‚é‚Ì‚É‚©‚©‚éŠÔ</param>
-	/// <param name="roarTime">™ôšK‚·‚éŠÔ</param>
-	/// <param name="closeTime2">ƒ{ƒX‚ğŠ®‘S‚É•Â‚¶‚éŠÔ</param>
+	/// <param name="cameraMoveTime">æŒ¯å‹•ã™ã‚‹æ™‚é–“</param>
+	/// <param name="vibTime">æŒ¯å‹•ã™ã‚‹æ™‚é–“</param>
+	/// <param name="closeTime1">ãƒœã‚¹ãŒé€”ä¸­ã¾ã§é–‰ã˜ã‚‹ã®ã«ã‹ã‹ã‚‹æ™‚é–“</param>
+	/// <param name="roarTime">å’†å“®ã™ã‚‹æ™‚é–“</param>
+	/// <param name="closeTime2">ãƒœã‚¹ã‚’å®Œå…¨ã«é–‰ã˜ã‚‹æ™‚é–“</param>
 	void PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, float roarTime, float closeTime2);
 
 	/// <summary>
-	/// €–S‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚·‚éŠÖ”
+	/// æ­»äº¡æ™‚ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã™ã‚‹é–¢æ•°
 	/// </summary>
-	/// <param name="cameraMoveTime">ƒJƒƒ‰‚Æƒ{ƒX‚ğ’†S‚É‚Á‚Ä‚¢‚­ŠÔ</param>
-	/// <param name="separationTime">Šj‚ÆŠk‚ª•ª—£‚·‚é‚Ì‚É‚©‚©‚éŠÔ</param>
-	/// <param name="vibTime">U“®‚µ‚È‚ª‚çk‚ŞŠÔ</param>
-	/// <param name="explosiveTime">ƒTƒCƒY‚ğ‘å‚«‚­‚µ‚Ä”š”­‚·‚é</param>
-	/// <param name="cameraBackTime">ƒJƒƒ‰‚ªŒ³‚ÌˆÊ’u‚É‹A‚é‚Ü‚Å‚ÌŠÔ</param>
-	void PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime, WireManager* wireManager);
+	/// <param name="cameraMoveTime">ã‚«ãƒ¡ãƒ©ã¨ãƒœã‚¹ã‚’ä¸­å¿ƒã«æŒã£ã¦ã„ãæ™‚é–“</param>
+	/// <param name="separationTime">æ ¸ã¨æ®»ãŒåˆ†é›¢ã™ã‚‹ã®ã«ã‹ã‹ã‚‹æ™‚é–“</param>
+	/// <param name="vibTime">æŒ¯å‹•ã—ãªãŒã‚‰ç¸®ã‚€æ™‚é–“</param>
+	/// <param name="explosiveTime">ã‚µã‚¤ã‚ºã‚’å¤§ããã—ã¦çˆ†ç™ºã™ã‚‹</param>
+	/// <param name="cameraBackTime">ã‚«ãƒ¡ãƒ©ãŒå…ƒã®ä½ç½®ã«å¸°ã‚‹ã¾ã§ã®æ™‚é–“</param>
+	void PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime, ObjectManager* objectManager, WireManager* wireManager);
 
-	// s“®‚È‚µŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// waitTime ... ‘Ò‹@‚·‚é•b”
-	// s“®‚Ì‡ŠÔ‚É‹²‚ŞŠÖ”B
+	// è¡Œå‹•ãªã—é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// waitTime ... å¾…æ©Ÿã™ã‚‹ç§’æ•°
+	// è¡Œå‹•ã®åˆé–“ã«æŒŸã‚€é–¢æ•°ã€‚
 	void None(float waitFrame);
 
-	// Ú‹ßŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// playerPosition ... ƒvƒŒƒCƒ„[’†SÀ•W
-	// moveTIme ... ‰ñ“]‚·‚éŠÔ
-	// afterWaitTime ... s“®Œã‚É”­¶‚·‚é‘Ò‹@ŠÔ
-	// ƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚ÄÚ‹ß‚·‚éŠÖ”
+	// æ¥è¿‘é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// playerPosition ... ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ä¸­å¿ƒåº§æ¨™
+	// moveTIme ... å›è»¢ã™ã‚‹æ™‚é–“
+	// afterWaitTime ... è¡Œå‹•å¾Œã«ç™ºç”Ÿã™ã‚‹å¾…æ©Ÿæ™‚é–“
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‹ã£ã¦æ¥è¿‘ã™ã‚‹é–¢æ•°
 	void Approach(Point playerPosition, float moveTime, float afterWaitTime, WireManager* wireManager);
 
-	// —£”½ŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// playerPosition ... ƒvƒŒƒCƒ„[’†SÀ•W
-	// moveTIme ... ‰ñ“]‚·‚éŠÔB‚±‚ê‚Í•b”
-	// afterWaitTime ... s“®Œã‚É”­¶‚·‚é‘Ò‹@ŠÔ
-	// ƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä—£”½‚·‚éŠÖ”
+	// é›¢åé–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// playerPosition ... ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ä¸­å¿ƒåº§æ¨™
+	// moveTIme ... å›è»¢ã™ã‚‹æ™‚é–“ã€‚ã“ã‚Œã¯ç§’æ•°
+	// afterWaitTime ... è¡Œå‹•å¾Œã«ç™ºç”Ÿã™ã‚‹å¾…æ©Ÿæ™‚é–“
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‹ã£ã¦é›¢åã™ã‚‹é–¢æ•°
 	void Separation(Point playerPosition, float moveTime,float afterWaitTime, WireManager* wireManager);
 
-	// ‰ñ“]ŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// endDegree ... I—¹‚ÌŠp“x
-	// rotateTime ... ‰ñ“]‚·‚éŠÔB‚±‚ê‚Í•b”
-	// afterWaitTime ... s“®Œã‚É”­¶‚·‚é‘Ò‹@ŠÔ
-	// ƒ{ƒX‚ğ‰ñ“]‚³‚¹‚éŠÖ”
+	// å›è»¢é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// endDegree ... çµ‚äº†æ™‚ã®è§’åº¦
+	// rotateTime ... å›è»¢ã™ã‚‹æ™‚é–“ã€‚ã“ã‚Œã¯ç§’æ•°
+	// afterWaitTime ... è¡Œå‹•å¾Œã«ç™ºç”Ÿã™ã‚‹å¾…æ©Ÿæ™‚é–“
+	// ãƒœã‚¹ã‚’å›è»¢ã•ã›ã‚‹é–¢æ•°
 	void Rotate(float endDegree, float RotateTime, float afterWaitTime, WireManager* wireManager);
 
-	// “ËiŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// playerPosition ... ƒvƒŒƒCƒ„[‚ÌÀ•W
-	// readyTime ... “Ëi‚Ì€”õ‚É‚©‚©‚é•b”
-	// chargeTime ... “Ëi‚Ì—­‚ß‚É‚©‚©‚é•b”
-	// rushTime ... “Ëi‚É‚©‚©‚é•b”
-	// backTime ... –ß‚é‚É‚©‚©‚é•b”
-	// afterWaitTime ... s“®Œã‚É”­¶‚·‚é‘Ò‹@ŠÔ
-	// damage ... s“®‚É‚æ‚Á‚Ä”­¶‚·‚éƒ_ƒ[ƒW
-	// ƒ{ƒX‚ğƒvƒŒƒCƒ„[‚ÌŒü‚«‚É“Ëi‚³‚¹‚éŠÖ”
+	// çªé€²é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// playerPosition ... ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™
+	// readyTime ... çªé€²ã®æº–å‚™ã«ã‹ã‹ã‚‹ç§’æ•°
+	// chargeTime ... çªé€²ã®æºœã‚ã«ã‹ã‹ã‚‹ç§’æ•°
+	// rushTime ... çªé€²ã«ã‹ã‹ã‚‹ç§’æ•°
+	// backTime ... æˆ»ã‚‹æ™‚ã«ã‹ã‹ã‚‹ç§’æ•°
+	// afterWaitTime ... è¡Œå‹•å¾Œã«ç™ºç”Ÿã™ã‚‹å¾…æ©Ÿæ™‚é–“
+	// damage ... è¡Œå‹•ã«ã‚ˆã£ã¦ç™ºç”Ÿã™ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸
+	// ãƒœã‚¹ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‘ãã«çªé€²ã•ã›ã‚‹é–¢æ•°
 	void Rush(Point playerPosition, float readyTime , float chargeTime, float rushTime, float backTime, float afterWaitTime, float damage, WireManager* wireManager);
 
-	// aŒ‚ŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// playerPosition ... ƒvƒŒƒCƒ„[‚ÌÀ•W
-	// readyTime ... ƒ{ƒX‚ªŠJ‚­‚Ü‚Å‚É‚©‚©‚é•b”
-	// deployTime ... ƒuƒŒ[ƒh‚Ì“WŠJ‚É‚©‚©‚é•b”
-	// preparationTime@... UŒ‚‚Ü‚Å‚Ì‘Ò‹@ŠÔ
-	// rushTime ... “Ëi‚É‚©‚©‚é•b”
-	// backTime ... –ß‚é‚É‚©‚©‚é•b”
-	// afterWaitTime ... s“®Œã‚É”­¶‚·‚é‘Ò‹@ŠÔ
-	// damage ... s“®‚É‚æ‚Á‚Ä”­¶‚·‚éƒ_ƒ[ƒW
-	// ƒ{ƒX‚ªaŒ‚‚ğs‚¤ŠÖ”
+	// æ–¬æ’ƒé–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// playerPosition ... ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™
+	// readyTime ... ãƒœã‚¹ãŒé–‹ãã¾ã§ã«ã‹ã‹ã‚‹ç§’æ•°
+	// deployTime ... ãƒ–ãƒ¬ãƒ¼ãƒ‰ã®å±•é–‹ã«ã‹ã‹ã‚‹ç§’æ•°
+	// preparationTimeã€€... æ”»æ’ƒã¾ã§ã®å¾…æ©Ÿæ™‚é–“
+	// rushTime ... çªé€²ã«ã‹ã‹ã‚‹ç§’æ•°
+	// backTime ... æˆ»ã‚‹æ™‚ã«ã‹ã‹ã‚‹ç§’æ•°
+	// afterWaitTime ... è¡Œå‹•å¾Œã«ç™ºç”Ÿã™ã‚‹å¾…æ©Ÿæ™‚é–“
+	// damage ... è¡Œå‹•ã«ã‚ˆã£ã¦ç™ºç”Ÿã™ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸
+	// ãƒœã‚¹ãŒæ–¬æ’ƒã‚’è¡Œã†é–¢æ•°
 	void Slash(Point playerPosition, float readyTime, float deployTime, float preparationTime, float slashTime, float backTime, float afterWaitTIme, float damage, WireManager* wireManager);
 	
-	// ËŒ‚ŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// playerPosition ... ƒvƒŒƒCƒ„[‚ÌÀ•W
-	// readyTime ... ƒ{ƒX‚ªŠJ‚­‚Ü‚Å‚É‚©‚©‚é•b”
-	// deployTime ... e‚Ì“WŠJ‚É‚©‚©‚é•b”
-	// preparationTime@... UŒ‚‚Ü‚Å‚Ì‘Ò‹@ŠÔ
-	// shotTime ... ËŒ‚•b”
-	// backTime ... –ß‚é‚É‚©‚©‚é•b”
-	// afterWaitTime ... s“®Œã‚É”­¶‚·‚é‘Ò‹@ŠÔ
-	// fireRate ... ‰½•b‚¨‚«‚ÉËŒ‚‚·‚é‚©
-	// damage ... s“®‚É‚æ‚Á‚Ä”­¶‚·‚éƒ_ƒ[ƒW
-	// ƒ{ƒX‚ªËŒ‚‚ğs‚¤ŠÖ”
+	// å°„æ’ƒé–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// playerPosition ... ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™
+	// readyTime ... ãƒœã‚¹ãŒé–‹ãã¾ã§ã«ã‹ã‹ã‚‹ç§’æ•°
+	// deployTime ... éŠƒã®å±•é–‹ã«ã‹ã‹ã‚‹ç§’æ•°
+	// preparationTimeã€€... æ”»æ’ƒã¾ã§ã®å¾…æ©Ÿæ™‚é–“
+	// shotTime ... å°„æ’ƒç§’æ•°
+	// backTime ... æˆ»ã‚‹æ™‚ã«ã‹ã‹ã‚‹ç§’æ•°
+	// afterWaitTime ... è¡Œå‹•å¾Œã«ç™ºç”Ÿã™ã‚‹å¾…æ©Ÿæ™‚é–“
+	// fireRate ... ä½•ç§’ãŠãã«å°„æ’ƒã™ã‚‹ã‹
+	// damage ... è¡Œå‹•ã«ã‚ˆã£ã¦ç™ºç”Ÿã™ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸
+	// ãƒœã‚¹ãŒå°„æ’ƒã‚’è¡Œã†é–¢æ•°
 	void Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime, float afterWaitTime, float fireRate, float damage, WireManager* wireManager);
 
-	// ƒIƒuƒWƒFƒNƒg—‰ºŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// readyTime ... ƒ{ƒX‚ÌÀ•W‚ğ’†S‚É–ß‚·•b”
-	// deployTime ... UŒ‚€”õ‚É‚©‚©‚é•b”
-	// rushTime@... “Vˆä‚É“Ëi‚·‚é‚Ü‚Å‚É‚©‚©‚é•b”
-	// standByTime ... ‘Ò‹@•b”
-	// backTime ... –ß‚é‚É‚©‚©‚é•b”
-	// damage ... s“®‚É‚æ‚Á‚Ä”­¶‚·‚éƒ_ƒ[ƒW
-	// ƒ{ƒX‚ª“Vˆä‚É‚Ô‚Â‚©‚èA”j•Ğ‚ğ—‰º‚³‚¹‚ÄUŒ‚‚ğs‚¤ŠÖ”
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè½ä¸‹é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// readyTime ... ãƒœã‚¹ã®åº§æ¨™ã‚’ä¸­å¿ƒã«æˆ»ã™ç§’æ•°
+	// deployTime ... æ”»æ’ƒæº–å‚™ã«ã‹ã‹ã‚‹ç§’æ•°
+	// rushTimeã€€... å¤©äº•ã«çªé€²ã™ã‚‹ã¾ã§ã«ã‹ã‹ã‚‹ç§’æ•°
+	// standByTime ... å¾…æ©Ÿç§’æ•°
+	// backTime ... æˆ»ã‚‹æ™‚ã«ã‹ã‹ã‚‹ç§’æ•°
+	// damage ... è¡Œå‹•ã«ã‚ˆã£ã¦ç™ºç”Ÿã™ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸
+	// ãƒœã‚¹ãŒå¤©äº•ã«ã¶ã¤ã‹ã‚Šã€ç ´ç‰‡ã‚’è½ä¸‹ã•ã›ã¦æ”»æ’ƒã‚’è¡Œã†é–¢æ•°
 	void Fall(float readyTime, float deployTime, float rushTime, float standByTime, float backTime, float afterWaitTime, float damage, WireManager* wireManager);
 
-	/******** ƒXƒ^ƒ“ŠÖ” **********/
-	// ƒXƒ^ƒ“ŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// readyTime ... ƒXƒ^ƒ“‚µn‚ßƒ‚[ƒVƒ‡ƒ“•b”
-	// deployTime ... ƒXƒ^ƒ“‚µn‚ßƒ‚[ƒVƒ‡ƒ“•b”
-	// stanTime@... ƒXƒ^ƒ“•b”
-	// backTime ... –ß‚é‚É‚©‚©‚é•b”
-	// w’è‚³‚ê‚½•b”ƒ{ƒX‚ªƒXƒ^ƒ“‚·‚éŠÖ”
+	/******** ã‚¹ã‚¿ãƒ³é–¢æ•° **********/
+	// ã‚¹ã‚¿ãƒ³é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// readyTime ... ã‚¹ã‚¿ãƒ³ã—å§‹ã‚ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ç§’æ•°
+	// deployTime ... ã‚¹ã‚¿ãƒ³ã—å§‹ã‚ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ç§’æ•°
+	// stanTimeã€€... ã‚¹ã‚¿ãƒ³ç§’æ•°
+	// backTime ... æˆ»ã‚‹æ™‚ã«ã‹ã‹ã‚‹ç§’æ•°
+	// æŒ‡å®šã•ã‚ŒãŸç§’æ•°ãƒœã‚¹ãŒã‚¹ã‚¿ãƒ³ã™ã‚‹é–¢æ•°
 	void Stun(float readyTime, float deployTime, float stanTime, float backTime, WireManager* wireManager);
 
-	/******** ƒ_ƒ[ƒW **********/
-	// ƒ_ƒ[ƒWŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// readyTime ... ƒXƒ^ƒ“‚µn‚ßƒ‚[ƒVƒ‡ƒ“•b”
-	// deployTime ... ƒXƒ^ƒ“‚µn‚ßƒ‚[ƒVƒ‡ƒ“•b”
-	// stanTime@... ƒXƒ^ƒ“•b”
-	// backTime ... –ß‚é‚É‚©‚©‚é•b”
-	// ƒ{ƒX‚É‘Î‚µ‚Äƒ_ƒ[ƒW‚ª—^‚¦‚ç‚ê‚éó‘Ô‚É‚·‚éŠÖ”
+	/******** ãƒ€ãƒ¡ãƒ¼ã‚¸ **********/
+	// ãƒ€ãƒ¡ãƒ¼ã‚¸é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// readyTime ... ã‚¹ã‚¿ãƒ³ã—å§‹ã‚ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ç§’æ•°
+	// deployTime ... ã‚¹ã‚¿ãƒ³ã—å§‹ã‚ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ç§’æ•°
+	// stanTimeã€€... ã‚¹ã‚¿ãƒ³ç§’æ•°
+	// backTime ... æˆ»ã‚‹æ™‚ã«ã‹ã‹ã‚‹ç§’æ•°
+	// ãƒœã‚¹ã«å¯¾ã—ã¦ãƒ€ãƒ¡ãƒ¼ã‚¸ãŒä¸ãˆã‚‰ã‚Œã‚‹çŠ¶æ…‹ã«ã™ã‚‹é–¢æ•°
 	void MakeDamagePossible(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime, WireManager* wireManager, ObjectManager* objectManager);
 
-	/******** ƒ_ƒ[ƒWƒAƒjƒ[ƒVƒ‡ƒ“ **********/
-	// ƒ_ƒ[ƒWƒAƒjƒ[ƒVƒ‡ƒ“ŠÖ”
-	// •Ô‚è’lF‚È‚µ
-	// ˆø”F
-	// readyTime ... U“®‚·‚éŠÔ
-	// shakeStrength ... U“®‚·‚é‹­‚³
-	// ƒ_ƒ[ƒW‚ª—^‚¦‚ç‚ê‚½‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚·‚éŠÖ”
+	/******** ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ **********/
+	// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³é–¢æ•°
+	// è¿”ã‚Šå€¤ï¼šãªã—
+	// å¼•æ•°ï¼š
+	// readyTime ... æŒ¯å‹•ã™ã‚‹æ™‚é–“
+	// shakeStrength ... æŒ¯å‹•ã™ã‚‹å¼·ã•
+	// ãƒ€ãƒ¡ãƒ¼ã‚¸ãŒä¸ãˆã‚‰ã‚ŒãŸæ™‚ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã™ã‚‹é–¢æ•°
 	void playTakeDamageAnim(float animTime, float shakeStrength);
 
 	/*********************************
-		ƒƒ“ƒo’è”
+		ãƒ¡ãƒ³ãƒå®šæ•°
 	*********************************/
 
-	/******** ƒƒCƒ„[‚ğ‚©‚¯‚é‚±‚Æ‚Ì‚Å‚«‚éêŠ‚ÌÅ‘å” **********/
+	/******** ãƒ¯ã‚¤ãƒ¤ãƒ¼ã‚’ã‹ã‘ã‚‹ã“ã¨ã®ã§ãã‚‹å ´æ‰€ã®æœ€å¤§æ•° **********/
 	const static int kmaxWireHang = 2;
 
-	/******** •\¦‚Å‚«‚é’e‚ÌÅ‘å” **********/
+	/******** è¡¨ç¤ºã§ãã‚‹å¼¾ã®æœ€å¤§æ•° **********/
 	const static int kmaxBullet = 50;
 
 	/*********************************
-		ƒƒ“ƒo•Ï”@	
+		ãƒ¡ãƒ³ãƒå¤‰æ•°ã€€	
 	*********************************/
 
-	/******** ƒfƒoƒbƒO‚É—p‚¢‚é•Ï” **********/
-	//Œ»İƒfƒoƒbƒOó‘Ô‚©
+	/******** ãƒ‡ãƒãƒƒã‚°ã«ç”¨ã„ã‚‹å¤‰æ•° **********/
+	//ç¾åœ¨ãƒ‡ãƒãƒƒã‚°çŠ¶æ…‹ã‹
 	bool inDebug = false;
 
-	/******** s“®ƒpƒ^[ƒ“(Enum) **********/
+	/******** è¡Œå‹•ãƒ‘ã‚¿ãƒ¼ãƒ³(Enum) **********/
 	enum Attackpattern
 	{
-		NONE, // s“®‚È‚µ
-		ROTATE, // ‰ñ“]
-		RUSH, // “Ëi
-		SLASH, // aŒ‚
-		SHOT, // ËŒ‚
-		FALL, // ƒIƒuƒWƒFƒNƒg—‰ºUŒ‚
-		APPROACH, // Ú‹ß
-		SEPARATION // —£”½
+		NONE, // è¡Œå‹•ãªã—
+		ROTATE, // å›è»¢
+		RUSH, // çªé€²
+		SLASH, // æ–¬æ’ƒ
+		SHOT, // å°„æ’ƒ
+		FALL, // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè½ä¸‹æ”»æ’ƒ
+		APPROACH, // æ¥è¿‘
+		SEPARATION // é›¢å
 	};
-	// UŒ‚ƒpƒ^[ƒ“‚ğŠi”[‚·‚éintŒ^•Ï”
+	// æ”»æ’ƒãƒ‘ã‚¿ãƒ¼ãƒ³ã‚’æ ¼ç´ã™ã‚‹intå‹å¤‰æ•°
 	int attackPattern = NONE;
 	int prevAttackPattern[2] = { NONE };
 
-	/******** s“®’†ŠÔ’n“_iEnumj **********/
-	// UŒ‚‚âƒXƒ^ƒ““™‚Ì’†ŠÔ’n“_“’B‚ÌÛ‚ÉØ‚è‘Ö‚¦
+	/******** è¡Œå‹•ä¸­é–“åœ°ç‚¹ï¼ˆEnumï¼‰ **********/
+	// æ”»æ’ƒã‚„ã‚¹ã‚¿ãƒ³ç­‰ã®ä¸­é–“åœ°ç‚¹åˆ°é”ã®éš›ã«åˆ‡ã‚Šæ›¿ãˆ
 	enum ActionWayPoint 
 	{
-		WAYPOINT0, // ‰Šú‰»
-		WAYPOINT1, // s“®’†ŠÔ’n“_`
+		WAYPOINT0, // åˆæœŸåŒ–
+		WAYPOINT1, // è¡Œå‹•ä¸­é–“åœ°ç‚¹ï½
 		WAYPOINT2,
 		WAYPOINT3,
 		WAYPOINT4,
 		WAYPOINT5,
 		WAYPOINT6
 	};
-	//s“®‚ª‚Ç‚±‚Ü‚Åi‚ñ‚Å‚¢‚é‚©‚ğŠi”[‚·‚é•Ï”
+	//è¡Œå‹•ãŒã©ã“ã¾ã§é€²ã‚“ã§ã„ã‚‹ã‹ã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°
 	int actionWayPoint = WAYPOINT0;
 
-	/******** s“®•ªŠò(Enum) **********/
-	// s“®‚ğƒ‰ƒ“ƒ_ƒ€‚É•ªŠò‚³‚¹‚éB‰Šú’l‚ÍPattern1
+	/******** è¡Œå‹•åˆ†å²(Enum) **********/
+	// è¡Œå‹•ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«åˆ†å²ã•ã›ã‚‹ã€‚åˆæœŸå€¤ã¯Pattern1
 	enum ActionBranch {
-		Pattern1, //s“®•ªŠò 1~
+		Pattern1, //è¡Œå‹•åˆ†å² 1~
 		Pattern2,
 		Pattern3,
 		Pattern4,
 		Pattern5
 	};
-	// s“®‚É‚Ç‚Ìs“®‚É•ªŠò‚³‚¹‚é‚©‚ğŠi”[‚·‚é•Ï”
+	// è¡Œå‹•æ™‚ã«ã©ã®è¡Œå‹•ã«åˆ†å²ã•ã›ã‚‹ã‹ã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°
 	int actionBranch = Pattern1;
 
-	// UŒ‚‚É‚Ç‚ÌUŒ‚‚É•ªŠò‚³‚¹‚é‚©‚ğŠi”[‚·‚é•Ï”
+	// æ”»æ’ƒæ™‚ã«ã©ã®æ”»æ’ƒã«åˆ†å²ã•ã›ã‚‹ã‹ã‚’æ ¼ç´ã™ã‚‹å¤‰æ•°
 	int attackBranch = Pattern1;
 
-	// s“®ŠÔ‚Ì‘Ò‹@ŠÔ
+	// è¡Œå‹•é–“ã®å¾…æ©Ÿæ™‚é–“
 	float waitTime;
 
-	// ‘Ò‹@‚·‚é‚©
+	// å¾…æ©Ÿã™ã‚‹ã‹
 	bool pleaseWait;
 
-	// ‰‰oƒXƒLƒbƒv—p
+	// æ¼”å‡ºã‚¹ã‚­ãƒƒãƒ—ç”¨
 	float LongPressFrame;
 
-	// Œ»İ‰‰o’†‚©
-	// ŠJnƒAƒjƒ[ƒVƒ‡ƒ“
+	// ç¾åœ¨æ¼”å‡ºä¸­ã‹
+	// é–‹å§‹ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 	bool isPlayingStartAnim;
-	// €–SƒAƒjƒ[ƒVƒ‡ƒ“
+	// æ­»äº¡ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 	bool isPlayingDeadAnim;
 
-	// €–SƒAƒjƒ[ƒVƒ‡ƒ“‚ªI—¹‚µ‚Ä‚¢‚é‚©
+	// æ­»äº¡ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒçµ‚äº†ã—ã¦ã„ã‚‹ã‹
 	bool isEndDeadAnim;
 
-	/******** HPŠÖ˜A **********/
-	// HP(‚±‚±‚Å‰Šú‰»)
+	/******** HPé–¢é€£ **********/
+	// HP(ã“ã“ã§åˆæœŸåŒ–)
 	const float MaxHP = 10.0f;
 	float HP;
 
-	/******** ƒ_ƒ[ƒWŠÖ˜A **********/
-	// ƒ{ƒX©‘Ì‚Ìƒ_ƒ[ƒW
+	/******** ãƒ€ãƒ¡ãƒ¼ã‚¸é–¢é€£ **********/
+	// ãƒœã‚¹è‡ªä½“ã®ãƒ€ãƒ¡ãƒ¼ã‚¸
 	float bodyDamage;
 
-	// Œ•‚Ìƒ_ƒ[ƒW
+	// å‰£ã®ãƒ€ãƒ¡ãƒ¼ã‚¸
 	float bladeDamage;
 
-	// ’e‚Ìƒ_ƒ[ƒW
+	// å¼¾ã®ãƒ€ãƒ¡ãƒ¼ã‚¸
 	float bulletDamage[kmaxBullet];
 
-	/******** À•WŠÖ˜A **********/
-	/// ƒ{ƒXŠÖ˜A
-	// ’†SÀ•W
+	/******** åº§æ¨™é–¢é€£ **********/
+	/// ãƒœã‚¹é–¢é€£
+	// ä¸­å¿ƒåº§æ¨™
 	Point centerPosition;
-	// ƒVƒFƒCƒN‚·‚é‚Æ‚«‚ÌÀ•W‚Ì•Ï‰»—Ê
+	// ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹ã¨ãã®åº§æ¨™ã®å¤‰åŒ–é‡
 	Point shakeVariation;
-	// ƒVƒFƒCƒN‚·‚é‚Æ‚«‚ÌÀ•W‚Ì•Ï‰»—Ê
+	// ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹ã¨ãã®åº§æ¨™ã®å¤‰åŒ–é‡
 	Point coreShakeVariation;
-	// ƒVƒFƒCƒN‚·‚é”ÍˆÍ
+	// ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹ç¯„å›²
 	int shakeRange;
 	
-	// ƒ{ƒX‚ª¶‰E‚É‚Ç‚ê‚¾‚¯ŠJ‚­‚©
+	// ãƒœã‚¹ãŒå·¦å³ã«ã©ã‚Œã ã‘é–‹ãã‹
 	float offset;
-	// ƒ{ƒX‚Ì‰ñ“]Špidegree‹j
+	// ãƒœã‚¹ã®å›è»¢è§’ï¼ˆdegreeÂ°ï¼‰
 	int degree;
 
-	// Šj‚Ì’†SÀ•WiˆÚ“®‚³‚¹‚é‰Â”\«‚ª‚ ‚é‚½‚ßj
+	// æ ¸ã®ä¸­å¿ƒåº§æ¨™ï¼ˆç§»å‹•ã•ã›ã‚‹å¯èƒ½æ€§ãŒã‚ã‚‹ãŸã‚ï¼‰
 	Point coreCenterPosition;
-	// Šj‚Ì‰ñ“]Špidegree‹j
+	// æ ¸ã®å›è»¢è§’ï¼ˆdegreeÂ°ï¼‰
 	int coreDegree;
 
-	// ’e‚Ì”­Ë’n“_
+	// å¼¾ã®ç™ºå°„åœ°ç‚¹
 	Point shotPoint;
 
-	// ƒƒCƒ„[‚ªˆø‚Á‚©‚©‚é’†SÀ•W
+	// ãƒ¯ã‚¤ãƒ¤ãƒ¼ãŒå¼•ã£ã‹ã‹ã‚‹ä¸­å¿ƒåº§æ¨™
 	Point wireHangPosition[kmaxWireHang];
 
-	// s“®‘OÀ•W
+	// è¡Œå‹•å‰åº§æ¨™
 	Point prevCenterPosition;
-	// s“®ŒãÀ•W
+	// è¡Œå‹•å¾Œåº§æ¨™
 	Point nextCenterPosition;
 
-	// s“®‘OƒRƒAÀ•W
+	// è¡Œå‹•å‰ã‚³ã‚¢åº§æ¨™
 	Point prevCoreCenterPosition;
-	// s“®ŒãƒRƒAÀ•W
+	// è¡Œå‹•å¾Œã‚³ã‚¢åº§æ¨™
 	Point nextCoreCenterPosition;
 
-	// s“®‘OŠp“x
+	// è¡Œå‹•å‰è§’åº¦
 	int prevDegree;
-	// s“®ŒãŠp“x
+	// è¡Œå‹•å¾Œè§’åº¦
 	int nextDegree;
 
-	// 1ƒtƒŒ[ƒ€‘O‚ÌŠp“x
+	// 1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®è§’åº¦
 	int beforeDegree;
 
-	// s“®‘OƒIƒtƒZƒbƒg
+	// è¡Œå‹•å‰ã‚ªãƒ•ã‚»ãƒƒãƒˆ
 	int prevOffset;
-	// s“®ŒãƒIƒtƒZƒbƒg
+	// è¡Œå‹•å¾Œã‚ªãƒ•ã‚»ãƒƒãƒˆ
 	int nextOffset;
 
-	// QÆ‚·‚éƒvƒŒƒCƒ„[À•W
+	// å‚ç…§ã™ã‚‹ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åº§æ¨™
 	Point prePlayerPosition;
 
-	// ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢
 	float playerDistance;
-	// ƒvƒŒƒCƒ„[‚Ö‚Ì•ûŒü
+	// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¸ã®æ–¹å‘
 	float playerDirection;
 
-	// ƒJƒbƒgƒV[ƒ“—pƒJƒƒ‰ˆÚ“®‘OÀ•W
+	// ã‚«ãƒƒãƒˆã‚·ãƒ¼ãƒ³ç”¨ã‚«ãƒ¡ãƒ©ç§»å‹•å‰åº§æ¨™
 	Point prevScreenPosition;
 
-	// ƒJƒbƒgƒV[ƒ“—pƒJƒƒ‰ˆÚ“®ŒãÀ•W
+	// ã‚«ãƒƒãƒˆã‚·ãƒ¼ãƒ³ç”¨ã‚«ãƒ¡ãƒ©ç§»å‹•å¾Œåº§æ¨™
 	Point nextScreenPosition;
 
 
-	/// ’eŠÖ˜A
-	// ’e‚Ì’†SÀ•W
+	/// å¼¾é–¢é€£
+	// å¼¾ã®ä¸­å¿ƒåº§æ¨™
 	Point bulletCenterPosition[kmaxBullet];
 
-	// ’e‚ª”­Ë‚³‚ê‚éŒü‚«
+	// å¼¾ãŒç™ºå°„ã•ã‚Œã‚‹å‘ã
 	float bulletDirection[kmaxBullet];
 
-	// ’e‚Ì”­ËƒXƒs[ƒh
+	// å¼¾ã®ç™ºå°„ã‚¹ãƒ”ãƒ¼ãƒ‰
 	float bulletSpeed;
 
-	/******** ƒTƒCƒYŠÖ˜A **********/
-	/// ƒ{ƒXŠÖ˜A
+	/******** ã‚µã‚¤ã‚ºé–¢é€£ **********/
+	/// ãƒœã‚¹é–¢é€£
 
-	// ƒeƒNƒXƒ`ƒƒƒTƒCƒY
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µã‚¤ã‚º
 	Point textureSize;
-	// Šj‚ÌƒeƒNƒXƒ`ƒƒƒTƒCƒY
+	// æ ¸ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µã‚¤ã‚º
 	Point coreTextureSize;
 
-	// ƒtƒbƒN‚ÌƒeƒNƒXƒ`ƒƒƒTƒCƒY
+	// ãƒ•ãƒƒã‚¯ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µã‚¤ã‚º
 	Point hookTextureSize;
 
-	// ƒTƒCƒY
+	// ã‚µã‚¤ã‚º
 	Point size;
-	// Šj‚ÌƒTƒCƒY
+	// æ ¸ã®ã‚µã‚¤ã‚º
 	Point coreSize;
 
-	// Šj‚Ìs“®‘OŒãƒTƒCƒY
+	// æ ¸ã®è¡Œå‹•å‰å¾Œã‚µã‚¤ã‚º
 	Point prevCoreSize;
 	Point nextCoreSize;
 
-	// ƒtƒbƒN‚ÌƒTƒCƒY
+	// ãƒ•ãƒƒã‚¯ã®ã‚µã‚¤ã‚º
 	Point hookSize;
 
-	/// •ŠíŠÖ˜A
+	/// æ­¦å™¨é–¢é€£
 
-	// •Ší‚ÌƒeƒNƒXƒ`ƒƒ
+	// æ­¦å™¨ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	int weaponTexture;
 
-	// •Ší‚ÌƒTƒCƒY
+	// æ­¦å™¨ã®ã‚µã‚¤ã‚º
 	Point weaponSize;
 
-	// •Ší‚ÌƒeƒNƒXƒ`ƒƒƒTƒCƒY
+	// æ­¦å™¨ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µã‚¤ã‚º
 	Point weaponTextureSize;
 
-	// ƒuƒŒ[ƒh‚ÌƒeƒNƒXƒ`ƒƒƒTƒCƒY
+	// ãƒ–ãƒ¬ãƒ¼ãƒ‰ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µã‚¤ã‚º
 	Point bladeTextureSize;
-	// e‚ÌƒeƒNƒXƒ`ƒƒƒTƒCƒY
+	// éŠƒã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µã‚¤ã‚º
 	Point gunTextureSize;
 
-	// s“®‘O•ŠíƒTƒCƒY
+	// è¡Œå‹•å‰æ­¦å™¨ã‚µã‚¤ã‚º
 	Point prevWeaponSize;
-	// s“®Œã•ŠíƒTƒCƒY
+	// è¡Œå‹•å¾Œæ­¦å™¨ã‚µã‚¤ã‚º
 	Point nextWeaponSize;
 
-	/// ’eŠÖ˜A
-	// ’e‚ÌƒeƒNƒXƒ`ƒƒƒTƒCƒY
+	/// å¼¾é–¢é€£
+	// å¼¾ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µã‚¤ã‚º
 	Point bulletTextureSize;
 
-	// ’e‚ÌƒTƒCƒY
+	// å¼¾ã®ã‚µã‚¤ã‚º
 	Point bulletSize;
 
-	/******** s“®ŠÖ˜A **********/
-	/// ƒ{ƒXŠÖ˜A
-	// ‰Šú‰»‚³‚ê‚Ä‚¢‚é‚©
+	/******** è¡Œå‹•é–¢é€£ **********/
+	/// ãƒœã‚¹é–¢é€£
+	// åˆæœŸåŒ–ã•ã‚Œã¦ã„ã‚‹ã‹
 	bool init;
-	// ƒoƒCƒuƒŒ[ƒVƒ‡ƒ“‰Šú‰»‚ÌÛ‚É—p‚¢‚ç‚ê‚é•Ï”
+	// ãƒã‚¤ãƒ–ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³åˆæœŸåŒ–ã®éš›ã«ç”¨ã„ã‚‰ã‚Œã‚‹å¤‰æ•°
 	bool vibInit;
 
-	// U“®‰¹Ä¶‚ğŠÇ—‚·‚é
+	// æŒ¯å‹•éŸ³å†ç”Ÿã‚’ç®¡ç†ã™ã‚‹
 	bool isVibPlaySound;
 
-	// í“¬‚ªŠJn‚µ‚Ä‚¢‚é‚©
+	// æˆ¦é—˜ãŒé–‹å§‹ã—ã¦ã„ã‚‹ã‹
 	bool isBattleStart;
 
-	// UŒ‚’†‚©
+	// æ”»æ’ƒä¸­ã‹
 	bool inAction;
-	// UŒ‚‚ªI—¹‚µ‚Ä‚¢‚é‚©
+	// æ”»æ’ƒãŒçµ‚äº†ã—ã¦ã„ã‚‹ã‹
 	bool endAction;
 
-	// ƒXƒ^ƒ“’†‚©
+	// ã‚¹ã‚¿ãƒ³ä¸­ã‹
 	bool inStun;
-	// ƒXƒ^ƒ“‚·‚éŠÔ
+	// ã‚¹ã‚¿ãƒ³ã™ã‚‹æ™‚é–“
 	int stunTime;
 
-	// ƒ_ƒ[ƒW‚ğó‚¯‚ç‚ê‚éó‘Ô‚È‚Ì‚©
+	// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ã‚‰ã‚Œã‚‹çŠ¶æ…‹ãªã®ã‹
 	bool canTakeDamage;
 
-	// ƒ_ƒ[ƒW‚ğó‚¯‚½‚©
+	// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸã‹
 	bool inDamage;
 
-	// Šj‚ª•ª—£‚µ‚Ä‚¢‚é‚©
+	// æ ¸ãŒåˆ†é›¢ã—ã¦ã„ã‚‹ã‹
 	bool coreSeparated;
 
-	// ƒ{ƒX‚ª€–S‚µ‚Ä‚¢‚é‚©
+	// ãƒœã‚¹ãŒæ­»äº¡ã—ã¦ã„ã‚‹ã‹
 	bool inDead;
 
-	// ’eŠÖ˜A
-	// ’e‚ªŒ‚‚½‚ê‚Ä‚¢‚é‚©
+	// å¼¾é–¢é€£
+	// å¼¾ãŒæ’ƒãŸã‚Œã¦ã„ã‚‹ã‹
 	bool isShot[kmaxBullet];
 
-	// ’e‚Ì¶‘¶ŠÔ
+	// å¼¾ã®ç”Ÿå­˜æ™‚é–“
 	float bulletAliveTime[kmaxBullet];
 
-	/// ƒIƒuƒWƒFƒNƒgŠÖ˜A
+	/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé–¢é€£
 
-	// ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚é‚©‚Ç‚¤‚©
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã‹ã©ã†ã‹
 	bool canGeneratedBlock = false;
 
-	// ƒIƒuƒWƒFƒNƒg¶¬ŒÂ”
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆå€‹æ•°
 	int generatedBlockValue = 0;
 
-	// ƒIƒuƒWƒFƒNƒg¶¬ŠÔŠu
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆé–“éš”
 	float generatedBlockInterval = 0.0f;
 
-	// “G‚ğ¶¬‚·‚é‚©‚Ç‚¤‚©
+	// æ•µã‚’ç”Ÿæˆã™ã‚‹ã‹ã©ã†ã‹
 	bool canGeneratedEnemy = false;
 
-	// “G¶¬ŒÂ”
+	// æ•µç”Ÿæˆå€‹æ•°
 	int generatedEnemyValue = 0;
 
-	// “G¶¬ŠÔŠu
+	// æ•µç”Ÿæˆé–“éš”
 	float generatedEnemyInterval = 0.0f;
 
-	/******** ƒC[ƒWƒ“ƒOŠÖ˜A **********/
-	// ƒC[ƒWƒ“ƒO—pt
+	/******** ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°é–¢é€£ **********/
+	// ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°ç”¨t
 	float t = 0.0f;
 
-	// —\”õ—pt ã‚Ìt‚Æ‚Í•Ê‚Ìt‚ğg‚¢‚½‚¢‚Ég‚¤
+	// äºˆå‚™ç”¨t ä¸Šã®tã¨ã¯åˆ¥ã®tã‚’ä½¿ã„ãŸã„æ™‚ã«ä½¿ã†
 	float spareT = 0.0f;
 
-	// ƒtƒbƒN‚ÌƒIƒuƒWƒFƒNƒg
+	// ãƒ•ãƒƒã‚¯ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
 	Object* hook[2];
 
-	// Šj—pƒtƒbƒN
+	// æ ¸ç”¨ãƒ•ãƒƒã‚¯
 	Object* core;
 
-	/******** FŠÖ˜A **********/
-	// Šk‚ÌF
+	/******** è‰²é–¢é€£ **********/
+	// æ®»ã®è‰²
 	unsigned int color;
 
-	// s“®‘OF
+	// è¡Œå‹•å‰è‰²
 	unsigned int prevColor;
-	// s“®ŒãF
+	// è¡Œå‹•å¾Œè‰²
 	unsigned int nextColor;
 
-	// Šj‚ÌF
+	// æ ¸ã®è‰²
 	unsigned int coreColor;
 
-	// ‰¹
+	// éŸ³
 
-	// ˆø‚­‚Ì‰¹
+	// å¼•ãæ™‚ã®éŸ³
 	int PullSoundHundle;
 	int PullVoiceHundle;
 
-	// ™ôšK‰¹
+	// å’†å“®éŸ³
 	int screamSoundHundle;
 	int screamVoiceHundle;
 
-	// ’n–Â‚è‰¹
+	// åœ°é³´ã‚ŠéŸ³
 	int RumbleEarthSoundHundle;
 	int RumbleEarthVoiceHundle;
 
 
-	// BGMŠÖŒW
+	// BGMé–¢ä¿‚
 	enum BossBattleState
 	{
 		kStateProduction,
@@ -612,10 +612,11 @@ private:
 	int checkNormalBGM = -1;
 	int checkChanceBGM = -1;
 
-	// ‰¹—ÊƒtƒF[ƒh
+	// éŸ³é‡ãƒ•ã‚§ãƒ¼ãƒ‰
 	float volumeFeedOut = 1.0f;
 	float volumeFeedIn = 0.0f;
 
 	bool isChangeBGM = false;
+
 
 };

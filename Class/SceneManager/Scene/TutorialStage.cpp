@@ -22,7 +22,7 @@ void TutorialStage::Initialize() {
 	objectManager.Initialize();
 	wireManager.Initialize();
 
-	objectManager.MakeNewObjectPlayer({ 100,700 }, &wireManager);
+	objectManager.MakeNewObjectPlayer({ 100,200 }, &wireManager);
 
 	middleBoss.Initialize(&objectManager);
 
@@ -33,9 +33,43 @@ void TutorialStage::Initialize() {
 		backGroundPositionX[i] = 0;
 	}
 
-
-	playerProgress = 0;
+	respawnProgress = -1;
+	gimmickProgress = -1;
 	
+	reticlePosition = { 1000,500 };
+	preMousePosition = BaseInput::GetMousePosition();
+	isGameOver = false;
+	gameOverColor = 0x00000000;
+	gameOverT = BaseConst::kGameOverFirstValue;
+	isToTitle = false;
+	isToRetry = false;
+}
+// 初期化
+void TutorialStage::Initialize(int respawnProgress) {
+	nextScene = sceneNone;
+
+	PublicFlag::Initialize();
+
+	ObjectHitBox::Initialize();
+	MapManager::TutorialInitialize();
+	objectManager.Initialize();
+	wireManager.Initialize();
+
+	objectManager.MakeNewObjectPlayer(BaseConst::kRespawnProgress[respawnProgress], &wireManager);
+
+	middleBoss.Initialize(&objectManager);
+
+	BaseDraw::SetScreenPosition({ 0,1080 });
+
+	preScrollPositionX = 1080;
+	for (int i = 0; i < 3; i++) {
+		backGroundPositionX[i] = 0;
+	}
+
+	respawnProgress = -1;
+	gimmickProgress = -1;
+	neonFrame = 0;
+
 	reticlePosition = { 1000,500 };
 	preMousePosition = BaseInput::GetMousePosition();
 	isGameOver = false;
@@ -53,7 +87,7 @@ void TutorialStage::Update() {
 	EnemyAttackHitBox::Initialize();
 
 	//// デバッグ用
-	if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
+	if (BaseInput::GetKeyboardState(DIK_BACKSPACE, Trigger)) {
 		nextScene = sceneBossStage;
 	}
 	// デバッグ用
@@ -87,8 +121,21 @@ void TutorialStage::Update() {
 	}
 
 	MapManager::Update();
-	//middleBoss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
+	middleBoss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
 	if (!isGameOver) {
+
+		// 一定時間ごとに敵と箱を生成
+		if (gimmickProgress == 4) {
+			if (!objectManager.GetIsCreatedBlock()) {
+				objectManager.MakeNewObjectBlock({ 9885,1080 }, { 0,0 });
+			}
+		}
+		if (gimmickProgress == 5) {
+			if (!objectManager.GetIsCreatedIronBalloon()) {
+				objectManager.MakeNewObjectIronBalloon({ 10747,1080 });
+			}
+		}
+
 		objectManager.Update();
 		wireManager.Update(&objectManager);
 	}
@@ -135,11 +182,35 @@ void TutorialStage::Draw() {
 		BaseDraw::DrawSprite({ backGroundPositionX[i - 1] - 1920 + (BaseDraw::GetScreenPosition().x / 1920) * 1920, BaseDraw::GetScreenPosition().y }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
 	}
 
+	// チュートリアル用看板描画
+	BaseDraw::DrawSprite({ 614 + 5,300 - 5 }, BaseTexture::kTutorialJump[0], { 1,1 }, 0, 0x000000AA);
+	BaseDraw::DrawSprite({ 614,300 }, BaseTexture::kTutorialJump[gimmickProgress >= 0], { 1,1 }, 0, WHITE);
+	BaseDraw::DrawSprite({ 3300 + 5,300 - 5 }, BaseTexture::kTutorialWire[0], { 1,1 }, 0, 0x000000AA);
+	BaseDraw::DrawSprite({ 3300,300 }, BaseTexture::kTutorialWire[gimmickProgress >= 1], { 1,1 }, 0, WHITE);
+	BaseDraw::DrawSprite({ 3700 + 5,300 - 5 }, BaseTexture::kTutorialAttract[0], { 1,1 }, 0, 0x000000AA);
+	BaseDraw::DrawSprite({ 3700,300 }, BaseTexture::kTutorialAttract[gimmickProgress >= 1], { 1,1 }, 0, WHITE);
+	BaseDraw::DrawSprite({ 6700 + 5,300 - 5 }, BaseTexture::kTutorialShot[0], { 1,1 }, 0, 0x000000AA);
+	BaseDraw::DrawSprite({ 6700,300 }, BaseTexture::kTutorialShot[gimmickProgress >= 2], { 1,1 }, 0, WHITE);
+	BaseDraw::DrawSprite({ 10000 + 5,750 - 5 }, BaseTexture::kTutorialSecondShot[0], { 1,1 }, 0, 0x000000AA);
+	if (gimmickProgress >= 4) {
+		neonFrame++;
+		BaseDraw::DrawSprite({ 10000,750 }, BaseTexture::kTutorialSecondShot[neonFrame % 180 / 60 + 1], { 1,1 }, 0, WHITE);
+	}
+	else {
+		BaseDraw::DrawSprite({ 10000,750 }, BaseTexture::kTutorialSecondShot[0], { 1,1 }, 0, WHITE);
+	}
 
 	MapManager::Draw();
 	middleBoss.Draw();
 
 	objectManager.Draw();
+
+	// パイプ描画
+	Point p = BaseDraw::WorldtoScreen({ 9824, 1080 + 100 });
+	Novice::DrawSprite(p.x, p.y, BaseTexture::kPipe, 1.5f, 1.5f, 0, WHITE);
+	p = BaseDraw::WorldtoScreen({ 10688, 1080 + 100 });
+	Novice::DrawSprite(p.x, p.y, BaseTexture::kPipe, 1.5f, 1.5f, 0, WHITE);
+
 	if (!isGameOver) {
 		wireManager.Draw();
 	}
@@ -147,49 +218,59 @@ void TutorialStage::Draw() {
 		GameOverDraw();
 	}
 
-
 	Novice::ScreenPrintf(0, 20, "x = %6.0f, y = %6.0f", BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()).x, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()).y);
 }
 
 
 void TutorialStage::CheckPlayerProgress() {
-
-	switch (playerProgress)
-	{
-	case 0:
-		if (objectManager.GetPlayerPosition().x > 6500) {
-			playerProgress = 1;
-
-			// 敵を召喚
-			objectManager.MakeNewObjectBalloon({ 7714,283 });
-			objectManager.MakeNewObjectBalloon({ 8037,283 });
-			objectManager.MakeNewObjectBalloon({ 8358,283 });
-			objectManager.MakeNewObjectBalloon({ 7872,509 });
-			objectManager.MakeNewObjectBalloon({ 8197,509 });
+	if (respawnProgress < 4 - 1) {
+		if (objectManager.GetPlayerPosition().x > BaseConst::kRespawnProgress[respawnProgress + 1].x) {
+			respawnProgress++;
 		}
-		break;
-	case 1:
-		if (objectManager.GetPlayerPosition().x > 9100) {
-			playerProgress = 2;
-
-			// 落ちてくる箱を召喚
-			objectManager.MakeNewObjectFallBlock({ 9570,1200 }, false);
-		}
-		break;
-	case 2:
-		break;
-	case 3:
-		break;
-	case 4:
-		break;
-	case 5:
-		break;
-	case 6:
-		break;
-	case 7:
-		break;
 	}
 
+	if (gimmickProgress < 8 - 1) {
+		if (objectManager.GetPlayerPosition().x > BaseConst::kGimmickProgress[gimmickProgress + 1]) {
+			gimmickProgress++;
+			switch (gimmickProgress)
+			{
+				case 0: // ジャンプチュートリアル
+					Novice::PlayAudio(BaseAudio::kNeonOn, 0, BaseAudio::SEvolume);
+					break;
+				case 1: // ワイヤーチュートリアル
+					Novice::PlayAudio(BaseAudio::kNeonOn, 0, BaseAudio::SEvolume);
+					break;
+				case 2: // 雑魚召喚、チュートリアル
+					Novice::PlayAudio(BaseAudio::kNeonOn, 0, BaseAudio::SEvolume);
+					objectManager.MakeNewObjectBalloon({ 7714,283 });
+					objectManager.MakeNewObjectBalloon({ 8037,283 });
+					objectManager.MakeNewObjectBalloon({ 8358,283 });
+					objectManager.MakeNewObjectBalloon({ 7872,509 });
+					objectManager.MakeNewObjectBalloon({ 8197,509 });
+					break;
+				case 3: // 箱が降ってくる
+					objectManager.MakeNewObjectFallBlock({ 9570,1200 }, false);
+					break;
+				case 4: // 雑魚召喚
+					Novice::PlayAudio(BaseAudio::kNeonOn, 0, BaseAudio::SEvolume);
+					objectManager.MakeNewObjectBalloon({ 11312,643 });
+					objectManager.MakeNewObjectBalloon({ 11312 - 50,643 });
+					objectManager.MakeNewObjectBalloon({ 11446,392 });
+					objectManager.MakeNewObjectBalloon({ 11446 - 50,392 });
+					objectManager.MakeNewObjectBalloon({ 11575,61 });
+					objectManager.MakeNewObjectBalloon({ 11575 - 50,61 });
+					break;
+				case 5: // 金属バルーン召喚
+					break;
+				case 6: // 中ボス召喚
+					break;
+				case 7: // 雑魚ラッシュ開始
+					break;
+			}
+		}
+	}
+
+	Novice::ScreenPrintf(0, 0, "%d", gimmickProgress);
 }
 
 // ゲームオーバー時の処理
@@ -252,7 +333,12 @@ void TutorialStage::GameOverUpdate() {
 			BaseInput::GetControllerState(kControllerButtonL2A, Trigger) ||
 			BaseInput::GetControllerState(kControllerButtonR2B, Trigger) ||
 			BaseInput::GetControllerState(kControllerButtonRight, Trigger)) {
-			Initialize();
+			if (respawnProgress >= 0) {
+				Initialize(respawnProgress);
+			}
+			else {
+				Initialize();
+			}
 		}
 	}
 	else {
@@ -264,7 +350,12 @@ void TutorialStage::GameOverUpdate() {
 	}
 	if (BaseInput::GetControllerState(kControllerButtonR1, Trigger) ||
 		BaseInput::GetControllerState(kControllerButtonRight, Trigger)) {
-		Initialize();
+		if (respawnProgress >= 0) {
+			Initialize(respawnProgress);
+		}
+		else {
+			Initialize();
+		}
 	}
 	preMousePosition = BaseInput::GetMousePosition();
 }

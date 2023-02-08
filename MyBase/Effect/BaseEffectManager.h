@@ -4,9 +4,10 @@
 
 #include "MyBase/Effect/BaseEffect.h"
 
-#include "MyBase/Effect/Inheritance/WhirlWind.h"
 #include "MyBase/Effect/Inheritance/BlockBreak.h"
 #include "MyBase/Effect/Inheritance/ConcreteDust.h"
+#include "MyBase/Effect/Inheritance/BalloonDead.h"
+#include "MyBase/Effect/Inheritance/IronBalloonDead.h"
 
 
 class BaseEffectManager
@@ -27,9 +28,10 @@ public: // メンバ関数
 	// 新規エフェクト登録関数
 	// 返り値：エフェクトがセットされた番号
 	// 引数：それぞれ
-	static int MakeNewEffectWhirlWind();
 	static int MakeNewEffectBlockBreak(Point);
 	static int MakeNewEffectConcreteDust(Point);
+	static int MakeNewEffectBalloonDead(Point, bool);
+	static int MakeNewEffectIronBalloonDead(Point, bool);
 
 
 	// エフェクトを終了させる関数

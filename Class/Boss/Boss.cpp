@@ -1,157 +1,157 @@
 #include "Class/Boss/Boss.h"
 
 /*********************************************
- * ƒ{ƒXƒNƒ‰ƒX
+ * ãƒœã‚¹ã‚¯ãƒ©ã‚¹
  *
- * ƒ{ƒXŠÖ˜A‚Ìs“®‚·‚×‚Ä‚ğŠÇ—‚·‚éƒNƒ‰ƒX
+ * ãƒœã‚¹é–¢é€£ã®è¡Œå‹•ã™ã¹ã¦ã‚’ç®¡ç†ã™ã‚‹ã‚¯ãƒ©ã‚¹
  *********************************************/
 
- // ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+ // ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Boss::Boss() {
-	// ƒ{ƒX‚ÌˆÊ’u‚ğ‰æ–Ê’†‰›‚É‚Á‚Ä‚¢‚­
+	// ãƒœã‚¹ã®ä½ç½®ã‚’ç”»é¢ä¸­å¤®ã«æŒã£ã¦ã„ã
 	this->centerPosition = { (float)(BaseConst::kWindowWidth / 2),(float)(BaseConst::kWindowHeight / 2) };
-	// ƒ{ƒX‚Ì‰æ‘œƒTƒCƒY‚ğİ’è
+	// ãƒœã‚¹ã®ç”»åƒã‚µã‚¤ã‚ºã‚’è¨­å®š
 	this->textureSize = { 225.0f, 450.0f };
-	// ƒ{ƒX‚ÌƒIƒtƒZƒbƒg‚ğ‰Šú‰»
+	// ãƒœã‚¹ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’åˆæœŸåŒ–
 	this->offset = 0.0f;
 
-	// Šp“x‰Šú‰»
+	// è§’åº¦åˆæœŸåŒ–
 	this->degree = 0.0f;
-	// 1ƒtƒŒ[ƒ€‘O‚ÌŠp“x‚ğ‰Šú‰»
+	// 1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®è§’åº¦ã‚’åˆæœŸåŒ–
 	this->beforeDegree = 0.0f;
 
-	//ƒVƒFƒCƒN‚µ‚Ä‚¢‚È‚¢ó‘Ô‚É–ß‚·
+	//ã‚·ã‚§ã‚¤ã‚¯ã—ã¦ã„ãªã„çŠ¶æ…‹ã«æˆ»ã™
 	this->shakeVariation = { 0.0f, 0.0f };
 	this->coreShakeVariation = { 0.0f, 0.0f };
 
-	// ƒoƒCƒuƒŒ[ƒVƒ‡ƒ“‰Šú‰»
+	// ãƒã‚¤ãƒ–ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³åˆæœŸåŒ–
 	vibInit = false;
 
-	// s“®I—¹ó‘Ô‚É‚·‚é
+	// è¡Œå‹•çµ‚äº†çŠ¶æ…‹ã«ã™ã‚‹
 	this->t = 0.0f;
 	this->endAction = true;
 	this->inAction = false;
 	this->actionWayPoint = 0;
 
-	// Šj‚Ì“–‚½‚è”»’è‚ğ‰Šú‰»
+	// æ ¸ã®å½“ãŸã‚Šåˆ¤å®šã‚’åˆæœŸåŒ–
 	core = NULL;
 
-	// Šj‚ÌˆÊ’u‚ğİ’è
+	// æ ¸ã®ä½ç½®ã‚’è¨­å®š
 	this->coreCenterPosition = centerPosition;
-	// Šj‚Ì‰æ‘œƒTƒCƒY‚ğİ’è
+	// æ ¸ã®ç”»åƒã‚µã‚¤ã‚ºã‚’è¨­å®š
 	this->coreTextureSize = { 256.0f, 256.0f };
 
-	// Šj‚Ì‰æ‘œƒTƒCƒY‚ğİ’è
+	// æ ¸ã®ç”»åƒã‚µã‚¤ã‚ºã‚’è¨­å®š
 	this->hookTextureSize = { 64.0f, 64.0f };
 
-	// •Ší‚ÌƒTƒCƒY‚ğw’èi‰¼ƒeƒNƒXƒ`ƒƒ‚Ì‚½‚ßA¡Œã•Ï‚¦‚éj
+	// æ­¦å™¨ã®ã‚µã‚¤ã‚ºã‚’æŒ‡å®šï¼ˆä»®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãŸã‚ã€ä»Šå¾Œå¤‰ãˆã‚‹ï¼‰
 	this->weaponSize = { 0.0f, 0.0f };
 	this->weaponTextureSize = { 1.0f, 1.0f };
 
-	// ƒtƒbƒNƒTƒCƒY‰Šú‰»
+	// ãƒ•ãƒƒã‚¯ã‚µã‚¤ã‚ºåˆæœŸåŒ–
 	hookSize = { 96.0f, 96.0f };
 
-	// ƒtƒbƒN‚Ì‰Šú‰»
+	// ãƒ•ãƒƒã‚¯ã®åˆæœŸåŒ–
 	for (int i = 0; i < kmaxWireHang; i++) {
 		this->wireHangPosition[i] = { 0.0f, 0.0f };
 		hook[i] = NULL;
 	}
 
-	// UŒ‚ƒpƒ^[ƒ“‰Šú‰»
+	// æ”»æ’ƒãƒ‘ã‚¿ãƒ¼ãƒ³åˆæœŸåŒ–
 	this->prevAttackPattern[0] = NONE;
 	this->prevAttackPattern[1] = NONE;
 	this->attackPattern = NONE;
 
-	// ‘Ò‹@’†
+	// å¾…æ©Ÿä¸­
 	pleaseWait = true;
 
-	// ‘Ò‹@ŠÔ‚ğ‘ã“ü
+	// å¾…æ©Ÿæ™‚é–“ã‚’ä»£å…¥
 	this->waitTime = 2.5f;
 
-	// HP‰Šú‰»
+	// HPåˆæœŸåŒ–
 	this->HP = MaxHP;
 
-	// —^‚¦‚éƒ_ƒ[ƒW‰Šú‰»
+	// ä¸ãˆã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸åˆæœŸåŒ–
 	this->bodyDamage = 0.0f;
 	this->bladeDamage = 0.0f;
 
-	/// ’e‚ÌŠÖŒW‰Šú‰»
+	/// å¼¾ã®é–¢ä¿‚åˆæœŸåŒ–
 	for (int i = 0; i < kmaxBullet; i++) {
-		// ’e‚ÌÀ•W
+		// å¼¾ã®åº§æ¨™
 		this->bulletCenterPosition[i] = { 0.0f, 0.0f };
 
-		// ”­Ë‚µ‚Ä‚¢‚È‚¢ó‘Ô‚É‚·‚é
+		// ç™ºå°„ã—ã¦ã„ãªã„çŠ¶æ…‹ã«ã™ã‚‹
 		this->isShot[i] = false;
 
-		// ’e‚Ì”­Ë•ûŒü‚ğƒŠƒZƒbƒg‚·‚é
+		// å¼¾ã®ç™ºå°„æ–¹å‘ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 		this->bulletDirection[i] = 0.0f;
 
-		// ’e‚Ì¶‘¶ŠÔ‚ğƒŠƒZƒbƒg‚·‚é
+		// å¼¾ã®ç”Ÿå­˜æ™‚é–“ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 		this->bulletAliveTime[i] = 0.0f;
 
-		// ’e‚Ìƒ_ƒ[ƒW‰Šú‰»
+		// å¼¾ã®ãƒ€ãƒ¡ãƒ¼ã‚¸åˆæœŸåŒ–
 		this->bulletDamage[i] = 0.0f;
 
 	}
 
-	// ’e‚ÌƒTƒCƒY‚ğw’è
+	// å¼¾ã®ã‚µã‚¤ã‚ºã‚’æŒ‡å®š
 	this->bulletSize = { 20.0f, 20.0f };
-	// ’e‚Ì‰æ‘œƒTƒCƒY‚ğw’èi‰¼ƒeƒNƒXƒ`ƒƒ‚Ì‚½‚ßA¡Œã•Ï‚¦‚é)
+	// å¼¾ã®ç”»åƒã‚µã‚¤ã‚ºã‚’æŒ‡å®šï¼ˆä»®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãŸã‚ã€ä»Šå¾Œå¤‰ãˆã‚‹)
 	this->bulletTextureSize = { 1.0f, 1.0f };
 
-	// ’e‚Ì”­ËƒXƒs[ƒh‚ğw’è
+	// å¼¾ã®ç™ºå°„ã‚¹ãƒ”ãƒ¼ãƒ‰ã‚’æŒ‡å®š
 	this->bulletSpeed = 7.0f;
 
-	/// ƒIƒuƒWƒFƒNƒgŠÖ˜A
-	// ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚é‚©‚Ç‚¤‚©
+	/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé–¢é€£
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã‹ã©ã†ã‹
 	this->canGeneratedBlock = false;
 
-	// ƒIƒuƒWƒFƒNƒg¶¬ŒÂ”
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆå€‹æ•°
 	this->generatedBlockValue = 0;
 
-	// ƒIƒuƒWƒFƒNƒg¶¬ŠÔŠu
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆé–“éš”
 	this->generatedBlockInterval = 0.0f;
 }
 
-// ƒfƒXƒgƒ‰ƒNƒ^
+// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 Boss::~Boss() {
 
 }
 
-// ‰Šú‰»ˆ—
+// åˆæœŸåŒ–å‡¦ç†
 void Boss::Initialize(ObjectManager* objectManager) {
-	// ƒ{ƒX‚ÌˆÊ’u‚ğ‰æ–Ê’†‰›‚É‚Á‚Ä‚¢‚­
+	// ãƒœã‚¹ã®ä½ç½®ã‚’ç”»é¢ä¸­å¤®ã«æŒã£ã¦ã„ã
 	this->centerPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
-	// ƒ{ƒX‚Ì‰æ‘œƒTƒCƒY‚ğİ’è
+	// ãƒœã‚¹ã®ç”»åƒã‚µã‚¤ã‚ºã‚’è¨­å®š
 	this->textureSize = { 225.0f, 450.0f };
-	// ƒ{ƒX‚ÌƒIƒtƒZƒbƒg‚ğ‰Šú‰»
+	// ãƒœã‚¹ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’åˆæœŸåŒ–
 	this->offset = 0.0f;
 
-	// Šp“x‰Šú‰»
+	// è§’åº¦åˆæœŸåŒ–
 	this->degree = 0.0f;
-	// 1ƒtƒŒ[ƒ€‘O‚ÌŠp“x‚ğ‰Šú‰»
+	// 1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®è§’åº¦ã‚’åˆæœŸåŒ–
 	this->beforeDegree = 0.0f;
 
-	//ƒVƒFƒCƒN‚µ‚Ä‚¢‚È‚¢ó‘Ô‚É–ß‚·
+	//ã‚·ã‚§ã‚¤ã‚¯ã—ã¦ã„ãªã„çŠ¶æ…‹ã«æˆ»ã™
 	this->shakeVariation = { 0.0f, 0.0f };
 	this->coreShakeVariation = { 0.0f, 0.0f };
 
-	// ƒJƒbƒgƒV[ƒ“—pƒJƒƒ‰ˆÚ“®‘OÀ•W
+	// ã‚«ãƒƒãƒˆã‚·ãƒ¼ãƒ³ç”¨ã‚«ãƒ¡ãƒ©ç§»å‹•å‰åº§æ¨™
 	this->prevScreenPosition = { 0.0f, 0.0f };
 
-	// ƒJƒbƒgƒV[ƒ“—pƒJƒƒ‰ˆÚ“®ŒãÀ•W
+	// ã‚«ãƒƒãƒˆã‚·ãƒ¼ãƒ³ç”¨ã‚«ãƒ¡ãƒ©ç§»å‹•å¾Œåº§æ¨™
 	this->nextScreenPosition = { 0.0f, 0.0f };
 
-	// ƒoƒCƒuƒŒ[ƒVƒ‡ƒ“‰Šú‰»
+	// ãƒã‚¤ãƒ–ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³åˆæœŸåŒ–
 	vibInit = false;
 
-	// U“®‰¹Ä¶ƒgƒŠƒK[‚ğfalse‚É
+	// æŒ¯å‹•éŸ³å†ç”Ÿãƒˆãƒªã‚¬ãƒ¼ã‚’falseã«
 	isVibPlaySound = false;
 
-	// í“¬ŠJn‚µ‚Ä‚¢‚È‚¢ó‘Ô‚É‚·‚é
+	// æˆ¦é—˜é–‹å§‹ã—ã¦ã„ãªã„çŠ¶æ…‹ã«ã™ã‚‹
 	this->isBattleStart = false;
 
-	// s“®I—¹ó‘Ô‚É‚·‚é
+	// è¡Œå‹•çµ‚äº†çŠ¶æ…‹ã«ã™ã‚‹
 	this->t = 0.0f;
 	this->spareT = 0.0f;
 	this->endAction = true;
@@ -161,34 +161,34 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	this->inDamage = false;
 	this->actionWayPoint = 0;
 
-	// Šj‚ÌˆÊ’u‚ğİ’è
+	// æ ¸ã®ä½ç½®ã‚’è¨­å®š
 	this->coreCenterPosition = centerPosition;
-	// Šj‚Ì‰æ‘œƒTƒCƒY‚ğİ’è
+	// æ ¸ã®ç”»åƒã‚µã‚¤ã‚ºã‚’è¨­å®š
 	this->coreTextureSize = { 256.0f, 256.0f };
 
-	// Šj‚ÌƒTƒCƒY
+	// æ ¸ã®ã‚µã‚¤ã‚º
 	this->coreSize = { 256.0f, 256.0f };
 
 	coreSeparated = false;
 
-	// Šj‚Ì“–‚½‚è”»’è‚ğ‰Šú‰»
+	// æ ¸ã®å½“ãŸã‚Šåˆ¤å®šã‚’åˆæœŸåŒ–
 	core = objectManager->MakeNewObjectCore(coreCenterPosition, coreTextureSize);
 
-	// ƒtƒbƒN‚Ì‰æ‘œƒTƒCƒY‚ğİ’è
+	// ãƒ•ãƒƒã‚¯ã®ç”»åƒã‚µã‚¤ã‚ºã‚’è¨­å®š
 	this->hookTextureSize = { 48.0f, 48.0f };
 
-	// •Ší‚ÌƒeƒNƒXƒ`ƒƒ
+	// æ­¦å™¨ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£
 	this->weaponTexture = BaseTexture::kBossBlade;
 
-	// •Ší‚ÌƒTƒCƒY‚ğw’èi‰¼ƒeƒNƒXƒ`ƒƒ‚Ì‚½‚ßA¡Œã•Ï‚¦‚éj
+	// æ­¦å™¨ã®ã‚µã‚¤ã‚ºã‚’æŒ‡å®šï¼ˆä»®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãŸã‚ã€ä»Šå¾Œå¤‰ãˆã‚‹ï¼‰
 	this->weaponSize = { 0.0f, 0.0f };
 	this->weaponTextureSize = { 1.0f, 1.0f };
 
-	// •Ší‚²‚Æ‚ÌƒeƒNƒXƒ`ƒƒƒTƒCƒY‚ğw’è
+	// æ­¦å™¨ã”ã¨ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚µã‚¤ã‚ºã‚’æŒ‡å®š
 	this->bladeTextureSize = { 40.0f, 400.0f };
 	this->gunTextureSize = { 40.0f, 250.0f };
 
-	// ƒtƒbƒNƒTƒCƒY‰Šú‰»
+	// ãƒ•ãƒƒã‚¯ã‚µã‚¤ã‚ºåˆæœŸåŒ–
 	hookSize = { 96.0f, 96.0f };
 
 	for (int i = 0; i < kmaxWireHang; i++) {
@@ -197,103 +197,103 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	}
 
 
-	// UŒ‚ƒpƒ^[ƒ“‰Šú‰»
+	// æ”»æ’ƒãƒ‘ã‚¿ãƒ¼ãƒ³åˆæœŸåŒ–
 	this->prevAttackPattern[0] = NONE;
 	this->prevAttackPattern[1] = NONE;
 	this->attackPattern = NONE;
 
-	// ‘Ò‹@’†
+	// å¾…æ©Ÿä¸­
 	pleaseWait = true;
 
-	// ‘Ò‹@ŠÔ‚ğ‘ã“ü
+	// å¾…æ©Ÿæ™‚é–“ã‚’ä»£å…¥
 	this->waitTime = 1.0f;
 
-	// HP‰Šú‰»
+	// HPåˆæœŸåŒ–
 	this->HP = MaxHP;
 
-	// —^‚¦‚éƒ_ƒ[ƒW‰Šú‰»
+	// ä¸ãˆã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸åˆæœŸåŒ–
 	this->bodyDamage = 0.0f;
 	this->bladeDamage = 0.0f;
 
-	// €–S‚µ‚Ä‚¢‚È‚¢ó‘Ô‚É‚·‚é
+	// æ­»äº¡ã—ã¦ã„ãªã„çŠ¶æ…‹ã«ã™ã‚‹
 	this->inDead = false;
 
-	/// ’e‚ÌŠÖŒW‰Šú‰»
+	/// å¼¾ã®é–¢ä¿‚åˆæœŸåŒ–
 	for (int i = 0; i < kmaxBullet; i++) {
-		// ’e‚ÌÀ•W
+		// å¼¾ã®åº§æ¨™
 		this->bulletCenterPosition[i] = { 0.0f, 0.0f };
 
-		// ”­Ë‚µ‚Ä‚¢‚È‚¢ó‘Ô‚É‚·‚é
+		// ç™ºå°„ã—ã¦ã„ãªã„çŠ¶æ…‹ã«ã™ã‚‹
 		this->isShot[i] = false;
 
-		// ’e‚Ì”­Ë•ûŒü‚ğƒŠƒZƒbƒg‚·‚é
+		// å¼¾ã®ç™ºå°„æ–¹å‘ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 		this->bulletDirection[i] = 0.0f;
 
-		// ’e‚Ì¶‘¶ŠÔ‚ğƒŠƒZƒbƒg‚·‚é
+		// å¼¾ã®ç”Ÿå­˜æ™‚é–“ã‚’ãƒªã‚»ãƒƒãƒˆã™ã‚‹
 		this->bulletAliveTime[i] = 0.0f;
 
-		// ’e‚Ìƒ_ƒ[ƒW‰Šú‰»
+		// å¼¾ã®ãƒ€ãƒ¡ãƒ¼ã‚¸åˆæœŸåŒ–
 		this->bulletDamage[i] = 0.0f;
 
 	}
 
-	// ’e‚ÌƒTƒCƒY‚ğw’è
+	// å¼¾ã®ã‚µã‚¤ã‚ºã‚’æŒ‡å®š
 	this->bulletSize = { 25.0f, 25.0f };
-	// ’e‚Ì‰æ‘œƒTƒCƒY‚ğw’èi‰¼ƒeƒNƒXƒ`ƒƒ‚Ì‚½‚ßA¡Œã•Ï‚¦‚é)
+	// å¼¾ã®ç”»åƒã‚µã‚¤ã‚ºã‚’æŒ‡å®šï¼ˆä»®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã®ãŸã‚ã€ä»Šå¾Œå¤‰ãˆã‚‹)
 	this->bulletTextureSize = { 64.0f, 64.0f };
 
-	// ’e‚Ì”­ËƒXƒs[ƒh‚ğw’è
+	// å¼¾ã®ç™ºå°„ã‚¹ãƒ”ãƒ¼ãƒ‰ã‚’æŒ‡å®š
 	this->bulletSpeed = 7.0f;
 
-	/// ƒIƒuƒWƒFƒNƒgŠÖ˜A
-	// ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚é‚©‚Ç‚¤‚©
+	/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé–¢é€£
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã‹ã©ã†ã‹
 	this->canGeneratedBlock = false;
 
-	// ƒIƒuƒWƒFƒNƒg¶¬ŒÂ”
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆå€‹æ•°
 	this->generatedBlockValue = 0;
 
-	// ƒIƒuƒWƒFƒNƒg¶¬ŠÔŠu
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆé–“éš”
 	this->generatedBlockInterval = 0.0f;
 
-	// “G‚ğ¶¬‚·‚é‚©‚Ç‚¤‚©
+	// æ•µã‚’ç”Ÿæˆã™ã‚‹ã‹ã©ã†ã‹
 	this->canGeneratedEnemy = false;
 
-	// “G¶¬ŒÂ”
+	// æ•µç”Ÿæˆå€‹æ•°
 	this->generatedEnemyValue = 0;
 
-	// “G¶¬ŠÔŠu
+	// æ•µç”Ÿæˆé–“éš”
 	this->generatedEnemyInterval = 0.0f;
 
 
-	// FŠÖŒW‰Šú‰»
+	// è‰²é–¢ä¿‚åˆæœŸåŒ–
 	this->color = 0xFFFFFFFF;
 	this->coreColor = 0xFFFFFFFF;
 
-	// ‰‰oƒXƒLƒbƒv—p
+	// æ¼”å‡ºã‚¹ã‚­ãƒƒãƒ—ç”¨
 	LongPressFrame = 0.0f;
 
-	// Œ»İ‰‰o’†‚©
+	// ç¾åœ¨æ¼”å‡ºä¸­ã‹
 	isPlayingStartAnim = false;
 
-	// €–SƒAƒjƒ[ƒVƒ‡ƒ“
+	// æ­»äº¡ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 	isPlayingDeadAnim = false;
 
-	// €–SƒAƒjƒ[ƒVƒ‡ƒ“‚ªI—¹‚µ‚Ä‚¢‚é‚©
+	// æ­»äº¡ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ãŒçµ‚äº†ã—ã¦ã„ã‚‹ã‹
 	isEndDeadAnim = false;
 
-	// ˆø‚­‰¹
+	// å¼•ãéŸ³
 	PullSoundHundle = BaseAudio::kBossPull;
 	PullVoiceHundle = -1;
 
-	// ‹©‚Ñº
+	// å«ã³å£°
 	screamSoundHundle = BaseAudio::kBossScream;
 	screamVoiceHundle = -1;
 
-	// ’n–Â‚è‰¹
+	// åœ°é³´ã‚ŠéŸ³
 	RumbleEarthSoundHundle = BaseAudio::kBossRumbleEarth;
 	RumbleEarthVoiceHundle = -1;
 
-	// BGMŠÖŒW
+	// BGMé–¢ä¿‚
 	currentState = kStateProduction;
 	prevState = kStateProduction;
 
@@ -308,27 +308,27 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	Novice::StopAudio(BaseAudio::kBGMChance);
 }
 
-// XVˆ—
+// æ›´æ–°å‡¦ç†
 void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManager* wireManager) {
 
-	/******** ƒfƒoƒbƒNˆ— **********/
-	// ƒfƒoƒbƒOó‘Ô‚ÌØ‚è‘Ö‚¦
+	/******** ãƒ‡ãƒãƒƒã‚¯å‡¦ç† **********/
+	// ãƒ‡ãƒãƒƒã‚°çŠ¶æ…‹ã®åˆ‡ã‚Šæ›¿ãˆ
 	if (BaseInput::GetKeyboardState(DIK_H, Press) && BaseInput::GetKeyboardState(DIK_U, Press)) {
 		if (BaseInput::GetKeyboardState(DIK_BACKSPACE, Trigger)) {
 			if (inDebug == false) {
-				// í“¬ŠJnó‘Ô‚É‚·‚é
+				// æˆ¦é—˜é–‹å§‹çŠ¶æ…‹ã«ã™ã‚‹
 				isBattleStart = true;
-				// ƒIƒtƒZƒbƒg‰Šú‰»
+				// ã‚ªãƒ•ã‚»ãƒƒãƒˆåˆæœŸåŒ–
 				offset = 0;
-				// Šp“x‰Šú‰»
+				// è§’åº¦åˆæœŸåŒ–
 				degree = 0;
 
-				// s“®I—¹ó‘Ô‚É
+				// è¡Œå‹•çµ‚äº†çŠ¶æ…‹ã«
 				endAction = true;
 				inAction = false;
 				actionWayPoint = WAYPOINT0;
 
-				// ƒfƒoƒbƒNó‘Ô‚É‚·‚é
+				// ãƒ‡ãƒãƒƒã‚¯çŠ¶æ…‹ã«ã™ã‚‹
 				inDebug = true;
 			}
 			else
@@ -336,14 +336,14 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		}
 	}
 
-	// ƒfƒoƒbƒOŠÖ”‚ÌÀs
+	// ãƒ‡ãƒãƒƒã‚°é–¢æ•°ã®å®Ÿè¡Œ
 	if (inDebug == true) {
 		Debug();
 	}
 
 	Point viewPosition = { centerPosition.x + shakeVariation.x,centerPosition.y + shakeVariation.y };
 
-	// Šj‚ª•ª—£‚µ‚Ä‚¢‚È‚¢ó‘Ô‚Å‚ÍŠj‚ğƒ{ƒX‚É’Ç]‚³‚¹‚é
+	// æ ¸ãŒåˆ†é›¢ã—ã¦ã„ãªã„çŠ¶æ…‹ã§ã¯æ ¸ã‚’ãƒœã‚¹ã«è¿½å¾“ã•ã›ã‚‹
 	if (coreSeparated == false) {
 		coreCenterPosition = centerPosition;
 		coreShakeVariation = shakeVariation;
@@ -357,7 +357,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			endAction = false;
 		}
 
-		// €–Só‘Ô‚Ì‚ÌÀsˆ—
+		// æ­»äº¡çŠ¶æ…‹ã®æ™‚ã®å®Ÿè¡Œå‡¦ç†
 		if (HP <= 0) {
 			if (isEndDeadAnim == false && isPlayingDeadAnim == false) {
 
@@ -370,24 +370,24 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 				actionWayPoint = WAYPOINT0;
 				isPlayingDeadAnim = true;
 			}
-			// HP‚ª0ˆÈ‰º‚É‚È‚Á‚½‚çƒ{ƒX‚ğ€–Só‘Ô‚É‚·‚é
+			// HPãŒ0ä»¥ä¸‹ã«ãªã£ãŸã‚‰ãƒœã‚¹ã‚’æ­»äº¡çŠ¶æ…‹ã«ã™ã‚‹
 			HP = 0;
 		}
 
-		// s“®‚Ì•ªŠòˆ—
+		// è¡Œå‹•ã®åˆ†å²å‡¦ç†
 		if (inDead == false && inDebug == false) {
 			if (endAction == true) {
 
-				// s“®‚ÌŠÔŠu‚ğì‚é
+				// è¡Œå‹•ã®é–“éš”ã‚’ä½œã‚‹
 				if (pleaseWait == true) {
 					attackPattern = NONE;
 				}
 				else {
 					do {
-						// ƒvƒŒƒCƒ„[‚Æƒ{ƒX‚Ì‹——£‚ğ‹‚ß‚Ä‹ß‚¢‚©‰“‚¢‚©‚Ås“®‚ğ•ªŠò‚³‚¹‚é
+						// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ãƒœã‚¹ã®è·é›¢ã‚’æ±‚ã‚ã¦è¿‘ã„ã‹é ã„ã‹ã§è¡Œå‹•ã‚’åˆ†å²ã•ã›ã‚‹
 						if (BaseMath::GetLength({ playerPosition.x - centerPosition.x,playerPosition.y - centerPosition.y }) < 500.0f) {
 
-							// ‹ß‚¢
+							// è¿‘ã„
 							attackBranch = BaseMath::Random(Pattern1, Pattern4);
 							switch (attackBranch)
 							{
@@ -423,7 +423,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 						}
 						else {
 
-							// ‰“‚¢
+							// é ã„
 							attackBranch = BaseMath::Random(Pattern1, Pattern5);
 							switch (attackBranch)
 							{
@@ -462,14 +462,14 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 					} while (prevAttackPattern[0] == attackPattern || prevAttackPattern[1] == attackPattern);
 				}
 
-				// s“®ŠJn
+				// è¡Œå‹•é–‹å§‹
 				inAction = true;
 				endAction = false;
 
 			}
 		}
 
-		// s“®‚ÌÀsˆ—
+		// è¡Œå‹•ã®å®Ÿè¡Œå‡¦ç†
 		if (inAction == true && inStun == false && canTakeDamage == false && isPlayingDeadAnim == false) {
 			switch (attackPattern)
 			{
@@ -500,12 +500,12 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			}
 		}
 
-		// ƒXƒ^ƒ“ˆ—
+		// ã‚¹ã‚¿ãƒ³å‡¦ç†
 		if (inStun == true && canTakeDamage == false) {
 			Stun(1.25f, 1.5f, 3.0f, 0.75f, wireManager);
 		}
 
-		// ƒ_ƒ[ƒW‚ğó‚¯‚ç‚ê‚éó‘Ô‚É‚·‚éˆ—
+		// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ã‚‰ã‚Œã‚‹çŠ¶æ…‹ã«ã™ã‚‹å‡¦ç†
 		if (canTakeDamage == true && isPlayingDeadAnim == false) {
 			MakeDamagePossible(0.15f, 1.5f, 0.1f, 10.0f, 0.75f, 0.25f, wireManager, objectManager);
 		}
@@ -516,89 +516,89 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			}
 		}
 
-		// ƒ_ƒ[ƒW‚ğ—^‚¦‚½Û‚ÌƒAƒjƒ[ƒVƒ‡ƒ“Ä¶
+		// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆãŸéš›ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å†ç”Ÿ
 		if (inDamage == true) {
 			playTakeDamageAnim(0.1f, 50);
 		}
 
 		degree %= 360;
 
-		//@ƒRƒA‚Ì“–‚½‚è”»’è‚Ì’†SÀ•W‚ğƒZƒbƒg‚µ‘±‚¯‚é
-		// ƒ{ƒX‚ªŠJ‚¢‚Ä‚¢‚é‚Íƒ{ƒX©‘Ì‚Ìƒqƒbƒgƒ{ƒbƒNƒX‚ğ–³Œø‚É‚·‚é
+		//ã€€ã‚³ã‚¢ã®å½“ãŸã‚Šåˆ¤å®šã®ä¸­å¿ƒåº§æ¨™ã‚’ã‚»ãƒƒãƒˆã—ç¶šã‘ã‚‹
+		// ãƒœã‚¹ãŒé–‹ã„ã¦ã„ã‚‹æ™‚ã¯ãƒœã‚¹è‡ªä½“ã®ãƒ’ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹ã‚’ç„¡åŠ¹ã«ã™ã‚‹
 		if (offset > 150) {
-			// ŠJ‚¢‚Ä‚é‚É’Ç]
+			// é–‹ã„ã¦ã‚‹æ™‚ã«è¿½å¾“
 			core->SetCenterPosition(viewPosition);
 
 			if (isPlayingDeadAnim == false) {
 				color = 0x333333FF;
 			}
 
-			// ƒ{ƒX‚Ìƒqƒbƒgƒ{ƒbƒNƒX‚ğ—LŒø‚É‚·‚é
+			// ãƒœã‚¹ã®ãƒ’ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹ã‚’æœ‰åŠ¹ã«ã™ã‚‹
 			EnemyAttackHitBox::MakeNewHitBoxRight({ 10000.0f, 10000.0f }, textureSize.y / 2.0f, degree, bodyDamage);
 			EnemyAttackHitBox::MakeNewHitBoxLeft({ 10000.0f, 10000.0f }, textureSize.y / 2.0f, degree, bodyDamage);
 
 		}
 		else {
-			// ŠJ‚¢‚Ä‚¢‚È‚¢‚Æ‚«‚Í‚ ‚è‚¦‚È‚¢‚Ù‚Ç‚Æ‚¨‚­‚É
+			// é–‹ã„ã¦ã„ãªã„ã¨ãã¯ã‚ã‚Šãˆãªã„ã»ã©ã¨ãŠãã«
 			core->SetCenterPosition({ 10000.0f, 10000.0f });
 
 			if (isPlayingDeadAnim == false) {
 				color = 0xFFFFFFFF;
 			}
 
-			// ƒ{ƒX‚Ìƒqƒbƒgƒ{ƒbƒNƒX‚ğ—LŒø‚É‚·‚é
+			// ãƒœã‚¹ã®ãƒ’ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹ã‚’æœ‰åŠ¹ã«ã™ã‚‹
 			EnemyAttackHitBox::MakeNewHitBoxRight(GetRCoverCollision(centerPosition), textureSize.y / 2.0f, degree, bodyDamage);
 			EnemyAttackHitBox::MakeNewHitBoxLeft(GetLCoverCollision(centerPosition), textureSize.y / 2.0f, degree, bodyDamage);
 
 		}
 
-		// ƒtƒbƒN‚ÌÀ•W‚ğXV‚µ‘±‚¯‚é
+		// ãƒ•ãƒƒã‚¯ã®åº§æ¨™ã‚’æ›´æ–°ã—ç¶šã‘ã‚‹
 		wireHangPosition[0] = GetLHookPosition(viewPosition);
 		wireHangPosition[1] = GetRHookPosition(viewPosition);
 
-		// ƒtƒbƒN‚Ì’†SÀ•W‚ğƒZƒbƒg‚·‚é
+		// ãƒ•ãƒƒã‚¯ã®ä¸­å¿ƒåº§æ¨™ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 		hook[0]->SetCenterPosition(wireHangPosition[0]);
 		hook[1]->SetCenterPosition(wireHangPosition[1]);
 
 		float degreeDifference = degree - beforeDegree;
 
 		for (int i = 0; i < 5; i++) {
-			// •Ší‚Ìƒqƒbƒgƒ{ƒbƒNƒX
+			// æ­¦å™¨ã®ãƒ’ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹
 			EnemyAttackHitBox::MakeNewHitBox(GetWeaponPosition(viewPosition), weaponSize.x, weaponSize.y, (float)degree + (degreeDifference * i), bladeDamage);
 		}
 
-		/// ’eŠÖŒW‚ÌXVˆ—
-		// ”­Ë’n“_‚ÌXV
+		/// å¼¾é–¢ä¿‚ã®æ›´æ–°å‡¦ç†
+		// ç™ºå°„åœ°ç‚¹ã®æ›´æ–°
 		shotPoint = GetShotPosition(centerPosition);
 
-		// ’e‚ª”­Ë‚³‚ê‚Ä‚¢‚é‚Ìˆ—
+		// å¼¾ãŒç™ºå°„ã•ã‚Œã¦ã„ã‚‹æ™‚ã®å‡¦ç†
 		for (int i = 0; i < kmaxBullet; i++) {
 
-			// ’e‚Ìƒqƒbƒgƒ{ƒbƒNƒX
+			// å¼¾ã®ãƒ’ãƒƒãƒˆãƒœãƒƒã‚¯ã‚¹
 			EnemyAttackHitBox::MakeNewHitBox(bulletCenterPosition[i], bulletSize.x, bulletSize.y, 0.0f, bulletDamage[i]);
 
 			if (isShot[i] == true && bulletAliveTime[i] > 0.0f) {
 
-				// ’e‚ÌˆÚ“®
+				// å¼¾ã®ç§»å‹•
 				bulletCenterPosition[i].x += -cosf(bulletDirection[i]) * bulletSpeed;
 				bulletCenterPosition[i].y += -sinf(bulletDirection[i]) * bulletSpeed;
 
-				// ’e‚Ì¶‘¶ŠÔ‚ğƒ}ƒCƒiƒX
+				// å¼¾ã®ç”Ÿå­˜æ™‚é–“ã‚’ãƒã‚¤ãƒŠã‚¹
 				bulletAliveTime[i] -= 1.0f / 60.0f;
 			}
 			else {
-				// Á–Å‚·‚éƒ_ƒ[ƒW‚ğ‚O‚É
+				// æ¶ˆæ»…ã™ã‚‹æ™‚ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ï¼ã«
 				bulletDamage[i] = 0.0f;
 				isShot[i] = false;
 			}
 		}
 
-		/// ƒIƒuƒWƒFƒNƒgŠÖŒW‚ÌXVˆ—
+		/// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆé–¢ä¿‚ã®æ›´æ–°å‡¦ç†
 
-		// ƒIƒuƒWƒFƒNƒg¶¬‚·‚é
+		// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆç”Ÿæˆã™ã‚‹
 		if (canGeneratedBlock == true) {
 
-			// ¶¬ŠÔŠu‚ª0‚É‚È‚é‚Æ¶¬
+			// ç”Ÿæˆé–“éš”ãŒ0ã«ãªã‚‹ã¨ç”Ÿæˆ
 			if (generatedBlockInterval < 0) {
 				if (generatedBlockValue > 0) {
 					float blockSize = BaseMath::RandomF(20.0f, 60.0f, 0);
@@ -606,13 +606,13 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 					Point spawnPoint = { BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kBossStageSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1),
 						(float)BaseConst::kBossStageSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize };
 
-					// ”ÍˆÍ“à‚¾‚Á‚½ê‡‚ÍÄ’Š‘I
+					// ç¯„å›²å†…ã ã£ãŸå ´åˆã¯å†æŠ½é¸
 					while (spawnPoint.x + blockSize >= centerPosition.x - textureSize.x / 2.0f && spawnPoint.x - blockSize <= centerPosition.x + textureSize.x / 2.0f)
 					{
 						spawnPoint = { BaseMath::RandomF(BaseConst::kMapChipSizeWidth + blockSize, BaseConst::kBossStageSizeWidth * BaseConst::kMapChipSizeWidth - blockSize, 1),
 						(float)BaseConst::kBossStageSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - blockSize };
 					}
-					// ƒ‰ƒ“ƒ_ƒ€‚ÈˆÊ’u‚ÉAƒ‰ƒ“ƒ_ƒ€‚È‘å‚«‚³‚ÌƒuƒƒbƒN‚ğ¶¬
+					// ãƒ©ãƒ³ãƒ€ãƒ ãªä½ç½®ã«ã€ãƒ©ãƒ³ãƒ€ãƒ ãªå¤§ãã•ã®ãƒ–ãƒ­ãƒƒã‚¯ã‚’ç”Ÿæˆ
 					objectManager->MakeNewObjectBlock(spawnPoint, { blockSize, blockSize });
 					generatedBlockValue--;
 				}
@@ -626,10 +626,10 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			}
 		}
 
-		// G‹›“G¶¬‚·‚é
+		// é›‘é­šæ•µç”Ÿæˆã™ã‚‹
 		if (canGeneratedEnemy == true) {
 
-			// ¶¬ŠÔŠu‚ª0‚É‚È‚é‚Æ¶¬
+			// ç”Ÿæˆé–“éš”ãŒ0ã«ãªã‚‹ã¨ç”Ÿæˆ
 			if (generatedEnemyInterval < 0) {
 				if (generatedEnemyValue > 0) {
 					float enemySize = 55.0f;
@@ -637,7 +637,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 					Point spawnPoint = { BaseMath::RandomF(BaseConst::kMapChipSizeWidth + enemySize, BaseConst::kBossStageSizeWidth * BaseConst::kMapChipSizeWidth - enemySize, 1),
 						(float)BaseConst::kBossStageSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - enemySize };
 
-					// ƒ‰ƒ“ƒ_ƒ€‚ÈˆÊ’u‚ÉAƒ‰ƒ“ƒ_ƒ€‚ÈˆÊ’u‚ÉG‹›“G‚ğ¶¬
+					// ãƒ©ãƒ³ãƒ€ãƒ ãªä½ç½®ã«ã€ãƒ©ãƒ³ãƒ€ãƒ ãªä½ç½®ã«é›‘é­šæ•µã‚’ç”Ÿæˆ
 					objectManager->MakeNewObjectIronBalloon(spawnPoint);
 					generatedEnemyValue--;
 				}
@@ -651,14 +651,14 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			}
 		}
 
-		// ÅŒã‚É1ƒtƒŒ[ƒ€‘O‚ÌŠp“x‚ğæ“¾
+		// æœ€å¾Œã«1ãƒ•ãƒ¬ãƒ¼ãƒ å‰ã®è§’åº¦ã‚’å–å¾—
 		beforeDegree = degree;
 
 		if (isPlayingDeadAnim == true && isEndDeadAnim == false) {
-			PlayDeadAnim(5.0f, 3.0f, 5.0f, 0.45f, 2.0f, wireManager);
+			PlayDeadAnim(5.0f, 3.0f, 5.0f, 0.45f, 2.0f, objectManager, wireManager);
 
 			if (isPlayingDeadAnim == true && PublicFlag::kisStaging == false) {
-				// ƒƒCƒ„[‚ğ‚¿‚¬‚ê‚È‚­‚·‚é
+				// ãƒ¯ã‚¤ãƒ¤ãƒ¼ã‚’ã¡ãã‚Œãªãã™ã‚‹
 				PublicFlag::kBossisTurningAndCutWire = false;
 				Novice::StopAudio(RumbleEarthVoiceHundle);
 				color = 0x00000000;
@@ -670,17 +670,17 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 
 	}
 	else if (inDead == false) {
-		// ŠJnƒAƒjƒ[ƒVƒ‡ƒ“Ä¶
+		// é–‹å§‹ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³å†ç”Ÿ
 		PlayStartAnim(2.5f, 5.0f, 0.25f, 2.5f, 1.0f);
 
 		if (isPlayingStartAnim == true && PublicFlag::kisStaging == false) {
-			// ‰‰oI—¹
+			// æ¼”å‡ºçµ‚äº†
 			PublicFlag::kisStaging = false;
-			// ƒƒCƒ„[‚ğ‚¿‚¬‚ê‚È‚­‚·‚é
+			// ãƒ¯ã‚¤ãƒ¤ãƒ¼ã‚’ã¡ãã‚Œãªãã™ã‚‹
 			PublicFlag::kBossisTurningAndCutWire = false;
 			isPlayingStartAnim = false;
 
-			// ‰Šú‰»
+			// åˆæœŸåŒ–
 			offset = 0;
 			shakeVariation = { 0.0f, 0.0f };
 			isBattleStart = true;
@@ -691,7 +691,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 	}
 
 
-	// ‹ÈŠÖŒW‚Ìˆ—
+	// æ›²é–¢ä¿‚ã®å‡¦ç†
 	if (isPlayingStartAnim) {
 		currentState = kStateProduction;
 	}
@@ -711,7 +711,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		Novice::StopAudio(BaseAudio::kBGMBoss);
 		Novice::StopAudio(BaseAudio::kBGMChance);
 	}
-	// ‹ÈŠJn
+	// æ›²é–‹å§‹
 	if (currentState == kStateNormal && prevState == kStateProduction) {
 		isChangeBGM = true;
 		if (!Novice::IsPlayingAudio(checkNormalBGM) || checkNormalBGM == -1) {
@@ -722,12 +722,12 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		}
 		Novice::PauseAudio(checkChanceBGM);*/
 	}
-	// ’Êí
+	// é€šå¸¸
 	else if (currentState == kStateNormal && prevState != currentState) {
 		isChangeBGM = true;
 		/*
 		Novice::StopAudio(checkChanceBGM);
-		Novice::ResumeAudio(checkNormalBGM);*/
+		Novice::ResumeAudio(checkNormalBGM);*
 		//if (!Novice::IsPlayingAudio(checkNormalBGM) || checkNormalBGM == -1) {
 		//	checkNormalBGM = Novice::PlayAudio(BaseAudio::kBGMBoss, 1, BaseAudio::BGMvolume);
 		//	//Novice::StopAudio(checkNormalBGM);
@@ -736,7 +736,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		//	//checkNormalBGM = Novice::PlayAudio(BaseAudio::kBGMBoss, 1, BaseAudio::BGMvolume);
 		//}
 	}
-	// ƒ`ƒƒƒ“ƒX
+	// ãƒãƒ£ãƒ³ã‚¹
 	else if (currentState == kStateChance && prevState != currentState) {
 		isChangeBGM = true;
 
@@ -767,7 +767,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			volumeFeedIn += 0.05f;
 			volumeFeedOut -= 0.05f;
 		}
-		// ƒtƒF[ƒhƒCƒ“ƒAƒEƒgI—¹
+		// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ã‚¢ã‚¦ãƒˆçµ‚äº†
 		else {
 			volumeFeedIn = 1.0f;
 			volumeFeedOut = 0.0f;
@@ -783,7 +783,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			}
 			isChangeBGM = false;
 		}
-		// ’l‚ğİ’è
+		// å€¤ã‚’è¨­å®š
 		if (currentState == kStateChance) {
 			Novice::SetAudioVolume(checkNormalBGM, BaseAudio::BGMvolume * 0.4f * volumeFeedOut);
 			Novice::SetAudioVolume(checkChanceBGM, BaseAudio::BGMvolume * volumeFeedIn);
@@ -817,14 +817,14 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 	prevState = currentState;
 }
 
-// •`‰æˆ—
+// æç”»å‡¦ç†
 void Boss::Draw() {
 
 	Point viewPosition = { centerPosition.x + shakeVariation.x,centerPosition.y + shakeVariation.y };
 	Point coreViewPosition = { coreCenterPosition.x + coreShakeVariation.x, coreCenterPosition.y + coreShakeVariation.y };
 
 	if (inDead == false) {
-		// ƒ{ƒX•Ší‰æ‘œ Œ»İ‚Í‰¼ƒeƒNƒXƒ`ƒƒ
+		// ãƒœã‚¹æ­¦å™¨ç”»åƒ ç¾åœ¨ã¯ä»®ãƒ†ã‚¯ã‚¹ãƒãƒ£
 		BaseDraw::DesignationDrawQuad(
 			Boss::GetWeaponPosition(viewPosition),
 			weaponSize,
@@ -836,7 +836,7 @@ void Boss::Draw() {
 
 		for (int i = 0; i < kmaxBullet; i++) {
 			if (isShot[i] == true) {
-				// ’e‰æ‘œ Œ»İ‚Í‰¼ƒeƒNƒXƒ`ƒƒ
+				// å¼¾ç”»åƒ ç¾åœ¨ã¯ä»®ãƒ†ã‚¯ã‚¹ãƒãƒ£
 				BaseDraw::DesignationDrawQuad(
 					bulletCenterPosition[i],
 					bulletSize,
@@ -848,7 +848,7 @@ void Boss::Draw() {
 			}
 		}
 
-		// ƒ{ƒX‚ÌƒRƒA
+		// ãƒœã‚¹ã®ã‚³ã‚¢
 		BaseDraw::DesignationDrawQuad(
 			coreViewPosition,
 			coreSize,
@@ -858,7 +858,7 @@ void Boss::Draw() {
 			coreColor
 		);
 
-		// ƒ{ƒX¶‘¤ƒtƒbƒN‰æ‘œ
+		// ãƒœã‚¹å·¦å´ãƒ•ãƒƒã‚¯ç”»åƒ
 		BaseDraw::DesignationDrawQuad(
 			Boss::GetLHookPosition(viewPosition),
 			hookSize,
@@ -868,7 +868,7 @@ void Boss::Draw() {
 			color
 		);
 
-		// ƒ{ƒX‰E‘¤ƒtƒbƒN‰æ‘œ
+		// ãƒœã‚¹å³å´ãƒ•ãƒƒã‚¯ç”»åƒ
 		BaseDraw::DesignationDrawQuad(
 			Boss::GetRHookPosition(viewPosition),
 			hookSize,
@@ -878,7 +878,7 @@ void Boss::Draw() {
 			color
 		);
 
-		// ƒ{ƒX¶‘¤‰æ‘œ
+		// ãƒœã‚¹å·¦å´ç”»åƒ
 		BaseDraw::DrawQuad(
 			Boss::GetLCoverPosition(viewPosition),
 			BaseTexture::kBossLCover,
@@ -888,7 +888,7 @@ void Boss::Draw() {
 			color
 		);
 
-		// ƒ{ƒX‰E‘¤‰æ‘œ
+		// ãƒœã‚¹å³å´ç”»åƒ
 		BaseDraw::DrawQuad(
 			Boss::GetRCoverPosition(viewPosition),
 			BaseTexture::kBossRCover,
@@ -900,30 +900,30 @@ void Boss::Draw() {
 	}
 
 	if (isBattleStart == true) {
-		// ƒ{ƒXHPƒQ[ƒWi‰¼j
+		// ãƒœã‚¹HPã‚²ãƒ¼ã‚¸ï¼ˆä»®ï¼‰
 		Novice::DrawBox(450, 100, 0 + 100 * HP, 30, 0.0f, 0xdc143cFF, kFillModeSolid);
 	}
 
 }
 
-// ƒ{ƒX©‘Ì‚Ì“–‚½‚è”»’è‚ğ•Ô‚·ŠÖ”
-// •Ô‚è’lF“–‚½‚Á‚Ä‚¢‚é ... true “–‚½‚Á‚Ä‚¢‚È‚¢ ... false
-// ˆø”F
-// hitPosition ... “–‚½‚Á‚½À•W
-// ˆø”‚Åw’è‚µ‚½Point‚ªƒ{ƒX‚ÌŠOŠk‚É–½’†‚µ‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğ•Ô‚·ŠÖ”
+// ãƒœã‚¹è‡ªä½“ã®å½“ãŸã‚Šåˆ¤å®šã‚’è¿”ã™é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šå½“ãŸã£ã¦ã„ã‚‹ ... true å½“ãŸã£ã¦ã„ãªã„ ... false
+// å¼•æ•°ï¼š
+// hitPosition ... å½“ãŸã£ãŸåº§æ¨™
+// å¼•æ•°ã§æŒ‡å®šã—ãŸPointãŒãƒœã‚¹ã®å¤–æ®»ã«å‘½ä¸­ã—ã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’è¿”ã™é–¢æ•°
 bool Boss::GetBossCollision(Point hitPosition) {
 
-	// ‹——£‚ğ‹‚ß‚é
+	// è·é›¢ã‚’æ±‚ã‚ã‚‹
 	float x = centerPosition.x - hitPosition.x;
 	float y = centerPosition.y - hitPosition.y;
 	float d = sqrt(pow(x, 2) + pow(y, 2));
 
-	// ƒ{ƒX‚ªŠJ‚¢‚Ä‚¢‚é‚Í“–‚½‚ç‚È‚¢
+	// ãƒœã‚¹ãŒé–‹ã„ã¦ã„ã‚‹æ™‚ã¯å½“ãŸã‚‰ãªã„
 	if (offset > 0) {
 		return false;
 	}
 	else {
-		// ‰~‚É–½’†‚µ‚½ê‡true‚ğ•Ô‚·
+		// å††ã«å‘½ä¸­ã—ãŸå ´åˆtrueã‚’è¿”ã™
 		if (d <= textureSize.y / 2) {
 			return true;
 		}
@@ -933,85 +933,85 @@ bool Boss::GetBossCollision(Point hitPosition) {
 	}
 }
 
-// ƒ{ƒX¶‰æ‘œ‚Ì‘Š‘ÎÀ•W‚ğ‹‚ß‚é
+// ãƒœã‚¹å·¦ç”»åƒã®ç›¸å¯¾åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 Point Boss::GetLCoverPosition(Point centerPosition) {
-	// ‰ñ“]’†S‚©‚ç‚Ì·ˆÙƒxƒNƒgƒ‹ì¬
+	// å›è»¢ä¸­å¿ƒã‹ã‚‰ã®å·®ç•°ãƒ™ã‚¯ãƒˆãƒ«ä½œæˆ
 	Point p = { -textureSize.x / 2 - offset, 0 };
-	// ƒxƒNƒgƒ‹ŒvZ
+	// ãƒ™ã‚¯ãƒˆãƒ«è¨ˆç®—
 	p = BaseMath::TurnPoint(p, degree);
-	// ŒvZ‚µ‚½’l‚ğ•Ô‚·
+	// è¨ˆç®—ã—ãŸå€¤ã‚’è¿”ã™
 	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
 }
-// ƒ{ƒX‰E‰æ‘œ‚Ì‘Š‘ÎÀ•W‚ğ‹‚ß‚é
+// ãƒœã‚¹å³ç”»åƒã®ç›¸å¯¾åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 Point Boss::GetRCoverPosition(Point centerPosition) {
-	// ‰ñ“]’†S‚©‚ç‚Ì·ˆÙƒxƒNƒgƒ‹ì¬
+	// å›è»¢ä¸­å¿ƒã‹ã‚‰ã®å·®ç•°ãƒ™ã‚¯ãƒˆãƒ«ä½œæˆ
 	Point p = { textureSize.x / 2 + offset, 0 };
-	// ƒxƒNƒgƒ‹ŒvZ
+	// ãƒ™ã‚¯ãƒˆãƒ«è¨ˆç®—
 	p = BaseMath::TurnPoint(p, degree);
-	// ŒvZ‚µ‚½’l‚ğ•Ô‚·
+	// è¨ˆç®—ã—ãŸå€¤ã‚’è¿”ã™
 	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
 }
 
-// ƒ{ƒX¶‰æ‘œ‚Ì“–‚½‚è”»’è‚ğ‹‚ß‚é
+// ãƒœã‚¹å·¦ç”»åƒã®å½“ãŸã‚Šåˆ¤å®šã‚’æ±‚ã‚ã‚‹
 Point Boss::GetLCoverCollision(Point centerPosition) {
-	// ‰ñ“]’†S‚©‚ç‚Ì·ˆÙƒxƒNƒgƒ‹ì¬
+	// å›è»¢ä¸­å¿ƒã‹ã‚‰ã®å·®ç•°ãƒ™ã‚¯ãƒˆãƒ«ä½œæˆ
 	Point p = { -textureSize.x / 2 - offset, 0 };
-	// ƒxƒNƒgƒ‹ŒvZ
+	// ãƒ™ã‚¯ãƒˆãƒ«è¨ˆç®—
 	p = BaseMath::TurnPoint(p, degree);
-	// ŒvZ‚µ‚½’l‚ğ•Ô‚·
+	// è¨ˆç®—ã—ãŸå€¤ã‚’è¿”ã™
 	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
 }
-// ƒ{ƒX‰E‰æ‘œ‚Ì“–‚½‚è”»’è‚ğ‹‚ß‚é
+// ãƒœã‚¹å³ç”»åƒã®å½“ãŸã‚Šåˆ¤å®šã‚’æ±‚ã‚ã‚‹
 Point Boss::GetRCoverCollision(Point centerPosition) {
-	// ‰ñ“]’†S‚©‚ç‚Ì·ˆÙƒxƒNƒgƒ‹ì¬
+	// å›è»¢ä¸­å¿ƒã‹ã‚‰ã®å·®ç•°ãƒ™ã‚¯ãƒˆãƒ«ä½œæˆ
 	Point p = { textureSize.x / 2 + offset, 0 };
-	// ƒxƒNƒgƒ‹ŒvZ
+	// ãƒ™ã‚¯ãƒˆãƒ«è¨ˆç®—
 	p = BaseMath::TurnPoint(p, degree);
-	// ŒvZ‚µ‚½’l‚ğ•Ô‚·
+	// è¨ˆç®—ã—ãŸå€¤ã‚’è¿”ã™
 	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
 }
 
-// •Ší‰æ‘œ‚Ì‘Š‘ÎÀ•W‚ğ‹‚ß‚é
+// æ­¦å™¨ç”»åƒã®ç›¸å¯¾åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 Point Boss::GetWeaponPosition(Point centerPosition) {
-	// ‰ñ“]’†S‚©‚ç‚Ì·ˆÙƒxƒNƒgƒ‹ì¬
+	// å›è»¢ä¸­å¿ƒã‹ã‚‰ã®å·®ç•°ãƒ™ã‚¯ãƒˆãƒ«ä½œæˆ
 	Point p = { 0, weaponSize.y / 2 };
-	// ƒxƒNƒgƒ‹ŒvZ
+	// ãƒ™ã‚¯ãƒˆãƒ«è¨ˆç®—
 	p = BaseMath::TurnPoint(p, degree);
-	// ŒvZ‚µ‚½’l‚ğ•Ô‚·
+	// è¨ˆç®—ã—ãŸå€¤ã‚’è¿”ã™
 	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
 }
 
-// ”­Ë’n“_‚Ì‘Š‘ÎÀ•W‚ğ‹‚ß‚é
+// ç™ºå°„åœ°ç‚¹ã®ç›¸å¯¾åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 Point Boss::GetShotPosition(Point centerPosition) {
-	// ‰ñ“]’†S‚©‚ç‚Ì·ˆÙƒxƒNƒgƒ‹ì¬
+	// å›è»¢ä¸­å¿ƒã‹ã‚‰ã®å·®ç•°ãƒ™ã‚¯ãƒˆãƒ«ä½œæˆ
 	Point p = { 0, weaponSize.y };
-	// ƒxƒNƒgƒ‹ŒvZ
+	// ãƒ™ã‚¯ãƒˆãƒ«è¨ˆç®—
 	p = BaseMath::TurnPoint(p, degree);
-	// ŒvZ‚µ‚½’l‚ğ•Ô‚·
+	// è¨ˆç®—ã—ãŸå€¤ã‚’è¿”ã™
 	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
 }
 
-// ¶‘¤ƒtƒbƒN‚Ì‘Š‘ÎÀ•W‚ğ‹‚ß‚é
+// å·¦å´ãƒ•ãƒƒã‚¯ã®ç›¸å¯¾åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 Point Boss::GetLHookPosition(Point centerPosition) {
-	// ‰ñ“]’†S‚©‚ç‚Ì·ˆÙƒxƒNƒgƒ‹ì¬
+	// å›è»¢ä¸­å¿ƒã‹ã‚‰ã®å·®ç•°ãƒ™ã‚¯ãƒˆãƒ«ä½œæˆ
 	Point p = { -textureSize.x - offset , 0 };
-	// ƒxƒNƒgƒ‹ŒvZ
+	// ãƒ™ã‚¯ãƒˆãƒ«è¨ˆç®—
 	p = BaseMath::TurnPoint(p, degree);
-	// ŒvZ‚µ‚½’l‚ğ•Ô‚·
+	// è¨ˆç®—ã—ãŸå€¤ã‚’è¿”ã™
 	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
 }
 
-// ‰E‘¤ƒtƒbƒN‚Ì‘Š‘ÎÀ•W‚ğ‹‚ß‚é
+// å³å´ãƒ•ãƒƒã‚¯ã®ç›¸å¯¾åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 Point Boss::GetRHookPosition(Point centerPosition) {
-	// ‰ñ“]’†S‚©‚ç‚Ì·ˆÙƒxƒNƒgƒ‹ì¬
+	// å›è»¢ä¸­å¿ƒã‹ã‚‰ã®å·®ç•°ãƒ™ã‚¯ãƒˆãƒ«ä½œæˆ
 	Point p = { textureSize.x + offset , 0 };
-	// ƒxƒNƒgƒ‹ŒvZ
+	// ãƒ™ã‚¯ãƒˆãƒ«è¨ˆç®—
 	p = BaseMath::TurnPoint(p, degree);
-	// ŒvZ‚µ‚½’l‚ğ•Ô‚·
+	// è¨ˆç®—ã—ãŸå€¤ã‚’è¿”ã™
 	return { (centerPosition.x + p.x) ,(centerPosition.y + p.y) };
 }
 
-// ƒfƒoƒbƒO—pŠÖ”
+// ãƒ‡ãƒãƒƒã‚°ç”¨é–¢æ•°
 void Boss::Debug() {
 
 	Novice::ScreenPrintf(0, 0, "DebugMode :: ON");
@@ -1022,13 +1022,13 @@ void Boss::Debug() {
 
 	if (endAction == true) {
 
-		// s“®‚ğŠJn‚³‚¹‚é
+		// è¡Œå‹•ã‚’é–‹å§‹ã•ã›ã‚‹
 		if (BaseInput::GetKeyboardState(DIK_F, Trigger)) {
 			inAction = true;
 			endAction = false;
 		}
 
-		//s“®ƒpƒ^[ƒ“Ø‚è‘Ö‚¦
+		//è¡Œå‹•ãƒ‘ã‚¿ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆ
 		if (BaseInput::GetKeyboardState(DIK_1, Trigger)) {
 			attackPattern = NONE;
 		}
@@ -1052,13 +1052,13 @@ void Boss::Debug() {
 		}
 	}
 
-	// ƒ{ƒX‚ğƒXƒ^ƒ“‚³‚¹‚é
+	// ãƒœã‚¹ã‚’ã‚¹ã‚¿ãƒ³ã•ã›ã‚‹
 	if (BaseInput::GetKeyboardState(DIK_8, Trigger)) {
 		actionWayPoint = WAYPOINT0;
 		inStun = true;
 	}
 
-	// ƒ{ƒX‚ğƒXƒ^ƒ“‚³‚¹‚é
+	// ãƒœã‚¹ã‚’ã‚¹ã‚¿ãƒ³ã•ã›ã‚‹
 	if (BaseInput::GetKeyboardState(DIK_9, Trigger)) {
 		actionWayPoint = WAYPOINT0;
 		canTakeDamage = true;
@@ -1069,26 +1069,26 @@ void Boss::Debug() {
 		isPlayingDeadAnim = true;
 	}
 
-	// ƒ{ƒX‚ğ¶‰E‚ÉŠJ‚©‚¹‚é
+	// ãƒœã‚¹ã‚’å·¦å³ã«é–‹ã‹ã›ã‚‹
 	if (BaseInput::GetKeyboardState(DIK_I, Press))
 		offset += 1.0f;
 
 	else if (BaseInput::GetKeyboardState(DIK_K, Press))
 		offset -= 1.0f;
 
-	// ƒIƒtƒZƒbƒg‚ªw’è‚Ì’lˆÈ‰º‚É‚È‚é‚Æ0‚É‚·‚é
+	// ã‚ªãƒ•ã‚»ãƒƒãƒˆãŒæŒ‡å®šã®å€¤ä»¥ä¸‹ã«ãªã‚‹ã¨0ã«ã™ã‚‹
 	if (offset < 0) {
 		offset = 0;
 	}
 
-	// ƒ{ƒX‚ğ‰ñ“]‚³‚¹‚é
+	// ãƒœã‚¹ã‚’å›è»¢ã•ã›ã‚‹
 	if (BaseInput::GetKeyboardState(DIK_L, Press))
 		degree++;
 
 	else if (BaseInput::GetKeyboardState(DIK_J, Press))
 		degree--;
 
-	// •Ší‚ÌƒTƒCƒY‚ğ•ÏX
+	// æ­¦å™¨ã®ã‚µã‚¤ã‚ºã‚’å¤‰æ›´
 	// x
 	if (BaseInput::GetKeyboardState(DIK_O, Press)) {
 		weaponSize.x -= 1.0f;
@@ -1106,32 +1106,32 @@ void Boss::Debug() {
 
 }
 
-// ƒVƒFƒCƒNŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// shakeStrength ... ƒVƒFƒCƒN‚·‚éÛ‚Ì‹­‚³
-// ƒ{ƒX‚ğƒVƒFƒCƒN‚³‚¹‚éŠÖ”
+// ã‚·ã‚§ã‚¤ã‚¯é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// shakeStrength ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹éš›ã®å¼·ã•
+// ãƒœã‚¹ã‚’ã‚·ã‚§ã‚¤ã‚¯ã•ã›ã‚‹é–¢æ•°
 void Boss::Shake(int shakeStrength) {
 	shakeVariation.x = BaseMath::RandomF(-shakeStrength, shakeStrength, 1);
 	shakeVariation.y = BaseMath::RandomF(-shakeStrength, shakeStrength, 1);
 }
 
-// ƒVƒFƒCƒNŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// shakeStrength ... ƒVƒFƒCƒN‚·‚éÛ‚Ì‹­‚³
-// ƒ{ƒX‚ğƒVƒFƒCƒN‚³‚¹‚éŠÖ”
+// ã‚·ã‚§ã‚¤ã‚¯é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// shakeStrength ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹éš›ã®å¼·ã•
+// ãƒœã‚¹ã‚’ã‚·ã‚§ã‚¤ã‚¯ã•ã›ã‚‹é–¢æ•°
 void Boss::CoreShake(int shakeStrength) {
 	coreShakeVariation.x = BaseMath::RandomF(-shakeStrength, shakeStrength, 1);
 	coreShakeVariation.y = BaseMath::RandomF(-shakeStrength, shakeStrength, 1);
 }
 
-// ƒVƒFƒCƒNƒC[ƒYƒAƒEƒgŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// shakeStrength ... ƒVƒFƒCƒN‚·‚éÛ‚Ì‹­‚³
-// shakeTime ... ƒVƒFƒCƒN‚·‚éŠÔ
-// ƒ{ƒX‚ğƒVƒFƒCƒN‚Ì‹­‚³‚ğ­‚µ‚¸‚Âã‚­‚µ‚È‚ª‚ç“®‚©‚·ŠÖ”
+// ã‚·ã‚§ã‚¤ã‚¯ã‚¤ãƒ¼ã‚ºã‚¢ã‚¦ãƒˆé–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// shakeStrength ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹éš›ã®å¼·ã•
+// shakeTime ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹æ™‚é–“
+// ãƒœã‚¹ã‚’ã‚·ã‚§ã‚¤ã‚¯ã®å¼·ã•ã‚’å°‘ã—ãšã¤å¼±ãã—ãªãŒã‚‰å‹•ã‹ã™é–¢æ•°
 void Boss::ShakeEaseOut(int shakeStrength, float shakeTime) {
 	shakeRange = BaseDraw::Ease_Out(t, shakeStrength, -shakeStrength, shakeTime);
 
@@ -1139,12 +1139,12 @@ void Boss::ShakeEaseOut(int shakeStrength, float shakeTime) {
 	shakeVariation.y = BaseMath::RandomF(-shakeRange / 2, shakeRange / 2, 0);
 }
 
-// ƒVƒFƒCƒNƒC[ƒYƒAƒEƒgŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// shakeStrength ... ƒVƒFƒCƒN‚·‚éÛ‚Ì‹­‚³
-// shakeTime ... ƒVƒFƒCƒN‚·‚éŠÔ
-// ƒ{ƒX‚ğƒVƒFƒCƒN‚Ì‹­‚³‚ğ­‚µ‚¸‚Âã‚­‚µ‚È‚ª‚ç“®‚©‚·ŠÖ”
+// ã‚·ã‚§ã‚¤ã‚¯ã‚¤ãƒ¼ã‚ºã‚¢ã‚¦ãƒˆé–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// shakeStrength ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹éš›ã®å¼·ã•
+// shakeTime ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹æ™‚é–“
+// ãƒœã‚¹ã‚’ã‚·ã‚§ã‚¤ã‚¯ã®å¼·ã•ã‚’å°‘ã—ãšã¤å¼±ãã—ãªãŒã‚‰å‹•ã‹ã™é–¢æ•°
 void Boss::CoreShakeEaseOut(int shakeStrength, float shakeTime) {
 	shakeRange = BaseDraw::Ease_Out(t, shakeStrength, -shakeStrength, shakeTime);
 
@@ -1152,12 +1152,12 @@ void Boss::CoreShakeEaseOut(int shakeStrength, float shakeTime) {
 	coreShakeVariation.y = BaseMath::RandomF(-shakeRange / 2, shakeRange / 2, 0);
 }
 
-// ƒVƒFƒCƒNƒC[ƒYƒCƒ“ƒAƒEƒgŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// shakeStrength ... ƒVƒFƒCƒN‚·‚éÛ‚Ì‹­‚³
-// shakeTime ... ƒVƒFƒCƒN‚·‚éŠÔ
-// ƒ{ƒX‚ÌƒVƒFƒCƒN‚Ì‹­‚³‚ğ­‚µ‚¸‚Âã‚­‚µ‚È‚ª‚ç“®‚©‚·ŠÖ”
+// ã‚·ã‚§ã‚¤ã‚¯ã‚¤ãƒ¼ã‚ºã‚¤ãƒ³ã‚¢ã‚¦ãƒˆé–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// shakeStrength ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹éš›ã®å¼·ã•
+// shakeTime ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹æ™‚é–“
+// ãƒœã‚¹ã®ã‚·ã‚§ã‚¤ã‚¯ã®å¼·ã•ã‚’å°‘ã—ãšã¤å¼±ãã—ãªãŒã‚‰å‹•ã‹ã™é–¢æ•°
 void Boss::ShakeEaseInOut(int shakeStrength, float shakeTime) {
 	shakeRange = BaseDraw::Ease_InOut(t, shakeStrength, -shakeStrength, shakeTime);
 
@@ -1165,21 +1165,21 @@ void Boss::ShakeEaseInOut(int shakeStrength, float shakeTime) {
 	shakeVariation.y = BaseMath::RandomF(-shakeRange / 2, shakeRange / 2, 0);
 }
 
-// ƒoƒCƒuƒŒ[ƒVƒ‡ƒ“ŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// shakeStrength ... ƒVƒFƒCƒN‚·‚éÛ‚Ì‹­‚³
-// vibTime ... U“®‚·‚é•b”
-// vibRate ... U“®‚·‚éŠÔŠu
-// vibValue ... U“®‚³‚¹‚½‚¢‰ñ”
-// ˆê’èŠÔŠu‚ÅAˆê’è•b”U“®‚³‚¹‚éŠÖ”
+// ãƒã‚¤ãƒ–ãƒ¬ãƒ¼ã‚·ãƒ§ãƒ³é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// shakeStrength ... ã‚·ã‚§ã‚¤ã‚¯ã™ã‚‹éš›ã®å¼·ã•
+// vibTime ... æŒ¯å‹•ã™ã‚‹ç§’æ•°
+// vibRate ... æŒ¯å‹•ã™ã‚‹é–“éš”
+// vibValue ... æŒ¯å‹•ã•ã›ãŸã„å›æ•°
+// ä¸€å®šé–“éš”ã§ã€ä¸€å®šç§’æ•°æŒ¯å‹•ã•ã›ã‚‹é–¢æ•°
 void Boss::vibration(int shakeStrength, float vibTime, float vibRate, int vibValue) {
 
 	static float _vibTime;
 	static float _vibRate;
 	static bool vibrating;
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	if (vibInit == false) {
 		_vibTime = (vibTime / vibValue) / 2;
 		_vibRate = 0;
@@ -1218,42 +1218,42 @@ void Boss::vibration(int shakeStrength, float vibTime, float vibRate, int vibVal
 }
 
 /// <summary>
-/// í“¬ŠJn‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚·‚éŠÖ”
+/// æˆ¦é—˜é–‹å§‹æ™‚ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã™ã‚‹é–¢æ•°
 /// </summary>
-/// <param name="cameraMoveTime">U“®‚·‚éŠÔ</param>
-/// <param name="vibTime">U“®‚·‚éŠÔ</param>
-/// <param name="closeTime1">ƒ{ƒX‚ª“r’†‚Ü‚Å•Â‚¶‚é‚Ì‚É‚©‚©‚éŠÔ</param>
-/// <param name="roarTime">™ôšK‚·‚éŠÔ</param>
-/// <param name="closeTime2">ƒ{ƒX‚ğŠ®‘S‚É•Â‚¶‚éŠÔ</param>
+/// <param name="cameraMoveTime">æŒ¯å‹•ã™ã‚‹æ™‚é–“</param>
+/// <param name="vibTime">æŒ¯å‹•ã™ã‚‹æ™‚é–“</param>
+/// <param name="closeTime1">ãƒœã‚¹ãŒé€”ä¸­ã¾ã§é–‰ã˜ã‚‹ã®ã«ã‹ã‹ã‚‹æ™‚é–“</param>
+/// <param name="roarTime">å’†å“®ã™ã‚‹æ™‚é–“</param>
+/// <param name="closeTime2">ãƒœã‚¹ã‚’å®Œå…¨ã«é–‰ã˜ã‚‹æ™‚é–“</param>
 void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, float roarTime, float closeTime2) {
 	switch (actionWayPoint)
 	{
-		// ‰Šú‰»
+		// åˆæœŸåŒ–
 	case Boss::WAYPOINT0:
 
-		// ‰‰o’†‚Ìó‘Ô‚É
+		// æ¼”å‡ºä¸­ã®çŠ¶æ…‹ã«
 		PublicFlag::kisStaging = true;
 		isPlayingStartAnim = true;
 
-		// ƒXƒNƒŠ[ƒ“À•W‹L˜^
+		// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™è¨˜éŒ²
 		prevScreenPosition = BaseDraw::GetScreenPosition();
 		nextScreenPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2) - (float)(BaseConst::kWindowWidth / 2),
 			(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) + (float)(BaseConst::kWindowHeight / 2) };
 
-		// ƒIƒtƒZƒbƒg‚ğ‰Šú‰»
+		// ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’åˆæœŸåŒ–
 		offset = 100;
 
-		// t‰Šú‰»
+		// tåˆæœŸåŒ–
 		t = 0.0f;
-		// Ÿ‚Ì’iŠK‚Ö
+		// æ¬¡ã®æ®µéšã¸
 		actionWayPoint++;
 
 		break;
-		// U“®‚·‚é
+		// æŒ¯å‹•ã™ã‚‹
 	case Boss::WAYPOINT1:
 		if (t <= cameraMoveTime) {
 
-			// ƒXƒNƒŠ[ƒ“‚ğ“®‚©‚·
+			// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚’å‹•ã‹ã™
 			Point screenPosition;
 
 			screenPosition.x = BaseDraw::Ease_Out(t, prevScreenPosition.x, nextScreenPosition.x - prevScreenPosition.x, cameraMoveTime);
@@ -1261,93 +1261,93 @@ void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, 
 
 			BaseDraw::SetScreenPosition(screenPosition);
 
-			// t‚ğ‰ÁZ‚·‚é
+			// tã‚’åŠ ç®—ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// ƒIƒtƒZƒbƒg‚ÌŠJn’l‚ÆI’[’l‚ğƒŠƒZƒbƒg
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆã®é–‹å§‹å€¤ã¨çµ‚ç«¯å€¤ã‚’ãƒªã‚»ãƒƒãƒˆ
 			prevOffset = offset;
 			nextOffset = 110;
 
-			// ‰Šú‰»
+			// åˆæœŸåŒ–
 			t = 0.0f;
 			actionWayPoint++;
 		}
 
 		break;
-		// “r’†‚Ü‚Å•Â‚¶‚é
+		// é€”ä¸­ã¾ã§é–‰ã˜ã‚‹
 	case Boss::WAYPOINT2:
 		if (t <= vibTime) {
 
-			// ’èŠú“I‚ÉU“®‚³‚¹‚é
+			// å®šæœŸçš„ã«æŒ¯å‹•ã•ã›ã‚‹
 			vibration(t * 2, vibTime, vibTime, 3);
 
-			// ƒIƒtƒZƒbƒg‚ğ­‚µ‚¾‚¯‘å‚«‚­‚·‚é
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’å°‘ã—ã ã‘å¤§ããã™ã‚‹
 			offset = BaseDraw::Ease_InOut(t, prevOffset, nextOffset - prevOffset, vibTime);
 
-			// t‚ğ‰ÁZ‚·‚é
+			// tã‚’åŠ ç®—ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
 			Novice::PlayAudio(BaseAudio::kBossHardOpen, false, BaseAudio::SEvolume);
 
-			// ƒIƒtƒZƒbƒg‚ÌŠJn’l‚ÆI’[’l‚ğƒŠƒZƒbƒg
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆã®é–‹å§‹å€¤ã¨çµ‚ç«¯å€¤ã‚’ãƒªã‚»ãƒƒãƒˆ
 			prevOffset = offset;
 			nextOffset = 10;
 
-			// ‰Šú‰»
+			// åˆæœŸåŒ–
 			t = 0.0f;
 			actionWayPoint++;
 		}
 		break;
 
-		// ™ôšK (U“®)
+		// å’†å“® (æŒ¯å‹•)
 	case Boss::WAYPOINT3:
 		if (t <= closeTime1) {
 
-			// •Â‚¶‚é‚Æ‚«‚ÉU“®‚³‚¹‚é
+			// é–‰ã˜ã‚‹ã¨ãã«æŒ¯å‹•ã•ã›ã‚‹
 			ShakeEaseOut(40, closeTime1);
 
-			// ƒIƒtƒZƒbƒg‚ğk‚ß‚é
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’ç¸®ã‚ã‚‹
 			offset = BaseDraw::Ease_InOut(t, prevOffset, nextOffset - prevOffset, closeTime1);
 
-			// t‚ğ‰ÁZ‚·‚é
+			// tã‚’åŠ ç®—ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// ‰Šú‰»
+			// åˆæœŸåŒ–
 			t = 0.0f;
 			actionWayPoint++;
 		}
 
 		break;
-		// Š®‘S‚É•Â‚¶‚é
+		// å®Œå…¨ã«é–‰ã˜ã‚‹
 	case Boss::WAYPOINT4:
 		if (t <= roarTime) {
 
 			if (t > 1.0f) {
 
 				if (Novice::IsPlayingAudio(screamVoiceHundle) == 0 || screamVoiceHundle == -1) {
-					// Œø‰Ê‰¹Ä¶
+					// åŠ¹æœéŸ³å†ç”Ÿ
 					screamVoiceHundle = Novice::PlayAudio(screamSoundHundle, false, BaseAudio::SEvolume);
 				}
 
 				Shake(25);
 			}
 
-			// t‚ğ‰ÁZ‚·‚é
+			// tã‚’åŠ ç®—ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// ƒIƒtƒZƒbƒg‚ÌŠJn’l‚ÆI’[’l‚ğƒŠƒZƒbƒg
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆã®é–‹å§‹å€¤ã¨çµ‚ç«¯å€¤ã‚’ãƒªã‚»ãƒƒãƒˆ
 			prevOffset = offset;
 			nextOffset = 0;
 
-			// ‰Šú‰»
+			// åˆæœŸåŒ–
 			t = 0.0f;
 			actionWayPoint++;
 		}
@@ -1355,10 +1355,10 @@ void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, 
 	case Boss::WAYPOINT5:
 		if (t <= closeTime2) {
 
-			// ƒIƒtƒZƒbƒg‚ğk‚ß‚é
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’ç¸®ã‚ã‚‹
 			offset = BaseDraw::Ease_InOut(t, prevOffset, -prevOffset, closeTime2);
 
-			// ƒXƒNƒŠ[ƒ“‚ğ“®‚©‚·
+			// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚’å‹•ã‹ã™
 			Point screenPosition;
 
 			screenPosition.x = BaseDraw::Ease_Out(t, nextScreenPosition.x, prevScreenPosition.x - nextScreenPosition.x, closeTime2);
@@ -1366,23 +1366,23 @@ void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, 
 
 			BaseDraw::SetScreenPosition(screenPosition);
 
-			// ’†SÀ•W‚É–ß‚·
+			// ä¸­å¿ƒåº§æ¨™ã«æˆ»ã™
 			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, closeTime2);
 			shakeVariation.y = BaseDraw::Ease_InOut(t, shakeVariation.y, -shakeVariation.y, closeTime2);
-			// t‚ğ‰ÁZ‚·‚é
+			// tã‚’åŠ ç®—ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// ‰‰oI—¹
+			// æ¼”å‡ºçµ‚äº†
 			PublicFlag::kisStaging = false;
 
-			// ƒƒCƒ„[‚ğ‚¿‚¬‚ê‚È‚­‚·‚é
+			// ãƒ¯ã‚¤ãƒ¤ãƒ¼ã‚’ã¡ãã‚Œãªãã™ã‚‹
 			PublicFlag::kBossisTurningAndCutWire = false;
 
 			isPlayingStartAnim = false;
 
-			// ‰Šú‰»
+			// åˆæœŸåŒ–
 			isBattleStart = true;
 			t = 0.0f;
 			actionWayPoint = WAYPOINT0;
@@ -1396,63 +1396,64 @@ void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, 
 }
 
 /// <summary>
-/// €–S‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚·‚éŠÖ”
+/// æ­»äº¡æ™‚ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã™ã‚‹é–¢æ•°
 /// </summary>
-/// <param name="cameraMoveTime">ƒJƒƒ‰‚Æƒ{ƒX‚ğ’†S‚É‚Á‚Ä‚¢‚­ŠÔ</param>
-/// <param name="separationTime">Šj‚ÆŠk‚ª•ª—£‚·‚é‚Ì‚É‚©‚©‚éŠÔ</param>
-/// <param name="vibTime">U“®‚µ‚È‚ª‚çk‚ŞŠÔ</param>
-/// <param name="explosiveTime">ƒTƒCƒY‚ğ‘å‚«‚­‚µ‚Ä”š”­‚·‚é</param>
-/// <param name="cameraBackTime">ƒJƒƒ‰‚ªŒ³‚ÌˆÊ’u‚É‹A‚é‚Ü‚Å‚ÌŠÔ</param>
-void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime, WireManager* wireManager) {
+/// <param name="cameraMoveTime">ã‚«ãƒ¡ãƒ©ã¨ãƒœã‚¹ã‚’ä¸­å¿ƒã«æŒã£ã¦ã„ãæ™‚é–“</param>
+/// <param name="separationTime">æ ¸ã¨æ®»ãŒåˆ†é›¢ã™ã‚‹ã®ã«ã‹ã‹ã‚‹æ™‚é–“</param>
+/// <param name="vibTime">æŒ¯å‹•ã—ãªãŒã‚‰ç¸®ã‚€æ™‚é–“</param>
+/// <param name="explosiveTime">ã‚µã‚¤ã‚ºã‚’å¤§ããã—ã¦çˆ†ç™ºã™ã‚‹</param>
+/// <param name="cameraBackTime">ã‚«ãƒ¡ãƒ©ãŒå…ƒã®ä½ç½®ã«å¸°ã‚‹ã¾ã§ã®æ™‚é–“</param>
+void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime, ObjectManager* objectManager, WireManager* wireManager){
 	switch (actionWayPoint)
 	{
-		// ‰Šú‰»
+		// åˆæœŸåŒ–
 	case Boss::WAYPOINT0:
 
-		// ‰‰o’†‚Ìó‘Ô‚É
+		// æ¼”å‡ºä¸­ã®çŠ¶æ…‹ã«
 		PublicFlag::kisStaging = true;
 		isPlayingDeadAnim = true;
-
+		// é›‘é­šæ•µã‚’å…¨æ»…ã•ã›ã‚‹
+		objectManager->DeleteAllEnemy();
 		wireManager->Initialize();
 
-		// ƒXƒNƒŠ[ƒ“À•W‹L˜^
+		// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™è¨˜éŒ²
 		prevScreenPosition = BaseDraw::GetScreenPosition();
 		nextScreenPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2) - (float)(BaseConst::kWindowWidth / 2),
 			(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) + (float)(BaseConst::kWindowHeight / 2) - 250.0f };
 
-		// ’†SÀ•Wæ“¾
+		// ä¸­å¿ƒåº§æ¨™å–å¾—
 		prevCenterPosition = centerPosition;
 		nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) - 250.0f };
 
-		// •ŠíƒTƒCƒY‰Šú‰»
+		// æ­¦å™¨ã‚µã‚¤ã‚ºåˆæœŸåŒ–
 		weaponSize = { 0.0f, 0.0f };
 
 		prevOffset = offset;
 		nextOffset = 175;
 
-		// Šp“xæ“¾
+		// è§’åº¦å–å¾—
 		prevDegree = degree;
 
 		if (Novice::IsPlayingAudio(screamVoiceHundle) == 0 || screamVoiceHundle == -1) {
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			screamVoiceHundle = Novice::PlayAudio(screamSoundHundle, false, BaseAudio::SEvolume);
 		}
 
 		if (Novice::IsPlayingAudio(RumbleEarthVoiceHundle) == 0 || RumbleEarthVoiceHundle == -1) {
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			RumbleEarthVoiceHundle = Novice::PlayAudio(RumbleEarthSoundHundle, false, BaseAudio::SEvolume);
 		}
 
-		// ‰Šú‰»
+		// åˆæœŸåŒ–
 		t = 0.0f;
 		actionWayPoint++;
 
 		break;
-		// ƒJƒƒ‰‚Æƒ{ƒX‚ğ’†S‚É‚Á‚Ä‚¢‚­
+		// ã‚«ãƒ¡ãƒ©ã¨ãƒœã‚¹ã‚’ä¸­å¿ƒã«æŒã£ã¦ã„ã
 	case Boss::WAYPOINT1:
 		if (t <= cameraMoveTime) {
 
-			// ƒXƒNƒŠ[ƒ“‚ğ“®‚©‚·
+			// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚’å‹•ã‹ã™
 			Point screenPosition;
 
 			screenPosition.x = BaseDraw::Ease_InOut(t, prevScreenPosition.x, nextScreenPosition.x - prevScreenPosition.x, cameraMoveTime);
@@ -1462,112 +1463,112 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 
 			BaseDraw::SetScreenPosition(screenPosition);
 
-			// ‰æ–Ê’†‰›‚Ö–ß‚·
+			// ç”»é¢ä¸­å¤®ã¸æˆ»ã™
 			centerPosition.x = BaseDraw::Ease_Out(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, cameraMoveTime);
 			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, cameraMoveTime);
 
-			// Šp“x‚ğ0‚É
+			// è§’åº¦ã‚’0ã«
 			degree = BaseDraw::Ease_Out(t, prevDegree, -prevDegree, cameraMoveTime);
 
-			// ƒIƒtƒZƒbƒgŠJ‚­
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆé–‹ã
 			offset = BaseDraw::Ease_Out(t, prevOffset, nextOffset - prevOffset, cameraMoveTime);
 
 			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, cameraMoveTime);
 			shakeVariation.y = BaseDraw::Ease_InOut(t, shakeVariation.y, -shakeVariation.y, cameraMoveTime);
 
-			// t‚ğ­‚µ‚Ã‚Âƒvƒ‰ƒX‚·‚é
+			// tã‚’å°‘ã—ã¥ã¤ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// ƒXƒNƒŠ[ƒ“À•W‹L˜^
+			// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³åº§æ¨™è¨˜éŒ²
 			prevScreenPosition = BaseDraw::GetScreenPosition();
 			nextScreenPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2) - (float)(BaseConst::kWindowWidth / 2),
 				(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) + (float)(BaseConst::kWindowHeight / 2) };
 
-			// ƒRƒA‚Æƒ{ƒX‚ğ•ª—£‚³‚¹‚é
+			// ã‚³ã‚¢ã¨ãƒœã‚¹ã‚’åˆ†é›¢ã•ã›ã‚‹
 			coreSeparated = true;
 
-			// ƒRƒA‚ÌÀ•W‚ğİ’è
+			// ã‚³ã‚¢ã®åº§æ¨™ã‚’è¨­å®š
 			prevCoreCenterPosition = coreCenterPosition;
 			nextCoreCenterPosition = { coreCenterPosition.x, (float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
 
-			// F‚ğæ“¾
+			// è‰²ã‚’å–å¾—
 			color = 0x333333FF;
 			prevColor = color;
 			nextColor = 0x33333300;
 
-			// ’†SÀ•Wæ“¾
+			// ä¸­å¿ƒåº§æ¨™å–å¾—
 			prevCenterPosition = centerPosition;
 			nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) - 1000.0f };
 
-			// ƒIƒtƒZƒbƒg‚ğİ’è
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’è¨­å®š
 			prevOffset = offset;
 			nextOffset = 250;
 
-			// Šp“x‚ğİ’è
+			// è§’åº¦ã‚’è¨­å®š
 			prevDegree = degree;
 			nextDegree = 190;
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossSeparateCore, false, BaseAudio::SEvolume);
 
-			// Ÿ‚Ìs“®‚Ö
+			// æ¬¡ã®è¡Œå‹•ã¸
 			t = 0.0f;
 			actionWayPoint++;
 
 		}
 		break;
-		// Šj‚ÆŠk‚ª•ª—£‚·‚é
+		// æ ¸ã¨æ®»ãŒåˆ†é›¢ã™ã‚‹
 	case Boss::WAYPOINT2:
 		if (t <= separationTime) {
 
-			// ƒXƒNƒŠ[ƒ“‚ğ“®‚©‚·
+			// ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã‚’å‹•ã‹ã™
 			Point screenPosition;
 
-			// ƒJƒƒ‰ˆÚ“®
+			// ã‚«ãƒ¡ãƒ©ç§»å‹•
 			screenPosition.x = BaseDraw::Ease_Out(t, prevScreenPosition.x, nextScreenPosition.x - prevScreenPosition.x, separationTime);
 			screenPosition.y = BaseDraw::Ease_Out(t, prevScreenPosition.y, nextScreenPosition.y - prevScreenPosition.y, separationTime);
 
 			BaseDraw::SetScreenPosition(screenPosition);
 
-			// U“®
+			// æŒ¯å‹•
 			ShakeEaseOut(20, separationTime);
 			CoreShakeEaseOut(20, separationTime);
 
-			// ‰æ–Ê’†‰›‚Ö–ß‚·
+			// ç”»é¢ä¸­å¤®ã¸æˆ»ã™
 			coreCenterPosition.x = BaseDraw::Ease_InOut(t, prevCoreCenterPosition.x, nextCoreCenterPosition.x - prevCoreCenterPosition.x, separationTime);
 			coreCenterPosition.y = BaseDraw::Ease_InOut(t, prevCoreCenterPosition.y, nextCoreCenterPosition.y - prevCoreCenterPosition.y, separationTime);
 
 			color = ColorEasing(t, prevColor, nextColor, separationTime);
 
-			// ‰æ–Ê’†‰›‚Ö–ß‚·
+			// ç”»é¢ä¸­å¤®ã¸æˆ»ã™
 			centerPosition.x = BaseDraw::Ease_In(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, separationTime);
 			centerPosition.y = BaseDraw::Ease_In(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, separationTime);
 
-			// Šp“x‚ğ0‚É
+			// è§’åº¦ã‚’0ã«
 			degree = BaseDraw::Ease_In(t, prevDegree, nextDegree - prevDegree, separationTime);
 
-			// ƒIƒtƒZƒbƒgŠJ‚­
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆé–‹ã
 			offset = BaseDraw::Ease_In(t, prevOffset, nextOffset - prevOffset, separationTime);
 
-			// t‚ğ­‚µ‚Ã‚Âƒvƒ‰ƒX‚·‚é
+			// tã‚’å°‘ã—ã¥ã¤ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// ƒRƒA‚ÌƒTƒCƒY‚ğİ’è
+			// ã‚³ã‚¢ã®ã‚µã‚¤ã‚ºã‚’è¨­å®š
 			prevCoreSize = coreSize;
 			nextCoreSize = { 64, 64 };
 
-			// Ÿ‚Ìs“®‚Ö
+			// æ¬¡ã®è¡Œå‹•ã¸
 			t = 0.0f;
 			actionWayPoint++;
 
 		}
 
 		break;
-		// U“®‚µ‚È‚ª‚çk‚Ş
+		// æŒ¯å‹•ã—ãªãŒã‚‰ç¸®ã‚€
 	case Boss::WAYPOINT3:
 		if (t <= vibTime) {
 
@@ -1576,12 +1577,12 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 			coreSize.x = BaseDraw::Ease_InOut(t, prevCoreSize.x, nextCoreSize.x - prevCoreSize.x, vibTime);
 			coreSize.y = BaseDraw::Ease_InOut(t, prevCoreSize.y, nextCoreSize.y - prevCoreSize.y, vibTime);
 
-			// t‚ğ­‚µ‚Ã‚Âƒvƒ‰ƒX‚·‚é
+			// tã‚’å°‘ã—ã¥ã¤ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// Œø‰Ê‰¹’â~
+			// åŠ¹æœéŸ³åœæ­¢
 			Novice::StopAudio(RumbleEarthVoiceHundle);
 
 			prevCoreSize = coreSize;
@@ -1590,17 +1591,17 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 			prevColor = coreColor;
 			nextColor = 0xFFFFFF00;
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossDelete, false, BaseAudio::SEvolume);
 
-			// Ÿ‚Ìs“®‚Ö
+			// æ¬¡ã®è¡Œå‹•ã¸
 			t = 0.0f;
 			actionWayPoint++;
 
 		}
 
 		break;
-		// ƒTƒCƒY‚ğ‘å‚«‚­‚µ‚Ä”š”­
+		// ã‚µã‚¤ã‚ºã‚’å¤§ããã—ã¦çˆ†ç™º
 	case Boss::WAYPOINT4:
 		if (t <= explosiveTime) {
 
@@ -1611,30 +1612,30 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 
 			coreColor = ColorEasing(t - explosiveTime / 2, prevColor, nextColor, explosiveTime - explosiveTime / 2);
 
-			// t‚ğ­‚µ‚Ã‚Âƒvƒ‰ƒX‚·‚é
+			// tã‚’å°‘ã—ã¥ã¤ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// Ÿ‚Ìs“®‚Ö
+			// æ¬¡ã®è¡Œå‹•ã¸
 			t = 0.0f;
 			actionWayPoint++;
 
 		}
 		break;
-		// ƒJƒƒ‰‚ğŒ³‚ÌˆÊ’u‚É–ß‚·
+		// ã‚«ãƒ¡ãƒ©ã‚’å…ƒã®ä½ç½®ã«æˆ»ã™
 	case Boss::WAYPOINT5:
 		if (t <= cameraBackTime) {
-			// t‚ğ­‚µ‚Ã‚Âƒvƒ‰ƒX‚·‚é
+			// tã‚’å°‘ã—ã¥ã¤ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// ‰‰oI—¹
+			// æ¼”å‡ºçµ‚äº†
 			PublicFlag::kisStaging = false;
 			isPlayingDeadAnim = false;
 
-			// ‰Šú‰»
+			// åˆæœŸåŒ–
 			isEndDeadAnim = true;
 
 			inDead = true;
@@ -1652,11 +1653,11 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 	}
 }
 
-// s“®‚È‚µŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// waitTime ... ‘Ò‹@‚·‚é•b”
-// s“®‚Ì‡ŠÔ‚É‹²‚ŞŠÖ”B
+// è¡Œå‹•ãªã—é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// waitTime ... å¾…æ©Ÿã™ã‚‹ç§’æ•°
+// è¡Œå‹•ã®åˆé–“ã«æŒŸã‚€é–¢æ•°ã€‚
 void Boss::None(float waitFrame) {
 	if (t <= waitFrame) {
 		t += 1.0f / 60.0f;
@@ -1669,53 +1670,53 @@ void Boss::None(float waitFrame) {
 	}
 }
 
-// Ú‹ßŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// playerPosition ... ƒvƒŒƒCƒ„[’†SÀ•W
-// moveTIme ... ‰ñ“]‚·‚éŠÔ
-// afterWaitTime ... s“®Œã‚É”­¶‚·‚é‘Ò‹@ŠÔ
-// ƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚ÄÚ‹ß‚·‚éŠÖ”
+// æ¥è¿‘é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// playerPosition ... ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ä¸­å¿ƒåº§æ¨™
+// moveTIme ... å›è»¢ã™ã‚‹æ™‚é–“
+// afterWaitTime ... è¡Œå‹•å¾Œã«ç™ºç”Ÿã™ã‚‹å¾…æ©Ÿæ™‚é–“
+// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‹ã£ã¦æ¥è¿‘ã™ã‚‹é–¢æ•°
 void Boss::Approach(Point playerPosition, float moveTime, float afterWaitTime, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
 	case Boss::WAYPOINT0:
-		// ’†SÀ•Wæ“¾
+		// ä¸­å¿ƒåº§æ¨™å–å¾—
 		prevCenterPosition = centerPosition;
 
-		// ƒvƒŒƒCƒ„[‚ÌÀ•W‚ğæ“¾
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™ã‚’å–å¾—
 		prePlayerPosition = playerPosition;
 
-		// ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ğ‹‚ß‚é
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢ã‚’æ±‚ã‚ã‚‹
 		playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
 
-		// ƒvƒŒƒCƒ„[‚ª‚¢‚é•ûŒü‚ğ‹‚ß‚é
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã„ã‚‹æ–¹å‘ã‚’æ±‚ã‚ã‚‹
 		playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
 
-		// “Ëi‚·‚éÀ•W‚ğ‹‚ß‚é
+		// çªé€²ã™ã‚‹åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 		nextCenterPosition = {
 			centerPosition.x + (cosf(playerDirection) * playerDistance / 4),
 			centerPosition.y + (sinf(playerDirection) * playerDistance / 4)
 		};
 
-		// t‰Šú‰»
+		// tåˆæœŸåŒ–
 		t = 0.0f;
 
-		// Ÿ‚Ì’iŠK‚Ö
+		// æ¬¡ã®æ®µéšã¸
 		actionWayPoint++;
 		break;
 	case Boss::WAYPOINT1:
 		if (t <= moveTime) {
 
-			// ƒ{ƒX‚ğæ“¾‚µ‚½ƒvƒŒƒCƒ„[‚ÌŒü‚«‚ÉŒü‚©‚Á‚Ä“Ëi‚³‚¹‚é
+			// ãƒœã‚¹ã‚’å–å¾—ã—ãŸãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‘ãã«å‘ã‹ã£ã¦çªé€²ã•ã›ã‚‹
 			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, (nextCenterPosition.x) - prevCenterPosition.x, moveTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, (nextCenterPosition.y) - prevCenterPosition.y, moveTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
-			//t ‚ªˆê’èˆÈã‚É‚È‚Á‚½‚çs“®I—¹
+			//t ãŒä¸€å®šä»¥ä¸Šã«ãªã£ãŸã‚‰è¡Œå‹•çµ‚äº†
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = APPROACH;
 			pleaseWait = true;
@@ -1731,54 +1732,54 @@ void Boss::Approach(Point playerPosition, float moveTime, float afterWaitTime, W
 	}
 }
 
-// —£”½ŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// playerPosition ... ƒvƒŒƒCƒ„[’†SÀ•W
-// moveTIme ... ‰ñ“]‚·‚éŠÔB‚±‚ê‚Í•b”
-// afterWaitTime ... s“®Œã‚É”­¶‚·‚é‘Ò‹@ŠÔ
-// ƒvƒŒƒCƒ„[‚ÉŒü‚©‚Á‚Ä—£”½‚·‚éŠÖ”
+// é›¢åé–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// playerPosition ... ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ä¸­å¿ƒåº§æ¨™
+// moveTIme ... å›è»¢ã™ã‚‹æ™‚é–“ã€‚ã“ã‚Œã¯ç§’æ•°
+// afterWaitTime ... è¡Œå‹•å¾Œã«ç™ºç”Ÿã™ã‚‹å¾…æ©Ÿæ™‚é–“
+// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«å‘ã‹ã£ã¦é›¢åã™ã‚‹é–¢æ•°
 void Boss::Separation(Point playerPosition, float moveTime, float afterWaitTime, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
 	case Boss::WAYPOINT0:
-		// ’†SÀ•Wæ“¾
+		// ä¸­å¿ƒåº§æ¨™å–å¾—
 		prevCenterPosition = centerPosition;
 
-		// ƒvƒŒƒCƒ„[‚ÌÀ•W‚ğæ“¾
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™ã‚’å–å¾—
 		prePlayerPosition = playerPosition;
 
-		// ƒvƒŒƒCƒ„[‚ª‚¢‚é•ûŒü‚ğ‹‚ß‚é
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã„ã‚‹æ–¹å‘ã‚’æ±‚ã‚ã‚‹
 		playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
 
-		// ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ğ‹‚ß‚é
+		// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢ã‚’æ±‚ã‚ã‚‹
 		playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
 
-		// “Ëi‚·‚éÀ•W‚ğ‹‚ß‚é
+		// çªé€²ã™ã‚‹åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 		nextCenterPosition = {
 			centerPosition.x + (cosf(playerDirection) * playerDistance / 4),
 			centerPosition.y + (sinf(playerDirection) * playerDistance / 4)
 		};
 
-		// t‰Šú‰»
+		// tåˆæœŸåŒ–
 		t = 0.0f;
 
-		// Ÿ‚Ì’iŠK‚Ö
+		// æ¬¡ã®æ®µéšã¸
 		actionWayPoint++;
 		break;
 	case Boss::WAYPOINT1:
 
 		if (t <= moveTime) {
 
-			// ƒ{ƒX‚ğæ“¾‚µ‚½ƒvƒŒƒCƒ„[‚ÌŒü‚«‚ÉŒü‚©‚Á‚Ä“Ëi‚³‚¹‚é
+			// ãƒœã‚¹ã‚’å–å¾—ã—ãŸãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‘ãã«å‘ã‹ã£ã¦çªé€²ã•ã›ã‚‹
 			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, -(nextCenterPosition.x - prevCenterPosition.x), moveTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, -(nextCenterPosition.y - prevCenterPosition.y), moveTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
-			//t ‚ªˆê’èˆÈã‚É‚È‚Á‚½‚çs“®I—¹
+			//t ãŒä¸€å®šä»¥ä¸Šã«ãªã£ãŸã‚‰è¡Œå‹•çµ‚äº†
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = SEPARATION;
 			pleaseWait = true;
@@ -1794,34 +1795,34 @@ void Boss::Separation(Point playerPosition, float moveTime, float afterWaitTime,
 	}
 }
 
-// ‰ñ“]ŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// endDegree ... I—¹‚ÌŠp“x
-// rotateTime ... ‰ñ“]‚·‚éŠÔB‚±‚ê‚Í•b”
-// afterWaitTime ... s“®Œã‚É”­¶‚·‚é‘Ò‹@ŠÔ
-// ƒ{ƒX‚ğ‰ñ“]‚³‚¹‚éŠÖ”
+// å›è»¢é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// endDegree ... çµ‚äº†æ™‚ã®è§’åº¦
+// rotateTime ... å›è»¢ã™ã‚‹æ™‚é–“ã€‚ã“ã‚Œã¯ç§’æ•°
+// afterWaitTime ... è¡Œå‹•å¾Œã«ç™ºç”Ÿã™ã‚‹å¾…æ©Ÿæ™‚é–“
+// ãƒœã‚¹ã‚’å›è»¢ã•ã›ã‚‹é–¢æ•°
 void Boss::Rotate(float endDegree, float RotateTime, float afterWaitTime, WireManager* wireManager) {
 
 	static int startDegree;
-	// ‰Šú‰»ˆ—
+	// åˆæœŸåŒ–å‡¦ç†
 	if (init == false) {
 		startDegree = degree;
 
-		// Œø‰Ê‰¹Ä¶
+		// åŠ¹æœéŸ³å†ç”Ÿ
 		Novice::PlayAudio(BaseAudio::kBossClose, false, BaseAudio::SEvolume);
 
 		init = true;
 	}
 
-	// t ‚Ì’l‚ªˆê’èˆÈã‚É‚È‚é‚Ü‚Å‘«‚·
+	// t ã®å€¤ãŒä¸€å®šä»¥ä¸Šã«ãªã‚‹ã¾ã§è¶³ã™
 	if (t <= RotateTime) {
 		inAction = true;
-		// ƒC[ƒWƒ“ƒO‚ğ—p‚¢‚Ä‰ñ“]
+		// ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°ã‚’ç”¨ã„ã¦å›è»¢
 		degree = BaseDraw::Ease_InOut(t, startDegree, endDegree, RotateTime);
 
 		if (t >= (RotateTime / 2)) {
-			// ƒƒCƒ„[‚¿‚¬‚é
+			// ãƒ¯ã‚¤ãƒ¤ãƒ¼ã¡ãã‚‹
 			PublicFlag::kBossisTurningAndCutWire = true;
 		}
 
@@ -1829,10 +1830,10 @@ void Boss::Rotate(float endDegree, float RotateTime, float afterWaitTime, WireMa
 	}
 	else {
 
-		// ƒƒCƒ„[‚ğ‚¿‚¬‚ê‚È‚­‚·‚é
+		// ãƒ¯ã‚¤ãƒ¤ãƒ¼ã‚’ã¡ãã‚Œãªãã™ã‚‹
 		PublicFlag::kBossisTurningAndCutWire = false;
 
-		//t ‚ªˆê’èˆÈã‚É‚È‚Á‚½‚çs“®I—¹
+		//t ãŒä¸€å®šä»¥ä¸Šã«ãªã£ãŸã‚‰è¡Œå‹•çµ‚äº†
 		prevAttackPattern[1] = prevAttackPattern[0];
 		prevAttackPattern[0] = ROTATE;
 		pleaseWait = true;
@@ -1845,98 +1846,98 @@ void Boss::Rotate(float endDegree, float RotateTime, float afterWaitTime, WireMa
 	}
 }
 
-// “ËiŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// playerPosition ... ƒvƒŒƒCƒ„[‚ÌÀ•W
-// readyTime ... “Ëi‚Ì€”õ‚É‚©‚©‚é•b”
-// chargeTime ... “Ëi‚Ì—­‚ß‚É‚©‚©‚é•b”
-// rushTime ... “Ëi‚É‚©‚©‚é•b”
-// backTime ... –ß‚é‚É‚©‚©‚é•b”
-// afterWaitTime ... s“®Œã‚É”­¶‚·‚é‘Ò‹@ŠÔ
-// damage ... s“®‚É‚æ‚Á‚Ä”­¶‚·‚éƒ_ƒ[ƒW
-// ƒ{ƒX‚ğƒvƒŒƒCƒ„[‚ÌŒü‚«‚É“Ëi‚³‚¹‚éŠÖ”
+// çªé€²é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// playerPosition ... ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™
+// readyTime ... çªé€²ã®æº–å‚™ã«ã‹ã‹ã‚‹ç§’æ•°
+// chargeTime ... çªé€²ã®æºœã‚ã«ã‹ã‹ã‚‹ç§’æ•°
+// rushTime ... çªé€²ã«ã‹ã‹ã‚‹ç§’æ•°
+// backTime ... æˆ»ã‚‹æ™‚ã«ã‹ã‹ã‚‹ç§’æ•°
+// afterWaitTime ... è¡Œå‹•å¾Œã«ç™ºç”Ÿã™ã‚‹å¾…æ©Ÿæ™‚é–“
+// damage ... è¡Œå‹•ã«ã‚ˆã£ã¦ç™ºç”Ÿã™ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸
+// ãƒœã‚¹ã‚’ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‘ãã«çªé€²ã•ã›ã‚‹é–¢æ•°
 void Boss::Rush(Point playerPosition, float readyTime, float chargeTime, float rushTime, float backTime, float afterWaitTime, float damage, WireManager* wireManager) {
 
 	switch (actionWayPoint)
 	{
-		// ‰Šú‰»
+		// åˆæœŸåŒ–
 	case Boss::WAYPOINT0:
 
-		// Œø‰Ê‰¹Ä¶
+		// åŠ¹æœéŸ³å†ç”Ÿ
 		Novice::PlayAudio(BaseAudio::kBossCharge, false, BaseAudio::SEvolume);
 
-		// ’†SÀ•Wæ“¾
+		// ä¸­å¿ƒåº§æ¨™å–å¾—
 		prevCenterPosition = centerPosition;
 
-		// t‰Šú‰»
+		// tåˆæœŸåŒ–
 		t = 0.0f;
 
-		// Ÿ‚Ì’iŠK‚Ö
+		// æ¬¡ã®æ®µéšã¸
 		actionWayPoint++;
 		break;
-		// –‘O“®ì(k‚¦‚é)
+		// äº‹å‰å‹•ä½œ(éœ‡ãˆã‚‹)
 	case Boss::WAYPOINT1:
 		if (t <= readyTime) {
-			// w’è‚³‚ê‚½•b”U“®‚·‚é
+			// æŒ‡å®šã•ã‚ŒãŸç§’æ•°æŒ¯å‹•ã™ã‚‹
 			ShakeEaseOut(60, readyTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
-			// t‰Šú‰»
+			// tåˆæœŸåŒ–
 			t = 0.0f;
 
-			// ƒvƒŒƒCƒ„[‚ÌÀ•W‚ğæ“¾
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™ã‚’å–å¾—
 			prePlayerPosition = playerPosition;
 
-			// ƒvƒŒƒCƒ„[‚ª‚¢‚é•ûŒü‚ğ‹‚ß‚é
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã„ã‚‹æ–¹å‘ã‚’æ±‚ã‚ã‚‹
 			playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
 
-			// ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ğ‹‚ß‚é
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢ã‚’æ±‚ã‚ã‚‹
 			playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
 
 			if (playerDistance < 500.0f) {
 				playerDistance = 500.0f;
 			}
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossVibration, false, BaseAudio::SEvolume);
 
-			// “Ëi‚·‚éÀ•W‚ğ‹‚ß‚é
+			// çªé€²ã™ã‚‹åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 			nextCenterPosition = {
 				centerPosition.x + (cosf(playerDirection) * -300.0f),
 				centerPosition.y + (sinf(playerDirection) * -300.0f)
 			};
 
-			// Ÿ‚Ö
+			// æ¬¡ã¸
 			actionWayPoint++;
 		}
 		break;
-		// —­‚ß
+		// æºœã‚
 	case Boss::WAYPOINT2:
 
 		if (t <= chargeTime) {
 
-			// ƒ{ƒX‚ğæ“¾‚µ‚½ƒvƒŒƒCƒ„[‚ÌŒü‚«‚ÉŒü‚©‚Á‚Ä“Ëi‚³‚¹‚é
+			// ãƒœã‚¹ã‚’å–å¾—ã—ãŸãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‘ãã«å‘ã‹ã£ã¦çªé€²ã•ã›ã‚‹
 			centerPosition.x = BaseDraw::Ease_Out(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, rushTime);
 			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, rushTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
-			// t‰Šú‰»
+			// tåˆæœŸåŒ–
 			t = 0.0f;
 
-			// ƒvƒŒƒCƒ„[‚ÌÀ•W‚ğæ“¾
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™ã‚’å–å¾—
 			prePlayerPosition = playerPosition;
 
-			// ƒvƒŒƒCƒ„[‚ª‚¢‚é•ûŒü‚ğ‹‚ß‚é
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã„ã‚‹æ–¹å‘ã‚’æ±‚ã‚ã‚‹
 			playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
 
-			// ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ğ‹‚ß‚é
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢ã‚’æ±‚ã‚ã‚‹
 			playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
 
 			if (playerDistance < 500.0f) {
@@ -1945,68 +1946,68 @@ void Boss::Rush(Point playerPosition, float readyTime, float chargeTime, float r
 
 			prevCenterPosition = centerPosition;
 
-			// “Ëi‚·‚éÀ•W‚ğ‹‚ß‚é
+			// çªé€²ã™ã‚‹åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 			nextCenterPosition = {
 				centerPosition.x + (cosf(playerDirection) * playerDistance),
 				centerPosition.y + (sinf(playerDirection) * playerDistance)
 			};
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossRush, false, BaseAudio::SEvolume);
 
-			// Ÿ‚Ö
+			// æ¬¡ã¸
 			actionWayPoint++;
 		}
 
 		break;
-		// “Ëi
+		// çªé€²
 	case Boss::WAYPOINT3:
 		if (t <= rushTime) {
 
-			// ƒ{ƒX‚ğæ“¾‚µ‚½ƒvƒŒƒCƒ„[‚ÌŒü‚«‚ÉŒü‚©‚Á‚Ä“Ëi‚³‚¹‚é
+			// ãƒœã‚¹ã‚’å–å¾—ã—ãŸãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‘ãã«å‘ã‹ã£ã¦çªé€²ã•ã›ã‚‹
 			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, rushTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, rushTime);
 
-			// ƒ_ƒ[ƒW‚ğ—^‚¦‚ç‚ê‚é‚æ‚¤‚É‚·‚é
+			// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‰ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹
 			bodyDamage = damage;
 
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// ƒ_ƒ[ƒW‚ğ—^‚¦‚ç‚ê‚È‚­‚·‚é
+			// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‰ã‚Œãªãã™ã‚‹
 			bodyDamage = 0.0f;
 
-			// “Ëi‚·‚éÀ•W‚ğ‹‚ß‚é
+			// çªé€²ã™ã‚‹åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 			prevCenterPosition = {
 				prevCenterPosition.x + (cosf(playerDirection) * 300.0f),
 				prevCenterPosition.y + (sinf(playerDirection) * 300.0f)
 			};
 
-			// t‚ğ‰Šú‰»
+			// tã‚’åˆæœŸåŒ–
 			t = 0.0f;
 
-			// Ÿ‚Ìs“®‚Ö
+			// æ¬¡ã®è¡Œå‹•ã¸
 			actionWayPoint++;
 		}
 		break;
-		// –ß‚é
+		// æˆ»ã‚‹
 	case Boss::WAYPOINT4:
 		if (t <= backTime) {
-			// ƒ{ƒX‚ğŒ³‚ÌÀ•W‚É–ß‚·
+			// ãƒœã‚¹ã‚’å…ƒã®åº§æ¨™ã«æˆ»ã™
 			centerPosition.x = BaseDraw::Ease_InOut(t, nextCenterPosition.x, prevCenterPosition.x - nextCenterPosition.x, backTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, nextCenterPosition.y, prevCenterPosition.y - nextCenterPosition.y, backTime);
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// ƒ{ƒX‚ÌÀ•W‚ğŒ³‚ÌˆÊ’u‚É–ß‚·iˆê‰j
+			// ãƒœã‚¹ã®åº§æ¨™ã‚’å…ƒã®ä½ç½®ã«æˆ»ã™ï¼ˆä¸€å¿œï¼‰
 			centerPosition = prevCenterPosition;
 
-			// t‰Šú‰»
+			// tåˆæœŸåŒ–
 			t = 0.0f;
 
-			// s“®I—¹
+			// è¡Œå‹•çµ‚äº†
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = RUSH;
 			pleaseWait = true;
@@ -2024,107 +2025,107 @@ void Boss::Rush(Point playerPosition, float readyTime, float chargeTime, float r
 	}
 }
 
-// aŒ‚ŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// playerPosition ... ƒvƒŒƒCƒ„[‚ÌÀ•W
-// readyTime ... ƒ{ƒX‚ªŠJ‚­‚Ü‚Å‚É‚©‚©‚é•b”
-// deployTime ... ƒuƒŒ[ƒh‚Ì“WŠJ‚É‚©‚©‚é•b”
-// preparationTime@... UŒ‚‚Ü‚Å‚Ì‘Ò‹@ŠÔ
-// rushTime ... “Ëi‚É‚©‚©‚é•b”
-// backTime ... –ß‚é‚É‚©‚©‚é•b”
-// afterWaitTime ... s“®Œã‚É”­¶‚·‚é‘Ò‹@ŠÔ
-// damage ... s“®‚É‚æ‚Á‚Ä”­¶‚·‚éƒ_ƒ[ƒW
-// ƒ{ƒX‚ªaŒ‚‚ğs‚¤ŠÖ”
+// æ–¬æ’ƒé–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// playerPosition ... ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™
+// readyTime ... ãƒœã‚¹ãŒé–‹ãã¾ã§ã«ã‹ã‹ã‚‹ç§’æ•°
+// deployTime ... ãƒ–ãƒ¬ãƒ¼ãƒ‰ã®å±•é–‹ã«ã‹ã‹ã‚‹ç§’æ•°
+// preparationTimeã€€... æ”»æ’ƒã¾ã§ã®å¾…æ©Ÿæ™‚é–“
+// rushTime ... çªé€²ã«ã‹ã‹ã‚‹ç§’æ•°
+// backTime ... æˆ»ã‚‹æ™‚ã«ã‹ã‹ã‚‹ç§’æ•°
+// afterWaitTime ... è¡Œå‹•å¾Œã«ç™ºç”Ÿã™ã‚‹å¾…æ©Ÿæ™‚é–“
+// damage ... è¡Œå‹•ã«ã‚ˆã£ã¦ç™ºç”Ÿã™ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸
+// ãƒœã‚¹ãŒæ–¬æ’ƒã‚’è¡Œã†é–¢æ•°
 void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float preparationTime, float slashTime, float backTime, float afterWaitTime, float damage, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
-		// ‰Šú‰»
+		// åˆæœŸåŒ–
 	case Boss::WAYPOINT0:
 
-		// •Ší‚ÌƒeƒNƒXƒ`ƒƒ•ÏX
+		// æ­¦å™¨ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£å¤‰æ›´
 		weaponTexture = BaseTexture::kBossBlade;
 		weaponTextureSize = bladeTextureSize;
 
-		// ’†SÀ•Wæ“¾
+		// ä¸­å¿ƒåº§æ¨™å–å¾—
 		prevCenterPosition = centerPosition;
 
-		// ƒ{ƒX‚ª‚Ç‚ê‚¾‚¯ŠJ‚­‚©‚ğŒˆ‚ß‚é
+		// ãƒœã‚¹ãŒã©ã‚Œã ã‘é–‹ãã‹ã‚’æ±ºã‚ã‚‹
 		prevOffset = offset;
 		nextOffset = 20;
 
-		// •Ší‚ğ‚Ç‚ê‚¾‚¯‘å‚«‚­‚·‚é‚©‚ğŒˆ‚ß‚é
+		// æ­¦å™¨ã‚’ã©ã‚Œã ã‘å¤§ããã™ã‚‹ã‹ã‚’æ±ºã‚ã‚‹
 		weaponSize = { 40, 0 };
 		prevWeaponSize = weaponSize;
 		nextWeaponSize = { weaponSize.x, 400.0f };
 
-		// t‰Šú‰»
+		// tåˆæœŸåŒ–
 		t = 0.0f;
 
-		// Œø‰Ê‰¹Ä¶
+		// åŠ¹æœéŸ³å†ç”Ÿ
 		Novice::PlayAudio(BaseAudio::kBossOpen, 0, BaseAudio::SEvolume);
 
-		//Ÿ‚Ì’iŠK‚Ö
+		//æ¬¡ã®æ®µéšã¸
 		actionWayPoint++;
 		break;
-		// –‘O“®ì(k‚¦‚Äƒ{ƒX‚ªŠJ‚­)
+		// äº‹å‰å‹•ä½œ(éœ‡ãˆã¦ãƒœã‚¹ãŒé–‹ã)
 	case Boss::WAYPOINT1:
 		if (t <= readyTime) {
-			// w’è‚³‚ê‚½•b”U“®‚·‚é
+			// æŒ‡å®šã•ã‚ŒãŸç§’æ•°æŒ¯å‹•ã™ã‚‹
 			ShakeEaseOut(60, readyTime);
 
-			// ƒ{ƒX‚ª­‚µ‚Ã‚ÂŠJ‚­
+			// ãƒœã‚¹ãŒå°‘ã—ã¥ã¤é–‹ã
 			offset = BaseDraw::Ease_InOut(t, prevOffset, nextOffset - prevOffset, readyTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
-			// t‚ğƒŠƒZƒbƒg
+			// tã‚’ãƒªã‚»ãƒƒãƒˆ
 			t = 0.0f;
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossDeployBlade, 0, BaseAudio::SEvolume);
 
-			//Ÿ‚Ö
+			//æ¬¡ã¸
 			actionWayPoint++;
 		}
 		break;
-		// ƒuƒŒ[ƒh“WŠJ
+		// ãƒ–ãƒ¬ãƒ¼ãƒ‰å±•é–‹
 	case Boss::WAYPOINT2:
 		if (t <= deployTime) {
 
-			// ƒuƒŒ[ƒh‚ªL‚Ñ‚é
+			// ãƒ–ãƒ¬ãƒ¼ãƒ‰ãŒä¼¸ã³ã‚‹
 			weaponSize.y = BaseDraw::Ease_InOut(t, prevWeaponSize.y, nextWeaponSize.y - prevWeaponSize.y, deployTime);
 
 			bladeDamage = 1.0f;
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// t‚ğ‰Šú‰»
+			// tã‚’åˆæœŸåŒ–
 			t = 0.0f;
 
-			// ‰ŠúŠp“x‚ğİ’è
+			// åˆæœŸè§’åº¦ã‚’è¨­å®š
 			prevDegree = degree;
 
-			//Ÿ‚Ìs“®‚ğƒ‰ƒ“ƒ_ƒ€‚Éİ’è‚µ‚Ä•ªŠò
+			//æ¬¡ã®è¡Œå‹•ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«è¨­å®šã—ã¦åˆ†å²
 			actionBranch = BaseMath::Random(0, 2);
 			switch (actionBranch)
 			{
-				// ‰E‰ñ“]
+				// å³å›è»¢
 			case Boss::Pattern1:
-				// ¶Œü‚«‚É“®‚©‚·
+				// å·¦å‘ãã«å‹•ã‹ã™
 				nextDegree = prevDegree - 30;
 				break;
-				// ¶‰ñ“]
+				// å·¦å›è»¢
 			case Boss::Pattern2:
-				// ‰EŒü‚«‚É“®‚©‚·
+				// å³å‘ãã«å‹•ã‹ã™
 				nextDegree = prevDegree + 30;
 				break;
-				// ‰ñ“]Ø‚è
+				// å›è»¢åˆ‡ã‚Š
 			case Boss::Pattern3:
 				nextDegree = prevDegree;
 				break;
@@ -2132,71 +2133,71 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 				break;
 			}
 
-			// Ÿ‚Ì’iŠK
+			// æ¬¡ã®æ®µéš
 			actionWayPoint++;
 		}
 
 		break;
-		// aŒ‚€”õ
+		// æ–¬æ’ƒæº–å‚™
 	case Boss::WAYPOINT3:
 		if (t <= preparationTime) {
-			//ƒ{ƒX‚ğ‰ñ“]‚³‚¹‚é
+			//ãƒœã‚¹ã‚’å›è»¢ã•ã›ã‚‹
 			degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, preparationTime);
 
-			// •ªŠòF‰ñ“]a‚è‚Ìê‡‚ÍU“®‚³‚¹‚é
+			// åˆ†å²ï¼šå›è»¢æ–¬ã‚Šã®å ´åˆã¯æŒ¯å‹•ã•ã›ã‚‹
 			if (actionBranch == Pattern3)
 				ShakeEaseInOut(30, preparationTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
-			// t‚ğ‰Šú‰»
+			// tã‚’åˆæœŸåŒ–
 			t = 0.0f;
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossSlash, 0, BaseAudio::SEvolume);
 
-			//ƒvƒŒƒCƒ„[À•Wæ“¾
+			//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åº§æ¨™å–å¾—
 			prePlayerPosition = playerPosition;
 
-			// ƒvƒŒƒCƒ„[‚ª‚¢‚é•ûŒü‚ğ‹‚ß‚é
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã„ã‚‹æ–¹å‘ã‚’æ±‚ã‚ã‚‹
 			playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
 
-			// ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ğ‹‚ß‚é
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢ã‚’æ±‚ã‚ã‚‹
 			float playerDistance = BaseMath::GetLength({ prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x });
 
-			// ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ªˆê’èˆÈ‰º‚È‚ç‚»‚Ìê‚ÅaŒ‚‚ğs‚¤
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®è·é›¢ãŒä¸€å®šä»¥ä¸‹ãªã‚‰ãã®å ´ã§æ–¬æ’ƒã‚’è¡Œã†
 			if (playerDistance < 200.0f) {
 				playerDistance = 0.0f;
 			}
 			else {
 			}
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossRush, 0, BaseAudio::SEvolume);
 
-			// “Ëi‚·‚éÀ•W‚ğ‹‚ß‚é
+			// çªé€²ã™ã‚‹åº§æ¨™ã‚’æ±‚ã‚ã‚‹
 			nextCenterPosition = {
 				centerPosition.x + (cosf(playerDirection) * playerDistance / 1.25f),
 				centerPosition.y + (sinf(playerDirection) * playerDistance / 1.25f)
 			};
 
-			// ‰ŠúŠp“x‚ğİ’è
+			// åˆæœŸè§’åº¦ã‚’è¨­å®š
 			prevDegree = degree;
 
-			// s“®•ªŠò‚ÉŠî‚Ã‚¢‚Ä‰ñ“]Šp‚Ìİ’è
+			// è¡Œå‹•åˆ†å²ã«åŸºã¥ã„ã¦å›è»¢è§’ã®è¨­å®š
 			switch (actionBranch)
 			{
-				// ‰E‰ñ“]
+				// å³å›è»¢
 			case Boss::Pattern1:
 				nextDegree = prevDegree + 360;
 				break;
-				// ¶‰ñ“]
+				// å·¦å›è»¢
 			case Boss::Pattern2:
 				nextDegree = prevDegree - 360;
 				break;
-				// ‰ñ“]Ø‚è
+				// å›è»¢åˆ‡ã‚Š
 			case Boss::Pattern3:
 				nextDegree = prevDegree + 720;
 				break;
@@ -2204,27 +2205,27 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 				break;
 			}
 
-			// Ÿ‚Ö
+			// æ¬¡ã¸
 			actionWayPoint++;
 		}
 		break;
-		// aŒ‚
+		// æ–¬æ’ƒ
 	case Boss::WAYPOINT4:
 		if (t <= slashTime) {
 
-			// ƒ{ƒX‚ğ‰ñ“]‚³‚¹‚é
+			// ãƒœã‚¹ã‚’å›è»¢ã•ã›ã‚‹
 			degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, slashTime);
 
-			// ƒ{ƒX‚ğæ“¾‚µ‚½Šp“x‚ğŒ³‚É“Ëi‚³‚¹‚é
+			// ãƒœã‚¹ã‚’å–å¾—ã—ãŸè§’åº¦ã‚’å…ƒã«çªé€²ã•ã›ã‚‹
 			centerPosition.x = BaseDraw::Ease_Out(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, slashTime);
 			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, slashTime);
 
 			if (t >= (slashTime / 2)) {
-				// ƒƒCƒ„[‚¿‚¬‚é
+				// ãƒ¯ã‚¤ãƒ¤ãƒ¼ã¡ãã‚‹
 				PublicFlag::kBossisTurningAndCutWire = true;
 			}
 
-			// •ªŠòF‰ñ“]a‚èˆÈŠO‚Ìê‡‚Ít‚Éƒvƒ‰ƒX‚·‚é’l‚ğ­‚µ‚¾‚¯‘½‚­‚·‚é
+			// åˆ†å²ï¼šå›è»¢æ–¬ã‚Šä»¥å¤–ã®å ´åˆã¯tã«ãƒ—ãƒ©ã‚¹ã™ã‚‹å€¤ã‚’å°‘ã—ã ã‘å¤šãã™ã‚‹
 			if (actionBranch == 2) {
 				t += 0.75f / 60.0f;
 			}
@@ -2234,22 +2235,22 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 		}
 		else {
 
-			// ƒƒCƒ„[‚¿‚¬‚é
+			// ãƒ¯ã‚¤ãƒ¤ãƒ¼ã¡ãã‚‹
 			PublicFlag::kBossisTurningAndCutWire = false;
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossClose, 0, BaseAudio::SEvolume);
 
-			// t‚ğ‰Šú‰»
+			// tã‚’åˆæœŸåŒ–
 			t = 0.0f;
-			// Ÿ‚Ö
+			// æ¬¡ã¸
 			actionWayPoint++;
 		}
 		break;
-		// Œ³‚ÌêŠ‚É–ß‚é
+		// å…ƒã®å ´æ‰€ã«æˆ»ã‚‹
 	case Boss::WAYPOINT5:
 		if (t <= backTime) {
-			// ˆÊ’u‚âŠp“xA•Ší‚ÌƒTƒCƒY‚ğŒ³‚É–ß‚·
+			// ä½ç½®ã‚„è§’åº¦ã€æ­¦å™¨ã®ã‚µã‚¤ã‚ºã‚’å…ƒã«æˆ»ã™
 			centerPosition.x = BaseDraw::Ease_InOut(t, nextCenterPosition.x, prevCenterPosition.x - nextCenterPosition.x, backTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, nextCenterPosition.y, prevCenterPosition.y - nextCenterPosition.y, backTime);
 			degree = BaseDraw::Ease_InOut(t, nextDegree, -nextDegree, backTime);
@@ -2258,24 +2259,24 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 			t += 1.0f / 60.0f;
 		}
 		else {
-			// ƒ{ƒXÀ•W‚ğ‰Šú‰»iˆê‰j
+			// ãƒœã‚¹åº§æ¨™ã‚’åˆæœŸåŒ–ï¼ˆä¸€å¿œï¼‰
 			centerPosition = prevCenterPosition;
 
-			// ƒ_ƒ[ƒW‚ğ—^‚¦‚ç‚ê‚È‚¢‚æ‚¤‚É
+			// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆã‚‰ã‚Œãªã„ã‚ˆã†ã«
 			bladeDamage = 0.0f;
 
-			// ƒIƒtƒZƒbƒg‰Šú‰»
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆåˆæœŸåŒ–
 			offset = 0;
 
-			// Šp“x‰Šú‰»
+			// è§’åº¦åˆæœŸåŒ–
 			degree = 0;
 			prevDegree = 0;
 			nextDegree = 0;
 
-			// t‰Šú‰»
+			// tåˆæœŸåŒ–
 			t = 0.0f;
 
-			// s“®I—¹
+			// è¡Œå‹•çµ‚äº†
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = SLASH;
 			waitTime = afterWaitTime;
@@ -2291,142 +2292,142 @@ void Boss::Slash(Point playerPosition, float readyTime, float deployTime, float 
 	}
 }
 
-// ËŒ‚ŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// playerPosition ... ƒvƒŒƒCƒ„[‚ÌÀ•W
-// readyTime ... ƒ{ƒX‚ªŠJ‚­‚Ü‚Å‚É‚©‚©‚é•b”
-// deployTime ... e‚Ì“WŠJ‚É‚©‚©‚é•b”
-// preparationTime@... UŒ‚‚Ü‚Å‚Ì‘Ò‹@ŠÔ
-// shotTime ... ËŒ‚•b”
-// backTime ... –ß‚é‚É‚©‚©‚é•b”
-// afterWaitTime ... s“®Œã‚É”­¶‚·‚é‘Ò‹@ŠÔ
-// fireRate ... ‰½•b‚¨‚«‚ÉËŒ‚‚·‚é‚©
-// damage ... s“®‚É‚æ‚Á‚Ä”­¶‚·‚éƒ_ƒ[ƒW
-// ƒ{ƒX‚ªËŒ‚‚ğs‚¤ŠÖ”
+// å°„æ’ƒé–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// playerPosition ... ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®åº§æ¨™
+// readyTime ... ãƒœã‚¹ãŒé–‹ãã¾ã§ã«ã‹ã‹ã‚‹ç§’æ•°
+// deployTime ... éŠƒã®å±•é–‹ã«ã‹ã‹ã‚‹ç§’æ•°
+// preparationTimeã€€... æ”»æ’ƒã¾ã§ã®å¾…æ©Ÿæ™‚é–“
+// shotTime ... å°„æ’ƒç§’æ•°
+// backTime ... æˆ»ã‚‹æ™‚ã«ã‹ã‹ã‚‹ç§’æ•°
+// afterWaitTime ... è¡Œå‹•å¾Œã«ç™ºç”Ÿã™ã‚‹å¾…æ©Ÿæ™‚é–“
+// fireRate ... ä½•ç§’ãŠãã«å°„æ’ƒã™ã‚‹ã‹
+// damage ... è¡Œå‹•ã«ã‚ˆã£ã¦ç™ºç”Ÿã™ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸
+// ãƒœã‚¹ãŒå°„æ’ƒã‚’è¡Œã†é–¢æ•°
 void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float preparationTime, float shotTime, float backTime, float afterWaitTime, float fireRate, float damage, WireManager* wireManager) {
 
-	// ƒ{ƒX‚ªƒvƒŒƒCƒ„[‚É’Ç]‚µ‚Ä‰ñ“]‚·‚é‚É—p‚¢‚éƒJƒEƒ“ƒg•Ï”
+	// ãƒœã‚¹ãŒãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½å¾“ã—ã¦å›è»¢ã™ã‚‹æ™‚ã«ç”¨ã„ã‚‹ã‚«ã‚¦ãƒ³ãƒˆå¤‰æ•°
 	static int count;
 
-	// ƒ{ƒX‚Ì”­ËƒŒ[ƒg‚ğŠÇ—‚·‚é•Ï”
+	// ãƒœã‚¹ã®ç™ºå°„ãƒ¬ãƒ¼ãƒˆã‚’ç®¡ç†ã™ã‚‹å¤‰æ•°
 	static float fireRateCount;
 
 	switch (actionWayPoint)
 	{
-		// ‰Šú‰»
+		// åˆæœŸåŒ–
 	case Boss::WAYPOINT0:
 
-		// •Ší‚ÌƒeƒNƒXƒ`ƒƒ•ÏX
+		// æ­¦å™¨ã®ãƒ†ã‚¯ã‚¹ãƒãƒ£å¤‰æ›´
 		weaponTexture = BaseTexture::kBossGun;
 		weaponTextureSize = gunTextureSize;
 
-		// ’†SÀ•Wæ“¾
+		// ä¸­å¿ƒåº§æ¨™å–å¾—
 		prevCenterPosition = centerPosition;
 		nextCenterPosition = centerPosition;
 
-		// ƒ{ƒX‚ª‚Ç‚ê‚¾‚¯ŠJ‚­‚©‚ğŒˆ‚ß‚é
+		// ãƒœã‚¹ãŒã©ã‚Œã ã‘é–‹ãã‹ã‚’æ±ºã‚ã‚‹
 		prevOffset = offset;
 		nextOffset = 20;
 
-		// •Ší‚ğ‚Ç‚ê‚¾‚¯‘å‚«‚­‚·‚é‚©‚ğŒˆ‚ß‚é
+		// æ­¦å™¨ã‚’ã©ã‚Œã ã‘å¤§ããã™ã‚‹ã‹ã‚’æ±ºã‚ã‚‹
 		weaponSize = { 40, 0 };
 		prevWeaponSize = weaponSize;
 		nextWeaponSize = { weaponSize.x, 250.0f };
 
-		// t‰Šú‰»
+		// tåˆæœŸåŒ–
 		t = 0.0f;
 
-		// ƒJƒEƒ“ƒ^[Œn‰Šú‰»
+		// ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼ç³»åˆæœŸåŒ–
 		count = 0;
 		fireRateCount = 0;
 
-		// Œø‰Ê‰¹Ä¶
+		// åŠ¹æœéŸ³å†ç”Ÿ
 		Novice::PlayAudio(BaseAudio::kBossOpen, 0, BaseAudio::SEvolume);
 
-		//Ÿ‚Ì’iŠK‚Ö
+		//æ¬¡ã®æ®µéšã¸
 		actionWayPoint++;
 		break;
-		// –‘O“®ì(k‚¦‚Äƒ{ƒX‚ªŠJ‚­)
+		// äº‹å‰å‹•ä½œ(éœ‡ãˆã¦ãƒœã‚¹ãŒé–‹ã)
 	case Boss::WAYPOINT1:
 		if (t <= readyTime) {
-			// w’è‚³‚ê‚½•b”U“®‚·‚é
+			// æŒ‡å®šã•ã‚ŒãŸç§’æ•°æŒ¯å‹•ã™ã‚‹
 			ShakeEaseOut(60, readyTime);
 
-			// ƒ{ƒX‚ª­‚µ‚Ã‚ÂŠJ‚­
+			// ãƒœã‚¹ãŒå°‘ã—ã¥ã¤é–‹ã
 			offset = BaseDraw::Ease_InOut(t, prevOffset, nextOffset - prevOffset, readyTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
-			// t‚ğƒŠƒZƒbƒg
+			// tã‚’ãƒªã‚»ãƒƒãƒˆ
 			t = 0.0f;
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossPickGun, 0, BaseAudio::SEvolume);
 
-			//Ÿ‚Ö
+			//æ¬¡ã¸
 			actionWayPoint++;
 		}
 		break;
-		// e“WŠJ
+		// éŠƒå±•é–‹
 	case Boss::WAYPOINT2:
 		if (t <= deployTime) {
 
-			// e‚ªL‚Ñ‚é
+			// éŠƒãŒä¼¸ã³ã‚‹
 			weaponSize.y = BaseDraw::Ease_InOut(t, prevWeaponSize.y, nextWeaponSize.y - prevWeaponSize.y, deployTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// t‚ğ‰Šú‰»
+			// tã‚’åˆæœŸåŒ–
 			t = 0.0f;
 
-			// ‰ŠúŠp“x‚ğİ’è
+			// åˆæœŸè§’åº¦ã‚’è¨­å®š
 			prevDegree = degree;
 
-			//Ÿ‚Ìs“®‚ğƒ‰ƒ“ƒ_ƒ€‚Éİ’è‚µ‚Ä•ªŠò
+			//æ¬¡ã®è¡Œå‹•ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«è¨­å®šã—ã¦åˆ†å²
 			actionBranch = BaseMath::Random(0, 2);
 			switch (actionBranch)
 			{
-				// ‰E‰ñ“]
+				// å³å›è»¢
 			case Boss::Pattern1:
-				// ¶Œü‚«‚É“®‚©‚·
+				// å·¦å‘ãã«å‹•ã‹ã™
 				nextDegree = prevDegree - 30;
 				break;
-				// ¶‰ñ“]
+				// å·¦å›è»¢
 			case Boss::Pattern2:
-				// ‰EŒü‚«‚É“®‚©‚·
+				// å³å‘ãã«å‹•ã‹ã™
 				nextDegree = prevDegree + 30;
 				break;
-				// ’Ç]ËŒ‚
+				// è¿½å¾“å°„æ’ƒ
 			case Boss::Pattern3:
 				break;
 			default:
 				break;
 			}
 
-			// Ÿ‚Ì’iŠK
+			// æ¬¡ã®æ®µéš
 			actionWayPoint++;
 		}
 
 		break;
-		// ËŒ‚€”õ
+		// å°„æ’ƒæº–å‚™
 	case Boss::WAYPOINT3:
 		if (t <= preparationTime) {
 
 			if (actionBranch == Pattern3) {
 
-				// ƒvƒŒƒCƒ„[À•Wæ“¾
+				// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åº§æ¨™å–å¾—
 				prePlayerPosition = playerPosition;
 
-				// ƒvƒŒƒCƒ„[‚ª‚¢‚é•ûŒü‚ğ‹‚ß‚é
+				// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã„ã‚‹æ–¹å‘ã‚’æ±‚ã‚ã‚‹
 				playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
 
-				// ƒvƒŒƒCƒ„[‚Ì‚¢‚éŠp“x‚ğæ“¾
+				// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã„ã‚‹è§’åº¦ã‚’å–å¾—
 				nextDegree = BaseMath::RadiantoDegree(playerDirection) - 90;
 
 				float absDegree = nextDegree - degree;
@@ -2434,36 +2435,36 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 				degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, preparationTime);
 			}
 			else {
-				// ƒ{ƒX‚ğ‰ñ“]‚³‚¹‚é
+				// ãƒœã‚¹ã‚’å›è»¢ã•ã›ã‚‹
 				degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, preparationTime);
 			}
 
-			// •ªŠòF‰ñ“]a‚è‚Ìê‡‚ÍU“®‚³‚¹‚é
+			// åˆ†å²ï¼šå›è»¢æ–¬ã‚Šã®å ´åˆã¯æŒ¯å‹•ã•ã›ã‚‹
 			if (actionBranch == Pattern3)
 				ShakeEaseInOut(30, preparationTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
-			// t‚ğ‰Šú‰»
+			// tã‚’åˆæœŸåŒ–
 			t = 0.0f;
 
-			// ‰ŠúŠp“x‚ğİ’è
+			// åˆæœŸè§’åº¦ã‚’è¨­å®š
 			prevDegree = degree;
 
-			// s“®•ªŠò‚ÉŠî‚Ã‚¢‚Ä‰ñ“]Šp‚Ìİ’è
+			// è¡Œå‹•åˆ†å²ã«åŸºã¥ã„ã¦å›è»¢è§’ã®è¨­å®š
 			switch (actionBranch)
 			{
-				// ‰E‰ñ“]
+				// å³å›è»¢
 			case Boss::Pattern1:
 				nextDegree = prevDegree + 720;
 				break;
-				// ¶‰ñ“]
+				// å·¦å›è»¢
 			case Boss::Pattern2:
 				nextDegree = prevDegree - 720;
 				break;
-				// ’Ç]ËŒ‚
+				// è¿½å¾“å°„æ’ƒ
 			case Boss::Pattern3:
 
 				break;
@@ -2471,38 +2472,38 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 				break;
 			}
 
-			// ƒvƒŒƒCƒ„[À•Wæ“¾
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åº§æ¨™å–å¾—
 			prePlayerPosition = playerPosition;
 
-			// ƒvƒŒƒCƒ„[‚ª‚¢‚é•ûŒü‚ğ‹‚ß‚é
+			// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã„ã‚‹æ–¹å‘ã‚’æ±‚ã‚ã‚‹
 			playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
 
-			// Ÿ‚Ö
+			// æ¬¡ã¸
 			actionWayPoint++;
 		}
 		break;
-		// ËŒ‚
+		// å°„æ’ƒ
 	case Boss::WAYPOINT4:
 		if (t <= shotTime) {
 
 			if (actionBranch == Pattern3) {
 
-				// ƒvƒŒƒCƒ„[À•Wæ“¾
+				// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼åº§æ¨™å–å¾—
 				prePlayerPosition = playerPosition;
 
-				// ƒvƒŒƒCƒ„[‚ª‚¢‚é•ûŒü‚ğ‹‚ß‚é
+				// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã„ã‚‹æ–¹å‘ã‚’æ±‚ã‚ã‚‹
 				playerDirection = atan2(prePlayerPosition.y - centerPosition.y, prePlayerPosition.x - centerPosition.x);
 
-				// ‰ŠúŠp“x‚ğİ’è
+				// åˆæœŸè§’åº¦ã‚’è¨­å®š
 				/*prevDegree = degree;*/
 
-				// ƒvƒŒƒCƒ„[‚Ì‚¢‚éŠp“x‚ğæ“¾
+				// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã„ã‚‹è§’åº¦ã‚’å–å¾—
 				nextDegree = BaseMath::RadiantoDegree(playerDirection) - 90;
 
 				float absDegree = nextDegree - degree;
 
 				if (count == 0) {
-					// ƒ{ƒX‚ğ‰ñ“]‚³‚¹‚é
+					// ãƒœã‚¹ã‚’å›è»¢ã•ã›ã‚‹
 					if (absDegree < 0) {
 						degree -= 1;
 					}
@@ -2516,11 +2517,11 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 				}
 			}
 			else {
-				// ƒ{ƒX‚ğ‰ñ“]‚³‚¹‚é
+				// ãƒœã‚¹ã‚’å›è»¢ã•ã›ã‚‹
 				degree = BaseDraw::Linear(t, prevDegree, nextDegree - prevDegree, shotTime);
 			}
 
-			// ËŒ‚‚ÉU“®‚³‚¹‚é
+			// å°„æ’ƒæ™‚ã«æŒ¯å‹•ã•ã›ã‚‹
 			Shake(10);
 
 			if (fireRateCount <= fireRate) {
@@ -2532,53 +2533,53 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 
 						Novice::PlayAudio(BaseAudio::kBossShot, 0, BaseAudio::SEvolume);
 
-						// ƒ_ƒ[ƒW‚ğŠù’è’l‚É
+						// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’æ—¢å®šå€¤ã«
 						bulletDamage[i] = damage;
 
-						// À•W‚ğ”­Ë’n“_‚Ü‚ÅˆÚ‚·
+						// åº§æ¨™ã‚’ç™ºå°„åœ°ç‚¹ã¾ã§ç§»ã™
 						bulletCenterPosition[i] = shotPoint;
-						// ’e‚Ì”­ËŒü‚«‚ğ•ÏX‚·‚é
+						// å¼¾ã®ç™ºå°„å‘ãã‚’å¤‰æ›´ã™ã‚‹
 						bulletDirection[i] = BaseMath::DegreetoRadian(degree - 90);
 
-						// ’e‚Ì¶‘¶ŠÔ‚ğŒˆ‚ß‚é
+						// å¼¾ã®ç”Ÿå­˜æ™‚é–“ã‚’æ±ºã‚ã‚‹
 						bulletAliveTime[i] = 5.0f;
 
-						// ’e‚ğ”­Ë‚µ‚½ó‘Ô‚É‚·‚é
+						// å¼¾ã‚’ç™ºå°„ã—ãŸçŠ¶æ…‹ã«ã™ã‚‹
 						isShot[i] = true;
 
-						// ƒJƒEƒ“ƒ^[‰Šú‰»
+						// ã‚«ã‚¦ãƒ³ã‚¿ãƒ¼åˆæœŸåŒ–
 						fireRateCount = 0.0f;
-						// ˆ—‚ğ”²‚¯‚é
+						// å‡¦ç†ã‚’æŠœã‘ã‚‹
 						break;
 					}
 				}
 			}
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 
 		}
 		else {
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossClose, 0, BaseAudio::SEvolume);
 
-			// Œ»İ‚ÌÀ•W‚ğ‹L˜^‚·‚é
+			// ç¾åœ¨ã®åº§æ¨™ã‚’è¨˜éŒ²ã™ã‚‹
 			nextCenterPosition = centerPosition;
 
-			// Œ»İ‚ÌŠp“x‚ğŒˆ‚ß‚é
+			// ç¾åœ¨ã®è§’åº¦ã‚’æ±ºã‚ã‚‹
 			nextDegree = degree;
 
-			// t‚ğ‰Šú‰»
+			// tã‚’åˆæœŸåŒ–
 			t = 0.0f;
-			// Ÿ‚Ö
+			// æ¬¡ã¸
 			actionWayPoint++;
 		}
 		break;
-		// Œ³‚ÌêŠ‚É–ß‚é
+		// å…ƒã®å ´æ‰€ã«æˆ»ã‚‹
 	case Boss::WAYPOINT5:
 		if (t <= backTime) {
-			// ˆÊ’u‚âŠp“xA•Ší‚ÌƒTƒCƒY‚ğŒ³‚É–ß‚·
+			// ä½ç½®ã‚„è§’åº¦ã€æ­¦å™¨ã®ã‚µã‚¤ã‚ºã‚’å…ƒã«æˆ»ã™
 			centerPosition.x = BaseDraw::Ease_InOut(t, nextCenterPosition.x, prevCenterPosition.x - nextCenterPosition.x, backTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, nextCenterPosition.y, prevCenterPosition.y - nextCenterPosition.y, backTime);
 			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, backTime);
@@ -2589,21 +2590,21 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 			t += 1.0f / 60.0f;
 		}
 		else {
-			// ƒ{ƒXÀ•W‚ğ‰Šú‰»iˆê‰j
+			// ãƒœã‚¹åº§æ¨™ã‚’åˆæœŸåŒ–ï¼ˆä¸€å¿œï¼‰
 			centerPosition = prevCenterPosition;
 
-			// ƒIƒtƒZƒbƒg‰Šú‰»
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆåˆæœŸåŒ–
 			offset = 0;
 
-			// Šp“x‰Šú‰»
+			// è§’åº¦åˆæœŸåŒ–
 			degree = 0;
 			prevDegree = 0;
 			nextDegree = 0;
 
-			// t‰Šú‰»
+			// tåˆæœŸåŒ–
 			t = 0.0f;
 
-			// s“®I—¹
+			// è¡Œå‹•çµ‚äº†
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = SHOT;
 			waitTime = afterWaitTime;
@@ -2619,106 +2620,106 @@ void Boss::Shot(Point playerPosition, float readyTime, float deployTime, float p
 	}
 }
 
-// ƒIƒuƒWƒFƒNƒg—‰ºŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// readyTime ... ƒ{ƒX‚ÌÀ•W‚ğ’†S‚É–ß‚·•b”
-// deployTime ... UŒ‚€”õ‚É‚©‚©‚é•b”
-// rushTime@... “Vˆä‚É“Ëi‚·‚é‚Ü‚Å‚É‚©‚©‚é•b”
-// standByTime ... ‘Ò‹@•b”
-// backTime ... –ß‚é‚É‚©‚©‚é•b”
-// damage ... s“®‚É‚æ‚Á‚Ä”­¶‚·‚éƒ_ƒ[ƒW
-// ƒ{ƒX‚ª“Vˆä‚É‚Ô‚Â‚©‚èA”j•Ğ‚ğ—‰º‚³‚¹‚ÄUŒ‚‚ğs‚¤ŠÖ”
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè½ä¸‹é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// readyTime ... ãƒœã‚¹ã®åº§æ¨™ã‚’ä¸­å¿ƒã«æˆ»ã™ç§’æ•°
+// deployTime ... æ”»æ’ƒæº–å‚™ã«ã‹ã‹ã‚‹ç§’æ•°
+// rushTimeã€€... å¤©äº•ã«çªé€²ã™ã‚‹ã¾ã§ã«ã‹ã‹ã‚‹ç§’æ•°
+// standByTime ... å¾…æ©Ÿç§’æ•°
+// backTime ... æˆ»ã‚‹æ™‚ã«ã‹ã‹ã‚‹ç§’æ•°
+// damage ... è¡Œå‹•ã«ã‚ˆã£ã¦ç™ºç”Ÿã™ã‚‹ãƒ€ãƒ¡ãƒ¼ã‚¸
+// ãƒœã‚¹ãŒå¤©äº•ã«ã¶ã¤ã‹ã‚Šã€ç ´ç‰‡ã‚’è½ä¸‹ã•ã›ã¦æ”»æ’ƒã‚’è¡Œã†é–¢æ•°
 void Boss::Fall(float readyTime, float deployTime, float rushTime, float standByTime, float backTime, float afterWaitTime, float damage, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
-		// ‰Šú‰»
+		// åˆæœŸåŒ–
 	case Boss::WAYPOINT0:
-		// ’†SÀ•Wæ“¾
+		// ä¸­å¿ƒåº§æ¨™å–å¾—
 		prevCenterPosition = centerPosition;
 		nextCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
 
-		// t‰Šú‰»
+		// tåˆæœŸåŒ–
 		t = 0.0f;
 
-		//Ÿ‚Ì’iŠK‚Ö
+		//æ¬¡ã®æ®µéšã¸
 		actionWayPoint++;
 		break;
-		// ƒ{ƒX‚ğ’†SÀ•W‚É–ß‚·
+		// ãƒœã‚¹ã‚’ä¸­å¿ƒåº§æ¨™ã«æˆ»ã™
 	case Boss::WAYPOINT1:
 		if (t <= readyTime) {
 
-			// ‰æ–Ê’†‰›‚Ö–ß‚·
+			// ç”»é¢ä¸­å¤®ã¸æˆ»ã™
 			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, readyTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, readyTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossCharge, false, BaseAudio::SEvolume);
 
-			// t‚ğƒŠƒZƒbƒg
+			// tã‚’ãƒªã‚»ãƒƒãƒˆ
 			t = 0.0f;
 
-			// À•Wİ’è
+			// åº§æ¨™è¨­å®š
 			prevCenterPosition = centerPosition;
 			nextCenterPosition = { centerPosition.x, centerPosition.y - 200 };
 
-			//Ÿ‚Ö
+			//æ¬¡ã¸
 			actionWayPoint++;
 		}
 		break;
-		// —­‚ß
+		// æºœã‚
 	case Boss::WAYPOINT2:
 		if (t <= deployTime) {
 
-			// áŠ±‰º‚É‰º‚ª‚é
+			// è‹¥å¹²ä¸‹ã«ä¸‹ãŒã‚‹
 			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, deployTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, deployTime);
 
 			ShakeEaseOut(50, deployTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossRush, false, BaseAudio::SEvolume);
 
-			// t‚ğ‰Šú‰»
+			// tã‚’åˆæœŸåŒ–
 			t = 0.0f;
 
-			// À•Wİ’è
+			// åº§æ¨™è¨­å®š
 			prevCenterPosition = centerPosition;
 			nextCenterPosition = { centerPosition.x, ((float)BaseConst::kBossStageSizeHeight * (float)BaseConst::kMapChipSizeHeight - (float)BaseConst::kMapChipSizeHeight) - (textureSize.y / 2) };
 
-			// Ÿ‚Ì’iŠK
+			// æ¬¡ã®æ®µéš
 			actionWayPoint++;
 		}
 
 		break;
-		// “Vˆä‚É“Ëi
+		// å¤©äº•ã«çªé€²
 	case Boss::WAYPOINT3:
 		if (t <= rushTime) {
 
-			// “Ëi
+			// çªé€²
 			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, rushTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, rushTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
-			// t‚ğ‰Šú‰»
+			// tã‚’åˆæœŸåŒ–
 			t = 0.0f;
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossVibration, false, BaseAudio::SEvolume);
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossStrike, false, BaseAudio::SEvolume);
 
 
@@ -2728,37 +2729,37 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 			canGeneratedEnemy = true;
 			generatedEnemyValue = BaseMath::Random(2, 3);
 
-			// Ÿ‚Ö
+			// æ¬¡ã¸
 			actionWayPoint++;
 		}
 		break;
-		// ‘Ò‹@
+		// å¾…æ©Ÿ
 	case Boss::WAYPOINT4:
 		if (t <= standByTime) {
 
-			// Œƒ“ËƒVƒFƒCƒN
+			// æ¿€çªæ™‚ã‚·ã‚§ã‚¤ã‚¯
 			ShakeEaseOut(50, standByTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 
 		}
 		else {
 
-			// Œ»İ‚ÌÀ•W‚ğ‹L˜^‚·‚é
+			// ç¾åœ¨ã®åº§æ¨™ã‚’è¨˜éŒ²ã™ã‚‹
 			prevCenterPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2),(float)(BaseConst::kMapChipSizeHeight * BaseConst::kBossStageSizeHeight / 2) };
 			nextCenterPosition = centerPosition;
 
-			// t‚ğ‰Šú‰»
+			// tã‚’åˆæœŸåŒ–
 			t = 0.0f;
-			// Ÿ‚Ö
+			// æ¬¡ã¸
 			actionWayPoint++;
 		}
 		break;
-		// Œ³‚ÌêŠ‚É–ß‚é
+		// å…ƒã®å ´æ‰€ã«æˆ»ã‚‹
 	case Boss::WAYPOINT5:
 		if (t <= backTime) {
-			// ˆÊ’u‚âŠp“xA•Ší‚ÌƒTƒCƒY‚ğŒ³‚É–ß‚·
+			// ä½ç½®ã‚„è§’åº¦ã€æ­¦å™¨ã®ã‚µã‚¤ã‚ºã‚’å…ƒã«æˆ»ã™
 			centerPosition.x = BaseDraw::Ease_InOut(t, nextCenterPosition.x, prevCenterPosition.x - nextCenterPosition.x, backTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, nextCenterPosition.y, prevCenterPosition.y - nextCenterPosition.y, backTime);
 			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, backTime);
@@ -2766,21 +2767,21 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 			t += 1.0f / 60.0f;
 		}
 		else {
-			// ƒ{ƒXÀ•W‚ğ‰Šú‰»iˆê‰j
+			// ãƒœã‚¹åº§æ¨™ã‚’åˆæœŸåŒ–ï¼ˆä¸€å¿œï¼‰
 			centerPosition = prevCenterPosition;
 
-			// ƒIƒtƒZƒbƒg‰Šú‰»
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆåˆæœŸåŒ–
 			offset = 0;
 
-			// Šp“x‰Šú‰»
+			// è§’åº¦åˆæœŸåŒ–
 			degree = 0;
 			prevDegree = 0;
 			nextDegree = 0;
 
-			// t‰Šú‰»
+			// tåˆæœŸåŒ–
 			t = 0.0f;
 
-			// s“®I—¹
+			// è¡Œå‹•çµ‚äº†
 			prevAttackPattern[1] = prevAttackPattern[0];
 			prevAttackPattern[0] = FALL;
 			waitTime = 0.25f;
@@ -2796,25 +2797,25 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 	}
 }
 
-// ƒXƒ^ƒ“ŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// readyTime ... ƒXƒ^ƒ“‚µn‚ßƒ‚[ƒVƒ‡ƒ“•b”
-// deployTime ... ƒXƒ^ƒ“‚µn‚ßƒ‚[ƒVƒ‡ƒ“•b”
-// stanTime@... ƒXƒ^ƒ“•b”
-// backTime ... –ß‚é‚É‚©‚©‚é•b”
-// w’è‚³‚ê‚½•b”ƒ{ƒX‚ªƒXƒ^ƒ“‚·‚éŠÖ”
+// ã‚¹ã‚¿ãƒ³é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// readyTime ... ã‚¹ã‚¿ãƒ³ã—å§‹ã‚ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ç§’æ•°
+// deployTime ... ã‚¹ã‚¿ãƒ³ã—å§‹ã‚ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ç§’æ•°
+// stanTimeã€€... ã‚¹ã‚¿ãƒ³ç§’æ•°
+// backTime ... æˆ»ã‚‹æ™‚ã«ã‹ã‹ã‚‹ç§’æ•°
+// æŒ‡å®šã•ã‚ŒãŸç§’æ•°ãƒœã‚¹ãŒã‚¹ã‚¿ãƒ³ã™ã‚‹é–¢æ•°
 void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTime, WireManager* wireManager) {
 	switch (actionWayPoint)
 	{
 	case Boss::WAYPOINT0:
 
-		// ”O‚Ì‚½‚ßˆê“x‰Šú‰»
-		// À•Wæ“¾
+		// å¿µã®ãŸã‚ä¸€åº¦åˆæœŸåŒ–
+		// åº§æ¨™å–å¾—
 		prevCenterPosition = { 0.0f, 0.0f };
 		nextCenterPosition = { 0.0f, 0.0f };
 
-		// Šp“xæ“¾
+		// è§’åº¦å–å¾—
 		prevDegree = 0;
 		nextDegree = 0;
 
@@ -2825,89 +2826,89 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 		endAction = true;
 		inAction = false;
 
-		// •ŠíƒTƒCƒY‰Šú‰»
+		// æ­¦å™¨ã‚µã‚¤ã‚ºåˆæœŸåŒ–
 		weaponSize = { 0.0f, 0.0f };
 
-		// À•Wæ“¾
+		// åº§æ¨™å–å¾—
 		prevCenterPosition = centerPosition;
 		nextCenterPosition = { centerPosition.x, centerPosition.y + 100.0f };
 
-		// Šp“xæ“¾
+		// è§’åº¦å–å¾—
 		prevDegree = degree;
 		nextDegree = degree + 20;
 
 		prevOffset = offset;
 		nextOffset = 0;
 
-		// Ÿ‚Ìs“®‚Ö
+		// æ¬¡ã®è¡Œå‹•ã¸
 		actionWayPoint++;
 		break;
 		// 
 	case Boss::WAYPOINT1:
 		if (t <= readyTime) {
-			// À•WŠÖ˜A‚ğƒC[ƒWƒ“ƒO
+			// åº§æ¨™é–¢é€£ã‚’ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°
 			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, readyTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, readyTime);
 
-			// Šp“xŠÖ˜A‚ğƒC[ƒWƒ“ƒO
+			// è§’åº¦é–¢é€£ã‚’ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°
 			degree = BaseDraw::Ease_Out(t, prevDegree, nextDegree - prevDegree, readyTime);
 
-			// ƒIƒtƒZƒbƒg‚ğ0‚É
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’0ã«
 			offset = BaseDraw::Ease_InOut(t, prevOffset, -prevOffset, readyTime);
 
 			ShakeEaseOut(30, readyTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// À•Wæ“¾
+			// åº§æ¨™å–å¾—
 			prevCenterPosition = centerPosition;
 			nextCenterPosition = { centerPosition.x, centerPosition.y - 150.0f };
 
-			// Šp“xæ“¾
+			// è§’åº¦å–å¾—
 			prevDegree = degree;
 			nextDegree = degree - 40;
 
-			// t‚ğ‰Šú‰»‚·‚é
+			// tã‚’åˆæœŸåŒ–ã™ã‚‹
 			t = 0.0f;
-			// Ÿ‚Ìs“®‚Ö
+			// æ¬¡ã®è¡Œå‹•ã¸
 			actionWayPoint++;
 		}
 		break;
 	case Boss::WAYPOINT2:
 		if (t <= deployTime) {
-			// À•WŠÖ˜A‚ğƒC[ƒWƒ“ƒO
+			// åº§æ¨™é–¢é€£ã‚’ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°
 			centerPosition.x = BaseDraw::Ease_Out(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, deployTime);
 			centerPosition.y = BaseDraw::Ease_Out(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, deployTime);
 
-			// Šp“xŠÖ˜A‚ğƒC[ƒWƒ“ƒO
+			// è§’åº¦é–¢é€£ã‚’ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°
 			degree = BaseDraw::Ease_InOut(t, prevDegree, nextDegree - prevDegree, deployTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
 			if (Novice::IsPlayingAudio(screamVoiceHundle) == 0 || screamVoiceHundle == -1) {
-				// Œø‰Ê‰¹Ä¶
+				// åŠ¹æœéŸ³å†ç”Ÿ
 				screamVoiceHundle = Novice::PlayAudio(screamSoundHundle, true, BaseAudio::SEvolume);
 			}
 
-			// t‚ğ‰Šú‰»‚·‚é
+			// tã‚’åˆæœŸåŒ–ã™ã‚‹
 			t = 0.0f;
-			// Ÿ‚Ìs“®‚Ö
+			// æ¬¡ã®è¡Œå‹•ã¸
 			actionWayPoint++;
 		}
 		break;
 	case Boss::WAYPOINT3:
 		if (t <= stanTime) {
 
-			// ˆê’è•b”U“®
+			// ä¸€å®šç§’æ•°æŒ¯å‹•
 			vibration(10, stanTime, stanTime, 3);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
@@ -2919,32 +2920,32 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 
 			vibInit = false;
 
-			// t‚ğ‰Šú‰»‚·‚é
+			// tã‚’åˆæœŸåŒ–ã™ã‚‹
 			t = 0.0f;
-			// Ÿ‚Ìs“®‚Ö
+			// æ¬¡ã®è¡Œå‹•ã¸
 			actionWayPoint++;
 		}
 		break;
 	case Boss::WAYPOINT4:
 		if (t <= backTime) {
 
-			// À•WŠÖ˜A‚ğƒC[ƒWƒ“ƒO
+			// åº§æ¨™é–¢é€£ã‚’ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°
 			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, backTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, backTime);
 			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, backTime);
 			shakeVariation.y = BaseDraw::Ease_InOut(t, shakeVariation.y, -shakeVariation.y, backTime);
 
-			// Šp“xŠÖ˜A‚ğƒC[ƒWƒ“ƒO
+			// è§’åº¦é–¢é€£ã‚’ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°
 			degree = BaseDraw::Ease_InOut(t, prevDegree, -prevDegree, backTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// t‚ğ‰Šú‰»‚·‚é
+			// tã‚’åˆæœŸåŒ–ã™ã‚‹
 			t = 0.0f;
-			// s“®I—¹
+			// è¡Œå‹•çµ‚äº†
 			inStun = false;
 			actionWayPoint = WAYPOINT0;
 		}
@@ -2956,29 +2957,29 @@ void Boss::Stun(float readyTime, float deployTime, float stanTime, float backTim
 	}
 }
 
-/******** ƒ_ƒ[ƒW **********/
-// ƒ_ƒ[ƒWŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// readyTime ... ƒXƒ^ƒ“‚µn‚ßƒ‚[ƒVƒ‡ƒ“•b”
-// deployTime ... ƒXƒ^ƒ“‚µn‚ßƒ‚[ƒVƒ‡ƒ“•b”
-// openTime ... ŠJ‚­‚Ü‚Å‚É‚©‚©‚éŠÔ
-// stanTime@... ƒXƒ^ƒ“•b”
-// backTime ... –ß‚é‚É‚©‚©‚é•b”
-// closeTime ... •Â‚¶‚é‚Ü‚Å‚É‚©‚©‚éŠÔ
-// ƒ{ƒX‚É‘Î‚µ‚Äƒ_ƒ[ƒW‚ª—^‚¦‚ç‚ê‚éó‘Ô‚É‚·‚éŠÖ”
+/******** ãƒ€ãƒ¡ãƒ¼ã‚¸ **********/
+// ãƒ€ãƒ¡ãƒ¼ã‚¸é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// readyTime ... ã‚¹ã‚¿ãƒ³ã—å§‹ã‚ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ç§’æ•°
+// deployTime ... ã‚¹ã‚¿ãƒ³ã—å§‹ã‚ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ç§’æ•°
+// openTime ... é–‹ãã¾ã§ã«ã‹ã‹ã‚‹æ™‚é–“
+// stanTimeã€€... ã‚¹ã‚¿ãƒ³ç§’æ•°
+// backTime ... æˆ»ã‚‹æ™‚ã«ã‹ã‹ã‚‹ç§’æ•°
+// closeTime ... é–‰ã˜ã‚‹ã¾ã§ã«ã‹ã‹ã‚‹æ™‚é–“
+// ãƒœã‚¹ã«å¯¾ã—ã¦ãƒ€ãƒ¡ãƒ¼ã‚¸ãŒä¸ãˆã‚‰ã‚Œã‚‹çŠ¶æ…‹ã«ã™ã‚‹é–¢æ•°
 void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime, float stanTime, float backTime, float closeTime, WireManager* wireManager, ObjectManager* objectManager) {
 
 	switch (actionWayPoint)
 	{
 	case Boss::WAYPOINT0:
 
-		// ”O‚Ì‚½‚ßˆê“x‰Šú‰»
-		// À•Wæ“¾
+		// å¿µã®ãŸã‚ä¸€åº¦åˆæœŸåŒ–
+		// åº§æ¨™å–å¾—
 		prevCenterPosition = { 0.0f, 0.0f };
 		nextCenterPosition = { 0.0f, 0.0f };
 
-		// Šp“xæ“¾
+		// è§’åº¦å–å¾—
 		prevDegree = 0;
 		nextDegree = 0;
 
@@ -2990,49 +2991,49 @@ void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime,
 		inAction = false;
 		inStun = false;
 
-		// •ŠíƒTƒCƒY‰Šú‰»
+		// æ­¦å™¨ã‚µã‚¤ã‚ºåˆæœŸåŒ–
 		weaponSize = { 0.0f, 0.0f };
 
-		// À•Wæ“¾
+		// åº§æ¨™å–å¾—
 		prevCenterPosition = centerPosition;
 		nextCenterPosition = centerPosition;
 
 		prevOffset = offset;
 		nextOffset = 5;
 
-		// Ÿ‚Ìs“®‚Ö
+		// æ¬¡ã®è¡Œå‹•ã¸
 		actionWayPoint++;
 		break;
 		// 
 	case Boss::WAYPOINT1:
 		if (t <= readyTime) {
-			// ƒIƒtƒZƒbƒg‚ğ0‚É
+			// ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’0ã«
 			offset = BaseDraw::Ease_InOut(t, prevOffset, nextOffset - prevOffset, readyTime);
 
 			ShakeEaseOut(30, readyTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
 			if (Novice::IsPlayingAudio(PullVoiceHundle) == 0 || PullVoiceHundle == -1) {
-				// Œø‰Ê‰¹Ä¶
+				// åŠ¹æœéŸ³å†ç”Ÿ
 				PullVoiceHundle = Novice::PlayAudio(PullSoundHundle, true, BaseAudio::SEvolume);
 			}
 
-			// t‚ğ‰Šú‰»‚·‚é
+			// tã‚’åˆæœŸåŒ–ã™ã‚‹
 			t = 0.0f;
-			// Ÿ‚Ìs“®‚Ö
+			// æ¬¡ã®è¡Œå‹•ã¸
 			actionWayPoint++;
 		}
 		break;
 	case Boss::WAYPOINT2:
 		if (t <= deployTime) {
-			// À•WŠÖ˜A‚ğƒC[ƒWƒ“ƒO
+			// åº§æ¨™é–¢é€£ã‚’ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°
 			Shake(10);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
@@ -3042,12 +3043,12 @@ void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime,
 			prevOffset = offset;
 			nextOffset = 175;
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossHardOpen, false, BaseAudio::SEvolume);
 
-			// t‚ğ‰Šú‰»‚·‚é
+			// tã‚’åˆæœŸåŒ–ã™ã‚‹
 			t = 0.0f;
-			// Ÿ‚Ìs“®‚Ö
+			// æ¬¡ã®è¡Œå‹•ã¸
 			actionWayPoint++;
 		}
 		break;
@@ -3058,7 +3059,7 @@ void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime,
 
 			ShakeEaseInOut(20, openTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
@@ -3066,9 +3067,9 @@ void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime,
 			canGeneratedBlock = true;
 			generatedBlockValue = 5;
 
-			// t‚ğ‰Šú‰»‚·‚é
+			// tã‚’åˆæœŸåŒ–ã™ã‚‹
 			t = 0.0f;
-			// Ÿ‚Ìs“®‚Ö
+			// æ¬¡ã®è¡Œå‹•ã¸
 			actionWayPoint++;
 		}
 		break;
@@ -3077,21 +3078,21 @@ void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime,
 
 			vibration(15, stanTime, stanTime, 4);
 
-			// ‚±‚±‚Å•Ô‚è’l‚ªtrue‚Ì‚Æ‚«‚Éƒ_ƒ[ƒW”»’è‚ğs‚¤
+			// ã“ã“ã§è¿”ã‚Šå€¤ãŒtrueã®ã¨ãã«ãƒ€ãƒ¡ãƒ¼ã‚¸åˆ¤å®šã‚’è¡Œã†
 			if (objectManager->isHitCore() == true) {
-				// ƒ_ƒ[ƒW‚ğ—^‚¦‚½Û‚ÌŒø‰Ê‰¹Ä¶
+				// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆãŸéš›ã®åŠ¹æœéŸ³å†ç”Ÿ
 				Novice::PlayAudio(BaseAudio::kBossDamage, 0, BaseAudio::SEvolume);
 
-				// ƒ_ƒ[ƒWƒAƒjƒ[ƒVƒ‡ƒ“—p‚Ìt‚ğ‰Šú‰»‚·‚é
+				// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ã®tã‚’åˆæœŸåŒ–ã™ã‚‹
 				spareT = 0.0f;
-				// ƒ_ƒ[ƒW‚ğ—^‚¦‚½ó‘Ô‚É‚·‚é
+				// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆãŸçŠ¶æ…‹ã«ã™ã‚‹
 				inDamage = true;
 
-				// HP‚ğ’á‰º‚³‚¹‚é
+				// HPã‚’ä½ä¸‹ã•ã›ã‚‹
 				HP--;
 			}
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
@@ -3110,33 +3111,33 @@ void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime,
 				nextDegree = -360;
 			}
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossReboot, false, BaseAudio::SEvolume);
 
-			// t‚ğ‰Šú‰»‚·‚é
+			// tã‚’åˆæœŸåŒ–ã™ã‚‹
 			t = 0.0f;
-			// Ÿ‚Ìs“®‚Ö
+			// æ¬¡ã®è¡Œå‹•ã¸
 			actionWayPoint++;
 		}
 		break;
 	case Boss::WAYPOINT5:
 		if (t <= backTime) {
 
-			// ‚±‚±‚Å•Ô‚è’l‚ªtrue‚Ì‚Æ‚«‚Éƒ_ƒ[ƒW”»’è‚ğs‚¤
+			// ã“ã“ã§è¿”ã‚Šå€¤ãŒtrueã®ã¨ãã«ãƒ€ãƒ¡ãƒ¼ã‚¸åˆ¤å®šã‚’è¡Œã†
 			if (objectManager->isHitCore() == true) {
-				// ƒ_ƒ[ƒW‚ğ—^‚¦‚½Û‚ÌŒø‰Ê‰¹Ä¶
+				// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆãŸéš›ã®åŠ¹æœéŸ³å†ç”Ÿ
 				Novice::PlayAudio(BaseAudio::kBossDamage, 0, BaseAudio::SEvolume);
 
-				// ƒ_ƒ[ƒWƒAƒjƒ[ƒVƒ‡ƒ“—p‚Ìt‚ğ‰Šú‰»‚·‚é
+				// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ç”¨ã®tã‚’åˆæœŸåŒ–ã™ã‚‹
 				spareT = 0.0f;
-				// ƒ_ƒ[ƒW‚ğ—^‚¦‚½ó‘Ô‚É‚·‚é
+				// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’ä¸ãˆãŸçŠ¶æ…‹ã«ã™ã‚‹
 				inDamage = true;
 
-				// HP‚ğ’á‰º‚³‚¹‚é
+				// HPã‚’ä½ä¸‹ã•ã›ã‚‹
 				HP--;
 			}
 
-			// À•WŠÖ˜A‚ğƒC[ƒWƒ“ƒO
+			// åº§æ¨™é–¢é€£ã‚’ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°
 			centerPosition.x = BaseDraw::Ease_InOut(t, prevCenterPosition.x, nextCenterPosition.x - prevCenterPosition.x, backTime);
 			centerPosition.y = BaseDraw::Ease_InOut(t, prevCenterPosition.y, nextCenterPosition.y - prevCenterPosition.y, backTime);
 			shakeVariation.x = BaseDraw::Ease_InOut(t, shakeVariation.x, -shakeVariation.x, backTime);
@@ -3146,24 +3147,24 @@ void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime,
 				wireManager->Initialize();
 			}
 
-			// Šp“xŠÖ˜A‚ğƒC[ƒWƒ“ƒO
+			// è§’åº¦é–¢é€£ã‚’ã‚¤ãƒ¼ã‚¸ãƒ³ã‚°
 			degree = BaseDraw::Ease_InOut(t, prevDegree, -prevDegree + nextDegree, backTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// Œø‰Ê‰¹Ä¶
+			// åŠ¹æœéŸ³å†ç”Ÿ
 			Novice::PlayAudio(BaseAudio::kBossOpen, false, BaseAudio::SEvolume);
 
 			prevOffset = offset;
 
 			degree = 0;
 
-			// t‚ğ‰Šú‰»‚·‚é
+			// tã‚’åˆæœŸåŒ–ã™ã‚‹
 			t = 0.0f;
-			// Ÿ‚Ìs“®‚Ö
+			// æ¬¡ã®è¡Œå‹•ã¸
 			actionWayPoint++;
 		}
 		break;
@@ -3174,15 +3175,15 @@ void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime,
 			offset = BaseDraw::Ease_InOut(t, prevOffset, -prevOffset, closeTime);
 			ShakeEaseOut(30, closeTime);
 
-			// t‚ğƒvƒ‰ƒX‚·‚é
+			// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 			t += 1.0f / 60.0f;
 		}
 		else {
 
-			// t‚ğ‰Šú‰»‚·‚é
+			// tã‚’åˆæœŸåŒ–ã™ã‚‹
 			waitTime = 1.0f;
 			t = 0.0f;
-			// s“®I—¹
+			// è¡Œå‹•çµ‚äº†
 			canTakeDamage = false;
 			pleaseWait = false;
 			actionWayPoint = WAYPOINT0;
@@ -3194,13 +3195,13 @@ void Boss::MakeDamagePossible(float readyTime, float deployTime, float openTime,
 	}
 }
 
-/******** ƒ_ƒ[ƒWƒAƒjƒ[ƒVƒ‡ƒ“ **********/
-// ƒ_ƒ[ƒWƒAƒjƒ[ƒVƒ‡ƒ“ŠÖ”
-// •Ô‚è’lF‚È‚µ
-// ˆø”F
-// readyTime ... U“®‚·‚éŠÔ
-// shakeStrength ... U“®‚·‚é‹­‚³
-// ƒ_ƒ[ƒW‚ª—^‚¦‚ç‚ê‚½‚ÌƒAƒjƒ[ƒVƒ‡ƒ“‚ğÄ¶‚·‚éŠÖ”
+/******** ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ **********/
+// ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³é–¢æ•°
+// è¿”ã‚Šå€¤ï¼šãªã—
+// å¼•æ•°ï¼š
+// readyTime ... æŒ¯å‹•ã™ã‚‹æ™‚é–“
+// shakeStrength ... æŒ¯å‹•ã™ã‚‹å¼·ã•
+// ãƒ€ãƒ¡ãƒ¼ã‚¸ãŒä¸ãˆã‚‰ã‚ŒãŸæ™‚ã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’å†ç”Ÿã™ã‚‹é–¢æ•°
 void Boss::playTakeDamageAnim(float animTime, float shakeStrength) {
 	if (spareT <= animTime) {
 		shakeRange = BaseDraw::Ease_Out(spareT, shakeStrength, -shakeStrength, animTime);
@@ -3208,12 +3209,12 @@ void Boss::playTakeDamageAnim(float animTime, float shakeStrength) {
 		shakeVariation.x = BaseMath::RandomF(-shakeStrength / 2, shakeStrength / 2, 0);
 		shakeVariation.y = BaseMath::RandomF(-shakeStrength / 2, shakeStrength / 2, 0);
 
-		// t‚ğƒvƒ‰ƒX‚·‚é
+		// tã‚’ãƒ—ãƒ©ã‚¹ã™ã‚‹
 		spareT += 1.0f / 60.0f;
 	}
 	else {
 
-		//t‚ğ‰Šú‰»
+		//tã‚’åˆæœŸåŒ–
 		spareT = 0.0f;
 		inDamage = false;
 	}

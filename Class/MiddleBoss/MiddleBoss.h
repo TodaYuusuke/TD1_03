@@ -106,7 +106,7 @@ private:
 	/// <param name="moveTime">少し下に行く</param>
 	/// <param name="runAwayTime">そして上へ</param>
 	/// <param name="cameraBackTime">カメラを戻す</param>
-	void PlayDeadAnim(float cameraMoveTime, float moveTime,float runAwayTime,float cameraBackTime, WireManager* wireManager);
+	void PlayDeadAnim(float cameraMoveTime, float moveTime,float runAwayTime,float cameraBackTime, ObjectManager* objectManager, WireManager* wireManager);
 
 	// 行動なし関数
 	// 返り値：なし
@@ -272,7 +272,7 @@ private:
 
 	/******** HP関連 **********/
 	// HP(ここで初期化)
-	const float MaxHP = 10.0f;
+	const float MaxHP = 6.0f;
 	float HP;
 
 	/******** ダメージ関連 **********/

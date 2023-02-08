@@ -93,7 +93,6 @@ void Object::Update() {
 				velocity.x = 0;
 			}
 		}
-
 		if (velocity.y > 0) {
 			velocity.y -= 0.02f;
 			if (velocity.y < 0) {
@@ -106,7 +105,6 @@ void Object::Update() {
 				velocity.y = 0;
 			}
 		}
-
 		// 回転速度を減速させていく
 		/*if (angleVelocity > BaseConst::kPlayerVelocityLimit) {
 			angleVelocity -= 0.05f;
@@ -120,9 +118,6 @@ void Object::Update() {
 				angleVelocity = 0;
 			}
 		}*/
-
-
-
 	}
 }
 
@@ -586,7 +581,7 @@ void Object::CheckHitBoxRhombus(Point checkQuadPoint[], Point checkRhombusPoint[
 bool Object::isHit(Point hitPosition) {
 	// ブロックのときのみ処理を変える
 	bool b = false;
-	if ((GetType() == typeBlock || GetType() == typeFallBlock) && (BaseMath::GetLength(velocity) > 20 || BaseMath::GetLength(velocity) < -20)) {
+	if ((GetType() == typeBlock || GetType() == typeFallBlock || GetType() == typeIronBalloon) && (BaseMath::GetLength(velocity) > 20 || BaseMath::GetLength(velocity) < -20)) {
 		b = true;
 	}
 
@@ -597,6 +592,12 @@ bool Object::isHit(Point hitPosition) {
 				if (isAlive) {
 					isAlive = false;
 					if (GetType() == typeIronBalloon) {
+						if (angle == 0) {
+							BaseEffectManager::MakeNewEffectIronBalloonDead(centerPosition, false);
+						}
+						else if (angle == 90) {
+							BaseEffectManager::MakeNewEffectIronBalloonDead(centerPosition, true);
+						}
 						Novice::PlayAudio(BaseAudio::kEnemyIronBallonDead, 0, BaseAudio::SEvolume);
 					}
 				}

@@ -49,6 +49,9 @@ public: // 静的なオーディオの変数
 
 #pragma region BGM
 
+	// タイトルBGM
+	static int kBGMTitle;
+
 	// チュートリアルBGM
 	static int kBGMTutorial;
 
@@ -139,6 +142,8 @@ public: // 静的なオーディオの変数
 	static int kPlayerShoot;
 	// 排莢
 	static int kPlayerEjection;
+	// 落下音
+	static int kPlayerFall;
 
 #pragma endregion
 
@@ -175,6 +180,12 @@ public: // 静的なオーディオの変数
 
 	// 特別なクリック音(タイトルからゲームシーンへ移行するときなど)
 	static int kSpecialDecide;
+
+	// ゲームオーバー音
+	static int kGameOver;
+
+	// 掲示板が着いた時の音
+	static int kNeonOn;
 
 #pragma endregion
 

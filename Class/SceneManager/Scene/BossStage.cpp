@@ -24,6 +24,11 @@ void BossStage::Initialize() {
 	objectManager.MakeNewObjectPlayer({ 100,200 }, &wireManager);
 	boss.Initialize(&objectManager);
 
+	preScrollPositionX = 1080;
+	for (int i = 0; i < 3; i++) {
+		backGroundPositionX[i] = 0;
+	}
+
 	reticlePosition = { 1000,500 };
 	preMousePosition = BaseInput::GetMousePosition();
 	isGameOver = false;
@@ -31,6 +36,8 @@ void BossStage::Initialize() {
 	gameOverT = BaseConst::kGameOverFirstValue;
 	isToTitle = false;
 	isToRetry = false;
+	Novice::StopAudio(BaseAudio::kBGMBoss);
+	Novice::StopAudio(BaseAudio::kBGMChance);
 }
 // 更新
 void BossStage::Update() {
@@ -48,24 +55,26 @@ void BossStage::Update() {
 	}
 	else {
 		Player* p = (Player*)objectManager.GetSelectObject(typePlayer);
-		p->Update();
+		if (p != NULL) {
+			p->Update();
+		}
 		GameOverUpdate();
 	}
 
 
 	// 背景スクロール用
-	backGroundPositionY[0] -= (BaseDraw::GetScreenPosition().y - preScrollPositionY) * 1.4;
-	backGroundPositionY[1] -= (BaseDraw::GetScreenPosition().y - preScrollPositionY) * 1.2;
-	backGroundPositionY[2] -= (BaseDraw::GetScreenPosition().y - preScrollPositionY) * 1;
+	backGroundPositionX[0] -= (BaseDraw::GetScreenPosition().x - preScrollPositionX) * 0.6f;
+	backGroundPositionX[1] -= (BaseDraw::GetScreenPosition().x - preScrollPositionX) * 0.5f;
+	backGroundPositionX[2] -= (BaseDraw::GetScreenPosition().x - preScrollPositionX) * 0.3f;
 
 	for (int i = 1; i <= 3; i++) {
 		while (true) {
-			if (backGroundPositionY[i - 1] > 0) {
-				backGroundPositionY[i - 1] -= 1920;
+			if (backGroundPositionX[i - 1] > 0) {
+				backGroundPositionX[i - 1] -= 1920;
 				continue;
 			}
-			else if (backGroundPositionY[i - 1] < -1920) {
-				backGroundPositionY[i - 1] += 1920;
+			else if (backGroundPositionX[i - 1] < -1920) {
+				backGroundPositionX[i - 1] += 1920;
 				continue;
 			}
 			break;
@@ -73,16 +82,16 @@ void BossStage::Update() {
 		}
 	}
 	// 前回の座標を更新
-	preScrollPositionY = BaseDraw::GetScreenPosition().y;
+	preScrollPositionX = BaseDraw::GetScreenPosition().x;
 }
 // 描画
 void BossStage::Draw() {
 
 	// 背景の描画
 	for (int i = 1; i <= 3; i++) {
-		BaseDraw::DrawSprite({ 0, backGroundPositionY[i - 1] + (BaseDraw::GetScreenPosition().y / 1920) * 1920 }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
-		BaseDraw::DrawSprite({ 0, backGroundPositionY[i - 1] - 1920 + (BaseDraw::GetScreenPosition().y / 1920) * 1920 }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
-		BaseDraw::DrawSprite({ 0, backGroundPositionY[i - 1] + 1920 + (BaseDraw::GetScreenPosition().y / 1920) * 1920 }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
+		BaseDraw::DrawSprite({ backGroundPositionX[i - 1] + (BaseDraw::GetScreenPosition().x / 1920) * 1920,  BaseDraw::GetScreenPosition().y }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
+		BaseDraw::DrawSprite({ backGroundPositionX[i - 1] + 1920 + (BaseDraw::GetScreenPosition().x / 1920) * 1920, BaseDraw::GetScreenPosition().y }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
+		BaseDraw::DrawSprite({ backGroundPositionX[i - 1] - 1920 + (BaseDraw::GetScreenPosition().x / 1920) * 1920, BaseDraw::GetScreenPosition().y }, BaseTexture::kBackGround[i - 1], { 1,1 }, 0, WHITE);
 	}
 
 	MapManager::Draw();
@@ -93,7 +102,9 @@ void BossStage::Draw() {
 	}
 	else {
 		Player* p = (Player*)objectManager.GetSelectObject(typePlayer);
-		p->Draw();
+		if (p != NULL) {
+			p->Draw();
+		}
 		GameOverDraw();
 	}
 	/*

@@ -25,11 +25,16 @@ void ObjectManager::Update() {
 // 全てのオブジェクトを描画（Drawを呼び出す）
 void ObjectManager::Draw() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
-		if (object[i]->GetType() != typeObject) {
+		if (object[i]->GetType() != typeObject && object[i]->GetType() != typePlayer) {
 			object[i]->Draw();
 		}
 	}
+
+	// プレイヤーの更新は最後に行う
+	Player* p = (Player*)GetSelectObject(typePlayer);
+	p->Draw();
 }
+
 
 
 // 新しいオブジェクトのインスタンスを生成する関数たち
@@ -116,6 +121,16 @@ void ObjectManager::MakeNewObjectIronBalloon(Point position) {
 			object[i] = new IronBalloon(position, { 50,50 }, GetSelectObject(typePlayer));
 			object[i]->Initialize();
 			break;
+		}
+	}
+}
+
+
+// 全ての雑魚敵を消去する
+void ObjectManager::DeleteAllEnemy() {
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeBalloon || object[i]->GetType() == typeIronBalloon) {
+			object[i]->SetisAlive(false);
 		}
 	}
 }
@@ -209,7 +224,17 @@ bool ObjectManager::GetIsCreatedBlock() {
 	}
 	// ない場合はfalse
 	return false;
-
+}
+bool ObjectManager::GetIsCreatedIronBalloon() {
+	// 全てのオブジェクトの中からブロックを探す
+	for (int i = 0; i < kMaxObjectSize; i++) {
+		if (object[i]->GetType() == typeIronBalloon && object[i]->GetisAlive() == true) {
+			// ある場合はtrue
+			return true;
+		}
+	}
+	// ない場合はfalse
+	return false;
 }
 
 // プレイヤーの中心座標を受け取る関数
@@ -253,7 +278,10 @@ void ObjectManager::DeletePlayerMoveLimit() {
 // プレイヤーの生存フラグを取得
 bool ObjectManager::GetPlayerisAlive() {
 	Player* p = (Player*)GetSelectObject(typePlayer);
-	return p->GetisAlive();
+	if (p != NULL) {
+		return p->GetisAlive();
+	}
+	return false;
 }
 
 // コアにブロックがヒットしたかを返す関数
@@ -265,35 +293,35 @@ bool ObjectManager::isHitCore() {
 		}
 	}
 
-	// コアの中心座標
-	Point p = object[i]->GetCenterPosition();
 	// コアのサイズ
-	float width = 256;
-	float height = 256;
+	float width = 256 / 2;
+	float height = 256 / 2;
 
 	// 8つ角の座標を含めた9点
-	Point hitPos[9] = {
-		// 左上
-		{p.x - width / 2, p.y + height / 2},
-		// 左
-		{p.x - width / 2, p.y},
-		// 左下
-		{p.x - width / 2, p.y - height / 2},
-		// 上
-		{p.x, p.y + height / 2},
-		// 中
-		{p.x, p.y},
-		// 下
-		{p.x, p.y - height / 2},
-		// 右上
-		{p.x + width / 2, p.y + height / 2},
-		// 右
-		{p.x + width / 2, p.y},
-		// 右下
-		{p.x + width / 2, p.y - height / 2},
-	};
+	//  0-- 1-- 2-- 3-- 4
+	//  5-- 6-- 7-- 8-- 9
+	// 10--11--12--13--14
+	// 15--16--17--18--19
+	// 20--21--22--23--24
+	Point hitPos[25];
+	for (int j = 0; j < 25; j++) {
+		hitPos[j] = object[i]->GetCenterPosition();
+	}
+	for (int d = 0; d < 5; d++) {
+		hitPos[0 + 5 * d].x -= width;
+		hitPos[1 + 5 * d].x -= width / 2;
+		hitPos[3 + 5 * d].x += width / 2;
+		hitPos[4 + 5 * d].x += width;
+	}
+	for (int d = 0; d < 5; d++) {
+		hitPos[0 + d].y += height;
+		hitPos[5 + d].y += height / 2;
+		hitPos[15 + d].y -= height / 2;
+		hitPos[20 + d].y -= height;
+	}
 
-	for (int j = 0; j < 9; j++) {
+
+	for (int j = 0; j < 25; j++) {
 		if (ObjectHitBox::CheckHitBox(hitPos[j], i)) {
 			return true;
 		}

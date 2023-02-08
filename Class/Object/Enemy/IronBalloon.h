@@ -23,11 +23,16 @@ public:
 
 private:
 
+	// 経過フレーム
+	int elapsedFrame;
+
 	// -1 : 左
 	//	1 : 右
 	//  0 : 停止
 	int direct;
 
+	// 上下のフワフワ感
+	float degree;
 
 	// プレイヤーの座標を参照
 	Object* object;

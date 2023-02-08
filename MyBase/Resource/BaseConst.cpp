@@ -57,6 +57,26 @@ bool BaseConst::Loading() {
 	kPlayerAnimationFlame[PlayerState::playerPull] = 10;
 
 
+	// チュートリアルステージの進行度の目安
+	kRespawnProgress[0].x = 112 * BaseConst::kMapChipSizeWidth;	// 初ワイヤー
+	kRespawnProgress[0].y = 3 * BaseConst::kMapChipSizeHeight + 50;
+	kRespawnProgress[1].x = 205 * BaseConst::kMapChipSizeWidth;	// 初雑魚敵
+	kRespawnProgress[1].y = 3 * BaseConst::kMapChipSizeHeight + 50;
+	kRespawnProgress[2].x = 383 * BaseConst::kMapChipSizeWidth;	// 中ボス前
+	kRespawnProgress[2].y = 29 * BaseConst::kMapChipSizeHeight + 50;
+	kRespawnProgress[3].x = 458 * BaseConst::kMapChipSizeWidth;	// 雑魚ラッシュ前
+	kRespawnProgress[3].y = 3 * BaseConst::kMapChipSizeHeight + 50;
+	
+	kGimmickProgress[0] = 17 * BaseConst::kMapChipSizeWidth;	// ジャンプチュートリアル
+	kGimmickProgress[1] = 115 * BaseConst::kMapChipSizeWidth;	// ワイヤーチュートリアル
+	kGimmickProgress[2] = 208 * BaseConst::kMapChipSizeWidth;	// 雑魚召喚、チュートリアル
+	kGimmickProgress[3] = 290 * BaseConst::kMapChipSizeWidth;	// 箱が降ってくる
+	kGimmickProgress[4] = 308 * BaseConst::kMapChipSizeWidth;	// 雑魚召喚
+	kGimmickProgress[5] = 371 * BaseConst::kMapChipSizeWidth;	// 金属バルーン召喚
+	kGimmickProgress[6] = 388 * BaseConst::kMapChipSizeWidth;	// 中ボス召喚
+	kGimmickProgress[7] = 473 * BaseConst::kMapChipSizeWidth;	// 雑魚ラッシュ開始
+
+
 	return true;
 }
 
@@ -100,7 +120,7 @@ int BaseConst::kBlockBeVanish = 300;
 #pragma region プレイヤー
 
 // プレイヤーのサイズ
-Point BaseConst::kPlayerSize = { 64,128 };
+Point BaseConst::kPlayerSize = { 60,100 };
 
 // 重力加速度
 float BaseConst::kPlayerGravitationalAcceleration = 9.8f / 30.0f;
@@ -158,6 +178,10 @@ float BaseConst::kWireMaxLength = 1500.0f;
 // マップデータ
 int BaseConst::kTutorialStageData[kTutorialStageSizeHeight][kTutorialStageSizeWidth];
 int BaseConst::kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
+
+// チュートリアルステージの進行度の目安
+Point BaseConst::kRespawnProgress[4];
+int BaseConst::kGimmickProgress[8];
 
 #pragma endregion
 

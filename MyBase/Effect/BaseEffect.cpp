@@ -3,6 +3,7 @@
 // 初期化
 void BaseEffect::BaseInitialize() {
 	// エフェクトが終了したかどうか
+	
 	isEnd = true;
 
 	// 現在の経過フレーム

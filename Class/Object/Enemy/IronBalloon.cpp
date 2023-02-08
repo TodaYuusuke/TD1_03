@@ -1,11 +1,11 @@
 #include "Class/Object/Enemy/IronBalloon.h"
 
-// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 IronBalloon::IronBalloon(Point _centerPosition, Point size,Object* _object) {
 
 	centerPosition = _centerPosition;
-	width = size.x;
-	height = size.y;
+	width = 64;
+	height = 64;
 
 	object = _object;
 
@@ -18,50 +18,61 @@ IronBalloon::~IronBalloon() {
 
 void IronBalloon::SuccessorInitialize() {
 
-	// ‘¬“x
+	elapsedFrame = 0;
+	degree = 0;
+
+	// é€Ÿåº¦
 	velocity = { 0,0 };
-	// ‰Á‘¬“x
+	// åŠ é€Ÿåº¦
 	acceleration = { 0,0 };
 
-	// ‰ñ“]Šp“xiDegreej
+	// å›è»¢è§’åº¦ï¼ˆDegreeï¼‰
 	angle = 0.0f;
-	// ‰ñ“]‘¬“xiDegreej
+	// å›è»¢é€Ÿåº¦ï¼ˆDegreeï¼‰
 	angleVelocity = 0;
 
-	//‹ó’†‚É‚¢‚é‚©‚Ç‚¤‚©
+	//ç©ºä¸­ã«ã„ã‚‹ã‹ã©ã†ã‹
 	isFlying = true;
 	isAlive = true;
 
 	direct = -1;
 
-	// “–‚½‚è”»’è‚ğŠO•”‚É“n‚·
-	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle, &isAlive);
+	// å½“ãŸã‚Šåˆ¤å®šã‚’å¤–éƒ¨ã«æ¸¡ã™
+	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle, &isAlive, false);
 }
 
 void IronBalloon::SuccessorUpdate() {
-	// ‰ñ“]‚ğí‚É‰Šú‰»
+	elapsedFrame++;
+	degree += 5;
+	if (degree > 360) {
+		degree = 0;
+	}
+	// å›è»¢ã‚’å¸¸ã«åˆæœŸåŒ–
 	angle = 0;
 	angleVelocity = 0;
 
 	if (!isFlying) {
 		if (object->GetCenterPosition().x < centerPosition.x) {
 			direct = -1;
+			angle = 0;
 		}
 		else if (centerPosition.x < object->GetCenterPosition().x) {
 			direct = 1;
+			angle = 90;
 		}
 		else {
 			direct = 0;
+			angle = 0;
 		}
 
-		// ¶ˆÚ“®
+		// å·¦ç§»å‹•
 		if (direct < 0) {
 			if (velocity.x > -BaseConst::kPlayerVelocityLimit) {
 				acceleration.x -= 0.5f;
 			}
 		}
 		else if (0 < direct) {
-			// ‰EˆÚ“®
+			// å³ç§»å‹•
 			if (velocity.x < BaseConst::kPlayerVelocityLimit) {
 				acceleration.x += 0.5f;
 			}
@@ -76,11 +87,14 @@ void IronBalloon::SuccessorUpdate() {
 
 void IronBalloon::Draw() {
 	if (isAlive) {
-		if (BaseMath::CheckHitBox(centerPosition, width, height, angle, BaseDraw::ScreentoWorld(BaseInput::GetMousePosition()))) {
-			BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, RED);
+		Point p = centerPosition;
+		p.y += BaseMath::TurnPoint({ 0,5 }, degree).y;
+
+		if (direct == -1) {
+			BaseDraw::DrawQuad(p, BaseTexture::kEnemyIronBalloon[elapsedFrame % 10 / 5], { width,height }, 1.0f, 0, WHITE);
 		}
 		else {
-			BaseDraw::DrawQuad(centerPosition, BaseTexture::kDebugTexture, { width,height }, 1.0f, angle, 0x808080FF);
+			BaseDraw::DrawQuad(p, BaseTexture::kEnemyIronBalloon[elapsedFrame % 10 / 5 + 2], { width,height }, 1.0f, 0, WHITE);
 		}
 	}
 }

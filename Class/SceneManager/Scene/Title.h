@@ -4,36 +4,36 @@
 
 class Title :
 	public BaseScene {
-public: // ƒƒ“ƒoŠÖ”
+public: // ãƒ¡ãƒ³ãƒé–¢æ•°
 
-	// ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	// ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	Title();
-	// ƒfƒXƒgƒ‰ƒNƒ^
+	// ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	~Title();
 
-	// ‰Šú‰»
+	// åˆæœŸåŒ–
 	void Initialize() override;
-	// XV
+	// æ›´æ–°
 	void Update() override;
-	// •`‰æ
+	// æç”»
 	void Draw() override;
 
-private: // ƒƒ“ƒo•Ï”
+private: // ãƒ¡ãƒ³ãƒå¤‰æ•°
 
-	// ƒRƒ“ƒgƒ[ƒ‰‚ğŠÜ‚ß‚½À•W
+	// ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ã‚’å«ã‚ãŸåº§æ¨™
 	Point reticlePosition;
 	Point preMousePosition;
-	// ƒXƒ^[ƒg‚ğ‘I‘ğ‚µ‚Ä‚¢‚é‚©
+	// ã‚¹ã‚¿ãƒ¼ãƒˆã‚’é¸æŠã—ã¦ã„ã‚‹ã‹
 	bool isToPlay;
 	bool isToEnd;
-	// ‘I‘ğ‚µ‚½‚©
+	// é¸æŠã—ãŸã‹
 	bool isSelected;
 
-	// ƒtƒF[ƒhƒAƒEƒg—p
+	// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆç”¨
 	int feedOutFlame;
 	int feedInFlame;
 
-	const int kFeedInMax = 100;
-	const int kFeedOutMax = 100;
+	const int kFeedInMax = 60;
+	const int kFeedOutMax = 60;
 
 };

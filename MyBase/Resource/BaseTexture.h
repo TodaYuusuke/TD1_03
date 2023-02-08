@@ -49,7 +49,6 @@ public: // 静的なテクスチャの変数
 
 #pragma endregion
 
-
 #pragma region マップ
 
 	// マップチップサンプル
@@ -66,6 +65,12 @@ public: // 静的なテクスチャの変数
 #pragma endregion
 
 #pragma region ボス
+
+	// 中ボス画像
+	static int kMiddleBoss;
+
+	// 中ボス武器画像
+	static int kMiddleBossBlade;
 
 	// ボスの核
 	static int kBossCore;
@@ -137,6 +142,32 @@ public: // 静的なテクスチャの変数
 
 #pragma endregion
 
+#pragma region 雑魚
+
+	// 風船
+	static int kEnemyBalloon[4];
+	static int kEnemyBalloonDead[6];
+	// 金属の風船
+	static int kEnemyIronBalloon[4];
+	static int kEnemyIronBalloonDead[6];
+
+#pragma endregion
+
+#pragma region チュートリアル用ネオン
+
+	// ジャンプ
+	static int kTutorialJump[2];
+	// ワイヤー発射
+	static int kTutorialWire[2];
+	// 引き寄せ
+	static int kTutorialAttract[2];
+	// 撃ち殺す
+	static int kTutorialShot[2];
+	// 二発目の発射
+	static int kTutorialSecondShot[4];
+
+#pragma endregion
+
 #pragma region その他
 
 	// ブロック
@@ -144,6 +175,9 @@ public: // 静的なテクスチャの変数
 	// ブロックの破片
 	const static int kBlockScrapAmount = 12;
 	static int kBlockScrap[12];
+
+	// パイプ
+	static int kPipe;
 
 #pragma endregion
 };

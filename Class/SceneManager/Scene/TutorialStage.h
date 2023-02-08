@@ -13,6 +13,7 @@ public: // メンバ関数
 
 	// 初期化
 	void Initialize() override;
+	void Initialize(int);
 	// 更新
 	void Update() override;
 	// 描画
@@ -43,9 +44,13 @@ private: // メンバ変数
 	float backGroundPositionX[3];
 
 
-	// プレイヤーの進行度フラグ
-	int playerProgress;
-
+	// リスポーン地点のフラグ
+	int respawnProgress;
+	// 演出用のフラグ
+	int gimmickProgress;
+	// ネオン用経過フレーム
+	int neonFrame;
+	
 	// コントローラを含めた座標
 	Point reticlePosition;
 	Point preMousePosition;
