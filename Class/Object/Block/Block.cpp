@@ -41,7 +41,7 @@ void Block::SuccessorInitialize() {
 	vanishFlame = BaseConst::kBlockVanishFlame;
 
 	// “–‚½‚è”»’è‚ğŠO•”‚É“n‚·
-	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle, &isAlive);
+	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle, &isAlive, true);
 }
 // XV
 void Block::SuccessorUpdate() {

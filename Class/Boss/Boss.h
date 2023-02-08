@@ -152,7 +152,7 @@ private:
 	/// <param name="vibTime">振動しながら縮む時間</param>
 	/// <param name="explosiveTime">サイズを大きくして爆発する</param>
 	/// <param name="cameraBackTime">カメラが元の位置に帰るまでの時間</param>
-	void PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime, WireManager* wireManager);
+	void PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime, ObjectManager* objectManager, WireManager* wireManager);
 
 	// 行動なし関数
 	// 返り値：なし

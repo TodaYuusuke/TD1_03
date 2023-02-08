@@ -131,7 +131,6 @@ void ObjectManager::DeleteAllEnemy() {
 	for (int i = 0; i < kMaxObjectSize; i++) {
 		if (object[i]->GetType() == typeBalloon || object[i]->GetType() == typeIronBalloon) {
 			object[i]->SetisAlive(false);
-			break;
 		}
 	}
 }

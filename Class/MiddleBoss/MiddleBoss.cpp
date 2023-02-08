@@ -286,7 +286,6 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 				// 行動開始
 				inAction = true;
 				endAction = false;
-
 			}
 		}
 
@@ -429,7 +428,6 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 				PublicFlag::kBossisTurningAndCutWire = false;
 				color = 0x00000000;
 				inDead = true;
-				objectManager->DeleteAllEnemy();
 			}
 		}
 
@@ -838,7 +836,8 @@ void MiddleBoss::PlayDeadAnim(float cameraMoveTime, float moveTime, float runAwa
 		// 演出中の状態に
 		PublicFlag::kisStaging = true;
 		isPlayingDeadAnim = true;
-
+		// 雑魚敵を全滅させる
+		objectManager->DeleteAllEnemy();
 		wireManager->Initialize();
 
 		// スクリーン座標記録
@@ -1004,7 +1003,6 @@ void MiddleBoss::PlayDeadAnim(float cameraMoveTime, float moveTime, float runAwa
 			isEndDeadAnim = true;
 
 			inDead = true;
-			objectManager->DeleteAllEnemy();
 
 			t = 0.0f;
 			actionWayPoint = WAYPOINT0;

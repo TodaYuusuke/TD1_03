@@ -38,7 +38,7 @@ void IronBalloon::SuccessorInitialize() {
 	direct = -1;
 
 	// “–‚½‚è”»’è‚ðŠO•”‚É“n‚·
-	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle, &isAlive);
+	num = ObjectHitBox::AddHitBox(&centerPosition, &width, &height, &angle, &isAlive, false);
 }
 
 void IronBalloon::SuccessorUpdate() {

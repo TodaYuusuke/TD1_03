@@ -653,7 +653,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		beforeDegree = degree;
 
 		if (isPlayingDeadAnim == true && isEndDeadAnim == false) {
-			PlayDeadAnim(5.0f, 3.0f, 5.0f, 0.45f, 2.0f, wireManager);
+			PlayDeadAnim(5.0f, 3.0f, 5.0f, 0.45f, 2.0f, objectManager, wireManager);
 
 			if (isPlayingDeadAnim == true && PublicFlag::kisStaging == false) {
 				// ワイヤーをちぎれなくする
@@ -1337,7 +1337,7 @@ void Boss::PlayStartAnim(float cameraMoveTime, float vibTime, float closeTime1, 
 /// <param name="vibTime">振動しながら縮む時間</param>
 /// <param name="explosiveTime">サイズを大きくして爆発する</param>
 /// <param name="cameraBackTime">カメラが元の位置に帰るまでの時間</param>
-void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime, WireManager* wireManager){
+void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTime, float explosiveTime, float cameraBackTime, ObjectManager* objectManager, WireManager* wireManager){
 	switch (actionWayPoint)
 	{
 		// 初期化
@@ -1346,7 +1346,8 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 		// 演出中の状態に
 		PublicFlag::kisStaging = true;
 		isPlayingDeadAnim = true;
-
+		// 雑魚敵を全滅させる
+		objectManager->DeleteAllEnemy();
 		wireManager->Initialize();
 
 		// スクリーン座標記録
