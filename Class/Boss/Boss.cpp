@@ -303,7 +303,7 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	isChangeBGM = false;
 
 	Novice::StopAudio(checkNormalBGM);
-	Novice::StopAudio(checkNormalBGM);
+	Novice::StopAudio(checkChanceBGM);
 	Novice::StopAudio(BaseAudio::kBGMBoss);
 	Novice::StopAudio(BaseAudio::kBGMChance);
 }
@@ -698,11 +698,11 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 	else if (canTakeDamage) {
 		currentState = kStateChance;
 	}
-	else if (inDead) {
-		currentState = kStateEnd;
-	}
 	else {
 		currentState = kStateNormal;
+	}
+	if (isDead) {
+		currentState = kStateEnd;
 	}
 
 	if (currentState == kStateProduction) {
@@ -750,11 +750,13 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		//	checkChanceBGM = Novice::PlayAudio(BaseAudio::kBGMChance, 1, BaseAudio::BGMvolume);
 		//}
 	}
-	else if (currentState == kStateEnd && prevState != currentState) {
+	if (currentState == kStateEnd) {
 		Novice::StopAudio(checkNormalBGM);
-		Novice::StopAudio(checkNormalBGM);
+		Novice::StopAudio(checkChanceBGM);
 		Novice::StopAudio(BaseAudio::kBGMBoss);
 		Novice::StopAudio(BaseAudio::kBGMChance);
+		Novice::SetAudioVolume(checkNormalBGM, 0);
+		Novice::SetAudioVolume(checkChanceBGM, 0);
 		//objectManager->DeleteAllEnemy();
 	}
 	if(!isChangeBGM) {
@@ -792,7 +794,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			Novice::SetAudioVolume(checkNormalBGM, BaseAudio::BGMvolume * 0.4f * volumeFeedIn);
 			Novice::SetAudioVolume(checkChanceBGM, BaseAudio::BGMvolume * volumeFeedOut);
 		}
-	}/*
+	}
 	if (isChangeBGM) {
 		Novice::ScreenPrintf(10, 10, "FeedIn : %.4f", volumeFeedIn);
 		Novice::ScreenPrintf(10, 30, "FeedOut: %.4f", volumeFeedOut);
@@ -813,7 +815,7 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		break;
 	default:
 		break;
-	}*/
+	}
 	prevState = currentState;
 }
 
@@ -1415,7 +1417,8 @@ void Boss::PlayDeadAnim(float cameraMoveTime, float separationTime, float vibTim
 		// 雑魚敵を全滅させる
 		objectManager->DeleteAllEnemy();
 		wireManager->Initialize();
-
+		isDead = true;
+		core->SetisAlive(false);
 		// スクリーン座標記録
 		prevScreenPosition = BaseDraw::GetScreenPosition();
 		nextScreenPosition = { (float)(BaseConst::kMapChipSizeWidth * BaseConst::kBossStageSizeWidth / 2) - (float)(BaseConst::kWindowWidth / 2),

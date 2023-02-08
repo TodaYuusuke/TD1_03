@@ -618,5 +618,6 @@ private:
 
 	bool isChangeBGM = false;
 
+	bool isDead = false;
 
 };
