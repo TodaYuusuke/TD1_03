@@ -217,7 +217,7 @@ bool MapManager::CheckHitBox(Point hitPosition, bool isBlock) {
 				}
 
 				if (PublicFlag::kBrokenConcretePlaySE) {
-					Novice::PlayAudio(BaseAudio::kConcreteBreak, 0, BaseAudio::SEvolume);
+					Novice::PlayAudio(BaseAudio::kConcreteBreak, 0, BaseAudio::SEvolume * 3);
 					PublicFlag::kBrokenConcretePlaySE = false;
 				}
 
