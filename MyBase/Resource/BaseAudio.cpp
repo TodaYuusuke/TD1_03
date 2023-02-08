@@ -22,6 +22,22 @@ void BaseAudio::InitializeVolume() {
 // オーディオのロードを100分割で行う。全てのロードが完了するまで呼び出させる（今回は％は実装しない、ロードするだけ）
 bool BaseAudio::Loading() {
 
+#pragma region BGM
+
+	// チュートリアルBGM
+	kBGMTutorial = Novice::LoadAudio("./Resources/Audio/BGM/Tutorial.mp3");
+
+	// 中ボス戦BGM
+	//kBGMMiniBoss = Novice::LoadAudio("./Resources/Audio/BGM/Tutorial.mp3");
+
+	// ボス戦BGM
+	kBGMBoss = Novice::LoadAudio("./Resources/Audio/BGM/Boss.mp3");
+	// 攻撃チャンス時のBGＭ
+	kBGMChance = Novice::LoadAudio("./Resources/Audio/BGM/Chance.wav");
+
+#pragma endregion
+
+
 #pragma region ボス
 
 	// ボスが開く音
@@ -124,6 +140,22 @@ bool BaseAudio::isLoadingComplete;
 float BaseAudio::BGMvolume;
 // SE系の音量
 float BaseAudio::SEvolume;
+
+#pragma region BGM
+
+// チュートリアルBGM
+int BaseAudio::kBGMTutorial;
+
+// 中ボス戦BGM
+int BaseAudio::kBGMMiniBoss;
+
+// ボス戦BGM
+int BaseAudio::kBGMBoss;
+// 攻撃チャンス時のBGＭ
+int BaseAudio::kBGMChance;
+
+#pragma endregion
+
 
 #pragma region ボス
 

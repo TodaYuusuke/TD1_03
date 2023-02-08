@@ -47,6 +47,22 @@ public: // 静的なオーディオの変数
 	// SE系の音量
 	static float SEvolume;
 
+#pragma region BGM
+
+	// チュートリアルBGM
+	static int kBGMTutorial;
+
+	// 中ボス戦BGM
+	static int kBGMMiniBoss;
+
+	// ボス戦BGM
+	static int kBGMBoss;
+	// 攻撃チャンス時のBGＭ
+	static int kBGMChance;
+
+#pragma endregion
+
+
 #pragma region ボス
 
 	// 開く音
