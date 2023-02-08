@@ -110,7 +110,7 @@ void Balloon::Update() {
 }
 void Balloon::SuccessorUpdate() {
 	elapsedFrame++;
-	degree+=5;
+	degree += 5;
 	if (degree > 360) {
 		degree = 0;
 	}
@@ -118,31 +118,26 @@ void Balloon::SuccessorUpdate() {
 	angle = 0;
 	angleVelocity = 0;
 
-	if (!isFlying) {
-		if (object->GetCenterPosition().x < centerPosition.x) {
-			direct = -1;
-		}
-		else if (centerPosition.x < object->GetCenterPosition().x) {
-			direct = 1;
-		}
-		else {
-			direct = 0;
-		}
+	if (object->GetCenterPosition().x < centerPosition.x) {
+		direct = -1;
+	}
+	else if (centerPosition.x < object->GetCenterPosition().x) {
+		direct = 1;
+	}
+	else {
+		direct = 0;
+	}
 
-		// ¶ˆÚ“®
-		if (direct < 0) {
-			if (velocity.x > -BaseConst::kPlayerVelocityLimit) {
-				acceleration.x -= 0.5f;
-			}
+	// ¶ˆÚ“®
+	if (direct < 0) {
+		if (velocity.x > -2) {
+			velocity.x -= 0.1f;
 		}
-		else if (0 < direct) {
-			// ‰EˆÚ“®
-			if (velocity.x < BaseConst::kPlayerVelocityLimit) {
-				acceleration.x += 0.5f;
-			}
-		}
-		else {
-
+	}
+	else if (0 < direct) {
+		// ‰EˆÚ“®
+		if (velocity.x < 2) {
+			velocity.x += 0.1f;
 		}
 	}
 
@@ -155,10 +150,10 @@ void Balloon::SuccessorUpdate() {
 		else {
 			BaseEffectManager::MakeNewEffectBalloonDead(centerPosition, true);
 		}
-		Novice::PlayAudio(BaseAudio::kEnemyBallonDead,0,BaseAudio::SEvolume);
+		Novice::PlayAudio(BaseAudio::kEnemyBallonDead, 0, BaseAudio::SEvolume);
 	}
 
-	EnemyAttackHitBox::MakeNewHitBox(centerPosition, width, height, 0, 1);	
+	EnemyAttackHitBox::MakeNewHitBox(centerPosition, width, height, 0, 1);
 }
 
 void Balloon::Draw() {

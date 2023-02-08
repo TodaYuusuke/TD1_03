@@ -120,7 +120,7 @@ void TutorialStage::Update() {
 	}
 
 	MapManager::Update();
-	//middleBoss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
+	middleBoss.Update(objectManager.GetPlayerPosition(), &objectManager, &wireManager);
 	if (!isGameOver) {
 
 		// 一定時間ごとに敵と箱を生成
@@ -128,6 +128,8 @@ void TutorialStage::Update() {
 			if (!objectManager.GetIsCreatedBlock()) {
 				objectManager.MakeNewObjectBlock({ 9885,1080 }, { 0,0 });
 			}
+		}
+		if (gimmickProgress == 5) {
 			if (!objectManager.GetIsCreatedIronBalloon()) {
 				objectManager.MakeNewObjectIronBalloon({ 10747,1080 });
 			}
@@ -208,7 +210,7 @@ void TutorialStage::CheckPlayerProgress() {
 		}
 	}
 
-	if (gimmickProgress < 7 - 1) {
+	if (gimmickProgress < 8 - 1) {
 		if (objectManager.GetPlayerPosition().x > BaseConst::kGimmickProgress[gimmickProgress + 1]) {
 			gimmickProgress++;
 			switch (gimmickProgress)
@@ -228,10 +230,15 @@ void TutorialStage::CheckPlayerProgress() {
 					objectManager.MakeNewObjectFallBlock({ 9570,1200 }, false);
 					break;
 				case 4: // 雑魚召喚
+					objectManager.MakeNewObjectBalloon({ 11312,643 });
+					objectManager.MakeNewObjectBalloon({ 11446,392 });
+					objectManager.MakeNewObjectBalloon({ 11575,61 });
 					break;
-				case 5: // 中ボス召喚
+				case 5: // 金属バルーン召喚
 					break;
-				case 6: // 雑魚ラッシュ開始
+				case 6: // 中ボス召喚
+					break;
+				case 7: // 雑魚ラッシュ開始
 					break;
 			}
 		}

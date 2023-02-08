@@ -152,7 +152,7 @@ public: // 静的な定数
 
 	// チュートリアルステージの進行度の目安
 	static Point kRespawnProgress[4];
-	static int kGimmickProgress[7];
+	static int kGimmickProgress[8];
 
 #pragma endregion
 

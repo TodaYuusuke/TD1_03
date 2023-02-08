@@ -72,8 +72,9 @@ bool BaseConst::Loading() {
 	kGimmickProgress[2] = 216 * BaseConst::kMapChipSizeWidth;	// 雑魚召喚、チュートリアル
 	kGimmickProgress[3] = 290 * BaseConst::kMapChipSizeWidth;	// 箱が降ってくる
 	kGimmickProgress[4] = 308 * BaseConst::kMapChipSizeWidth;	// 雑魚召喚
-	kGimmickProgress[5] = 388 * BaseConst::kMapChipSizeWidth;	// 中ボス召喚
-	kGimmickProgress[6] = 473 * BaseConst::kMapChipSizeWidth;	// 雑魚ラッシュ開始
+	kGimmickProgress[5] = 371 * BaseConst::kMapChipSizeWidth;	// 金属バルーン召喚
+	kGimmickProgress[6] = 388 * BaseConst::kMapChipSizeWidth;	// 中ボス召喚
+	kGimmickProgress[7] = 473 * BaseConst::kMapChipSizeWidth;	// 雑魚ラッシュ開始
 
 
 	return true;
@@ -180,7 +181,7 @@ int BaseConst::kBossStageData[kBossStageSizeHeight][kBossStageSizeWidth];
 
 // チュートリアルステージの進行度の目安
 Point BaseConst::kRespawnProgress[4];
-int BaseConst::kGimmickProgress[7];
+int BaseConst::kGimmickProgress[8];
 
 #pragma endregion
 

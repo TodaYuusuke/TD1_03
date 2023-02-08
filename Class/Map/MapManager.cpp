@@ -455,6 +455,6 @@ bool MapManager::CheckHitBox(Point hitPosition, bool isBlock) {
 bool MapManager::isBoss;
 
 // チュートリアルマップの配列
-Map* MapManager::tutorialMap[35][500];
+Map* MapManager::tutorialMap[BaseConst::kTutorialStageSizeHeight][BaseConst::kTutorialStageSizeWidth];
 // マップの配列
-Map* MapManager::bossMap[35][75];
+Map* MapManager::bossMap[BaseConst::kBossStageSizeHeight][BaseConst::kBossStageSizeWidth];
