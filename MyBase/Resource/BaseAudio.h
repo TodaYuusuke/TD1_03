@@ -139,6 +139,8 @@ public: // 静的なオーディオの変数
 	static int kPlayerShoot;
 	// 排莢
 	static int kPlayerEjection;
+	// 落下音
+	static int kPlayerFall;
 
 #pragma endregion
 
