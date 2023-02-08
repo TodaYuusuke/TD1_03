@@ -109,7 +109,7 @@ void Title::Update() {
 		if (feedOutFlame <= 0) {
 			
 			if (isToPlay) {
-				nextScene = sceneTutorialStage;
+				nextScene = sceneGameClear;
 			}
 			else if (isToEnd) {
 				nextScene = sceneEnd;

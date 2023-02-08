@@ -182,6 +182,13 @@ public: // 静的な定数
 	static Point kTitletoEndLeftTop;
 	static Point kTitletoEndRightBottom;
 
+	// 「タイトル」各種座標
+	static Point kGameCleartoPlayLeftTop;
+	static Point kGameCleartoPlayRightBottom;
+	// 「エンド」各種座標
+	static Point kGameCleartoEndLeftTop;
+	static Point kGameCleartoEndRightBottom;
+
 #pragma endregion
 
 #pragma region Effect

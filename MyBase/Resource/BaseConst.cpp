@@ -199,10 +199,17 @@ Point BaseConst::kGameOverRetryLeftTop = { 1210,880 };
 Point BaseConst::kGameOverRetryRightBottom = { 1559,975 };
 
 // 「スタート」各種座標
-Point BaseConst::kTitletoPlayLeftTop = {1060,750};
+Point BaseConst::kTitletoPlayLeftTop = { 1060,750 };
 Point BaseConst::kTitletoPlayRightBottom = { 1319,829 };
 // 「エンド」各種座標
 Point BaseConst::kTitletoEndLeftTop = { 1060,900 };
-Point BaseConst::kTitletoEndRightBottom = {1249,978};
+Point BaseConst::kTitletoEndRightBottom = { 1249,978 };
+
+// 「タイトル」各種座標
+Point BaseConst::kGameCleartoPlayLeftTop = { 1060,750 };
+Point BaseConst::kGameCleartoPlayRightBottom = { 1324,829 };
+// 「エンド」各種座標
+Point BaseConst::kGameCleartoEndLeftTop = { 1060,900 };
+Point BaseConst::kGameCleartoEndRightBottom = { 1249,978 };
 
 #pragma endregion

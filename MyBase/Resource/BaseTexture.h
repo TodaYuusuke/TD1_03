@@ -109,6 +109,9 @@ public: // 静的なテクスチャの変数
 	// GameOver
 	static int kUserInterfaceGameOver;
 
+	// GameClear
+	static int kUserInterfaceGameClear;
+
 	// 数
 	static int kNumbers[6];
 

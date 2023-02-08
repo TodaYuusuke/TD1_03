@@ -90,6 +90,8 @@ bool BaseTexture::Loading() {
 
 	kUserInterfaceGameOver = Novice::LoadTexture("./Resources/Texture/UI/GameOver.png");
 
+	kUserInterfaceGameClear = Novice::LoadTexture("./Resources/Texture/UI/GameClearSelect.png");
+
 	// êî
 	kNumbers[0] = Novice::LoadTexture("./Resources/Texture/UI/0.png");
 	kNumbers[1] = Novice::LoadTexture("./Resources/Texture/UI/1.png");
@@ -306,6 +308,7 @@ int BaseTexture::kUserInterfaceSkip[2];
 
 int BaseTexture:: kUserInterfaceTitle[2];
 int BaseTexture:: kUserInterfaceGameOver;
+int BaseTexture:: kUserInterfaceGameClear;
 
 // êî
 int BaseTexture::kNumbers[6];
