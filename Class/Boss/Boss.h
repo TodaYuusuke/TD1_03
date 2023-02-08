@@ -549,6 +549,15 @@ private:
 	// オブジェクト生成間隔
 	float generatedBlockInterval = 0.0f;
 
+	// 敵を生成するかどうか
+	bool canGeneratedEnemy = false;
+
+	// 敵生成個数
+	int generatedEnemyValue = 0;
+
+	// 敵生成間隔
+	float generatedEnemyInterval = 0.0f;
+
 	/******** イージング関連 **********/
 	// イージング用t
 	float t = 0.0f;

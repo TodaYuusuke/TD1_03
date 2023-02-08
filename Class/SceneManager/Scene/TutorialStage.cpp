@@ -53,9 +53,9 @@ void TutorialStage::Update() {
 	EnemyAttackHitBox::Initialize();
 
 	//// デバッグ用
-	/*if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
+	if (BaseInput::GetKeyboardState(DIK_RETURN, Trigger)) {
 		nextScene = sceneBossStage;
-	}*/
+	}
 	// デバッグ用
 	if (BaseInput::GetKeyboardState(DIK_R, Trigger)) {
 		Initialize();
