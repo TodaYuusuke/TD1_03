@@ -113,6 +113,8 @@ bool BaseAudio::Loading() {
 	kPlayerShoot = Novice::LoadAudio("./Resources/Audio/Player/Shoot.mp3");
 	// ”rä°
 	kPlayerEjection = Novice::LoadAudio("./Resources/Audio/Player/Ejection.mp3");
+	// —Ž‰º‰¹
+	kPlayerFall = Novice::LoadAudio("./Resources/Audio/Player/Fall.mp3");
 
 #pragma endregion
 
@@ -266,7 +268,8 @@ int BaseAudio::kPlayerDamage;
 int BaseAudio::kPlayerShoot;
 // ”rä°
 int BaseAudio::kPlayerEjection;
-
+// —Ž‰º‰¹
+int BaseAudio::kPlayerFall;
 #pragma endregion
 
 #pragma region Wire
