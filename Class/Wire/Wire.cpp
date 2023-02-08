@@ -158,7 +158,7 @@ bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager) {
 		type[i] = object[i]->GetType();
 		object[i]->SetisStub(true);
 		// SEを再生
-		Novice::PlayAudio(BaseAudio::kWireHit, 0, 0.5f);
+		Novice::PlayAudio(BaseAudio::kWireHit, 0, BaseAudio::SEvolume);
 		return true;
 	}
 	// 壁にヒットしているか検証
@@ -168,7 +168,7 @@ bool Wire::CheckHitBox(Point _position, int i, ObjectManager* objectManager) {
 		// エフェクトを生成
 		BaseEffectManager::MakeNewEffectConcreteDust(_position);
 		// SEを再生
-		Novice::PlayAudio(BaseAudio::kWireHit, 0, 0.5f);
+		Novice::PlayAudio(BaseAudio::kWireHit, 0, BaseAudio::SEvolume);
 		return true;
 	}
 
@@ -315,5 +315,5 @@ void Wire::Attract() {
 	// ワイヤーを初期化
 	Initialize();
 	// SEを再生
-	Novice::PlayAudio(BaseAudio::kWireCut, 0, 0.5f);
+	Novice::PlayAudio(BaseAudio::kWireCut, 0, BaseAudio::SEvolume);
 }

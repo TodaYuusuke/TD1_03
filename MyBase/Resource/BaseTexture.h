@@ -96,6 +96,8 @@ public: // 静的なテクスチャの変数
 	// Skip
 	static int kUserInterfaceSkip[2];
 
+	// Title
+	static int kUserInterfaceTitle[2];
 	// GameOver
 	static int kUserInterfaceGameOver;
 
