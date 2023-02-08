@@ -255,6 +255,16 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	// ƒIƒuƒWƒFƒNƒg¶¬ŠÔŠu
 	this->generatedBlockInterval = 0.0f;
 
+	// “G‚ğ¶¬‚·‚é‚©‚Ç‚¤‚©
+	this->canGeneratedEnemy = false;
+
+	// “G¶¬ŒÂ”
+	this->generatedEnemyValue = 0;
+
+	// “G¶¬ŠÔŠu
+	this->generatedEnemyInterval = 0.0f;
+
+
 	// FŠÖŒW‰Šú‰»
 	this->color = 0xFFFFFFFF;
 	this->coreColor = 0xFFFFFFFF;
@@ -600,6 +610,31 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 			}
 			else {
 				generatedBlockInterval -= 1.0f / 60.0f;
+			}
+		}
+
+		// G‹›“G¶¬‚·‚é
+		if (canGeneratedEnemy == true) {
+
+			// ¶¬ŠÔŠu‚ª0‚É‚È‚é‚Æ¶¬
+			if (generatedEnemyInterval < 0) {
+				if (generatedEnemyValue > 0) {
+					float enemySize = 55.0f;
+
+					Point spawnPoint = { BaseMath::RandomF(BaseConst::kMapChipSizeWidth + enemySize, BaseConst::kBossStageSizeWidth * BaseConst::kMapChipSizeWidth - enemySize, 1),
+						(float)BaseConst::kBossStageSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - enemySize };
+
+					// ƒ‰ƒ“ƒ_ƒ€‚ÈˆÊ’u‚ÉAƒ‰ƒ“ƒ_ƒ€‚ÈˆÊ’u‚ÉG‹›“G‚ğ¶¬
+					objectManager->MakeNewObjectIronBalloon(spawnPoint);
+					generatedEnemyValue--;
+				}
+				else {
+					canGeneratedEnemy = false;
+				}
+				generatedEnemyInterval = BaseMath::RandomF(0.1f, 0.2f, 2);
+			}
+			else {
+				generatedEnemyInterval -= 1.0f / 60.0f;
 			}
 		}
 
@@ -2542,6 +2577,9 @@ void Boss::Fall(float readyTime, float deployTime, float rushTime, float standBy
 
 			canGeneratedBlock = true;
 			generatedBlockValue = BaseMath::Random(3, 5);
+
+			canGeneratedEnemy = true;
+			generatedEnemyValue = BaseMath::Random(2, 3);
 
 			// Ÿ‚Ö
 			actionWayPoint++;

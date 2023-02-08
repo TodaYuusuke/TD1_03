@@ -98,6 +98,15 @@ void MiddleBoss::Initialize(ObjectManager* objectManager) {
 	// ƒIƒuƒWƒFƒNƒg¶¬ŠÔŠu
 	this->generatedBlockInterval = 0.0f;
 
+	// “G‚ğ¶¬‚·‚é‚©‚Ç‚¤‚©
+	this->canGeneratedEnemy = false;
+
+	// “G¶¬ŒÂ”
+	this->generatedEnemyValue = 0;
+
+	// “G¶¬ŠÔŠu
+	this->generatedEnemyInterval = 0.0f;
+
 	// FŠÖŒW‰Šú‰»
 	this->color = 0xFFFFFFFF;
 
@@ -384,6 +393,32 @@ void MiddleBoss::Update(Point playerPosition, ObjectManager* objectManager, Wire
 				generatedBlockInterval -= 1.0f / 60.0f;
 			}
 		}
+
+		// G‹›“G¶¬‚·‚é
+		if (canGeneratedEnemy == true) {
+
+			// ¶¬ŠÔŠu‚ª0‚É‚È‚é‚Æ¶¬
+			if (generatedEnemyInterval < 0) {
+				if (generatedEnemyValue > 0) {
+					float enemySize = 55.0f;
+
+					Point spawnPoint = { BaseMath::RandomF(centerPosition.x - (float)BaseConst::kWindowWidth / 2, centerPosition.x + (float)BaseConst::kWindowWidth / 2, 1),
+						(float)BaseConst::kTutorialStageSizeHeight * BaseConst::kMapChipSizeHeight - BaseConst::kMapChipSizeHeight - enemySize };
+
+					// ƒ‰ƒ“ƒ_ƒ€‚ÈˆÊ’u‚ÉAƒ‰ƒ“ƒ_ƒ€‚ÈˆÊ’u‚ÉG‹›“G‚ğ¶¬
+					objectManager->MakeNewObjectBalloon(spawnPoint);
+					generatedEnemyValue--;
+				}
+				else {
+					canGeneratedEnemy = false;
+				}
+				generatedEnemyInterval = BaseMath::RandomF(0.1f, 0.2f, 2);
+			}
+			else {
+				generatedEnemyInterval -= 1.0f / 60.0f;
+			}
+		}
+
 
 		// ÅŒã‚É1ƒtƒŒ[ƒ€‘O‚ÌŠp“x‚ğæ“¾
 		beforeDegree = degree;
@@ -1687,6 +1722,9 @@ void MiddleBoss::Fall(float readyTime, float deployTime, float rushTime, float s
 
 			canGeneratedBlock = true;
 			generatedBlockValue = BaseMath::Random(3, 5);
+
+			canGeneratedEnemy = true;
+			generatedEnemyValue = BaseMath::Random(2, 3);
 
 			// Ÿ‚Ö
 			actionWayPoint++;
