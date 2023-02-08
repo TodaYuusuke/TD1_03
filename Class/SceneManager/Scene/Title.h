@@ -3,7 +3,7 @@
 #include "Class/SceneManager/Scene/BaseScene.h"
 
 class Title :
-	public BaseScene{
+	public BaseScene {
 public: // メンバ関数
 
 	// コンストラクタ

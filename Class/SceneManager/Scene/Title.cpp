@@ -13,8 +13,14 @@ Title::~Title() {
 
 // 初期化
 void Title::Initialize() {
+
 	nextScene = sceneNone;
 	Novice::SetWindowMode(kFullscreen);
+	BaseInput::Initialize();
+
+	PublicFlag::Initialize();
+	BaseDraw::SetScreenPosition({ 0,1080 });
+
 	reticlePosition = { 1000,800 };
 	preMousePosition = BaseInput::GetMousePosition();
 	isToPlay = false;
@@ -22,6 +28,7 @@ void Title::Initialize() {
 }
 // 更新
 void Title::Update() {
+	BaseInput::Update();
 
 	// ワールド座標に戻さず計算
 	Point rightStick;
@@ -70,7 +77,7 @@ void Title::Update() {
 		if (BaseInput::GetMouseState(LeftClick, Trigger) ||
 			BaseInput::GetControllerState(kControllerButtonL2A, Trigger) ||
 			BaseInput::GetControllerState(kControllerButtonR2B, Trigger)) {
-			Initialize();
+			nextScene = sceneEnd;
 		}
 	}
 	else {
@@ -114,6 +121,15 @@ void Title::Draw() {
 	}
 	Novice::SetBlendMode(kBlendModeNormal);
 
+
+
+	BaseDraw::DrawSprite({ 100,200 - 64 * 3 }, BaseTexture::kBlockTexture, { 1,1 }, 0.0f, WHITE);
+	BaseDraw::DrawSprite({ 100,200 - 64 * 2 }, BaseTexture::kBlockTexture, { 1,1 }, 0.0f, WHITE);
+	BaseDraw::DrawSprite({ 100,200 - 64 }, BaseTexture::kBlockTexture, { 1,1 }, 0.0f, WHITE);
+	BaseDraw::DrawSprite({ 100,200 }, BaseTexture::kBlockTexture, { 1,1 }, 0.0f, WHITE);
+	BaseDraw::DrawSprite({ 100,300 }, BaseTexture::kRPlayerIdle, { 1,1 }, 0.0f, WHITE);
+
+	// 照準
 	if (isToPlay || isToEnd) {
 		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 10, 10, 0.0f, 0xFF0000FF, kFillModeWireFrame);
 		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 13, 13, 0.0f, 0xFF0000FF, kFillModeWireFrame);
@@ -122,6 +138,6 @@ void Title::Draw() {
 		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 10, 10, 0.0f, 0x00FF00FF, kFillModeWireFrame);
 		Novice::DrawEllipse(reticlePosition.x, reticlePosition.y, 13, 13, 0.0f, 0x00FF00FF, kFillModeWireFrame);
 	}
-	Novice::ScreenPrintf(1920 / 2, 1080 / 2, "Title");
-	Novice::ScreenPrintf(1920 / 2, 1080 / 2 + 20, "Push Space to next");
+	//Novice::ScreenPrintf(1920 / 2, 1080 / 2, "Title");
+	//Novice::ScreenPrintf(1920 / 2, 1080 / 2 + 20, "Push Space to next");
 }

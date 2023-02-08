@@ -12,6 +12,7 @@ SceneManager::~SceneManager() {
 // ‰Šú‰»
 void SceneManager::Initialize() {
 	currentScene = new Title();
+	isEnd = false;
 }
 // XV
 void SceneManager::Update() {
@@ -38,6 +39,7 @@ void SceneManager::Update() {
 		case sceneGameOver:
 			break;
 		case sceneEnd:
+			isEnd = true;
 			break;
 		default:
 			break;

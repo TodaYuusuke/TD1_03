@@ -22,9 +22,12 @@ public: // メンバ関数
 	// 描画
 	void Draw();
 
+	bool GetisEnd() { return isEnd; };
 
 private: // メンバ変数
 
 	// 現在のシーン
 	BaseScene* currentScene;
+
+	bool isEnd;
 };
