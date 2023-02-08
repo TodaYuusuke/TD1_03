@@ -36,6 +36,8 @@ void BossStage::Initialize() {
 	gameOverT = BaseConst::kGameOverFirstValue;
 	isToTitle = false;
 	isToRetry = false;
+	Novice::StopAudio(BaseAudio::kBGMBoss);
+	Novice::StopAudio(BaseAudio::kBGMChance);
 }
 // 更新
 void BossStage::Update() {
@@ -53,7 +55,9 @@ void BossStage::Update() {
 	}
 	else {
 		Player* p = (Player*)objectManager.GetSelectObject(typePlayer);
-		p->Update();
+		if (p != NULL) {
+			p->Update();
+		}
 		GameOverUpdate();
 	}
 
@@ -98,7 +102,9 @@ void BossStage::Draw() {
 	}
 	else {
 		Player* p = (Player*)objectManager.GetSelectObject(typePlayer);
-		p->Draw();
+		if (p != NULL) {
+			p->Draw();
+		}
 		GameOverDraw();
 	}
 	/*

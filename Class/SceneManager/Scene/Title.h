@@ -33,7 +33,7 @@ private: // ƒƒ“ƒo•Ï”
 	int feedOutFlame;
 	int feedInFlame;
 
-	const int kFeedInMax = 100;
-	const int kFeedOutMax = 100;
+	const int kFeedInMax = 60;
+	const int kFeedOutMax = 60;
 
 };

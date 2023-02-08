@@ -300,6 +300,10 @@ void Boss::Initialize(ObjectManager* objectManager) {
 	checkNormalBGM = -1;
 	checkChanceBGM = -1;
 
+	Novice::StopAudio(checkNormalBGM);
+	Novice::StopAudio(checkNormalBGM);
+	Novice::StopAudio(BaseAudio::kBGMBoss);
+	Novice::StopAudio(BaseAudio::kBGMChance);
 }
 
 // çXêVèàóù
@@ -698,15 +702,24 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		currentState = kStateNormal;
 	}
 
-
+	if (currentState == kStateProduction) {
+		Novice::StopAudio(checkNormalBGM);
+		Novice::StopAudio(checkNormalBGM);
+		Novice::StopAudio(BaseAudio::kBGMBoss);
+		Novice::StopAudio(BaseAudio::kBGMChance);
+	}
 	if (currentState == kStateNormal && prevState == kStateProduction) {
-		checkNormalBGM = Novice::PlayAudio(BaseAudio::kBGMBoss, 1, BaseAudio::BGMvolume);
-		//checkChanceBGM = Novice::PlayAudio(BaseAudio::kBGMChance, 1, BaseAudio::BGMvolume);
-		//Novice::PauseAudio(checkChanceBGM);
+		if (!Novice::IsPlayingAudio(checkNormalBGM) || checkNormalBGM == -1) {
+			checkNormalBGM = Novice::PlayAudio(BaseAudio::kBGMBoss, 1, BaseAudio::BGMvolume);
+		}
+		if (!Novice::IsPlayingAudio(checkChanceBGM) || checkChanceBGM == -1) {
+			checkChanceBGM = Novice::PlayAudio(BaseAudio::kBGMChance, 1, BaseAudio::BGMvolume);
+		}
+		Novice::PauseAudio(checkChanceBGM);
 	}
 	// í èÌ
 	else if (currentState == kStateNormal && prevState != currentState) {
-		Novice::StopAudio(checkChanceBGM);
+		Novice::PauseAudio(checkChanceBGM);
 		Novice::ResumeAudio(checkNormalBGM);
 		//if (!Novice::IsPlayingAudio(checkNormalBGM) || checkNormalBGM == -1) {
 		//	checkNormalBGM = Novice::PlayAudio(BaseAudio::kBGMBoss, 1, BaseAudio::BGMvolume);
@@ -729,6 +742,8 @@ void Boss::Update(Point playerPosition, ObjectManager* objectManager, WireManage
 		//}
 	}
 	else if (currentState == kStateEnd && prevState != currentState) {
+		Novice::StopAudio(checkNormalBGM);
+		Novice::StopAudio(checkNormalBGM);
 		Novice::StopAudio(BaseAudio::kBGMBoss);
 		Novice::StopAudio(BaseAudio::kBGMChance);
 	}
