@@ -26,5 +26,14 @@ private: // メンバ変数
 	// スタートを選択しているか
 	bool isToPlay;
 	bool isToEnd;
+	// 選択したか
+	bool isSelected;
+
+	// フェードアウト用
+	int feedOutFlame;
+	int feedInFlame;
+
+	const int kFeedInMax = 100;
+	const int kFeedOutMax = 100;
 
 };
