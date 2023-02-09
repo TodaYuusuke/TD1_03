@@ -3,7 +3,7 @@
 
 #include "Class/SceneManager/SceneManager.h"
 
-const char kWindowTitle[] = "チーム開発";
+const char kWindowTitle[] = "1308_グラップリンク";
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
