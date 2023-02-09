@@ -125,6 +125,7 @@ void Title::Update() {
 	//	nextScene = sceneTutorialStage;
 	//}
 
+	preMousePosition = BaseInput::GetMousePosition();
 }
 // •`‰æ
 void Title::Draw() {
